@@ -1,0 +1,99 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>810</x><y>170</y><w>150</w><h>110</h></coordinates><panel_attributes>PartyMember
+--
+member Member
+party Party
+role String
+sinceDate Date</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>580</x><y>600</y><w>140</w><h>140</h></coordinates><panel_attributes>Regist
+--
+id long
+startTime date
+entTime date
+state String
+arena Arena
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>580</x><y>0</y><w>140</w><h>300</h></coordinates><panel_attributes>Member
+--
+id long
+name String
+sex String
+nickName String
+email String
+password String
+password String
+sinceDate Date
+credit int
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>380</x><y>600</y><w>150</w><h>130</h></coordinates><panel_attributes>MatchBoard
+--
+Id long
+maxmember int
+credit int
+contents String
+regist Regist</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>810</x><y>600</y><w>150</w><h>130</h></coordinates><panel_attributes>Arena
+--
+id lnog
+mapX int
+mapY int 
+credit int
+sportsName String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>20</y><w>170</w><h>130</h></coordinates><panel_attributes>Log
+--
+id long
+score float
+member Member</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>580</x><y>390</y><w>140</w><h>130</h></coordinates><panel_attributes>JoingGame
+--
+id long
+regist Regist
+member Member</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>670</x><y>800</y><w>130</w><h>140</h></coordinates><panel_attributes>Hiredboard
+--
+id Long
+contents String
+credit int
+maxMember int
+regist Regist</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>470</x><y>800</y><w>150</w><h>140</h></coordinates><panel_attributes>Schedule
+--
+id Long
+credit int
+minMember int
+maxMember int
+contents String
+regist  Regist</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>810</x><y>50</y><w>150</w><h>110</h></coordinates><panel_attributes>Apply
+--
+id Long
+state String
+since_date Date
+member Member
+party Party
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>810</x><y>450</y><w>150</w><h>120</h></coordinates><panel_attributes>Comment
+--
+id Long
+contents String
+sinceDate Date
+member Member
+parytBoard ParytBoard</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>810</x><y>290</y><w>150</w><h>150</h></coordinates><panel_attributes>PartyBoard
+--
+id Long
+catergory String
+title String
+sinceDate Date
+party Party
+member Member
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1040</x><y>340</y><w>160</w><h>210</h></coordinates><panel_attributes>Vote
+--
+id Long
+contents1 Int
+contents2 Int
+contents3 Int
+contents4 Int
+contents5 Int
+partyBoard PartyBoard</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1040</x><y>0</y><w>160</w><h>300</h></coordinates><panel_attributes>Party
+--
+id Long
+sportName String
+location String
+intro String
+since_date Date
+meetCount Int
+info String
+member Member</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>470</x><y>70</y><w>130</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+r1=1
+r2=*</panel_attributes><additional_attributes>110;20;10;20</additional_attributes></element></diagram>
