@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,25 +15,45 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name="party")
 @Getter @Setter
 public class Party {
-
-    @Id @GeneratedValue
+    private Party() {}
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="party_id")
-    private Long id;
+    private Long id; //primary key
 
-    private String sportName;
+    @Enumerated(EnumType.STRING)
+    @Column(name="sports_name")
+    private SportsName sportName;
 
-    private String location;
-    private String intro;
-    private Date since_date;
-    private int meetCount;
-    private String info;
+    private String location;//위치이름
+    private String intro;//간단한 소개
+
+    @Column(name="since_date")
+    private LocalDateTime sinceDate;//가입날짜
+
+    @Column(name="meet_count")
+    private int meetCount;//미팅횟수
+
+    @Column(columnDefinition = "TEXT")
+    private String info;//정보탭
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member member;//방장
 
-    @OneToMany(mappedBy = "party")
-    private List<PartyMember> partyMembers= new ArrayList<>();
+    public static Party createParty(SportsName sportName, String location, String intro, LocalDateTime sinceDate, int meetCount, String info, Member member) {
+        Party party = new Party();
+        party.setSportName(sportName);
+        party.setIntro(intro);
+        party.setLocation(location);
+        party.setSinceDate(sinceDate);
+        party.setMeetCount(meetCount);
+        party.setInfo(info);
+        party.setMember(member);
+        return party;
+    }
+
+    //    @OneToMany(mappedBy = "party")
+//    private List<PartyMember> partyMembers= new ArrayList<>();
 
     //apply 부분 몰겟다
 }
