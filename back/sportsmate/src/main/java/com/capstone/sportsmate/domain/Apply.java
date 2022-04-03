@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static javax.persistence.FetchType.LAZY;
@@ -18,8 +19,10 @@ public class Apply { //수정 필요
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String state;
-    private Date since_date;
+    @Enumerated(EnumType.STRING)
+    private Request state;
+
+    private LocalDateTime since_date;
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")

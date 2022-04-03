@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static javax.persistence.FetchType.LAZY;
@@ -13,8 +14,9 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "partymember")
 @Getter @Setter
 public class PartyMember {
+    private PartyMember(){}
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="party_member_id")
     private Long id;
 
@@ -26,8 +28,22 @@ public class PartyMember {
     @JoinColumn(name="party_id")
     private Party party;
 
-    private String role;
-    private Date since_date;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
+    @Column(name="since_date")
+    private LocalDateTime sinceDate;
+
+
+
+
+    public static PartyMember createPartyMember(Member member, Party party, Role role, LocalDateTime sinceDate){
+        PartyMember partyMember = new PartyMember();
+        partyMember.setMember(member);
+        partyMember.setParty(party);
+        partyMember.setRole(role);
+        partyMember.setSinceDate(sinceDate);
+        return partyMember;
+    }
 
 }
