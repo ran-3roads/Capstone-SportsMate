@@ -1,15 +1,14 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/sportsmate?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    username: root
-    password: s981207d
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:h2:tcp://localhost/~/sportsmate;
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
 
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-#    hibernate:
-#      ddl-auto: create-drop
-    #      #???? ???? ????
+    hibernate:
+      ddl-auto: create-drop
+      #???? ???? ????
     properties:
       hibernate:
         #          show_sql: true ??? ??? ??? ???? ???? ??
