@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="arena")
@@ -22,4 +23,14 @@ public class Arena {
     @Enumerated(EnumType.STRING)
     @Column(name="sports_name")
     private SportsName sportName;
+
+    //Create test
+    public static Arena createArena(int mapX,int mapY,int credit,SportsName sportName) {
+        Arena arena = new Arena();
+        arena.mapX=mapX;
+        arena.mapY=mapY;
+        arena.credit=credit;
+        arena.sportName=sportName;
+        return arena;
+    }
 }
