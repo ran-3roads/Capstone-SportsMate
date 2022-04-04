@@ -19,6 +19,9 @@ public class PartyBoard {
     private Long id;
 
     //공지 일반
+    @Enumerated(EnumType.STRING)
+    @Column(name="category")
+    private Category category;
 
     private String title;
     private LocalDateTime since_date;
@@ -31,4 +34,5 @@ public class PartyBoard {
     @JoinColumn(name = "party_id")
     private Party party;
 
+    //Create
 }
