@@ -12,9 +12,10 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "partymember")
-@Getter @Setter
+@Getter
 public class PartyMember {
-    private PartyMember(){}
+    private PartyMember(){} // 생성자 호출 방지
+    //entity 컬럼
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="party_member_id")
@@ -39,10 +40,10 @@ public class PartyMember {
 
     public static PartyMember createPartyMember(Member member, Party party, Role role, LocalDateTime sinceDate){
         PartyMember partyMember = new PartyMember();
-        partyMember.setMember(member);
-        partyMember.setParty(party);
-        partyMember.setRole(role);
-        partyMember.setSinceDate(sinceDate);
+        partyMember.member = member;
+        partyMember.party = party;
+        partyMember.role = role;
+        partyMember.sinceDate = sinceDate;
         return partyMember;
     }
 

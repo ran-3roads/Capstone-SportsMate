@@ -12,8 +12,11 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "apply")
-@Getter @Setter
-public class Apply { //수정 필요
+@Getter
+public class Apply {
+    private Apply(){} // 생성자 호출 방지
+
+    //entity 컬럼
     @Id
     @Column(name="apply_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,17 +25,23 @@ public class Apply { //수정 필요
     @Enumerated(EnumType.STRING)
     private Request state;
 
-    private LocalDateTime since_date;
+    @Column(name="since_date")
+    private LocalDateTime sinceDate;
 
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name="party_id")
     private Party party;
 
-
-
-
+    public static Apply createApply(Request state, LocalDateTime sinceDate, Member member, Party party) {
+        Apply apply = new Apply();
+        apply.state = state;
+        apply.sinceDate = sinceDate;
+        apply.member = member;
+        apply.party = party;
+        return apply;
+    }
 }

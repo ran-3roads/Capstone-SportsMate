@@ -13,9 +13,11 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name="party")
-@Getter @Setter
+@Getter
 public class Party {
-    private Party() {}
+    private Party() {} // 생성자 호출 방지
+
+    //entity 컬럼
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="party_id")
     private Long id; //primary key
@@ -42,15 +44,17 @@ public class Party {
 
     public static Party createParty(SportsName sportName, String location, String intro, LocalDateTime sinceDate, int meetCount, String info, Member member) {
         Party party = new Party();
-        party.setSportName(sportName);
-        party.setIntro(intro);
-        party.setLocation(location);
-        party.setSinceDate(sinceDate);
-        party.setMeetCount(meetCount);
-        party.setInfo(info);
-        party.setMember(member);
+        party.sportName = sportName;
+        party.location = location;
+        party.intro = intro;
+        party.sinceDate = sinceDate;
+        party.meetCount = meetCount;
+        party.info = info;
+        party.member = member;
         return party;
     }
+
+
 
     //    @OneToMany(mappedBy = "party")
 //    private List<PartyMember> partyMembers= new ArrayList<>();

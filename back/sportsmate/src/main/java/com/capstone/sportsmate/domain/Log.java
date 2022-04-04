@@ -13,9 +13,11 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "log")
-@Getter @Setter
+@Getter
 public class Log {
-    private Log(){}
+    private Log(){} //생성자 호출 방지
+
+    //entity 컬럼
     @Id
     @Column(name="log_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +34,9 @@ public class Log {
 
     public static Log createLog(float score, LocalDateTime sinceDate, Member member) {
         Log log = new Log();
-        log.setScore(score);
-        log.setSinceDate(sinceDate);
-        log.setMember(member);
+        log.score = score;
+        log.sinceDate = sinceDate;
+        log.member = member;
         return log;
     }
 }
