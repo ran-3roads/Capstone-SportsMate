@@ -18,6 +18,7 @@ public class Party {
     private Party() {} // 생성자 호출 방지
 
     //entity 컬럼
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="party_id")
     private Long id; //primary key
@@ -38,9 +39,11 @@ public class Party {
     @Column(columnDefinition = "TEXT")
     private String info;//정보탭
 
-    @ManyToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;//방장
+
+    // entity 생성
 
     public static Party createParty(SportsName sportName, String location, String intro, LocalDateTime sinceDate, int meetCount, String info, Member member) {
         Party party = new Party();

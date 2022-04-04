@@ -60,7 +60,8 @@ public class Member {
 
 
 
-    // entity create
+    // entity 생성
+
     public static Member createMember(String name, Sex sex, String email, String nickName, String password, LocalDateTime sinceDate, LocalDateTime birthDate, String phoneNumber, int credit) {
         Member member = new Member();
         member.name = name;
