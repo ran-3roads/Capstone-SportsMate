@@ -13,9 +13,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "member")
-@Getter @Setter
+@Getter
 public class Member {
-    private Member() {}
+    private Member() {} // 생성자 호출 방지
+
+    //entity 컬럼
     @Id
     @Column(name="member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +40,11 @@ public class Member {
     @Column(name="birth_date")
     private LocalDateTime birthDate;
 
+    @Column(name="phone_number")
+    private String phoneNumber;
+
+    private int credit;
+
 //    @OneToMany(mappedBy = "member")
 //    private List<Party> parties= new ArrayList<>();
 //
@@ -50,20 +57,21 @@ public class Member {
 
 
     //apply 부분 몰겟다
-    private int credit;
 
-    //
-    public static Member createMember(String name, Sex sex, String email, String nickName, String password, LocalDateTime sinceDate, LocalDateTime birthDate, int credit) {
+
+
+    // entity create
+    public static Member createMember(String name, Sex sex, String email, String nickName, String password, LocalDateTime sinceDate, LocalDateTime birthDate, String phoneNumber, int credit) {
         Member member = new Member();
-        member.setName(name);
-        member.setNickName(nickName);
-        member.setBirthDate(birthDate);
-        member.setPassword(password);
-        member.setSex(sex);
-        member.setEmail(email);
-        member.setSinceDate(sinceDate);
-        member.setCredit(credit);
+        member.name = name;
+        member.sex = sex;
+        member.email = email;
+        member.nickName = nickName;
+        member.password = password;
+        member.sinceDate = sinceDate;
+        member.birthDate = birthDate;
+        member.phoneNumber = phoneNumber;
+        member.credit = credit;
         return member;
     }
-
 }
