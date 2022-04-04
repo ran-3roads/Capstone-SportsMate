@@ -36,6 +36,8 @@ public class Apply {
     @JoinColumn(name="party_id")
     private Party party;
 
+    // entity 생성
+
     public static Apply createApply(Request state, LocalDateTime sinceDate, Member member, Party party) {
         Apply apply = new Apply();
         apply.state = state;

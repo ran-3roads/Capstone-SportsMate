@@ -5,11 +5,15 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Table(name = "matchboard")
 @Getter
 public class MatchBoard {
     private MatchBoard() {} // 생성자 호출 방지
+
+    //entity 컬럼
     @Id
     @Column(name="apply_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +30,22 @@ public class MatchBoard {
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "regist_id")
+    private Regist regist;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    public static MatchBoard createMatchBoard(int maxMember, int credit, String contents, Category category, Regist regist, Member member) {
+        MatchBoard matchBoard = new MatchBoard();
+        matchBoard.maxMember = maxMember;
+        matchBoard.credit = credit;
+        matchBoard.contents = contents;
+        matchBoard.category = category;
+        matchBoard.regist = regist;
+        matchBoard.member = member;
+        return matchBoard;
+    }
 }

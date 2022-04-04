@@ -35,8 +35,7 @@ public class PartyMember {
     @Column(name="since_date")
     private LocalDateTime sinceDate;
 
-
-
+    // entity 생성
 
     public static PartyMember createPartyMember(Member member, Party party, Role role, LocalDateTime sinceDate){
         PartyMember partyMember = new PartyMember();
