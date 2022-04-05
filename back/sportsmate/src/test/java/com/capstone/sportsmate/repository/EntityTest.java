@@ -71,6 +71,26 @@ public class EntityTest {
         PartyMember findPartyMember = em.find(PartyMember.class,partyMember.getId());
         Assertions.assertThat(findPartyMember).isEqualTo(partyMember);
     }
+
+    @Test
+    @Rollback(false)
+    public void testApply() {
+        Member findMember = memberRepository.findOne(1L);
+        Party findParty = em.find(Party.class,1L);
+        Apply apply = Apply.createApply(Request.ACCEPT, LocalDateTime.now(),findMember,findParty);
+        em.persist(apply);
+        Apply findApply = em.find(Apply.class,apply.getId());
+        Assertions.assertThat(findApply).isEqualTo(apply);
+    }
+
+    @Test
+    @Rollback(false)
+    public void testArena() {
+        Arena arena = Arena.createArena(10, 22, 1000, SportsName.BASEBALL);
+        em.persist(arena);
+        Arena findArena = em.find(Arena.class , arena.getId());
+        Assertions.assertThat(findArena).isEqualTo(arena);
+    }
 }
 
 
