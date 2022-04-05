@@ -30,7 +30,7 @@ public class EntityTest {
     @Rollback(false)
     public void testMember() {
         Member member = Member.createMember("tset2", Sex.MALE,"test@test","testtest",
-                "fdsf",LocalDateTime.now(),LocalDateTime.now(),"010-1111-1111",10000);
+                "fdsf",LocalDateTime.now(),LocalDateTime.now(),"010-1111-1111");
         Long savedId = memberRepository.save(member);
         Member findMember = memberRepository.findOne(savedId);
         Assertions.assertThat(findMember.getId()).isEqualTo(member.getId());

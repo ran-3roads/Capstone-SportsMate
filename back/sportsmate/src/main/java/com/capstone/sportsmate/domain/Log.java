@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
@@ -26,13 +27,13 @@ public class Log {
     private float score;
 
     @Column(name="since_date")
-    LocalDateTime sinceDate;
+    LocalDate sinceDate;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public static Log createLog(float score, LocalDateTime sinceDate, Member member) {
+    public static Log createLog(float score, LocalDate sinceDate, Member member) {
         Log log = new Log();
         log.score = score;
         log.sinceDate = sinceDate;

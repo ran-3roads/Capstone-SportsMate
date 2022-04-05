@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
@@ -28,7 +29,7 @@ public class PartyBoard {
     private String contents;
 
     @Column(name="since_date")
-    private LocalDateTime sinceDate;
+    private LocalDate sinceDate;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -40,7 +41,7 @@ public class PartyBoard {
 
     //Create
 
-    public static PartyBoard createPartyBoard(Category category, String title, String contents, LocalDateTime sinceDate, Member member, Party party) {
+    public static PartyBoard createPartyBoard(Category category, String title, String contents, LocalDate sinceDate, Member member, Party party) {
         PartyBoard partyBoard = new PartyBoard();
         partyBoard.category = category;
         partyBoard.title = title;
