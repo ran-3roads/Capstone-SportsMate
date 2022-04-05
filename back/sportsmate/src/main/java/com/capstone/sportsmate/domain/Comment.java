@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
@@ -21,7 +22,7 @@ public class Comment {
     private String contents;
 
     @Column(name="since_date")
-    private LocalDateTime sinceDate;
+    private LocalDate sinceDate;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -31,7 +32,7 @@ public class Comment {
     @JoinColumn(name = "party_board_id")
     private PartyBoard partyBoard;
 
-    public static Comment createComment(String contents, LocalDateTime sinceDate, Member member, PartyBoard partyBoard) {
+    public static Comment createComment(String contents, LocalDate sinceDate, Member member, PartyBoard partyBoard) {
         Comment comment = new Comment();
         comment.contents = contents;
         comment.sinceDate=sinceDate;

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,7 +31,7 @@ public class Party {
     private String intro;//간단한 소개
 
     @Column(name="since_date")
-    private LocalDateTime sinceDate;//가입날짜
+    private LocalDate sinceDate;//가입날짜
 
     @Column(name="meet_count")
     private int meetCount;//미팅횟수
@@ -44,7 +45,7 @@ public class Party {
 
     // entity 생성
 
-    public static Party createParty(SportsName sportName, String location, String intro, LocalDateTime sinceDate, int meetCount, String info, Member member) {
+    public static Party createParty(SportsName sportName, String location, String intro, LocalDate sinceDate, int meetCount, String info, Member member) {
         Party party = new Party();
         party.sportName = sportName;
         party.location = location;

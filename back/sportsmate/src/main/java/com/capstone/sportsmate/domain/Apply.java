@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -25,7 +26,7 @@ public class Apply {
     private Request state;
 
     @Column(name="since_date")
-    private LocalDateTime sinceDate;
+    private LocalDate sinceDate;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -37,7 +38,7 @@ public class Apply {
 
     // entity 생성
 
-    public static Apply createApply(Request state, LocalDateTime sinceDate, Member member, Party party) {
+    public static Apply createApply(Request state, LocalDate sinceDate, Member member, Party party) {
         Apply apply = new Apply();
         apply.state = state;
         apply.sinceDate = sinceDate;

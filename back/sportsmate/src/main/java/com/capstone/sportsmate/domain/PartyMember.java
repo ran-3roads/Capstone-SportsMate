@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -33,11 +34,11 @@ public class PartyMember {
     private Role role;
 
     @Column(name="since_date")
-    private LocalDateTime sinceDate;
+    private LocalDate sinceDate;
 
     // entity 생성
 
-    public static PartyMember createPartyMember(Member member, Party party, Role role, LocalDateTime sinceDate){
+    public static PartyMember createPartyMember(Member member, Party party, Role role, LocalDate sinceDate){
         PartyMember partyMember = new PartyMember();
         partyMember.member = member;
         partyMember.party = party;
