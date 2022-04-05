@@ -10,7 +10,6 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "joingame")
 @Getter
 public class JoinGame {
-    private JoinGame(){} // 생성자 호출 방지
     //entity 컬럼
 
     @Id

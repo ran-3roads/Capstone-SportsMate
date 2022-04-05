@@ -15,7 +15,6 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name="party")
 @Getter
 public class Party {
-    private Party() {} // 생성자 호출 방지
 
     //entity 컬럼
 

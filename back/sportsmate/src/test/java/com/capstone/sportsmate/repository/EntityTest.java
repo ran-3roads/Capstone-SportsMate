@@ -2,6 +2,7 @@ package com.capstone.sportsmate.repository;
 
 import com.capstone.sportsmate.domain.*;
 import org.assertj.core.api.Assertions;
+import org.hibernate.mapping.Join;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class EntityTest {
     @Test
     @Rollback(false)
     public void testMember() {
-        Member member = Member.createMember("tset", Sex.MALE,"test@test","testtest",
+        Member member = Member.createMember("tset2", Sex.MALE,"test@test","testtest",
                 "fdsf",LocalDateTime.now(),LocalDateTime.now(),"010-1111-1111",10000);
         Long savedId = memberRepository.save(member);
         Member findMember = memberRepository.findOne(savedId);
@@ -86,11 +87,94 @@ public class EntityTest {
     @Test
     @Rollback(false)
     public void testArena() {
-        Arena arena = Arena.createArena(10, 22, 1000, SportsName.BASEBALL);
+        Arena arena = Arena.createArena(10, 22, 1000, SportsName.BASEBALL,"한성대학교");
         em.persist(arena);
         Arena findArena = em.find(Arena.class , arena.getId());
         Assertions.assertThat(findArena).isEqualTo(arena);
     }
+
+    @Test
+    @Rollback(false)
+    public void testRegist() {
+        Arena findArena = em.find(Arena.class,1L);
+        Regist regist = Regist.createRegist(LocalDateTime.now(), LocalDateTime.now(),findArena);
+        em.persist(regist);
+        Regist findRegist = em.find(Regist.class,1L);
+        Assertions.assertThat(regist).isEqualTo(findRegist);
+    }
+
+    @Test
+    @Rollback(false)
+    public void testSchedule() {
+        Regist findRegist = em.find(Regist.class, 1L);
+        Schedule schedule = Schedule.createSchedule(10000, 10, 20,
+                "dsfdsafdsafdsa", findRegist);
+        em.persist(schedule);
+        Schedule findSchedule = em.find(Schedule.class,1L);
+        Assertions.assertThat(schedule).isEqualTo(findSchedule);
+    }
+
+    @Test
+    @Rollback(false)
+    public void testJoinGame() {
+        Regist findRegist = em.find(Regist.class, 1L);
+        Member findMember = memberRepository.findOne(1L);
+        JoinGame joinGame = JoinGame.createJoinGame(findMember, findRegist);
+        em.persist(joinGame);
+        JoinGame findJoinGame = em.find(JoinGame.class, 1L);
+        Assertions.assertThat(joinGame).isEqualTo(findJoinGame);
+    }
+
+    @Test
+    @Rollback(false)
+    public void testMatchBoard() {
+        Regist findRegist = em.find(Regist.class, 1L);
+        Member findMember = memberRepository.findOne(1L);
+        MatchBoard matchBoard = MatchBoard.createMatchBoard(20, 10000, "알랑라리리ㅇㅇ리리",
+                Category.HIRED, findRegist, findMember);
+        em.persist(matchBoard);
+        MatchBoard findMatchBoard = em.find(MatchBoard.class, 1L);
+        Assertions.assertThat(matchBoard).isEqualTo(findMatchBoard);
+    }
+
+    @Test
+    @Rollback(false)
+    public void testPartyBoard() {
+        Member findMember = memberRepository.findOne(1L);
+        Party findParty = em.find(Party.class,1L);
+        PartyBoard partyBoard = PartyBoard.createPartyBoard(Category.HIRED, "눈누난dddd다", "그렇다 이말이야 ",
+                LocalDateTime.now(), findMember, findParty);
+        em.persist(partyBoard);
+        PartyBoard findPartyBoard = em.find(PartyBoard.class, 3L);
+        Assertions.assertThat(partyBoard).isEqualTo(findPartyBoard);
+
+    }
+
+    @Test
+    @Rollback(false)
+    public void testVote() {
+        PartyBoard findPartyBoard = em.find(PartyBoard.class, 3L);
+        Vote vote = Vote.createVote(1, 2, 3, 4, 5, findPartyBoard);
+        em.persist(vote);
+        Vote findVote = em.find(Vote.class, 1L);
+        Assertions.assertThat(vote).isEqualTo(findVote);
+
+    }
+
+    @Test
+    @Rollback(false)
+    public void testComment() {
+        Member findMember = memberRepository.findOne(1L);
+        PartyBoard findPartyBoard = em.find(PartyBoard.class,1L);
+        Comment comment = Comment.createComment("dccdc", LocalDateTime.now(),findMember,findPartyBoard);
+        em.persist(comment);
+        Comment findComment = em.find(Comment.class,3L);
+        Assertions.assertThat(findComment).isEqualTo(comment);
+    }
+
+
+
+
 }
 
 

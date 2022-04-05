@@ -31,4 +31,13 @@ public class Comment {
     @JoinColumn(name = "party_board_id")
     private PartyBoard partyBoard;
 
+    public static Comment createComment(String contents, LocalDateTime sinceDate, Member member, PartyBoard partyBoard) {
+        Comment comment = new Comment();
+        comment.contents = contents;
+        comment.sinceDate=sinceDate;
+        comment.partyBoard=partyBoard;
+        comment.member = member;
+        return comment;
+    }
+
 }

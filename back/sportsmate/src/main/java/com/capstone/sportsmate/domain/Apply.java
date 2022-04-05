@@ -14,7 +14,6 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "apply")
 @Getter
 public class Apply {
-    private Apply(){} // 생성자 호출 방지
 
     //entity 컬럼
     @Id

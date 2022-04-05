@@ -11,11 +11,10 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "matchboard")
 @Getter
 public class MatchBoard {
-    private MatchBoard() {} // 생성자 호출 방지
 
     //entity 컬럼
     @Id
-    @Column(name="apply_id")
+    @Column(name="match_board_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

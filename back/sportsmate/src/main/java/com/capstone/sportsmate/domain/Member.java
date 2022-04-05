@@ -15,7 +15,6 @@ import java.util.List;
 @Table(name = "member")
 @Getter
 public class Member {
-    private Member() {} // 생성자 호출 방지
 
     //entity 컬럼
     @Id
