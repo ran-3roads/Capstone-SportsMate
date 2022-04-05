@@ -145,7 +145,7 @@ public class EntityTest {
         PartyBoard partyBoard = PartyBoard.createPartyBoard(Category.HIRED, "눈누난dddd다", "그렇다 이말이야 ",
                 LocalDateTime.now(), findMember, findParty);
         em.persist(partyBoard);
-        PartyBoard findPartyBoard = em.find(PartyBoard.class, 3L);
+        PartyBoard findPartyBoard = em.find(PartyBoard.class, 1L);
         Assertions.assertThat(partyBoard).isEqualTo(findPartyBoard);
 
     }
@@ -168,7 +168,7 @@ public class EntityTest {
         PartyBoard findPartyBoard = em.find(PartyBoard.class,1L);
         Comment comment = Comment.createComment("dccdc", LocalDateTime.now(),findMember,findPartyBoard);
         em.persist(comment);
-        Comment findComment = em.find(Comment.class,3L);
+        Comment findComment = em.find(Comment.class,1L);
         Assertions.assertThat(findComment).isEqualTo(comment);
     }
 
