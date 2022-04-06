@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^0.26.1",
     "bootstrap": "4.6.0",
     "next": "11.1.2",
     "prop-types": "15.7.2",
@@ -20,5 +21,6 @@
   "devDependencies": {
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2"
-  }
+  },
+  "proxy": "http://121.143.252.176:8080/"
 }

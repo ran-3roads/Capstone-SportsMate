@@ -4,6 +4,9 @@ import { Container, Row, Col, Button } from "reactstrap";
 import MPList from "../components/custom/mypartylist";
 import PList from "../components/custom/partylist";
 import {useState} from 'react'
+
+
+
 export default function Party () {
   const [mode,setMode]=useState('MYPARTY');
   let content = null;
