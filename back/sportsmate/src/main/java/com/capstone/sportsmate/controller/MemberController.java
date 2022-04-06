@@ -1,5 +1,6 @@
 package com.capstone.sportsmate.controller;
 
+import com.capstone.sportsmate.web.LoginForm;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.service.MemberService;
 import com.capstone.sportsmate.web.MemberForm;
@@ -7,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/sportsmate/member")
@@ -22,6 +22,12 @@ public class MemberController {
                 , memberForm.getPhoneNumber());
         memberService.join(member);
         return "success";
+    }
+
+    @PostMapping("login")
+    Member loginMember(@RequestBody LoginForm loginForm){
+        Member member = new Member();
+        return member;
     }
 
     @GetMapping("test")
