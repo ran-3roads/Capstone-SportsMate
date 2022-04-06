@@ -22,12 +22,11 @@ const Banner2 = () => {
               Sports Mate를 통해
               <br /> 깐부를 찾아보세요
             </h4>
-            <a
-              href="https://wrappixel.com/templates/nextkit-nextjs-free-uikit"
-              className="btn btn-danger m-r-20 btn-md m-t-30 "
-            >
-              파티생성하로가기
-            </a>
+            <Link href="/party/mkparty">
+              <a className="btn btn-md m-t-30  btn-outline-light ">
+                파티생성하기
+              </a>
+            </Link>
             <Link href="/#coming">
               <a className="btn btn-md m-t-30  btn-outline-light ">
                 파티참가하기
