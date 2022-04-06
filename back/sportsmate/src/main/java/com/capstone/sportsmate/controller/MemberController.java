@@ -26,7 +26,9 @@ public class MemberController {
 
     @PostMapping("login")
     Member loginMember(@RequestBody LoginForm loginForm){
-        Member member = new Member();
+        Member member = memberService.Login(loginForm.getEmail(), loginForm.getPassword());
+        if(member == null)
+            return null;
         return member;
     }
 

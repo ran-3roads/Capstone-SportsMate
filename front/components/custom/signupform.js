@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const customer = {
@@ -16,8 +17,11 @@ const customer = {
 
 
 const SignupForm = () => {
-    
-    
+
+    const navigate = (address)=>{
+        const useNav = useNavigate();
+        useNav(address);
+    }
     const[email,setEmail]=useState(customer.email);
     const[password,setPassword]=useState(customer.password);
     const[passwordconfirm,setPasswordconfirm]=useState(customer.password);
@@ -90,7 +94,17 @@ const SignupForm = () => {
                                 })
                                 .then(function (response) {
                                     //받는거
-                                }).catch(function (error) {
+                                    if(response.data.code == 200){
+                                        setPopup({
+                                            open: true,
+                                            title: "Confirm",
+                                            message: "Join Success!", 
+                                            callback: function(){
+                                                navigate("/login");
+                                            }
+                                        });
+                                }
+                            }).catch(function (error) {
                                     //error
                                     console.log(error);
                                 });
