@@ -29,6 +29,7 @@ public class Party {
 
     private String location;//위치이름
     private String intro;//간단한 소개
+    private String title;
 
     @Column(name="since_date")
     private LocalDate sinceDate;//가입날짜
@@ -45,9 +46,10 @@ public class Party {
 
     // entity 생성
 
-    public static Party createParty(SportsName sportName, String location, String intro, LocalDate sinceDate, int meetCount, String info, Member member) {
+    public static Party createParty(SportsName sportName,String title, String location, String intro, LocalDate sinceDate, int meetCount, String info, Member member) {
         Party party = new Party();
         party.sportName = sportName;
+        party.title=title;
         party.location = location;
         party.intro = intro;
         party.sinceDate = sinceDate;
