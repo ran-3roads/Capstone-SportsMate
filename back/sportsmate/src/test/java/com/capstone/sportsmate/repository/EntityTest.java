@@ -54,7 +54,7 @@ public class EntityTest {
     @Rollback(false)
     public void testParty() {
         Member findMember = memberRepository.findOne(1L);
-        Party party = Party.createParty(SportsName.BASEBALL,"여기","여기는 거깁니다",
+        Party party = Party.createParty(SportsName.BASEBALL,"성북구 풋살크럽","여기","여기는 거깁니다",
                 LocalDateTime.now(), 10, "그렇습니다 그래요", findMember);
         em.persist(party);
         Party findParty = em.find(Party.class,party.getId());
