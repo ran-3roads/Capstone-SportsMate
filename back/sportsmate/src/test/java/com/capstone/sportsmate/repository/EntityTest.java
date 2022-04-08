@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.capstone.sportsmate.domain.Log.createLog;
@@ -30,7 +31,7 @@ public class EntityTest {
     @Rollback(false)
     public void testMember() {
         Member member = Member.createMember("tset2", Sex.MALE,"test@test","testtest",
-                "fdsf",LocalDateTime.now(),LocalDateTime.now(),"010-1111-1111");
+                "fdsf",LocalDate.now(),LocalDate.now(),"010-1111-1111");
         Long savedId = memberRepository.save(member);
         Member findMember = memberRepository.findOne(savedId);
         Assertions.assertThat(findMember.getId()).isEqualTo(member.getId());
@@ -42,7 +43,7 @@ public class EntityTest {
     @Rollback(false)
     public void testLog() {
         Member findMember = memberRepository.findOne(1L);
-        Log log = Log.createLog(11.1f,LocalDateTime.now(),findMember);
+        Log log = Log.createLog(11.1f,LocalDate.now(),findMember);
         em.persist(log);
         Log findLog = em.find(Log.class,log.getId());
         Assertions.assertThat(findLog.getId()).isEqualTo(log.getId());
@@ -55,7 +56,7 @@ public class EntityTest {
     public void testParty() {
         Member findMember = memberRepository.findOne(1L);
         Party party = Party.createParty(SportsName.BASEBALL,"여기","여기는 거깁니다",
-                LocalDateTime.now(), 10, "그렇습니다 그래요", findMember);
+                LocalDate.now(), 10, "그렇습니다 그래요", findMember);
         em.persist(party);
         Party findParty = em.find(Party.class,party.getId());
         Assertions.assertThat(findParty).isEqualTo(party);
@@ -67,7 +68,7 @@ public class EntityTest {
         Member findMember = memberRepository.findOne(1L);
         Party findParty = em.find(Party.class,1L);
         PartyMember partyMember = PartyMember.createPartyMember(findMember,findParty
-                ,Role.MEMBER, LocalDateTime.now());
+                ,Role.MEMBER, LocalDate.now());
         em.persist(partyMember);
         PartyMember findPartyMember = em.find(PartyMember.class,partyMember.getId());
         Assertions.assertThat(findPartyMember).isEqualTo(partyMember);
@@ -78,7 +79,7 @@ public class EntityTest {
     public void testApply() {
         Member findMember = memberRepository.findOne(1L);
         Party findParty = em.find(Party.class,1L);
-        Apply apply = Apply.createApply(Request.ACCEPT, LocalDateTime.now(),findMember,findParty);
+        Apply apply = Apply.createApply(Request.ACCEPT, LocalDate.now(),findMember,findParty);
         em.persist(apply);
         Apply findApply = em.find(Apply.class,apply.getId());
         Assertions.assertThat(findApply).isEqualTo(apply);
@@ -143,7 +144,7 @@ public class EntityTest {
         Member findMember = memberRepository.findOne(1L);
         Party findParty = em.find(Party.class,1L);
         PartyBoard partyBoard = PartyBoard.createPartyBoard(Category.HIRED, "눈누난dddd다", "그렇다 이말이야 ",
-                LocalDateTime.now(), findMember, findParty);
+                LocalDate.now(), findMember, findParty);
         em.persist(partyBoard);
         PartyBoard findPartyBoard = em.find(PartyBoard.class, 1L);
         Assertions.assertThat(partyBoard).isEqualTo(findPartyBoard);
@@ -166,7 +167,7 @@ public class EntityTest {
     public void testComment() {
         Member findMember = memberRepository.findOne(1L);
         PartyBoard findPartyBoard = em.find(PartyBoard.class,1L);
-        Comment comment = Comment.createComment("dccdc", LocalDateTime.now(),findMember,findPartyBoard);
+        Comment comment = Comment.createComment("dccdc", LocalDate.now(),findMember,findPartyBoard);
         em.persist(comment);
         Comment findComment = em.find(Comment.class,1L);
         Assertions.assertThat(findComment).isEqualTo(comment);
