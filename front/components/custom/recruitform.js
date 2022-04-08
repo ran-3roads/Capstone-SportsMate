@@ -3,6 +3,16 @@ import React from 'react';
 import Image from "next/image";
 import { Pagination, PaginationItem, PaginationLink, Container, Row, Col } from 'reactstrap';
 import footballimg from "../../assets/images/landingpage/football.png";
+
+const party = {
+    'party_id':1 ,
+    'sports_name':'풋살',
+    'title': '성풋모', //db에 추가해달라고 얘기해야함
+    'location' : '성북구',
+    'intro':'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
+    'infoimg': footballimg
+}
+
 const RecruitForm = () => {
     return (
         <div>
@@ -244,80 +254,95 @@ const RecruitForm = () => {
                                     </div>
                                 </Row>
             <ul className='mList'>
-                <li className='mItem'>
-                    <div className='mUri'>
+            <li className='mItem'>
+                <a href={'party/'+party.party_id+'/info'}>
+                    <div className='mUri' >
                         <div class ="mcover">
                             <div className='mImage'>
                                 <span className='mInner'>
-                                <Image src={footballimg} alt="모임사진"/>
+                                <Image src={party.infoimg} alt="모임소개사진"/>
                                 </span>
                             </div>
                         </div>
                         <div class ="mName">
-                            <strong class="name"><a>성풋모</a></strong>
-                            <p className="pSubTxt">성북구 풋살을 관심있게 좋아하는 분들 같이소통해요</p>
+                            <strong class="name"><a>{party.title}</a></strong>
+                            <a>{'종목:'+party.sports_name+'  지역:'+party.location}</a>
+                            <p className="pSubTxt">{party.intro}</p>
                         </div>
                     </div>
+                    </a>
                 </li>
                 <li className='mItem'>
-                    <div className='mUri'>
+                <a href={'party/'+party.party_id+'/info'}>
+                    <div className='mUri' >
                         <div class ="mcover">
                             <div className='mImage'>
                                 <span className='mInner'>
-                                <Image src={footballimg} alt="모임사진"/>
+                                <Image src={party.infoimg} alt="모임소개사진"/>
                                 </span>
                             </div>
                         </div>
                         <div class ="mName">
-                            <strong class="name"><a>성풋모</a></strong>
-                            <p className="pSubTxt">성북구 풋살을 관심있게 좋아하는 분들 같이소통해요</p>
+                            <strong class="name"><a>{party.title}</a></strong>
+                            <a>{'종목:'+party.sports_name+'  지역:'+party.location}</a>
+                            <p className="pSubTxt">{party.intro}</p>
                         </div>
                     </div>
+                    </a>
                 </li>
                 <li className='mItem'>
-                    <div className='mUri'>
+                <a href={'party/'+party.party_id+'/info'}>
+                    <div className='mUri' >
                         <div class ="mcover">
                             <div className='mImage'>
                                 <span className='mInner'>
-                                <Image src={footballimg} alt="모임사진"/>
+                                <Image src={party.infoimg} alt="모임소개사진"/>
                                 </span>
                             </div>
                         </div>
                         <div class ="mName">
-                            <strong class="name"><a>성풋모</a></strong>
-                            <p className="pSubTxt">성북구 풋살을 관심있게 좋아하는 분들 같이소통해요</p>
+                            <strong class="name"><a>{party.title}</a></strong>
+                            <a>{'종목:'+party.sports_name+'  지역:'+party.location}</a>
+                            <p className="pSubTxt">{party.intro}</p>
                         </div>
                     </div>
+                    </a>
                 </li>
                 <li className='mItem'>
-                    <div className='mUri'>
+                <a href={'party/'+party.party_id+'/info'}>
+                    <div className='mUri' >
                         <div class ="mcover">
                             <div className='mImage'>
                                 <span className='mInner'>
-                                <Image src={footballimg} alt="모임사진"/>
+                                <Image src={party.infoimg} alt="모임소개사진"/>
                                 </span>
                             </div>
                         </div>
                         <div class ="mName">
-                            <strong class="name"><a>성풋모</a></strong>
-                            <p className="pSubTxt">성북구 풋살을 관심있게 좋아하는 분들 같이소통해요</p>
+                            <strong class="name"><a>{party.title}</a></strong>
+                            <a>{'종목:'+party.sports_name+'  지역:'+party.location}</a>
+                            <p className="pSubTxt">{party.intro}</p>
                         </div>
                     </div>
+                    </a>
                 </li>
                 <li className='mItem'>
-                    <div className='mUri'>
+                <a href={'party/'+party.party_id+'/info'}>
+                    <div className='mUri' >
                         <div class ="mcover">
                             <div className='mImage'>
                                 <span className='mInner'>
-                                <Image src={footballimg} alt="모임사진"/>
+                                <Image src={party.infoimg} alt="모임소개사진"/>
                                 </span>
                             </div>
                         </div>
                         <div class ="mName">
-                            <strong class="name"><a>성풋모</a></strong>
-                            <p className="pSubTxt">성북구 풋살을 관심있게 좋아하는 분들 같이소통해요</p>
+                            <strong class="name"><a>{party.title}</a></strong>
+                            <a>{'종목:'+party.sports_name+'  지역:'+party.location}</a>
+                            <p className="pSubTxt">{party.intro}</p>
                         </div>
                     </div>
+                    </a>
                 </li>
             </ul>
             </Container>
