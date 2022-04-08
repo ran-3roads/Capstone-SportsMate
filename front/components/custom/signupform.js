@@ -1,9 +1,71 @@
 import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { useState } from 'react';
+import axios from 'axios';
+import Popup from './popup';
+
+
+
+const customer = {
+    'email':'',
+    'password' : '',
+    'name':'',
+    'nickName':'',
+    'birthDate':'',
+    'sex':'',
+    'phoneNumber':''
+}
+
 
 const SignupForm = () => {
+
+    const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
+ 
+    const[email,setEmail]=useState(customer.email);
+    const[password,setPassword]=useState(customer.password);
+    const[passwordconfirm,setPasswordconfirm]=useState(customer.password);
+    const[name,setName]=useState(customer.name);
+    const[nickName,setNickname]=useState(customer.nickName);
+    const[birthDate,setBirthDate]=useState(customer.birthDate);
+    const[sex,setSex]=useState(customer.sex);
+    const[phoneNumber,setPhoneNumber]=useState(customer.phoneNumber);
+
+    const onchangeEmail = (e) =>{
+        console.log(e.target.value)
+        setEmail(e.target.value)
+    }
+    const onchangePassword = (e) =>{
+        console.log(e.target.value)
+        setPassword(e.target.value)
+    }
+    const onchangePasswordconfirm = (e) =>{
+        console.log(e.target.value)
+        setPasswordconfirm(e.target.value)
+    }
+    const onchangeName = (e) =>{
+        console.log(e.target.value)
+        setName(e.target.value)
+    }
+    const onchangeNickName = (e) =>{
+        console.log(e.target.value)
+        setNickname(e.target.value)
+    }
+    const onchangeBirthDate = (e) =>{
+        console.log(e.target.value)
+        setBirthDate(e.target.value)
+    }
+    const onchangeSex = (e) =>{
+        console.log(e.target.value)
+        setSex(e.target.value)
+    }
+    const onchangePhoneNumber = (e) =>{
+        console.log(e.target.value)
+        setPhoneNumber(e.target.value)
+    }
+
     return (
         <div>
+            <Popup open = {popup.open} setPopup = {setPopup} message = {popup.message} title = {popup.title} callback = {popup.callback}/>
             <div className="spacer" id="forms-component">
                 <Container>
                     <Row className="justify-content-center">
@@ -17,82 +79,74 @@ const SignupForm = () => {
             <Container>
                 <Row>
                     <Col md="12">
-                        <Form className="col">
+                        <Form className="col" id="signupForm" onSubmit={function (event) {
+                            event.preventDefault();
+                            if(event.target.checkbox1.checked){
+                                console.log()
+                                axios.post("http://121.143.252.176:8080/sportsmate/member/signup", {
+                                    email: event.target.email.value,
+                                    password: event.target.password.value,
+                                    name: event.target.name.value,
+                                    nickName: event.target.nickName.value,
+                                    birthDate: event.target.birthDate.value,
+                                    sex: event.target.sex.value,
+                                    phoneNumber: event.target.phoneNumber.value
+                                })
+                                .then(function (response) {
+                                    //받는거
+                                    if(response.data.code == 200){
+                                        setPopup({
+                                            open: true,
+                                            title: "Confirm",
+                                            message: "Join Success!", 
+                                            callback: function(){
+                                                document.location.href='/';
+                                            }
+                                        });
+                                }
+                            }).catch(function (error) {
+                                    //error
+                                    console.log(error);
+                                });
+                            }
+                            else{
+                            alert("약관에 동의해주세요");
+                            }
+                        }}>
                         <FormGroup className="col-md-6">
                                 <Label htmlFor="email">Email 아이디</Label>
-                                <Input type="email" className="form-control" id="email" placeholder="Enter email" />
+                                <Input type="email" className="form-control" id="email" placeholder="Enter email" value={email} onChange={onchangeEmail}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="password">비밀번호</Label>
-                                <Input type="password" className="form-control" id="password" placeholder="Password" />
+                                <Input type="password" className="form-control" id="password" placeholder="Password" value={password} onChange={onchangePassword}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="confirmpwd">비밀번호 확인</Label>
-                                <Input type="password" className="form-control" id="confirmpwd" placeholder="Confirm Password" />
+                                <Input type="password" className="form-control" id="confirmpassword" placeholder="Confirm Password" value={passwordconfirm} onChange={onchangePasswordconfirm}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="name">이름</Label>
-                                <Input type="text" className="form-control" id="name" placeholder="Enter Username" />
+                                <Input type="text" className="form-control" id="name" placeholder="Enter Username" value={name} onChange={onchangeName}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="name">주민번호</Label>
-                                <div className="bir_yy">
-                                    <span className="ps_box">
-                                        <Input type="text" className="form-control" id="yy" placeholder="년(4자)"/>
-                                    </span>
-                                </div>
-                                <div className="bir_mm">
-                                    <span className="ps_box">
-                                    <select id="mm" aria-label="월">
-										<option value="">월</option>
-										  	 			<option value="01">
-                                                            1
-                                                        </option>
-										  	 			<option value="02">
-                                                            2
-                                                        </option>
-										  	 			<option value="03">
-                                                            3
-                                                        </option>
-										  	 			<option value="04">
-                                                            4
-                                                        </option>
-										  	 			<option value="05">
-                                                            5
-                                                        </option>
-										  	 			<option value="06">
-                                                            6
-                                                        </option>
-										  	 			<option value="07">
-                                                            7
-                                                        </option>
-										  	 			<option value="08">
-                                                            8
-                                                        </option>
-										  	 			<option value="09">
-                                                            9
-                                                        </option>
-										  	 			<option value="10">
-                                                            10
-                                                        </option>
-										  	 			<option value="11">
-                                                            11
-                                                        </option>
-										  	 			<option value="12">
-                                                            12
-                                                        </option>
-									</select>
-                                    </span>
-                                </div>
-                                <div className="bir_dd">
-                                    <span className="ps_box">
-                                        <Input type="text" className="form-control" id="dd" placeholder="일"/>
-                                    </span>
-                                </div>
+                                <Label htmlFor="nickName">별명</Label>
+                                <Input type="text" className="form-control" id="nickName" placeholder="Enter Nickname" value={nickName} onChange={onchangeNickName}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="name">핸드폰번호</Label>
-                                <Input type="text" className="form-control" id="name" placeholder="Enter Phone Number" />
+                                <Label htmlFor="birthDate">생년월일</Label>
+                                <Input type="date" name="birthDate" placeholder="date placeholder" value={birthDate} onChange={onchangeBirthDate}/>    
+                            </FormGroup>
+                            <FormGroup className="col-md-6">
+                                <Label htmlFor="sex">성별</Label>
+                                <Input type="select" name="sex" value={sex} onChange={onchangeSex}>
+                                    <option value="MALE">남자</option>
+                                    <option value="FEMALE">여자</option>
+                                </Input>
+                            </FormGroup>
+                            <FormGroup className="col-md-6">
+                                <Label htmlFor="phoneNumber">핸드폰번호</Label>
+                                <Input type="text" className="form-control" id="phoneNumber" placeholder="Enter Phone Number" value={phoneNumber} onChange={onchangePhoneNumber}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Input id="checkbox1" type="checkbox" />
@@ -100,7 +154,7 @@ const SignupForm = () => {
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">회원가입</Button>
-                                <Button type="submit" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                                <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
                             </FormGroup>
                         </Form>
                     </Col>

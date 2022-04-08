@@ -21,13 +21,28 @@ public class MemberService {
         memberRepository.save(member);
         return member.getId();
     }
+
+    private Member findByEmail(String email){
+        Member member =  memberRepository.findByEmail(email);
+        return member;
+    }
     private void validateDuplicateMember(Member member) {
-        List<Member> findMembers = memberRepository.findByEmail(member.getEmail());
-        if(!findMembers.isEmpty()){
+        Member findMember = memberRepository.findByEmail(member.getEmail());
+        if(findMember!=null){
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
     public Member findOne(Long memberId){
         return memberRepository.findOne(memberId);
+    }
+
+    //login service
+    public Member Login(String memberEmail,String password){
+        Member findMember = memberRepository.findByEmail(memberEmail);
+        if(findMember==null)//find member가 비었다면
+            return null;
+        if(!password.equals(findMember.getPassword()))
+            return null;
+        return findMember;
     }
 }

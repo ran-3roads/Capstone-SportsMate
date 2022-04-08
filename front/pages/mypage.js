@@ -6,13 +6,13 @@ export default function Mypage() {
   return (
     <div className="static-slider-head">
       <Head>
-        <title>MyPage</title>
+        <title>My</title>
         <meta
           name="description"
           content="The page you are looking for is not found go back to the homepage"
         />
         <link rel="icon" href="/favicon.ico" />
-        
+
       </Head>
         <div className="font_title">My Information</div>
         <div className="my">
@@ -20,18 +20,22 @@ export default function Mypage() {
             <div className="my_boxc">
               <div className="left_section">
                 <div className="p_image">
-                
+
                 </div>
                 <div className="inf_name"><div className="my_font">박경민님</div></div>
                 <div className="left_buttons">
                  <div className="logout_button">
                  <div className="my_font">
+                 <Link href="/mypage/modify">
                    정보수정
+                   </Link>
                    </div>
                  </div>
                 <div className="logout_button">
                 <div className="my_font">
+                <Link href="/my">
                   로그아웃
+                  </Link>
                   </div>
                 </div>
                 </div>
@@ -45,13 +49,13 @@ export default function Mypage() {
                 My Party 목록
               </Button>
             </Link>
-            <Link href="/">
+            <Link href="/mymatch">
               <Button className="btn btn-danger m-t-30 btn-info-gradiant font-14">
                My 경기 목록
               </Button>
             </Link>
           </Col>
-        </Row>   
+        </Row>
         </div>
     </div>
   );
