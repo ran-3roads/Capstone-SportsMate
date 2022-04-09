@@ -11,17 +11,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
-@RequestMapping("/sportsmate/party")
+@RequestMapping("/sportsmate")
 @RequiredArgsConstructor
 public class PartyController {
     private final PartyService partyService;
     private final MemberService memberService;
 
-    @PostMapping("mkparty")
+    @GetMapping("/party/{memberId}/myparty") //일단은 그냥 id 값 받는걸로 함 추후 security 숙지되면 변경할 예정
+    public List<Party> myParty(@PathVariable("memberId") Long memberId){
+        List<Party> parties = partyService.findParties(memberId);
+        return parties;
+    }
+
+    @PostMapping("/paryt/mkparty")
     String createParty(@RequestBody PartyForm form,@RequestParam("memberEmail") String email){
-        partyService.join(form,email);
+        partyService.mkParty(form,email);
         return "success";
     }
 }
