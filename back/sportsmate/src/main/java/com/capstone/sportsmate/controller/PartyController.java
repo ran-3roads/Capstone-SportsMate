@@ -26,9 +26,9 @@ public class PartyController {
         return parties;
     }
 
-    @PostMapping("/paryt/mkparty")
-    String createParty(@RequestBody PartyForm form,@RequestParam("memberEmail") String email){
-        partyService.mkParty(form,email);
+    @PostMapping("/party/{memberId}/mkparty")
+    String createParty(@RequestBody PartyForm form,@PathVariable("memberId") Long memberId){
+        partyService.mkParty(form,memberId);
         return "success";
     }
 }

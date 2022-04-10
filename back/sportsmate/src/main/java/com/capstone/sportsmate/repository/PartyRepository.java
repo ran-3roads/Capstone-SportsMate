@@ -38,18 +38,18 @@ public class PartyRepository {
         return partyMember.getId();
     }
     public List<Party> findAllString(PartySearch partySearch){
-        String jpql="select p from Party p join PartyMember s";
+        String jpql="select p from Party p left join PartyMember s";
         boolean isFirstCondition= true;
 
         //멤버의 이름으로 등록된 파티 찾기
         if(partySearch.getMember()!=null){
             if (isFirstCondition) {
-                jpql += " where";
+                jpql += " on";
                 isFirstCondition = false;
             } else {
                 jpql += " and";
             }
-            jpql += " s.member = :member";
+            jpql += " s.member.id = :member";
         }
 
         TypedQuery<Party> query = em.createQuery(jpql, Party.class)
