@@ -23,9 +23,9 @@ public class PartyService {
     private final PartyRepository partyRepository;
 
     @Transactional
-    public Long mkParty (PartyForm form, String email){
+    public Long mkParty (PartyForm form, Long id){
         validateDuplicateParty(form);//중복 파티이름 검증
-        Member member= memberRepository.findByEmail(email);
+        Member member= memberRepository.findOne(id);
         Party party = Party.createParty(form.getSportsName(), form.getTitle(), form.getLocation(), form.getIntro(), LocalDate.now(),0,form.getInfo(),member);
         JoinPartytoHost(party,member); //파티멤버 추가
         partyRepository.save(party); // 파티 저장
