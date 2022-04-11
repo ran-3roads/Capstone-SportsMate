@@ -1,14 +1,22 @@
 package com.capstone.sportsmate.controller;
 
+import com.capstone.sportsmate.domain.Authority;
 import com.capstone.sportsmate.exception.LoginException;
 import com.capstone.sportsmate.exception.response.LoginErrorResponse;
+import com.capstone.sportsmate.repository.RefreshTokenRepository;
+import com.capstone.sportsmate.security.TokenProvider;
 import com.capstone.sportsmate.web.LoginForm;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.service.MemberService;
 import com.capstone.sportsmate.web.MemberForm;
+import com.capstone.sportsmate.web.TokenDto;
+import com.capstone.sportsmate.web.TokenRequestDto;
+import com.capstone.sportsmate.web.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -19,21 +27,21 @@ import java.time.LocalDate;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping("signup")
-    String signUP(@RequestBody MemberForm memberForm){
-        Member member = Member.createMember(memberForm.getName(), memberForm.getSex(), memberForm.getEmail(),
-                memberForm.getNickName(), memberForm.getPassword(), LocalDate.now(), memberForm.getBirthDate()
-                , memberForm.getPhoneNumber());
-        memberService.join(member);
-        return "success";
+
+    @PostMapping("/public/signup")
+    //성공시 200과 이메일 리턴
+    ResponseEntity<MemberResponse> signup(@RequestBody MemberForm memberForm){
+        return ResponseEntity.ok(memberService.join(memberForm));
     }
 
-    @PostMapping("login")
-    Member loginMember(@RequestBody LoginForm loginForm){
-        Member member = memberService.Login(loginForm.getEmail(), loginForm.getPassword());
-        if(member == null)
-            throw new LoginException("아이디와 비밀번호가 틀렸습니다.");
-        return member;
+    @PostMapping("/public/login")
+    public ResponseEntity<TokenDto> login(@RequestBody LoginForm loginForm){
+        return ResponseEntity.ok(memberService.login(loginForm));
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto) {
+        return ResponseEntity.ok(memberService.reissue(tokenRequestDto));
     }
     @ExceptionHandler
     public ResponseEntity<LoginErrorResponse> errorHandling(LoginException e) {
@@ -42,7 +50,7 @@ public class MemberController {
         response.setMessage(e.getMessage());
         response.setTimestamp(System.currentTimeMillis());
 
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("test")

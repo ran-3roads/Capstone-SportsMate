@@ -1,10 +1,15 @@
 import React from 'react';
+const axios = require("axios");
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState } from 'react';
+import Popup from './popup';
+
+
 const LoginForm = () => {
 
     const[email,setEmail]=useState('');
     const[password,setPassword]=useState('');
+    const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
 
     const onchangeEmail = (e) =>{
         console.log(e.target.value)
@@ -16,6 +21,7 @@ const LoginForm = () => {
     }
     return (
         <div>
+            <Popup open = {popup.open} setPopup = {setPopup} message = {popup.message} title = {popup.title} callback = {popup.callback}/>
             <div className="spacer" id="forms-component">
                 <Container>
                     <Row className="justify-content-center">
@@ -31,11 +37,34 @@ const LoginForm = () => {
                     <Col md="12">
                         <Form className="col" id="loginForm" onSubmit={function (event) {
                             event.preventDefault();
-                            if(event.target.checkbox1.checked)
-                            console.log(event.target.email.value, event.target.password.value, "예");
-                            else
-                            console.log(event.target.email.value, event.target.password.value, "아니오");
-
+                            axios.post("http://localhost:8080/sportsmate/member/login", {
+                                    email: event.target.email.value,
+                                    password: event.target.password.value
+                                })
+                                .then(function (response) {
+                                    //받는거
+                                    if(response.status == 200){
+                                        if(response.data.statusCode == 404){
+                                            alert('유효하지 않은 id 혹은 password입니다!');
+                                         }
+                                         else{
+                                        setPopup({
+                                            open: true,
+                                            title: "Confirm",
+                                            message: "Login Success!", 
+                                            callback: function(){
+                                                document.location.href='/';
+                                            }
+                                        }
+                                        );
+                                    }
+                                        
+                                }
+                                
+                                }).catch(function (error) {
+                                    //error
+                                    console.log(error);
+                                });
                         }}>
                         <FormGroup className="col-md-6">
                                 <Label htmlFor="email">Email 아이디</Label>

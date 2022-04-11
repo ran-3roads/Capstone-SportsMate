@@ -1,9 +1,12 @@
 package com.capstone.sportsmate.web;
 
+import com.capstone.sportsmate.domain.Authority;
+import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Sex;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -27,4 +30,9 @@ public class MemberForm {
 
     private String phoneNumber;
 
+    public Member toMember(PasswordEncoder passwordEncoder) {
+        return Member.createMember(name,sex, email, nickName, passwordEncoder.encode(password),
+                LocalDate.now(), birthDate, phoneNumber, Authority.ROLE_USER);
+
+    }
 }

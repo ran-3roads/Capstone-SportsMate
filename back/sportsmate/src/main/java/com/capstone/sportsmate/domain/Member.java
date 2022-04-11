@@ -43,6 +43,9 @@ public class Member {
     @Column(name="phone_number")
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
     private int credit;
 
 //    @OneToMany(mappedBy = "member")
@@ -63,7 +66,7 @@ public class Member {
     // entity 생성
 
     public static Member createMember(String name, Sex sex, String email, String nickName, String password, LocalDate
-            sinceDate, LocalDate birthDate, String phoneNumber) {
+            sinceDate, LocalDate birthDate, String phoneNumber,Authority authority) {
         Member member = new Member();
         member.name = name;
         member.sex = sex;
@@ -73,6 +76,7 @@ public class Member {
         member.sinceDate = sinceDate;
         member.birthDate = birthDate;
         member.phoneNumber = phoneNumber;
+        member.authority = authority;
         return member;
     }
 }
