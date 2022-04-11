@@ -25,12 +25,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    // h2 database 테스트가 원활하도록 관련 API 들은 전부 무시
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring()
-                .antMatchers("/h2-console/**", "/favicon.ico");
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -54,6 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/sportsmate/member/public/**").permitAll()
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
+
+                //cors 설정 추가
+                .and()
+                .cors()
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
                 .and()

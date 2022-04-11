@@ -1,8 +1,32 @@
 import Head from "next/head";
 import Link from "next/link";
 import { Container, Row, Col, Button } from "reactstrap";
+import axios from "axios";
+
 
 export default function Mypage() {
+  const customer = {
+    'email':'qaz5216@naver.com',
+    'password' : 'asdf7034',
+    'name':'박경민',
+    'nickName':'장래희망Hero',
+    'sinceDate':'2022-4-5',
+    'birthDate':'1998-11-23',
+    'sex':'MALE',
+    'phoneNumber':'01027597034'
+  }
+  console.log(axios.defaults.headers.common['Authorization']);
+
+  axios.get("http://localhost:8080/sportsmate/member/private/my/modify")
+.then(function (response) {
+    console.log(response.data)
+}).catch(function (error) {
+    //error
+    console.log(error);
+});
+
+
+
   return (
     <div className="static-slider-head">
       <Head>
@@ -22,7 +46,8 @@ export default function Mypage() {
                 <div className="p_image">
 
                 </div>
-                <div className="inf_name"><div className="my_font">박경민님</div></div>
+                <div className="inf_name"><div className="my_font">{customer.nickName} 님</div></div>
+                <div className="since_date"><div className="my_font">가입일 {customer.sinceDate}</div></div>
                 <div className="left_buttons">
                  <div className="logout_button">
                  <div className="my_font">

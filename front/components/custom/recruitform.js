@@ -1,16 +1,17 @@
 /* eslint-disable */
-import React from 'react';
+import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { Pagination, PaginationItem, PaginationLink, Container, Row, Col } from 'reactstrap';
 import footballimg from "../../assets/images/landingpage/football.png";
 
 const party = {
-    'party_id':1 ,
-    'sports_name':'풋살',
-    'title': '성풋모', //db에 추가해달라고 얘기해야함
-    'location' : '성북구',
-    'intro':'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-    'infoimg': footballimg
+    party_id:1 ,
+    sports_name:'풋살',
+    title: '성풋모', //db에 추가해달라고 얘기해야함
+    location: '성북구',
+    intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
+    infoimg: footballimg
 }
 
 const RecruitForm = () => {
@@ -255,7 +256,10 @@ const RecruitForm = () => {
                                 </Row>
             <ul className='mList'>
             <li className='mItem'>
-                <a href={'party/'+party.party_id+'/info'}>
+            <Link href={{
+                pathname:'/party/info',
+                query: { qparty: JSON.stringify(party) },
+            }} as={`party/${party.party_id}/info`}>
                     <div className='mUri' >
                         <div class ="mcover">
                             <div className='mImage'>
@@ -270,10 +274,13 @@ const RecruitForm = () => {
                             <p className="pSubTxt">{party.intro}</p>
                         </div>
                     </div>
-                    </a>
+                </Link>
                 </li>
                 <li className='mItem'>
-                <a href={'party/'+party.party_id+'/info'}>
+            <Link href={{
+                pathname:'/party/info',
+                query: { qparty: JSON.stringify(party) },
+            }} as={`party/${party.party_id}/info`}>
                     <div className='mUri' >
                         <div class ="mcover">
                             <div className='mImage'>
@@ -288,10 +295,13 @@ const RecruitForm = () => {
                             <p className="pSubTxt">{party.intro}</p>
                         </div>
                     </div>
-                    </a>
+                </Link>
                 </li>
                 <li className='mItem'>
-                <a href={'party/'+party.party_id+'/info'}>
+            <Link href={{
+                pathname:'/party/info',
+                query: { qparty: JSON.stringify(party) },
+            }} as={`party/${party.party_id}/info`}>
                     <div className='mUri' >
                         <div class ="mcover">
                             <div className='mImage'>
@@ -306,10 +316,13 @@ const RecruitForm = () => {
                             <p className="pSubTxt">{party.intro}</p>
                         </div>
                     </div>
-                    </a>
+                </Link>
                 </li>
                 <li className='mItem'>
-                <a href={'party/'+party.party_id+'/info'}>
+            <Link href={{
+                pathname:'/party/info',
+                query: { qparty: JSON.stringify(party) },
+            }} as={`party/${party.party_id}/info`}>
                     <div className='mUri' >
                         <div class ="mcover">
                             <div className='mImage'>
@@ -324,10 +337,13 @@ const RecruitForm = () => {
                             <p className="pSubTxt">{party.intro}</p>
                         </div>
                     </div>
-                    </a>
+                </Link>
                 </li>
                 <li className='mItem'>
-                <a href={'party/'+party.party_id+'/info'}>
+            <Link href={{
+                pathname:'/party/info',
+                query: { qparty: JSON.stringify(party) },
+            }} as={`party/${party.party_id}/info`}>
                     <div className='mUri' >
                         <div class ="mcover">
                             <div className='mImage'>
@@ -342,7 +358,7 @@ const RecruitForm = () => {
                             <p className="pSubTxt">{party.intro}</p>
                         </div>
                     </div>
-                    </a>
+                </Link>
                 </li>
             </ul>
             </Container>

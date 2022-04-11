@@ -6,6 +6,7 @@ import com.capstone.sportsmate.domain.RefreshToken;
 import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.RefreshTokenRepository;
 import com.capstone.sportsmate.security.TokenProvider;
+import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.LoginForm;
 import com.capstone.sportsmate.web.MemberForm;
 import com.capstone.sportsmate.web.TokenDto;
@@ -42,6 +43,13 @@ public class MemberService {
         Member member =  memberRepository.findByEmail(email);
         return member;
     }
+    // 현재 SecurityContext 에 있는 유저 정보 가져오기
+    @Transactional(readOnly = true)
+    public Member getMyInfo() {
+        return memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+
+    }
+
     private void validateDuplicateMember(Member member) {
         Member findMember = memberRepository.findByEmail(member.getEmail());
         if(findMember!=null){
@@ -53,6 +61,7 @@ public class MemberService {
     }
 
     //login service
+    @Transactional
     public TokenDto login(LoginForm loginForm){
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = loginForm.toAuthentication();

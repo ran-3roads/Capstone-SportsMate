@@ -1,15 +1,17 @@
 import React from 'react';
-const axios = require("axios");
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState } from 'react';
+import axios from "axios";
 import Popup from './popup';
 
 
-const LoginForm = () => {
+
+const LoginForm = ( ) => {
 
     const[email,setEmail]=useState('');
     const[password,setPassword]=useState('');
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
+
 
     const onchangeEmail = (e) =>{
         console.log(e.target.value)
@@ -23,6 +25,7 @@ const LoginForm = () => {
         <div>
             <Popup open = {popup.open} setPopup = {setPopup} message = {popup.message} title = {popup.title} callback = {popup.callback}/>
             <div className="spacer" id="forms-component">
+                
                 <Container>
                     <Row className="justify-content-center">
                         <Col md="7" className="text-center">
@@ -37,32 +40,29 @@ const LoginForm = () => {
                     <Col md="12">
                         <Form className="col" id="loginForm" onSubmit={function (event) {
                             event.preventDefault();
-                            axios.post("http://localhost:8080/sportsmate/member/login", {
+                            axios.post("http://localhost:8080/sportsmate/member/public/login", {
                                     email: event.target.email.value,
                                     password: event.target.password.value
                                 })
                                 .then(function (response) {
-                                    //받는거
                                     if(response.status == 200){
-                                        if(response.data.statusCode == 404){
-                                            alert('유효하지 않은 id 혹은 password입니다!');
-                                         }
-                                         else{
-                                        setPopup({
-                                            open: true,
-                                            title: "Confirm",
-                                            message: "Login Success!", 
-                                            callback: function(){
-                                                document.location.href='/';
-                                            }
-                                        }
-                                        );
-                                    }
-                                        
+                                    const { accessToken } = response.data;
+
+                                    console.log(accessToken);
+
+                                    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+                                    // document.cookie
+                                    console.log(axios.defaults.headers.common['Authorization']);
+                                    // setPopup({
+                                    //     open: true,
+                                    //     title: "Confirm",
+                                    //     message: "Join Success!", 
+                                    //     callback: function(){
+                                    //         document.location.href='/'
+                                    //     }
+                                    // });
                                 }
-                                
                                 }).catch(function (error) {
-                                    //error
                                     console.log(error);
                                 });
                         }}>

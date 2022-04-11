@@ -27,7 +27,7 @@ import java.time.LocalDate;
 public class MemberController {
     private final MemberService memberService;
 
-
+    // 인증 코드들
     @PostMapping("/public/signup")
     //성공시 200과 이메일 리턴
     ResponseEntity<MemberResponse> signup(@RequestBody MemberForm memberForm){
@@ -37,6 +37,11 @@ public class MemberController {
     @PostMapping("/public/login")
     public ResponseEntity<TokenDto> login(@RequestBody LoginForm loginForm){
         return ResponseEntity.ok(memberService.login(loginForm));
+    }
+
+    @GetMapping("/private/my/modify")
+    public ResponseEntity<Member> my(){
+        return ResponseEntity.ok(memberService.getMyInfo());
     }
 
     @PostMapping("/reissue")
