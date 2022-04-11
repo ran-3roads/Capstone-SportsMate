@@ -9,7 +9,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry
-                .addMapping("/sportsmate/**")
-                .allowedOrigins("http://localhost:3000");
+                .addMapping("/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowedHeaders("*")
+                .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE", "HEAD")
+                .exposedHeaders("Set-Cookie");
     }
 }
