@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TokenDto { // 보낼 토큰 dto
+public class TokenObject { // 보낼 토큰 dto
 
     private String grantType;
     private String accessToken;

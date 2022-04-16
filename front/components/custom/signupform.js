@@ -83,7 +83,7 @@ const SignupForm = () => {
                             event.preventDefault();
                             if(event.target.checkbox1.checked){
                                 console.log()
-                                axios.post("http://121.143.252.176:8080/sportsmate/member/signup", {
+                                axios.post("http://localhost:8080/sportsmate/member/public/signup", {
                                     email: event.target.email.value,
                                     password: event.target.password.value,
                                     name: event.target.name.value,

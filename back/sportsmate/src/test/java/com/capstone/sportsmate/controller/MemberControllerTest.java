@@ -22,13 +22,15 @@ public class MemberControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+
+
 //로그인 기능 테스트
     @Test
     public void testLogin() throws Exception{
         LoginForm loginForm = new LoginForm();
-        loginForm.setEmail("superdevsong@amil.com");
+        loginForm.setEmail("test7@test7.com");
         loginForm.setPassword("1234");
-        mockMvc.perform(post("/sportsmate/member/login")
+        mockMvc.perform(post("/sportsmate/member/public/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
