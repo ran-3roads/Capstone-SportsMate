@@ -1,10 +1,17 @@
 import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState } from 'react';
-const LoginForm = () => {
+import axios from "axios";
+import Popup from './popup';
+
+
+
+const LoginForm = ( ) => {
 
     const[email,setEmail]=useState('');
     const[password,setPassword]=useState('');
+    const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
+
 
     const onchangeEmail = (e) =>{
         console.log(e.target.value)
@@ -16,7 +23,9 @@ const LoginForm = () => {
     }
     return (
         <div>
+            <Popup open = {popup.open} setPopup = {setPopup} message = {popup.message} title = {popup.title} callback = {popup.callback}/>
             <div className="spacer" id="forms-component">
+                
                 <Container>
                     <Row className="justify-content-center">
                         <Col md="7" className="text-center">
@@ -31,11 +40,31 @@ const LoginForm = () => {
                     <Col md="12">
                         <Form className="col" id="loginForm" onSubmit={function (event) {
                             event.preventDefault();
-                            if(event.target.checkbox1.checked)
-                            console.log(event.target.email.value, event.target.password.value, "예");
-                            else
-                            console.log(event.target.email.value, event.target.password.value, "아니오");
+                            axios.post("http://localhost:8080/sportsmate/member/public/login", {
+                                    email: event.target.email.value,
+                                    password: event.target.password.value
+                                })
+                                .then(function (response) {
+                                    if(response.status == 200){
+                                    const { accessToken } = response.data;
 
+                                    console.log(accessToken);
+
+                                    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+                                    // document.cookie
+                                    console.log(axios.defaults.headers.common['Authorization']);
+                                    // setPopup({
+                                    //     open: true,
+                                    //     title: "Confirm",
+                                    //     message: "Join Success!", 
+                                    //     callback: function(){
+                                    //         document.location.href='/'
+                                    //     }
+                                    // });
+                                }
+                                }).catch(function (error) {
+                                    console.log(error);
+                                });
                         }}>
                         <FormGroup className="col-md-6">
                                 <Label htmlFor="email">Email 아이디</Label>

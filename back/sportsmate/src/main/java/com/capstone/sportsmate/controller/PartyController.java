@@ -11,17 +11,40 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
-@RequestMapping("/sportsmate/party")
+@RequestMapping("/sportsmate")
 @RequiredArgsConstructor
 public class PartyController {
     private final PartyService partyService;
     private final MemberService memberService;
 
-    @PostMapping("mkparty")
-    String createParty(@RequestBody PartyForm form,@RequestParam("memberEmail") String email){
-        partyService.join(form,email);
+    @GetMapping("/party/{memberId}/myparty") //일단은 그냥 id 값 받는걸로 함 추후 security 숙지되면 변경할 예정
+    public List<Party> myParty(@PathVariable("memberId") Long memberId){
+        List<Party> parties = partyService.findParties(memberId);
+        return parties;
+    }
+    @GetMapping("/party/{partyId}/info") //일단은 그냥 id 값 받는걸로 함 추후 security 숙지되면 변경할 예정
+    public Party viewParty(@PathVariable("partyId") Long partyId){
+        Party party= partyService.findOne(partyId);
+        return party;
+    }
+
+    @GetMapping("/party/{partyId}/edit") //일단은 그냥 id 값 받는걸로 함 추후 security 숙지되면 변경할 예정
+    public Party editParty(@PathVariable("partyId") Long partyId){
+        Party party= partyService.findOne(partyId);
+        return party;
+    }
+    @PostMapping("party/{partyId}/edit")
+    public String updateItem(@RequestBody PartyForm form, @PathVariable("partyId") Long partyId){
+        partyService.updateParty( partyId,form.getTitle(), form.getIntro(), form.getInfo(),form.getLocation());
+        return  "redirect";
+    }
+
+    @PostMapping("/party/{memberId}/mkparty")
+    String createParty(@RequestBody PartyForm form,@PathVariable("memberId") Long memberId){
+        partyService.mkParty(form,memberId);
         return "success";
     }
 }

@@ -8,8 +8,8 @@ const MkpartyForm = () => {
                 <Container>
                     <Row className="justify-content-center">
                         <Col md="7" className="text-center">
-                            <h1 className="title font-bold">회원가입</h1>
-                            <h6 className="subtitle">회원가입을 통해 Sports Mate를 이용해보세요</h6>
+                            <h1 className="title font-bold">파티 만들기</h1>
+                            <h6 className="subtitle">파티를 만들어 파티원들과 활동을 즐겨보세요</h6>
                         </Col>
                     </Row>
                 </Container>
@@ -19,96 +19,130 @@ const MkpartyForm = () => {
                     <Col md="12">
                         <Form className="col">
                         <FormGroup className="col-md-6">
-                                <Label htmlFor="email">Email 아이디</Label>
-                                <Input type="email" className="form-control" id="email" placeholder="Enter email" />
+                                <Label htmlFor="title">파티 이름</Label>
+                                <Input type="text" className="form-control" id="title" placeholder="Enter party name" />
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="password">비밀번호</Label>
-                                <Input type="password" className="form-control" id="password" placeholder="Password" />
-                            </FormGroup>
-                            <FormGroup className="col-md-6">
-                                <Label htmlFor="confirmpwd">비밀번호 확인</Label>
-                                <Input type="password" className="form-control" id="confirmpwd" placeholder="Confirm Password" />
-                            </FormGroup>
-                            <FormGroup className="col-md-6">
-                                <Label htmlFor="name">이름</Label>
-                                <Input type="text" className="form-control" id="name" placeholder="Enter Username" />
-                            </FormGroup>
-                            <FormGroup className="col-md-6">
-                                <Label htmlFor="nickname">별명</Label>
-                                <Input type="text" className="form-control" id="nickname" placeholder="Enter Nickname" />
-                            </FormGroup>
-                            <FormGroup className="col-md-6">
-                                <Label htmlFor="name">주민번호</Label>
-                                <div className="bir_yy">
-                                    <span className="ps_box">
-                                        <Input type="text" className="form-control" id="yy" placeholder="년(4자)"/>
+                                <Label htmlFor="sportsName">활동 선택</Label>
+                                <span className="ps_box">
+                                    <select id="mm" aria-label="종목">
+										<option value="sportsName">종목선택</option>
+										  	 			<option value="축구">
+                                                            축구
+                                                        </option>
+										  	 			<option value="풋살">
+                                                            풋살
+                                                        </option>
+										  	 			<option value="배구">
+                                                            배구
+                                                        </option>
+										  	 			<option value="배드민턴">
+                                                            배드민턴
+                                                        </option>
+										  	 			<option value="농구">
+                                                            농구
+                                                        </option>
+										  	 			<option value="탁구">
+                                                            탁구
+                                                        </option>
+										  	
+									</select>
                                     </span>
-                                </div>
-                                <div className="bir_mm">
-                                    <span className="ps_box">
-                                    <select id="mm" aria-label="월">
-										<option value="">월</option>
-										  	 			<option value="01">
-                                                            1
+                            </FormGroup>
+                            <FormGroup className="col-md-6">
+                                <Label htmlFor="location">지역 선택</Label>
+                                <span className="ps_box">
+                                    <select id="mm" aria-label="장소">
+										<option value="location">지역선택</option>
+										  	 			<option value="강남구">
+                                                            강남구
                                                         </option>
-										  	 			<option value="02">
-                                                            2
+										  	 			<option value="강동구">
+                                                            강동구
                                                         </option>
-										  	 			<option value="03">
-                                                            3
+										  	 			<option value="강북구">
+                                                            강북구
                                                         </option>
-										  	 			<option value="04">
-                                                            4
+										  	 			<option value="강서구">
+                                                            강서구
                                                         </option>
-										  	 			<option value="05">
-                                                            5
+										  	 			<option value="관악구">
+                                                            관악구
                                                         </option>
-										  	 			<option value="06">
-                                                            6
+										  	 			<option value="광진구">
+                                                            광진구
                                                         </option>
-										  	 			<option value="07">
-                                                            7
+										  	 			<option value="구로구">
+                                                            구로구
                                                         </option>
-										  	 			<option value="08">
-                                                            8
+										  	 			<option value="금천구">
+                                                            금천구
                                                         </option>
-										  	 			<option value="09">
-                                                            9
+										  	 			<option value="노원구">
+                                                            노원구
                                                         </option>
-										  	 			<option value="10">
-                                                            10
+										  	 			<option value="도봉구">
+                                                            도봉구
                                                         </option>
-										  	 			<option value="11">
-                                                            11
+										  	 			<option value="동대문구">
+                                                            동대문구
                                                         </option>
-										  	 			<option value="12">
-                                                            12
+										  	 			<option value="동작구">
+                                                            동작구
+                                                        </option>
+                                                        <option value="마포구">
+                                                            마포구
+                                                        </option>
+                                                        <option value="서대문구">
+                                                            서대문구
+                                                        </option>
+                                                        <option value="서초구">
+                                                            서초구
+                                                        </option>
+                                                        <option value="성동구">
+                                                            성동구
+                                                        </option>
+                                                        <option value="성북구">
+                                                            성북구
+                                                        </option>
+                                                        <option value="송파구">
+                                                            송파구
+                                                        </option>
+                                                        <option value="양천구">
+                                                            양천구
+                                                        </option>
+                                                        <option value="영등포구">
+                                                            영등포구
+                                                        </option>
+                                                        <option value="용산구">
+                                                            용산구
+                                                        </option>
+                                                        <option value="은평구">
+                                                            은평구
+                                                        </option>
+                                                        <option value="종로구">
+                                                            종로구
+                                                        </option>
+                                                        <option value="중구">
+                                                            중구
+                                                        </option>
+                                                        <option value="중랑구">
+                                                            중랑구
                                                         </option>
 									</select>
                                     </span>
-                                </div>
-                                <div className="bir_dd">
-                                    <span className="ps_box">
-                                        <Input type="text" className="form-control" id="dd" placeholder="일"/>
-                                    </span>
-                                </div>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="sex">성별</Label>
-                                <Input type="text" className="form-control" id="name" placeholder="남자/여자" />
+                                <Label htmlFor="intro">파티 소개글</Label>
+                                <Input type="text" className="form-control" id="intro" placeholder="소개글을 작성해주세요" />
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="name">핸드폰번호</Label>
-                                <Input type="text" className="form-control" id="name" placeholder="Enter Phone Number" />
+                                <Label htmlFor="image">파티 이미지 업로드</Label>
+                                <Input type="text" className="form-control" id="image" placeholder="이미지" />
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Input id="checkbox1" type="checkbox" />
-                                <Label htmlFor="checkbox1"> 약관동의 </Label>
-                            </FormGroup>
-                            <FormGroup className="col-md-6">
-                                <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">회원가입</Button>
-                                <Button type="submit" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                                <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">파티 만들기</Button>
+                                <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
                             </FormGroup>
                         </Form>
                     </Col>
