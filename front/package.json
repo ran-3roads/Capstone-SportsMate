@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-navigation/stack": "^6.2.1",
+    "antd": "^4.19.5",
     "axios": "^0.26.1",
     "bootstrap": "^4.6.0",
     "next": "11.1.2",

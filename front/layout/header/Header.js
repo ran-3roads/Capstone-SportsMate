@@ -15,13 +15,24 @@ import {
   Col,
 } from "reactstrap";
 import logo from "../../assets/images/logos/white-text.png";
+import axios from "axios";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const toggle = () => setIsOpen(!isOpen);
-  return (
-    <div className="topbar" id="top">
+   return (
+    <div className="topbar" id="top" onLoad={function(){
+      if(document.cookie.startsWith("refreshToken")){
+        axios.get("http://localhost:8080/sportsmate/member/public/reissue")
+        .then(function (response) {
+            console.log(response.data)
+        }).catch(function (error) {
+            //error
+            console.log(error);
+        });
+      }
+    }}>
       <div className="header6">
         <Container className="po-relative">
           <Navbar className="navbar-expand-lg h6-nav-bar">
@@ -138,6 +149,32 @@ const Header = () => {
                       }
                     >
                       basic(참고용)
+                    </a>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link href="/party/1/info">
+                    <a
+                      className={
+                        router.pathname == "/party/1/info"
+                          ? "text-white nav-link"
+                          : "nav-link"
+                      }
+                    >
+                      test중
+                    </a>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link href="/party/1/info/modify">
+                    <a
+                      className={
+                        router.pathname == "/party/1/info/modify"
+                          ? "text-white nav-link"
+                          : "nav-link"
+                      }
+                    >
+                      test2중
                     </a>
                   </Link>
                 </NavItem>
