@@ -1,4 +1,4 @@
-package com.capstone.sportsmate.web;
+package com.capstone.sportsmate.jwt;
 
 import lombok.*;
 

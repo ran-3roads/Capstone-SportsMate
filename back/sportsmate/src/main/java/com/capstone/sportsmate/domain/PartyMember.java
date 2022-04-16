@@ -1,13 +1,11 @@
 package com.capstone.sportsmate.domain;
 
+import com.capstone.sportsmate.domain.status.Role;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 import static javax.persistence.FetchType.LAZY;
 

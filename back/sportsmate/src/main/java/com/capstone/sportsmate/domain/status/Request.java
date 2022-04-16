@@ -1,4 +1,4 @@
-package com.capstone.sportsmate.domain;
+package com.capstone.sportsmate.domain.status;
 
 //파티신청
 public enum Request {
