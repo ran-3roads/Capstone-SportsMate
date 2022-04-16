@@ -37,6 +37,9 @@ public class PartyRepository {
         em.persist(partyMember);
         return partyMember.getId();
     }
+    public Party findOne(Long id) {
+        return em.find(Party.class, id);
+    }
     public List<Party> findAllString(PartySearch partySearch){
         String jpql="select p from Party p left join PartyMember s";
         boolean isFirstCondition= true;
@@ -49,7 +52,7 @@ public class PartyRepository {
             } else {
                 jpql += " and";
             }
-            jpql += " s.member.id = :member";
+            jpql += " p = s.party where s.member = :member";
         }
 
         TypedQuery<Party> query = em.createQuery(jpql, Party.class)

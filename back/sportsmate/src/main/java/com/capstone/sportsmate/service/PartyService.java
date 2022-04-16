@@ -24,20 +24,34 @@ public class PartyService {
 
     @Transactional
     public Long mkParty (PartyForm form, Long id){
-        validateDuplicateParty(form);//중복 파티이름 검증
+        validateDuplicateParty(form.getTitle());//중복 파티이름 검증
         Member member= memberRepository.findOne(id);
-        Party party = Party.createParty(form.getSportsName(), form.getTitle(), form.getLocation(), form.getIntro(), LocalDate.now(),0,form.getInfo(),member);
-        JoinPartytoHost(party,member); //파티멤버 추가
+        Party party = Party.createParty(form.getSportsName(), form.getTitle(), form.getLocation(), form.getIntro(), LocalDate.now(),0,form.getInfo());
         partyRepository.save(party); // 파티 저장
+        JoinPartytoHost(party,member); //파티멤버 추가
         return party.getId();
+    }
+
+    @Transactional
+    public void updateParty(Long partyId,String title,String intro,String info,String location){
+        Party findParty = partyRepository.findOne(partyId);
+        if(!title.equals(findParty.getTitle())) { //그전 타이틀과 같은지 확인
+            validateDuplicateParty(title);//중복 파티이름 검증
+        }
+        findParty.setTitle(title);
+        findParty.setIntro(intro);
+        findParty.setInfo(info);
+        findParty.setLocation(location);
+    }
+    public Party findOne(Long partyId){
+        return partyRepository.findOne(partyId);
     }
     private void JoinPartytoHost(Party party, Member member){
         PartyMember partyMember= PartyMember.createPartyMember(member,party, Role.HOST,LocalDate.now());
         partyRepository.mkPartyMember(partyMember);
     }
-
-    private void validateDuplicateParty(PartyForm form) {
-        Party findParty = partyRepository.findByTitle(form.getTitle());
+    private void validateDuplicateParty(String title) {
+        Party findParty = partyRepository.findByTitle(title);
         if(findParty!=null){
             throw new IllegalStateException("이미 존재하는 파티입니다.");
         }

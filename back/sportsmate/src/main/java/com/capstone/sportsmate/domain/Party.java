@@ -15,6 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Table(name="party")
 @Getter
+@Setter
 public class Party {
 
     //entity 컬럼
@@ -40,13 +41,10 @@ public class Party {
     @Column(columnDefinition = "TEXT")
     private String info;//정보탭
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;//방장
 
     // entity 생성
 
-    public static Party createParty(SportsName sportName,String title, String location, String intro, LocalDate sinceDate, int meetCount, String info, Member member) {
+    public static Party createParty(SportsName sportName,String title, String location, String intro, LocalDate sinceDate, int meetCount, String info) {
         Party party = new Party();
         party.sportName = sportName;
         party.title=title;
@@ -55,7 +53,6 @@ public class Party {
         party.sinceDate = sinceDate;
         party.meetCount = meetCount;
         party.info = info;
-        party.member = member;
         return party;
     }
 
