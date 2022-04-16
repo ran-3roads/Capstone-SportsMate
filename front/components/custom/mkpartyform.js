@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import Uploader from './Uploader';
 
 const MkpartyForm = () => {
     return (
@@ -137,8 +138,8 @@ const MkpartyForm = () => {
                                 <Input type="text" className="form-control" id="intro" placeholder="소개글을 작성해주세요" />
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="image">파티 이미지 업로드</Label>
-                                <Input type="text" className="form-control" id="image" placeholder="이미지" />
+                                <Label htmlFor="intro">파티 이미지 업로드</Label>
+                                <Uploader/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">파티 만들기</Button>
