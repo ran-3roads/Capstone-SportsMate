@@ -3,7 +3,7 @@ package com.capstone.sportsmate.service;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.domain.PartyMember;
-import com.capstone.sportsmate.domain.Role;
+import com.capstone.sportsmate.domain.status.Role;
 import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.PartyRepository;
 import com.capstone.sportsmate.repository.PartySearch;

@@ -1,7 +1,7 @@
 package com.capstone.sportsmate.config;
 
 import com.capstone.sportsmate.jwt.JwtFilter;
-import com.capstone.sportsmate.security.TokenProvider;
+import com.capstone.sportsmate.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

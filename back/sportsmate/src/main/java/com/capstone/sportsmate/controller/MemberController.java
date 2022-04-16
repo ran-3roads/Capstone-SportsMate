@@ -4,7 +4,7 @@ import com.capstone.sportsmate.web.LoginForm;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.service.MemberService;
 import com.capstone.sportsmate.web.MemberForm;
-import com.capstone.sportsmate.web.TokenObject;
+import com.capstone.sportsmate.jwt.TokenObject;
 import com.capstone.sportsmate.web.TokenRequestDto;
 import com.capstone.sportsmate.web.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
@@ -78,6 +78,7 @@ public class MemberController {
     public ResponseEntity<TokenObject> reissue(@RequestBody TokenRequestDto tokenRequestDto) {
         return ResponseEntity.ok(memberService.reissue(tokenRequestDto));
     }
+
 //    @ExceptionHandler
 //    public ResponseEntity<LoginErrorResponse> errorHandling(LoginException e) {
 //        LoginErrorResponse response = new LoginErrorResponse();

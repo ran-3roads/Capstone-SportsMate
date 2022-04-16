@@ -1,9 +1,9 @@
 package com.capstone.sportsmate.domain;
 
+import com.capstone.sportsmate.domain.status.Category;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 

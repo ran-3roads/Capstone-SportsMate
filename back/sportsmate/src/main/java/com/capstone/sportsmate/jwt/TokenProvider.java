@@ -1,6 +1,5 @@
-package com.capstone.sportsmate.security;
+package com.capstone.sportsmate.jwt;
 
-import com.capstone.sportsmate.web.TokenObject;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
