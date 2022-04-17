@@ -1,4 +1,4 @@
-package com.capstone.sportsmate.repository;
+package com.capstone.sportsmate.web;
 
 
 import com.capstone.sportsmate.domain.Member;
@@ -9,6 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PartySearch {
-    private Member member;
     private SportsName sportsName;
+    private String location;
 }
