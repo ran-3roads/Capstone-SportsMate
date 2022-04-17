@@ -31,13 +31,14 @@ public class PartyController {
         return party;
     }
 
-    @GetMapping("/{partyId}/edit") //일단은 그냥 id 값 받는걸로 함 추후 security 숙지되면 변경할 예정
+    @GetMapping("/{partyId}/modify") //일단은 그냥 id 값 받는걸로 함 추후 security 숙지되면 변경할 예정
     public Party editParty(@PathVariable("partyId") Long partyId){
         Party party= partyService.findOne(partyId);
         return party;
     }
-    @PostMapping("/{partyId}/edit")
+    @PostMapping("/{partyId}/modify")
     public String updateItem(@RequestBody PartyForm form, @PathVariable("partyId") Long partyId){
+
         partyService.updateParty( partyId,form.getTitle(), form.getIntro(), form.getInfo(),form.getLocation());
         return  "redirect";
     }
