@@ -46,6 +46,9 @@ public class PartyService {
     public Party findOne(Long partyId){
         return partyRepository.findOne(partyId);
     }
+
+//    public boolean
+
     private void JoinPartytoHost(Party party, Member member){
         PartyMember partyMember= PartyMember.createPartyMember(member,party, Role.HOST,LocalDate.now());
         partyRepository.mkPartyMember(partyMember);
