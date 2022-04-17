@@ -21,7 +21,7 @@ public class Party {
 
     @Enumerated(EnumType.STRING)
     @Column(name="sports_name")
-    private SportsName sportName;
+    private SportsName sportsName;
 
     private String location;//위치이름
     private String intro;//간단한 소개
@@ -39,9 +39,9 @@ public class Party {
 
     // entity 생성
 
-    public static Party createParty(SportsName sportName,String title, String location, String intro, LocalDate sinceDate, int meetCount, String info) {
+    public static Party createParty(SportsName sportsName,String title, String location, String intro, LocalDate sinceDate, int meetCount, String info) {
         Party party = new Party();
-        party.sportName = sportName;
+        party.sportsName = sportsName;
         party.title=title;
         party.location = location;
         party.intro = intro;

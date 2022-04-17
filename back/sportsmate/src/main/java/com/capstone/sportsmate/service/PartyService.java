@@ -6,7 +6,7 @@ import com.capstone.sportsmate.domain.PartyMember;
 import com.capstone.sportsmate.domain.status.Role;
 import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.PartyRepository;
-import com.capstone.sportsmate.repository.PartySearch;
+import com.capstone.sportsmate.web.PartySearch;
 import com.capstone.sportsmate.web.PartyForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,8 +46,17 @@ public class PartyService {
     public Party findOne(Long partyId){
         return partyRepository.findOne(partyId);
     }
+    @Transactional
+    public boolean isCheckRole(Long partyId, Long memberId){
+        Party party = partyRepository.findOne(partyId);
+        Member member = memberRepository.findOne(memberId);
+        PartyMember partyMember= partyRepository.isRole(party,member);
+        if(partyMember==null) return false;
+        if(!partyMember.getRole().equals(Role.HOST))return false;
 
-//    public boolean
+        return true;
+    }
+
 
     private void JoinPartytoHost(Party party, Member member){
         PartyMember partyMember= PartyMember.createPartyMember(member,party, Role.HOST,LocalDate.now());
@@ -60,10 +69,12 @@ public class PartyService {
         }
     }
 
-    public List<Party> findParties(Long id) { //멤버가 가입한 파티리스트 출력
+    public List<Party> findMyParties(Long id) { //멤버가 가입한 파티리스트 출력
         PartySearch partySearch= new PartySearch();
         Member member=memberRepository.findOne(id);
-        partySearch.setMember(member);
-        return partyRepository.findAllString(partySearch);
+        return partyRepository.findAllString(partySearch,member);
+    }
+    public List<Party> findSearchParties(PartySearch partySearch) { //멤버가 가입한 파티리스트 출력
+        return partyRepository.SearchParties(partySearch);
     }
 }
