@@ -204,10 +204,45 @@ made by 따봉
       }
   }
 }
+
+//party
+.party_box {
+  padding: 24px 10.6666666667px 40px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border-collapse: collapse;
+  border:3px solid black;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.party_header6 {
+  .navbar-toggler {
+    color: $white;
+  }
+  background-color: gray;
+}
+.party_boxc {
+  display: flex;
+  background-color: white;
+}
+
+.party_header{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
 /******************* 
 made in 경민
 *******************/
 
+.pagination-wrapper {
+  overflow-x:auto;
+}
+
+.pagination {
+  justify-content: center;
+  margin:30px;
+}
 
 .ps_box, .ps_box_disable {
   display: block;

@@ -6,7 +6,7 @@ import Image from "next/image";
 import footballimg from "../../../assets/images/landingpage/football.png";
 import PartySelect from "../../../components/custom/partyselectform";
 
-export default function Info() {
+export default function Board() {
     const router = useRouter();
     const { id } = router.query;
     console.log(id);

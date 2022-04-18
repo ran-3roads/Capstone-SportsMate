@@ -3,8 +3,6 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reac
 import { useState } from 'react';
 import axios from "axios";
 import Popup from './popup';
-import { BrowserRouter as Router, Route, Routes,Link } from "react-router-dom";
-
 const LoginForm = ( ) => {
     const REST_API_KEY = "efb19b8fa4a62908e8d97d87c2f34573";
     const REDIRECT_URI = "http://localhost:3000/auth";
@@ -37,21 +35,15 @@ const LoginForm = ( ) => {
                         })
                         .then(function (response) {
                             if(response.status == 202){
-                            const accessToken = response.headers.authorization;
-
-                            console.log(accessToken);
-
-                            axios.defaults.headers.common['Authorization'] = accessToken;
-                            // document.cookie
-                            console.log(axios.defaults.headers.common['Authorization']);
-                            // setPopup({
-                            //     open: true,
-                            //     title: "Confirm",
-                            //     message: "Join Success!", 
-                            //     callback: function(){
-                            //         document.location.href='/'
-                            //     }
-                            // });
+                            axios.defaults.headers.common['Authorization'] = response.headers.authorization;
+                            setPopup({
+                                 open: true,
+                                 title: "Confirm",
+                                 message: "Join Success!", 
+                                 callback: function(){
+                                     document.location.href='/'
+                                 }
+                            });
                         }
                         }).catch(function (error) {
                             console.log(error);
