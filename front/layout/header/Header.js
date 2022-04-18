@@ -22,17 +22,8 @@ const Header = () => {
   const router = useRouter();
   const toggle = () => setIsOpen(!isOpen);
    return (
-    <div className="topbar" id="top" onLoad={function(){
-      if(document.cookie.startsWith("refreshToken")){
-        axios.get("http://localhost:8080/sportsmate/member/public/reissue")
-        .then(function (response) {
-            console.log(response.data)
-        }).catch(function (error) {
-            //error
-            console.log(error);
-        });
-      }
-    }}>
+    <div className="topbar" id="top"  >
+      
       <div className="header6">
         <Container className="po-relative">
           <Navbar className="navbar-expand-lg h6-nav-bar">

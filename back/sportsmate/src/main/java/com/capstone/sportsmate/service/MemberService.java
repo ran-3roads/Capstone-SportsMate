@@ -75,6 +75,7 @@ public class MemberService {
         RefreshToken refreshToken = RefreshToken.builder()
                 .key(authentication.getName())
                 .value(tokenDto.getRefreshToken())
+                .accessToken(tokenDto.getAccessToken())
                 .build();
 
         refreshTokenRepository.save(refreshToken);
@@ -89,22 +90,21 @@ public class MemberService {
             throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
         }
 
-        // 2. Access Token 에서 Member ID 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-
-
-        // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
+        // 1. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
         RefreshToken findRefreshToken = refreshTokenRepository.findByValue(refreshToken)
                 .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
 
-        // 4. Refresh Token 일치하는지 검사
-        if (!findRefreshToken.getValue().equals(refreshToken)) {
-            throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
-        }
+        // 2. Access Token 에서 Member ID 가져오기
+        Authentication authentication = tokenProvider.getAuthentication(findRefreshToken.getAccessToken());
 
-        // 5. 새로운 토큰 생성
+
+        // 3. 새로운 토큰 생성
         TokenObject tokenDto = tokenProvider.generateTokenDto(authentication);
+
+        // 4. refreshToken에 새로운 accessToken update  jpa에서는 자동으로 entity에반영하고 이를 영속함
+        findRefreshToken.updateAccessToken(tokenDto.getAccessToken());
+
 
         // 토큰 발급
         return tokenDto.getAccessToken();

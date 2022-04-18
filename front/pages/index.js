@@ -1,16 +1,8 @@
 import Head from "next/head";
 import CustomComponents from "../components/custom/Custom-components";
 import React from "react";
-import ReactDOM from "react-dom";
-import axios from "axios";
-
-
-
-axios.defaults.baseURL = "https://localhost:8080/sportsmate";
-axios.defaults.withCredentials = true;
 
 export default function Home() {
-  console.log(axios.defaults.headers.common['Authorization']);
 
   return (
     
