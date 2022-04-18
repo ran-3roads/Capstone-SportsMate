@@ -24,37 +24,42 @@ public class PartyController {
         List<Party> parties = partyService.findMyParties(memberService.getMyInfo().getId());
         return parties;
     }
-    @GetMapping("/search")
+    @GetMapping("/search") //파티 검색
     public List<Party> search(@RequestBody PartySearch form){
         List<Party> parties= partyService.findSearchParties(form);
         return parties;
     }
+    @PostMapping("/{partyId}/join") // 파티 만들기
+    String joinParty(@PathVariable("partyId") Long partyId){
+        partyService.joinParty(partyId,memberService.getMyInfo().getId());
+        return "success";
+    }
 
 
-    @GetMapping("/{partyId}/info") //일단은 그냥 id 값 받는걸로 함 추후 security 숙지되면 변경할 예정
+    @GetMapping("/{partyId}/info")
     public Party viewParty(@PathVariable("partyId") Long partyId){
         Party party= partyService.findOne(partyId);
         return party;
     }
 
-    @GetMapping("/{partyId}/modify") //일단은 그냥 id 값 받는걸로 함 추후 security 숙지되면 변경할 예정
+    @GetMapping("/{partyId}/info/modify")
     public Party editParty(@PathVariable("partyId") Long partyId){
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
-            throw new MyRoleException("수정 권한이 없습니다.");
+            throw new MyRoleException("수정 권한이 없습니다."); //exception 리턴타입 수정해야함
         }
         Party party= partyService.findOne(partyId);
         return party;
     }
-    @PostMapping("/{partyId}/modify")
+    @PostMapping("/{partyId}/modify") // 방장 권한이 있는 유저만 검색가능
     public String updateItem(@RequestBody PartyForm form, @PathVariable("partyId") Long partyId){
-        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
+        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){ //exception 리턴타입 수정해야함
             throw new MyRoleException("수정 권한이 없습니다.");
         }
         partyService.updateParty( partyId,form.getTitle(), form.getIntro(), form.getInfo(),form.getLocation());
         return  "redirect";
     }
 
-    @PostMapping("/mkparty")
+    @PostMapping("/mkparty") // 파티 만들기
     String createParty(@RequestBody PartyForm form){
         partyService.mkParty(form,memberService.getMyInfo().getId());
         return "success";
