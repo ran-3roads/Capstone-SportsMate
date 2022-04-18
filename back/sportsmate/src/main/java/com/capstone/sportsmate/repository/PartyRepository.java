@@ -1,6 +1,7 @@
 package com.capstone.sportsmate.repository;
 
 
+import com.capstone.sportsmate.domain.Apply;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.domain.PartyMember;
@@ -45,6 +46,18 @@ public class PartyRepository {
             return null;
         }
         return partyMember;
+    }
+    public Apply findByApply(Party party, Member member){
+        Apply apply;
+        try {
+            apply = em.createQuery("select a from Apply a where a.member=:member and a.party=:party", Apply.class)
+                    .setParameter("member", member)
+                    .setParameter("party", party)
+                    .getSingleResult();
+        } catch(NoResultException e){
+            return null;
+        }
+        return apply;
     }
 
     public Long mkPartyMember(PartyMember partyMember){

@@ -1,5 +1,6 @@
 package com.capstone.sportsmate.service;
 
+import com.capstone.sportsmate.domain.Apply;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.domain.PartyMember;
@@ -27,6 +28,17 @@ public class PartyService {
         validateDuplicateParty(form.getTitle());//중복 파티이름 검증
         Member member= memberRepository.findOne(id);
         Party party = Party.createParty(form.getSportsName(), form.getTitle(), form.getLocation(), form.getIntro(), LocalDate.now(),0,form.getInfo());
+        partyRepository.save(party); // 파티 저장
+        JoinPartytoHost(party,member); //파티멤버 추가
+        return party.getId();
+    }
+    @Transactional
+    public Long joinParty (Long partyId, Long memberId){
+        Member member= memberRepository.findOne(memberId);
+        Party party= partyRepository.findOne(partyId);
+        validateDuplicateApply(party,member);
+
+
         partyRepository.save(party); // 파티 저장
         JoinPartytoHost(party,member); //파티멤버 추가
         return party.getId();
@@ -66,6 +78,12 @@ public class PartyService {
         Party findParty = partyRepository.findByTitle(title);
         if(findParty!=null){
             throw new IllegalStateException("이미 존재하는 파티입니다.");
+        }
+    }
+    private void validateDuplicateApply(Party party,Member member) {
+        Apply apply = partyRepository.findByApply(party,member);
+        if(apply!=null){
+            throw new IllegalStateException("이미 신청했던 파티입니다.");
         }
     }
 
