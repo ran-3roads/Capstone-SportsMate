@@ -5,6 +5,7 @@ import com.capstone.sportsmate.domain.Apply;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.domain.PartyMember;
+import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.web.PartySearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -64,6 +65,14 @@ public class PartyRepository {
         em.persist(partyMember);
         return partyMember.getId();
     }
+    public Long saveApply(Apply apply){
+        em.persist(apply);
+        return apply.getId();
+    }
+    public Long saveNotice(Notice notice){
+        em.persist(notice);
+        return notice.getId();
+    }
     public Party findOne(Long id) {
         return em.find(Party.class, id);
     }
@@ -99,5 +108,6 @@ public class PartyRepository {
         }
         return query.getResultList();
     }
+
 }
 

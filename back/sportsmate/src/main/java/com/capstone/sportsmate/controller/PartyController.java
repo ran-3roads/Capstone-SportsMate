@@ -2,6 +2,7 @@ package com.capstone.sportsmate.controller;
 
 
 import com.capstone.sportsmate.domain.Party;
+import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.exception.MyRoleException;
 import com.capstone.sportsmate.web.PartySearch;
 import com.capstone.sportsmate.service.MemberService;
@@ -29,12 +30,11 @@ public class PartyController {
         List<Party> parties= partyService.findSearchParties(form);
         return parties;
     }
-    @PostMapping("/{partyId}/join") // 파티 만들기
+    @PostMapping("/{partyId}/join") // 파티참가
     String joinParty(@PathVariable("partyId") Long partyId){
         partyService.joinParty(partyId,memberService.getMyInfo().getId());
         return "success";
     }
-
 
     @GetMapping("/{partyId}/info")
     public Party viewParty(@PathVariable("partyId") Long partyId){
@@ -64,4 +64,5 @@ public class PartyController {
         partyService.mkParty(form,memberService.getMyInfo().getId());
         return "success";
     }
+
 }
