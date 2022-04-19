@@ -5,6 +5,7 @@ import React from 'react';
 import Image from "next/image";
 import footballimg from "../../../assets/images/landingpage/football.png";
 import PartySelect from "../../../components/custom/partyselectform";
+import PostMain from "../../../components/custom/board_post/PostMain";
 
 export default function Board() {
     const router = useRouter();
@@ -36,13 +37,9 @@ export default function Board() {
                       </Col>
                       <div className="guide_margin">
                       <div className="party_box">
-                        <div className="party_boxc">
-                        <div className='mImage'>
-                              <span className='mInner'>
-                              <Image src={footballimg} alt="모임사진"/>
-                              </span>
-                          </div>
-                        </div>
+                        
+                          <PostMain/>
+                       
                       </div>
                       </div>
                   </Row> 

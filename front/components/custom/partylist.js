@@ -285,7 +285,7 @@ const PList = () => {
                     ).map(p => {
                         return (
                             <li className='mItem'>
-                                <Link href={`/party/${p.party_id}/info`}>
+                                <Link href={`/party/${p.party_id}/intro`}>
                                     <div className='mUri' >
                                         <div class ="mcover">
                                             <div className='mImage'>
