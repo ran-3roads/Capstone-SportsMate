@@ -11,26 +11,26 @@ import java.time.LocalDate;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Entity
-@Table(name = "notice")
-@Getter
-@DiscriminatorColumn(name = "DTYPE")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class Notice {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="notice_id")
-    private Long id;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name="notice_status")
-    private NoticeStatus noticeStatus;
-
-    @Column(name="since_date")
-    private LocalDate sinceDate;//가입날짜
-
-}
+//@Entity
+//@Table(name = "notice")
+//@Getter
+//@DiscriminatorColumn(name = "DTYPE")
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//public abstract class Notice {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name="notice_id")
+//    private Long id;
+//
+//    @ManyToOne(fetch = LAZY)
+//    @JoinColumn(name = "member_id")
+//    private Member member;
+//
+//    @Enumerated(EnumType.STRING)
+//    @Column(name="notice_status")
+//    private NoticeStatus noticeStatus;
+//
+//    @Column(name="since_date")
+//    private LocalDate sinceDate;//가입날짜
+//
+//}
