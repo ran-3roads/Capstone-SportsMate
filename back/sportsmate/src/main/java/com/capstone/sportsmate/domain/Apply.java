@@ -1,6 +1,7 @@
 package com.capstone.sportsmate.domain;
 
 
+import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.domain.status.Request;
 import lombok.Getter;
 
@@ -33,6 +34,9 @@ public class Apply {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="party_id")
     private Party party;
+
+    @OneToOne(mappedBy = "apply")
+    private Notice notice;
 
     // entity 생성
 

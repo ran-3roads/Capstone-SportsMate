@@ -4,6 +4,9 @@ import com.capstone.sportsmate.domain.Apply;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.domain.PartyMember;
+import com.capstone.sportsmate.domain.notice.Notice;
+import com.capstone.sportsmate.domain.status.NoticeStatus;
+import com.capstone.sportsmate.domain.status.Request;
 import com.capstone.sportsmate.domain.status.Role;
 import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.PartyRepository;
@@ -38,9 +41,13 @@ public class PartyService {
         Party party= partyRepository.findOne(partyId);
         validateDuplicateApply(party,member);
 
+        Member hostMember=memberRepository.findPartyHost(party);//해당 파티의 host 찾기
+        Apply apply=Apply.createApply(Request.WAITING,LocalDate.now(),member,party);//apply 생성
+        partyRepository.saveApply(apply);
+        Notice notice=Notice.createNotice(hostMember, NoticeStatus.UNCONFIRM,LocalDate.now(),apply);//notice 생성
+        partyRepository.saveNotice(notice);
+        // 레포짓에 지원서 넣기 구현
 
-        partyRepository.save(party); // 파티 저장
-        JoinPartytoHost(party,member); //파티멤버 추가
         return party.getId();
     }
 
@@ -58,6 +65,7 @@ public class PartyService {
     public Party findOne(Long partyId){
         return partyRepository.findOne(partyId);
     }
+
     @Transactional
     public boolean isCheckRole(Long partyId, Long memberId){
         Party party = partyRepository.findOne(partyId);
@@ -69,6 +77,10 @@ public class PartyService {
         return true;
     }
 
+    private void JoinPartytoMember(Party party, Member member){
+        PartyMember partyMember= PartyMember.createPartyMember(member,party, Role.MEMBER,LocalDate.now());
+        partyRepository.mkPartyMember(partyMember);
+    }
 
     private void JoinPartytoHost(Party party, Member member){
         PartyMember partyMember= PartyMember.createPartyMember(member,party, Role.HOST,LocalDate.now());
@@ -86,6 +98,7 @@ public class PartyService {
             throw new IllegalStateException("이미 신청했던 파티입니다.");
         }
     }
+
 
     public List<Party> findMyParties(Long id) { //멤버가 가입한 파티리스트 출력
         PartySearch partySearch= new PartySearch();

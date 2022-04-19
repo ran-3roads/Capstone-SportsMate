@@ -48,5 +48,4 @@ public class Notice {
         notice.sinceDate=sinceDate;
         notice.apply=apply;
         return notice;
-    }
-}
+    }}
