@@ -234,6 +234,9 @@ made by 따봉
 /******************* 
 made in 경민
 *******************/
+select option[value=""][disabled] {
+	display: none;
+}
 
 .pagination-wrapper {
   overflow-x:auto;
