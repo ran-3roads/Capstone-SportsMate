@@ -33,14 +33,8 @@ const PartySelect = () => {
                   </Link>
                   </div>
                   <div>
-                  <Link href="/party/board">
-                    <a
-                      className={
-                        router.pathname == "/party/board"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
+                  <Link href="../../../pages/party/[id]/board">
+                    <a>
                       게시판
                     </a>
                   </Link>

@@ -1,7 +1,57 @@
 /**
 made by 따봉
 **/
+//table_css
+.common-table {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  border-spacing: 0;
+}
 
+.common-table-header-column {
+  border-bottom: 1px solid #e8e8e8;
+  padding: 0;
+  font-size: 16px;
+  padding: 10px 5px;
+  font-weight: bold;
+}
+
+.common-table-row:hover {
+  background-color: #eceaea;
+  cursor: pointer;
+}
+
+.common-table-column {
+  padding: 10px 5px;
+}
+//post_css
+.post-view-wrapper {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.post-view-go-list-btn {
+  border: 0;
+  padding: 10px;
+  background-color: #ffd9d9;
+}
+
+.post-view-row {
+  margin: 10px 0;
+  display: flex;
+}
+
+.post-view-row > label:first-child {
+  margin: 10px 0;
+  width: 30%;
+  font-weight: bold;
+}
+
+.post-view-row > *:nth-child(2) {
+  margin: 10px 0;
+  width: 70%;
+}
 //container
 #container {
   position: relative;
