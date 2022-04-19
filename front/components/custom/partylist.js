@@ -153,7 +153,6 @@ const PList = () => {
     ];
 
     const pagesCount = Math.ceil(partys.length / pageSize);
-    
     return (
         <div>
             <div className="spacer" id="pagination-component">
