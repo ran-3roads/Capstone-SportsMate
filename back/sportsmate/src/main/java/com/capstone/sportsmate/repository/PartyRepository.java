@@ -65,14 +65,6 @@ public class PartyRepository {
         em.persist(partyMember);
         return partyMember.getId();
     }
-    public Long saveApply(Apply apply){
-        em.persist(apply);
-        return apply.getId();
-    }
-    public Long saveNotice(Notice notice){
-        em.persist(notice);
-        return notice.getId();
-    }
     public Party findOne(Long id) {
         return em.find(Party.class, id);
     }

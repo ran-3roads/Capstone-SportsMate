@@ -1,5 +1,6 @@
 package com.capstone.sportsmate.repository;
 
+import com.capstone.sportsmate.domain.Apply;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.domain.notice.Notice;
@@ -44,5 +45,13 @@ public class NoticeRepository {
             return null;
         }
         return authNotice;
+    }
+    public Long saveApply(Apply apply){
+        em.persist(apply);
+        return apply.getId();
+    }
+    public Long saveNotice(Notice notice){
+        em.persist(notice);
+        return notice.getId();
     }
 }
