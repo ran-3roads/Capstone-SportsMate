@@ -1,6 +1,7 @@
 package com.capstone.sportsmate.domain;
 
 import com.capstone.sportsmate.domain.status.Category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -30,10 +31,12 @@ public class PartyBoard {
     @Column(name="since_date")
     private LocalDate sinceDate;
 
+    @JsonIgnore //controller가 리턴할때 제외함 해야지 현재또는 오류에서 벗어남
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "party_id")
     private Party party;
@@ -49,5 +52,11 @@ public class PartyBoard {
         partyBoard.member = member;
         partyBoard.party = party;
         return partyBoard;
+    }
+    public void updatePartyBoard(Category category,String title, String contents,LocalDate sinceDate){
+       this.category = category;
+       this.title = title;
+       this.contents = contents;
+       this.sinceDate = sinceDate;
     }
 }

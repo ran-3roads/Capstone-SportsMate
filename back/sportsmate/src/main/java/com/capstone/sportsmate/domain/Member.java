@@ -3,6 +3,7 @@ package com.capstone.sportsmate.domain;
 
 import com.capstone.sportsmate.domain.status.Authority;
 import com.capstone.sportsmate.domain.status.Sex;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Member {
 
     //entity 컬럼
     @Id
+    @JsonIgnore//정보교환할때 이항목은 제외됨 중요정보기에 제외함 일단 테스트 사마 넣어두고 정삭작동하면 다른 중요정보도 그렇게 적용할 예정
     @Column(name="member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
