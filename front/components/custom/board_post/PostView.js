@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getPostByNo } from './Data';
-import './Post.css';
+
 
 const PostView = ({ history, location, match }) => {
   const [ data, setData ] = useState({});

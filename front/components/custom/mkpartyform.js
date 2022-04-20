@@ -1,8 +1,10 @@
 import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import Uploader from './Uploader';
+import { Spin } from 'antd';
+import 'antd/dist/antd.css';
 import { useState } from 'react';
 import axios from 'axios';
+
 const party = {
     'sportsName':'',
     'location' : '',
@@ -10,7 +12,7 @@ const party = {
     'title':''
 }
 
-const MkpartyForm = () => {
+const MkpartyForm = (props) => {
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
  
     const[sportsName,setSportsName]=useState(party.sportsName);
@@ -35,6 +37,44 @@ const MkpartyForm = () => {
         console.log(e.target.value)
         setTitle(e.target.value)
     }
+    console.log(props)
+  const [image, setImage] = useState({
+    image_file: "",
+    preview_URL: "img/default_image.png",
+  });
+
+  const [loaded, setLoaded] = useState(false);
+
+  let inputRef;
+
+  const saveImage = (e) => {
+    e.preventDefault();
+    const fileReader = new FileReader();
+    
+    if(e.target.files[0]){
+      setLoaded("loading")
+      fileReader.readAsDataURL(e.target.files[0])
+    }
+    fileReader.onload = () => {
+      setImage(
+        {
+          image_file: e.target.files[0],
+          preview_URL: fileReader.result
+        }
+      )
+      setLoaded(true);
+    }
+    
+  }
+
+  const deleteImage = () => {
+    setImage({
+      image_file: "",
+      preview_URL: "img/default_image.png",
+    });
+    setLoaded(false);
+  }
+
     return (
         <div>
             <div className="spacer" id="forms-component">
@@ -52,16 +92,22 @@ const MkpartyForm = () => {
                     <Col md="12">
                         <Form className="col" id="mkpartyForm" onSubmit={function (event) {
                             event.preventDefault();
-                            
+                            const formData = new FormData()
+                            formData.append('file', image.image_file);
                             axios.post("http://localhost:8080/sportsmate/party/mkparty", {
                                     title: event.target.title.value,
                                     sportsName: event.target.sportsName.value,
                                     intro: event.target.intro.value, 
                                     info: 'null',
                                     location: event.target.location.value
-                                })
+                                },formData)
                                 .then(function (response) {
                                     //받는거
+                                    setImage({
+                                        image_file: "",
+                                        preview_URL: "img/default_image.png",
+                                      });
+                                      setLoaded(false);
                                     if(response.status == 200){
                                         setPopup({
                                             open: true,
@@ -196,7 +242,28 @@ const MkpartyForm = () => {
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="intro">파티 이미지 업로드</Label>
-                                <Uploader/>
+                                <div className="uploader-wrapper">
+                                <div className="upload-button">
+                                        <Button className="btn btn-success waves-effect waves-light m-r-10" onClick={() => inputRef.click()}>
+                                            이미지 가져오기
+                                        </Button>
+                                        <Button  className="btn btn-success waves-effect waves-light m-r-10" onClick={deleteImage} danger>
+                                            이미지 제거
+                                        </Button>
+                                    </div>
+                                    <input type="file" accept="image/*"
+                                        onChange={saveImage}
+                                        ref={refParam => inputRef = refParam}
+                                        style={{ display: "none" }}
+                                    />
+                                    <div className="img-wrapper">
+                                        {loaded === false || loaded === true ? (
+                                        <img src={image.preview_URL} />
+                                    ) : (
+                                        <Spin className="img-spinner" tip = "이미지 불러오는중"/>
+                                    )}
+                                    </div>
+                                 </div>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">파티 만들기</Button>
