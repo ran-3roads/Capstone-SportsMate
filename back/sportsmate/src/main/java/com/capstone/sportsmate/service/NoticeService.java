@@ -2,17 +2,20 @@ package com.capstone.sportsmate.service;
 
 import com.capstone.sportsmate.domain.Apply;
 import com.capstone.sportsmate.domain.Member;
-import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.domain.PartyMember;
 import com.capstone.sportsmate.domain.notice.Notice;
+import com.capstone.sportsmate.domain.status.NoticeStatus;
+import com.capstone.sportsmate.domain.status.Request;
 import com.capstone.sportsmate.domain.status.Role;
 import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.NoticeRepository;
 import com.capstone.sportsmate.repository.PartyRepository;
+import com.capstone.sportsmate.web.ApplyForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -28,7 +31,8 @@ public class NoticeService {
     @Transactional
     public List<Notice> findMyNotices(Long memberId){ // Notice 관련 소스코드
         Member member=memberRepository.findOne(memberId);
-        return noticeRepository.findNotices(member);
+
+        return  noticeRepository.findNotices(member);
     }
     @Transactional
     public Boolean isRoute(Long noticeId,Long memberId){
@@ -41,8 +45,35 @@ public class NoticeService {
         }
         return true;
     }
-    public Apply confirmApply(Long noticeId){
+    public ApplyForm getNoticeApply(Long noticeId){
         Notice notice = noticeRepository.findOne(noticeId);
-        return notice.getApply();
+        notice.setNoticeStatus(NoticeStatus.CONFIRM); //읽음 처리
+
+        ApplyForm applyForm= new ApplyForm();
+        Apply apply = notice.getApply();
+        //================지원자 정보 =================//
+        applyForm.setPartyTitle(apply.getParty().getTitle());
+        applyForm.setMemberName(apply.getMember().getName());
+        applyForm.setMemberEmail(apply.getMember().getEmail());
+        applyForm.setSinceDate(apply.getSinceDate());
+        applyForm.setState(apply.getState());
+
+        return applyForm;
+    }
+    @Transactional
+    public void acceptApply(long noticeId){
+        Notice notice = noticeRepository.findOne(noticeId);
+        Apply apply= notice.getApply();
+
+        PartyMember partyMember= PartyMember.createPartyMember(apply.getMember(),apply.getParty(), Role.MEMBER, LocalDate.now());
+        apply.setState(Request.ACCEPT);
+
+        partyRepository.mkPartyMember(partyMember);
+    }
+    public void rejectApply(long noticeId){
+        Notice notice = noticeRepository.findOne(noticeId);
+        Apply apply= notice.getApply();
+
+        apply.setState(Request.REJECT);
     }
 }

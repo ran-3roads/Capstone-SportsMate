@@ -3,7 +3,9 @@ package com.capstone.sportsmate.domain;
 
 import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.domain.status.Request;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,7 +14,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "apply")
-@Getter
+@Getter@Setter
 public class Apply {
 
     //entity 컬럼
@@ -27,16 +29,16 @@ public class Apply {
     @Column(name="since_date")
     private LocalDate sinceDate;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="party_id")
     private Party party;
 
-    @OneToOne(mappedBy = "apply")
-    private Notice notice;
 
     // entity 생성
 
