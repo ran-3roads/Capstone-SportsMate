@@ -3,6 +3,7 @@ package com.capstone.sportsmate.repository;
 import com.capstone.sportsmate.domain.Apply;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Party;
+import com.capstone.sportsmate.domain.Reply;
 import com.capstone.sportsmate.domain.notice.Notice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -46,9 +47,25 @@ public class NoticeRepository {
         }
         return authNotice;
     }
+    public Apply findByApply(Party party, Member member){
+        Apply apply;
+        try {
+            apply = em.createQuery("select a from Apply a where a.member=:member and a.party=:party", Apply.class)
+                    .setParameter("member", member)
+                    .setParameter("party", party)
+                    .getSingleResult();
+        } catch(NoResultException e){
+            return null;
+        }
+        return apply;
+    }
     public Long saveApply(Apply apply){
         em.persist(apply);
         return apply.getId();
+    }
+    public Long saveReply(Reply reply){
+        em.persist(reply);
+        return reply.getId();
     }
     public Long saveNotice(Notice notice){
         em.persist(notice);
