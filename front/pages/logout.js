@@ -5,7 +5,7 @@ export default function Logout() {
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
     axios.get("http://localhost:8080/sportsmate/member/logout")
     .then(function (response) {
-        if(response.status == 202){
+        if(response.status == 200){
         axios.defaults.headers.common['Authorization'] = null;
         setPopup({
             open: true,
