@@ -37,7 +37,7 @@ export default function Board() {
                       </Col>
                       <div className="guide_margin">
                       <div className="party_box">
-                          <PostMain/>
+                          <PostMain id={`${id}`}/>
                       </div>
                       </div>
                   </Row> 

@@ -4,7 +4,7 @@ import { Spin } from 'antd';
 import 'antd/dist/antd.css';
 import { useState } from 'react';
 import axios from 'axios';
-
+import Popup from './popup';
 const party = {
     'sportsName':'',
     'location' : '',
@@ -77,6 +77,7 @@ const MkpartyForm = (props) => {
 
     return (
         <div>
+            <Popup open = {popup.open} setPopup = {setPopup} message = {popup.message} title = {popup.title} callback = {popup.callback}/>
             <div className="spacer" id="forms-component">
                 <Container>
                     <Row className="justify-content-center">
@@ -100,14 +101,17 @@ const MkpartyForm = (props) => {
                                     intro: event.target.intro.value, 
                                     info: 'null',
                                     location: event.target.location.value
-                                },formData)
+                                }/*,formData 나중에해*/)
                                 .then(function (response) {
                                     //받는거
+                                    /*
+                                    이미지나중에해
                                     setImage({
                                         image_file: "",
                                         preview_URL: "img/default_image.png",
                                       });
                                       setLoaded(false);
+                                      */
                                     if(response.status == 200){
                                         setPopup({
                                             open: true,

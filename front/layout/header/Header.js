@@ -16,14 +16,52 @@ import {
 } from "reactstrap";
 import logo from "../../assets/images/logos/white-text.png";
 import axios from "axios";
+import cookie from 'react-cookies';
+import cookies from "next-cookies";
+
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState('false');
   const router = useRouter();
   const toggle = () => setIsOpen(!isOpen);
+  const coa = cookie.loadAll();
+  const allCookies = cookies(coa);
+  const refreshTokenByCookie = allCookies['refreshToken'];
+  let LoginNav = null;
+  if(refreshTokenByCookie!=undefined){
+    console.log("로그인중임")
+    LoginNav = <NavItem>
+    <Link href="/logout">
+      <a
+        className={
+          router.pathname == "/logout"
+            ? "text-white nav-link"
+            : "nav-link"
+        }
+      >
+        로그아웃                   </a>
+    </Link>
+  </NavItem>
+  }
+  else{
+    console.log("로그인중아님")
+    LoginNav = <NavItem>
+    <Link href="/login">
+      <a
+        className={
+          router.pathname == "/login"
+            ? "text-white nav-link"
+            : "nav-link"
+        }
+      >
+        로그인                    </a>
+    </Link>
+    </NavItem>
+  }
    return (
     <div className="topbar" id="top"  >
-      
+
       <div className="header6">
         <Container className="po-relative">
           <Navbar className="navbar-expand-lg h6-nav-bar">
@@ -40,18 +78,7 @@ const Header = () => {
               id="h6-info"
             >
               <Nav navbar className="ml-test">
-                <NavItem>
-                  <Link href="/login">
-                    <a
-                      className={
-                        router.pathname == "/login"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
-                      로그인                    </a>
-                  </Link>
-                </NavItem>
+                {LoginNav}
                 <NavItem>
                   <Link href="/signup">
                     <a

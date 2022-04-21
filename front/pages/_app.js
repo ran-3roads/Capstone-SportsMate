@@ -8,7 +8,6 @@ axios.defaults.withCredentials = true;
 
 const coa = cookie.loadAll();
 const allCookies = cookies(coa);
-console.log(allCookies);
 const refreshTokenByCookie = allCookies['refreshToken'];
 if(refreshTokenByCookie!=undefined){
 axios.get("http://localhost:8080/sportsmate/member/public/reissue")
