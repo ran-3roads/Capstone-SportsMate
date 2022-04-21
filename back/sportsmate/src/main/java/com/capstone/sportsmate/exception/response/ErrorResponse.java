@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginErrorResponse {
+public class ErrorResponse {
     private int statusCode;
 
     private String message;

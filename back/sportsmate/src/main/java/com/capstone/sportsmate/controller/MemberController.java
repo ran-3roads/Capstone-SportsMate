@@ -1,5 +1,7 @@
 package com.capstone.sportsmate.controller;
 
+import com.capstone.sportsmate.exception.LoginException;
+import com.capstone.sportsmate.exception.response.ErrorResponse;
 import com.capstone.sportsmate.jwt.JwtFilter;
 import com.capstone.sportsmate.web.LoginForm;
 import com.capstone.sportsmate.domain.Member;
@@ -89,8 +91,8 @@ public class MemberController {
     }
 
 //    @ExceptionHandler
-//    public ResponseEntity<LoginErrorResponse> errorHandling(LoginException e) {
-//        LoginErrorResponse response = new LoginErrorResponse();
+//    public ResponseEntity<ErrorResponse> errorHandling(LoginException e) {
+//        ErrorResponse response = new ErrorResponse();
 //        response.setStatusCode(HttpStatus.NOT_FOUND.value());
 //        response.setMessage(e.getMessage());
 //        response.setTimestamp(System.currentTimeMillis());

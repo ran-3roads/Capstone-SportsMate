@@ -6,9 +6,11 @@ import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.domain.PartyMember;
 import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.domain.status.NoticeStatus;
+import com.capstone.sportsmate.domain.status.NoticeType;
 import com.capstone.sportsmate.domain.status.Request;
 import com.capstone.sportsmate.domain.status.Role;
 import com.capstone.sportsmate.repository.MemberRepository;
+import com.capstone.sportsmate.repository.NoticeRepository;
 import com.capstone.sportsmate.repository.PartyRepository;
 import com.capstone.sportsmate.web.PartySearch;
 import com.capstone.sportsmate.web.PartyForm;
@@ -25,6 +27,7 @@ import java.util.List;
 public class PartyService {
     private final MemberRepository memberRepository;
     private final PartyRepository partyRepository;
+    private final NoticeRepository noticeRepository;
 
     @Transactional
     public Long mkParty (PartyForm form, Long id){
@@ -43,10 +46,11 @@ public class PartyService {
 
         Member hostMember=memberRepository.findPartyHost(party);//해당 파티의 host 찾기
         Apply apply=Apply.createApply(Request.WAITING,LocalDate.now(),member,party);//apply 생성
-        partyRepository.saveApply(apply);
-        Notice notice=Notice.createNotice(hostMember, NoticeStatus.UNCONFIRM,LocalDate.now(),apply);//notice 생성
-        partyRepository.saveNotice(notice);
-        // 레포짓에 지원서 넣기 구현
+        Notice notice=Notice.createNotice(hostMember,NoticeType.APPLY, NoticeStatus.UNCONFIRM,LocalDate.now());//notice 생성
+        notice.setApply(apply);
+        notice.setReply(null);
+        noticeRepository.saveApply(apply);
+        noticeRepository.saveNotice(notice);
 
         return party.getId();
     }
@@ -93,7 +97,7 @@ public class PartyService {
         }
     }
     private void validateDuplicateApply(Party party,Member member) {
-        Apply apply = partyRepository.findByApply(party,member);
+        Apply apply = noticeRepository.findByApply(party,member);
         if(apply!=null){
             throw new IllegalStateException("이미 신청했던 파티입니다.");
         }

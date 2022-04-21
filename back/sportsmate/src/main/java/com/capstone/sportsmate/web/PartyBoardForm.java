@@ -8,8 +8,6 @@ import lombok.Getter;
 @Getter
 public class PartyBoardForm {
 
-    private Long id;
-
     private Category category;
 
     private String title;

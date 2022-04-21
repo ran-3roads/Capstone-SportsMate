@@ -1,6 +1,7 @@
 package com.capstone.sportsmate.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,10 +25,12 @@ public class Comment {
     @Column(name="since_date")
     private LocalDate sinceDate;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "party_board_id")
     private PartyBoard partyBoard;
@@ -41,4 +44,8 @@ public class Comment {
         return comment;
     }
 
+    public void updateComment(String contents,LocalDate sinceDate) {
+        this.contents = contents;
+        this.sinceDate = sinceDate;
+    }
 }

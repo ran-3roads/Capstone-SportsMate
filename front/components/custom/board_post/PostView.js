@@ -1,3 +1,4 @@
+
 const PostView = ({board_id},{ history }) => {
   const exam={
     "no": board_id,
@@ -44,5 +45,4 @@ const PostView = ({board_id},{ history }) => {
     </div>
   )
 }
-
 export default PostView;
