@@ -48,6 +48,7 @@ public class PartyService {
         Apply apply=Apply.createApply(Request.WAITING,LocalDate.now(),member,party);//apply 생성
         Notice notice=Notice.createNotice(hostMember,NoticeType.APPLY, NoticeStatus.UNCONFIRM,LocalDate.now());//notice 생성
         notice.setApply(apply);
+        notice.setReply(null);
         noticeRepository.saveApply(apply);
         noticeRepository.saveNotice(notice);
 
@@ -96,7 +97,7 @@ public class PartyService {
         }
     }
     private void validateDuplicateApply(Party party,Member member) {
-        Apply apply = partyRepository.findByApply(party,member);
+        Apply apply = noticeRepository.findByApply(party,member);
         if(apply!=null){
             throw new IllegalStateException("이미 신청했던 파티입니다.");
         }

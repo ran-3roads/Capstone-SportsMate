@@ -3,6 +3,7 @@ package com.capstone.sportsmate.domain.notice;
 import com.capstone.sportsmate.domain.Apply;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Party;
+import com.capstone.sportsmate.domain.Reply;
 import com.capstone.sportsmate.domain.status.NoticeStatus;
 import com.capstone.sportsmate.domain.status.NoticeType;
 import com.capstone.sportsmate.domain.status.Request;
@@ -20,7 +21,7 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "notice")
 @Getter@Setter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Notice {
+public class Notice { // 알림 Entity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="notice_id")
@@ -44,8 +45,13 @@ public class Notice {
 
     @JsonIgnore
     @OneToOne(fetch = LAZY)
-    @JoinColumn(name="apply_id")
+    @JoinColumn(name="apply_id") // 지원서
     private Apply apply;
+
+    @JsonIgnore
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name="reply_id") // 지원서에 대한 응답
+    private Reply reply;
 
 
     public static Notice createNotice(Member member,NoticeType noticeType, NoticeStatus noticeStatus, LocalDate sinceDate) {

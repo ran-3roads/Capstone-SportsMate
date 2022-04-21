@@ -48,18 +48,6 @@ public class PartyRepository {
         }
         return partyMember;
     }
-    public Apply findByApply(Party party, Member member){
-        Apply apply;
-        try {
-            apply = em.createQuery("select a from Apply a where a.member=:member and a.party=:party", Apply.class)
-                    .setParameter("member", member)
-                    .setParameter("party", party)
-                    .getSingleResult();
-        } catch(NoResultException e){
-            return null;
-        }
-        return apply;
-    }
 
     public Long mkPartyMember(PartyMember partyMember){
         em.persist(partyMember);
