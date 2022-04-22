@@ -13,12 +13,16 @@ import com.capstone.sportsmate.repository.PartyRepository;
 import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.CommentForm;
 import com.capstone.sportsmate.web.PartyBoardForm;
+import com.capstone.sportsmate.web.response.CommentResponse;
+import com.capstone.sportsmate.web.response.PartyBoardResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
@@ -34,14 +38,14 @@ public class PartyBoardService {
     // --------------------파티 보드--------------------
 
     //----------조회----------
-    public List<PartyBoard> getPartyBoardList(Long partyId){//partyboard 리스트 리턴
+    public List<PartyBoardResponse> getPartyBoardList(Long partyId){//partyboard 리스트 리턴
         Party party = partyRepository.findOne(partyId);
-        return partyBoardRepository.findByParty(party);
+        return partyBoardRepository.findByParty(party).stream().map(PartyBoard::toPartyBoardResponse).collect(Collectors.toList());
     }
 
-    public PartyBoard getPartyBoard(Long PartyBoardId){//파티보드 조회
+    public PartyBoardResponse getPartyBoard(Long PartyBoardId){//파티보드 조회
         return partyBoardRepository.findById(PartyBoardId)
-                .orElseThrow(() -> new NotFoundEntityException("지워진 게시판입니다."));
+                .orElseThrow(() -> new NotFoundEntityException("지워진 게시판입니다.")).toPartyBoardResponse();
     }
     //----------생성----------
     @Transactional
@@ -83,10 +87,10 @@ public class PartyBoardService {
     // -------------------- 댓글 --------------------
 
     //----------조회----------
-    public List<Comment> getCommentList(Long partyBoardId){//댓글 리스트 리턴
+    public List<CommentResponse> getCommentList(Long partyBoardId){//댓글 리스트 리턴
        PartyBoard  partyBoard = partyBoardRepository.findById(partyBoardId)
                .orElseThrow(() -> new NotFoundEntityException("지워진 게시판입니다."));
-       return commentRepository.findByPartyBoard(partyBoard);
+       return commentRepository.findByPartyBoard(partyBoard).stream().map(Comment::toCommentResponse).collect(Collectors.toList());
     }
     //----------생성----------
     @Transactional
