@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -30,7 +31,7 @@ public class PartyBoard {
     private String contents;
 
     @Column(name="since_date")
-    private LocalDate sinceDate;
+    private LocalDateTime sinceDate;
 
     @JsonIgnore //controller가 리턴할때 제외함 해야지 현재또는 오류에서 벗어남
     @ManyToOne(fetch = LAZY)
@@ -44,7 +45,7 @@ public class PartyBoard {
 
     //Create
 
-    public static PartyBoard createPartyBoard(Category category, String title, String contents, LocalDate sinceDate, Member member, Party party) {
+    public static PartyBoard createPartyBoard(Category category, String title, String contents, LocalDateTime sinceDate, Member member, Party party) {
         PartyBoard partyBoard = new PartyBoard();
         partyBoard.category = category;
         partyBoard.title = title;
@@ -54,7 +55,7 @@ public class PartyBoard {
         partyBoard.party = party;
         return partyBoard;
     }
-    public void updatePartyBoard(Category category,String title, String contents,LocalDate sinceDate){
+    public void updatePartyBoard(Category category,String title, String contents,LocalDateTime sinceDate){
        this.category = category;
        this.title = title;
        this.contents = contents;

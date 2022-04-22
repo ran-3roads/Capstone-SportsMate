@@ -19,10 +19,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
@@ -53,7 +52,7 @@ public class PartyBoardService {
         Party party = partyRepository.findOne(partyId);
         Member member = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
         PartyBoard partyBoard = PartyBoard.createPartyBoard(partyBoardForm.getCategory(), partyBoardForm.getTitle(),
-                partyBoardForm.getContents(), LocalDate.now(), member, party);
+                partyBoardForm.getContents(), LocalDateTime.now(), member, party);
         partyBoardRepository.save(partyBoard);
     }
 
@@ -73,7 +72,7 @@ public class PartyBoardService {
         PartyBoard  partyBoard = partyBoardRepository.findById(partyBoardId)
                 .orElseThrow(() -> new NotFoundEntityException("지워진 게시판입니다."));
         partyBoard.updatePartyBoard(partyBoardForm.getCategory(), partyBoardForm.getTitle(),
-                partyBoardForm.getContents(), LocalDate.now());
+                partyBoardForm.getContents(), LocalDateTime.now());
     }
 
     //----------삭제----------
@@ -98,7 +97,7 @@ public class PartyBoardService {
         PartyBoard  partyBoard = partyBoardRepository.findById(partyBoardId)
                 .orElseThrow(() -> new NotFoundEntityException("지워진 게시판입니다."));
         Member member = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
-        Comment comment = Comment.createComment(commentForm.getContents(), LocalDate.now(), member, partyBoard);
+        Comment comment = Comment.createComment(commentForm.getContents(), LocalDateTime.now(), member, partyBoard);
         commentRepository.save(comment);
 
     }
@@ -118,7 +117,7 @@ public class PartyBoardService {
     public void updateComment(Long commentId, CommentForm commentForm) {//댓글 수정 변경감지 사용
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new NotFoundEntityException("지워진 댓글입니다."));
-        comment.updateComment(commentForm.getContents(),LocalDate.now());
+        comment.updateComment(commentForm.getContents(),LocalDateTime.now());
     }
 
     //----------삭제----------

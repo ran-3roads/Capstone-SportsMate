@@ -2,13 +2,11 @@ package com.capstone.sportsmate.web.response;
 
 
 import com.capstone.sportsmate.domain.status.Category;
-import com.capstone.sportsmate.domain.status.SportsName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -24,8 +22,8 @@ public class PartyBoardResponse {
 
     private String nickName;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate sinceDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime sinceDate;
 
 
 }
