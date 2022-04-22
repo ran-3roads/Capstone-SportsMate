@@ -1,6 +1,7 @@
 package com.capstone.sportsmate.domain;
 
 import com.capstone.sportsmate.domain.status.Category;
+import com.capstone.sportsmate.web.response.PartyBoardResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
@@ -58,5 +59,10 @@ public class PartyBoard {
        this.title = title;
        this.contents = contents;
        this.sinceDate = sinceDate;
+    }
+    public PartyBoardResponse toPartyBoardResponse(){
+        PartyBoardResponse partyBoardResponse = new PartyBoardResponse(this.category,this.title,
+                this.contents,this.id,this.member.getNickName(),this.sinceDate);
+        return partyBoardResponse;
     }
 }

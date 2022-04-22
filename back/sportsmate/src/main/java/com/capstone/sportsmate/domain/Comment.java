@@ -1,6 +1,7 @@
 package com.capstone.sportsmate.domain;
 
 
+import com.capstone.sportsmate.web.response.CommentResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,5 +48,10 @@ public class Comment {
     public void updateComment(String contents,LocalDate sinceDate) {
         this.contents = contents;
         this.sinceDate = sinceDate;
+    }
+    public CommentResponse toCommentResponse(){
+        CommentResponse commentResponse = new CommentResponse(this.id,this.member.getNickName()
+                , this.contents,this.sinceDate);
+        return commentResponse;
     }
 }

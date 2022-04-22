@@ -3,17 +3,16 @@ import com.capstone.sportsmate.exception.InconsistencyException;
 import com.capstone.sportsmate.exception.NotFoundEntityException;
 import com.capstone.sportsmate.exception.response.ErrorResponse;
 import com.capstone.sportsmate.service.PartyBoardService;
-import com.capstone.sportsmate.web.CommentForm;
-import com.capstone.sportsmate.web.PartyBoardForm;
+import com.capstone.sportsmate.web.*;
 import com.capstone.sportsmate.domain.PartyBoard;
 import com.capstone.sportsmate.domain.Comment;
 
 import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.exception.MyRoleException;
-import com.capstone.sportsmate.web.PartySearch;
 import com.capstone.sportsmate.service.MemberService;
 import com.capstone.sportsmate.service.PartyService;
-import com.capstone.sportsmate.web.PartyForm;
+import com.capstone.sportsmate.web.response.CommentResponse;
+import com.capstone.sportsmate.web.response.PartyBoardResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,13 +76,12 @@ public class PartyController {
 
     //----------조회----------
     @GetMapping("/{partyId}/partyboard")//해당파티 리스트 response로 따로 만드는 작업이 필요해보임 작성자와 id 제목만 보낸다던가
-    public List<PartyBoard> getPartyBoardList(@PathVariable("partyId") Long partyId){
-        List<PartyBoard> list = partyBoardService.getPartyBoardList(partyId);
-        return list;
+    public List<PartyBoardResponse> getPartyBoardList(@PathVariable("partyId") Long partyId){
+        return  partyBoardService.getPartyBoardList(partyId);
     }
 
     @GetMapping("/{partyId}/partyboard/{partyBoardId}")//게시글 선택시 글 리턴 혹은 변경페이지로 이동시 정보 반환
-    public PartyBoard partyBoardOne(@PathVariable("partyBoardId") Long partyBoardId){
+    public PartyBoardResponse partyBoardOne(@PathVariable("partyBoardId") Long partyBoardId){
         return partyBoardService.getPartyBoard(partyBoardId);
     }
     //----------생성----------
@@ -116,7 +114,7 @@ public class PartyController {
     //----------조회----------
 
     @GetMapping("/{partyId}/partyboard/{partyBoardId}/comment")//게시글 선택시 게시글에 댓글들 리턴
-    public List<Comment> getCommentList(@PathVariable("partyBoardId") Long partyBoardId){
+    public List<CommentResponse> getCommentList(@PathVariable("partyBoardId") Long partyBoardId){
         return partyBoardService.getCommentList(partyBoardId);
     }
 
@@ -144,6 +142,44 @@ public class PartyController {
         partyBoardService.deleteComment(commentId);//삭제
         return "delete";
     }
+    // --------------------투표--------------------
+//    //----------조회----------
+//    @GetMapping("/{partyId}/partyboard/{partyBoardId}/vote")//게시글 선택시 게시글에 댓글들 리턴
+//    public List<Comment> getVoteList(@PathVariable("partyBoardId") Long partyBoardId){
+//        return partyBoardService.getCommentList(partyBoardId);
+//    }
+//    //----------생성----------
+//    @PostMapping("/{partyId}/partyboard/{partyBoardId}/mkvote")
+//    public String createVote(@PathVariable("partyBoardId") Long partyBoardId,@RequestBody VoteForm voteForm) {
+//        partyBoardService.createVote(partyBoardId, voteForm);
+//        return "mkcomment";
+//    }
+//    //----------수정----------
+//    @GetMapping("/{partyId}/partyboard/{partyBoardId}/vote/{voteId}/modify") //멤버 조회후 수정할 댓글 정보 리턴 아마 인증만 해주고 그전 내용 반영은 프론트에 맡겨도 될듯
+//    public Comment getVoteModify(@PathVariable("commentId") Long commentId){
+//        return partyBoardService.verifiactionCommentMember(commentId);
+//    }
+//    @PostMapping("/{partyId}/partyboard/{partyBoardId}/vote/{voteId}/modify") //멤버 조회후 수정할 댓글 내용 반환
+//    public String updateVote(@PathVariable("commentId") Long commentId,@RequestBody CommentForm commentForm){
+//        partyBoardService.verifiactionCommentMember(commentId);
+//        partyBoardService.updateComment(commentId,commentForm);
+//        return "update";
+//    }
+//    //----------삭제----------
+//    @GetMapping("/{partyId}/partyboard/{partyBoardId}/vote/{voteId}/delete") //멤버 조회후 댓글 삭제
+//    public String deleteVote(@PathVariable("commentId") Long commentId){
+//        partyBoardService.verifiactionCommentMember(commentId);//검증
+//        partyBoardService.deleteComment(commentId);//삭제
+//        return "delete";
+//    }
+//
+
+
+
+
+
+
+
     //--------------------exceptionc처리--------------------
     //댓글 혹은 파티보드를 지울때 같은 멤버가 아닐때
     @ExceptionHandler(InconsistencyException.class)
