@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { Container, Row, Col, Button } from "reactstrap";
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import Link from "next/link";
 import React from 'react';
 import Image from "next/image";
 import footballimg from "../../../assets/images/landingpage/football.png";
@@ -37,8 +38,13 @@ export default function Board() {
                       </Col>
                       <div className="guide_margin">
                       <div className="party_box">
-                          <PostMain/>
+                          <PostMain id={`${id}`}/>
                       </div>
+                      <Link href="/party/${id}/board/write">
+                             <a className="btn btn-danger m-r-20 btn-md m-t-30 ">
+                               글 작성
+                             </a>
+                           </Link>
                       </div>
                   </Row> 
       </Container>
