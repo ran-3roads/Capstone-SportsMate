@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState } from 'react';
 import axios from 'axios';
-import Popup from './popup';
+import Popup from '../popup';
 
 
 
@@ -35,7 +35,7 @@ const WriteForm = () => {
             <Container>
                 <Row>
                     <Col md="12">
-                        <Form className="col" id="signupForm" onSubmit={function (event) {
+                        <Form className="col" id="WirteForm" onSubmit={function (event) {
                             event.preventDefault();
                                 console.log()
                                 axios.post("http://localhost:8080/sportsmate/member/public/signup", {
@@ -65,10 +65,10 @@ const WriteForm = () => {
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="phoneNumber">내용을 입력해주세요</Label>
-                                <Input type="textarea" className="form-control" id="content" placeholder="내용" value={content} onChange={onchangeContent}/>
+                                <textarea  rows="10" cols="60" id="content" placeholder="내용" value={content} onChange={onchangeContent}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">회원가입</Button>
+                                <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">저장</Button>
                                 <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
                             </FormGroup>
                         </Form>
