@@ -2,9 +2,59 @@ import React from 'react';
 import Head from "next/head";
 import { useRouter } from 'next/router'
 import PostView from "../../../../components/custom/board_post/PostView";
+import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import CommonTable from "../../../../components/custom/board_post/CommonTable";
+import CommonTableColumn from "../../../../components/custom/board_post/CommonTableColumn";
+import CommonTableRow from "../../../../components/custom/board_post/CommonTableRow";
+import { useState } from 'react';
+
 export default function Board_id() {
   const router = useRouter();
+  const mynickName="장래희망hero"; //db에 토큰으로 내닉네임 요청 
+  const { id } = router.query;
   const { board_id } = router.query;
+  const[text,setText]=useState('');
+  const onchangeText = (e) =>{
+    setText(e.target.value)
+}
+  const comments =[
+    {
+      comment_id:"1",
+      contents:"댓글로 안녕하다고 인사함1",
+      since_date:"2022-04-22 14:31:10",
+      nick_name:"맹구토슼갈리오1"
+    },
+    {
+      comment_id:"2",
+      contents:"댓글로 안녕하다고 인사함2",
+      since_date:"2022-04-22 14:32:10",
+      nick_name:"맹구토슼갈리오2"
+    },
+    {
+      comment_id:"3",
+      contents:"댓글로 안녕하다고 인사함3",
+      since_date:"2022-04-22 14:33:10",
+      nick_name:"맹구토슼갈리오3"
+    },
+    {
+      comment_id:"4",
+      contents:"댓글로 안녕하다고 인사함4",
+      since_date:"2022-04-22 14:34:10",
+      nick_name:"맹구토슼갈리오4"
+    },
+    {
+      comment_id:"5",
+      contents:"댓글로 안녕하다고 인사함5",
+      since_date:"2022-04-22 14:35:10",
+      nick_name:"맹구토슼갈리오5"
+    },
+    {
+      comment_id:"6",
+      contents:"댓글로 안녕하다고 인사함6",
+      since_date:"2022-04-22 14:36:10",
+      nick_name:"맹구토슼갈리오6"
+    },
+  ];
   return (
     <div>
       <Head>
@@ -14,6 +64,84 @@ export default function Board_id() {
       </Head>
       <PostView board_id={board_id}>  
       </PostView>
+                    <div id="view_comment" className="post-view-wrapper">
+                    <div className="cmt_box">
+                    <div id="comment_count">
+                      전체 댓글 {comments.length} 개 [등록순]
+                    </div>
+                    <CommonTable headersName={['작성자', '댓글내용', '등록일']}>
+                        {
+                          comments.map(c => {
+                            return (
+                                <CommonTableRow key={c.comment_id}>
+                                <CommonTableColumn>
+                                <a>
+                                  { c.nick_name }
+                                </a>
+                                </CommonTableColumn>
+                                <CommonTableColumn>
+                                <a>  
+                                  { c.contents }
+                                  </a>
+                                </CommonTableColumn>
+                                <CommonTableColumn>
+                                <a>    
+                                  { c.since_date } 
+                                  </a>
+                                  
+                                  <button id={c.comment_id} value="삭제" onClick={(event)=>{
+                                    event.preventDefault();
+                                    /*
+                                    event.target.id 이용해서 권한확인후삭제
+                                    */
+                                }}>삭제</button>
+                                </CommonTableColumn>
+                                </CommonTableRow>
+                              
+                            )
+                          })
+                        }
+                    </CommonTable>
+                    <Form id="commentForm" onSubmit={function (event) {
+                            event.preventDefault();
+                            alert("댓글작성완료");
+                            location.reload();
+                            /*
+                            axios.post("http://localhost:8080/sportsmate/member/public/signup", {
+                            
+                            })
+                            .then(function (response) {
+                              if(response.status == 200){
+                                alert("댓글작성완료")
+                            }
+                            }).catch(function (error) {
+                              //error
+                              console.log(error);
+                            });
+                            */
+                          }
+                        }>
+                    <Container id="comment_write">
+                      <Row id="cmt_write_nickname">
+                        <Col md="2">
+                        <span>댓글작성</span>
+                        </Col>
+                      </Row>
+                        <Row id="cmt_write_box">
+                          <Col md="2" ><span>{mynickName}</span></Col>
+                          <Col md="10"><Input type='textarea' className="form-control" id="text" placeholder="댓글을 입력하세요" value={text} onChange={onchangeText}/></Col>
+                        </Row>
+                        <Row id="cmt_write_bottonbox">
+                          <Col md="11">
+                          </Col>
+                          <Col md="1">  
+                          <button type='submit'>등록</button>
+                          </Col>
+                        </Row>
+                    </Container>
+                    </Form>
+                   </div>
+                   </div>
     </div>
   );
 }

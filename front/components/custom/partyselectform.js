@@ -15,39 +15,28 @@ import {
 } from "reactstrap";
 const PartySelect = () => {
   const router = useRouter();
-  return (
+ const {id} = router.query;
+   return (
     <div className="topbar" id="top">
       <div className="party_header6">
         <Container className="po-relative">
             <Row>
                 <div>
-                  <Link href="/party/info">
-                    <a
-                      className={
-                        router.pathname == "/party/info"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
+                  <Link href={`/party/${id}/info`}>
+                   <a>
                       정보                    </a>
                   </Link>
                   </div>
                   <div>
-                  <Link href="../../../pages/party/[id]/board">
+                  <Link href={`/party/${id}/board`}>
                     <a>
                       게시판
                     </a>
                   </Link>
                   </div>
                   <div>
-                  <Link href="/party/schedule">
-                    <a
-                      className={
-                        router.pathname == "/party/schedule"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
+                  <Link href={`/party/${id}/schedule`}>
+                    <a>
                       일정
                     </a>
                   </Link>

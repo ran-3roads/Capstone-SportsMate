@@ -10,12 +10,17 @@ made by 따봉
 }
 
 .common-table-header-column {
-  border-bottom: 1px solid #e8e8e8;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
   padding: 0;
   font-size: 16px;
   padding: 10px 5px;
   font-weight: bold;
 }
+.common-table-row{
+  border-bottom: 1px solid #e8e8e8;
+}
+
 
 .common-table-row:hover {
   background-color: #eceaea;
@@ -260,8 +265,6 @@ made by 따봉
   padding: 24px 10.6666666667px 40px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border-collapse: collapse;
-  border:3px solid black;
   max-width: 1000px;
   margin: 0 auto;
 }
@@ -435,6 +438,46 @@ input#yy.form-control,input#dd.form-control {
   position: relative;
   border-radius: 2px;
 }
+.cmt_box{
+    border-style: solid;
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0px;
+    border-top-width: 1px;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+#commentForm{
+  border: 1px solid black;
+  
+}
+#comment_write{
+  padding-left: 0px;
+  padding-right: 0px;
+  max-width: 100%;
+}
+
+#cmt_write_box{
+  border-top: 1px solid #e8e8e8;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-top: 10px;
+  text-align: center;
+}
+
+#cmt_write_nickname{
+  margin-top: 10px;
+  margin-left: 15px;
+  text-align: center;
+}
+#cmt_write_bottonbox{
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 10px;
+}
+
 /******************* 
 
 *******************/
