@@ -10,7 +10,7 @@ const PostList = props => {
     setDataList(postList);
   }, [ ])
   return (
-    <div>
+    <>
       <CommonTable headersName={['글번호', '제목', '등록일', '조회수']}>
         {
           dataList ? dataList.map((item, index) => {
@@ -51,7 +51,7 @@ const PostList = props => {
           }) : ''
         }
       </CommonTable>
-    </div>
+    </>
   )
 }
 

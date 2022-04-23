@@ -1,12 +1,12 @@
 import Head from "next/head";
 import { Container, Row, Col, Button } from "reactstrap";
-import { useRouter } from 'next/router';
-import Link from "next/link";
+import { useRouter } from 'next/router'
 import React from 'react';
 import Image from "next/image";
 import footballimg from "../../../assets/images/landingpage/football.png";
 import PartySelect from "../../../components/custom/partyselectform";
 import PostMain from "../../../components/custom/board_post/PostMain";
+import Link from "next/link";
 
 export default function Board() {
     const router = useRouter();
@@ -40,11 +40,11 @@ export default function Board() {
                       <div className="party_box">
                           <PostMain id={`${id}`}/>
                       </div>
-                      <Link href="/party/${id}/board/write">
-                             <a className="btn btn-danger m-r-20 btn-md m-t-30 ">
-                               글 작성
-                             </a>
-                           </Link>
+                      <Link href={`/party/${id}/board/write`}>
+                          <a className="btn btn-danger m-r-20 btn-md m-t-30 ">
+                            글작성
+                          </a>
+                      </Link>
                       </div>
                   </Row> 
       </Container>

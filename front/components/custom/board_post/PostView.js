@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+
 const PostView = ({board_id},{ history }) => {
   const exam={
     "no": board_id,
@@ -6,6 +8,8 @@ const PostView = ({board_id},{ history }) => {
     "createDate": "2020-10-25",
     "readCount": 6
   }
+  const router = useRouter();
+  const { id } = router.query;
   return (
     <div>
       <h2 align="center">게시글 상세정보</h2>
@@ -39,7 +43,12 @@ const PostView = ({board_id},{ history }) => {
               </div>
             </div>
           }
-        <button className="post-view-go-list-btn" onClick={() => history.goBack()}>목록으로 돌아가기</button>
+        <button className="post-view-go-list-btn"
+        onClick={(event)=>{
+          event.preventDefault();
+          location.href=`/party/${id}/board`
+          }}>
+        목록으로 돌아가기</button>
       </div>
     </div>
   )
