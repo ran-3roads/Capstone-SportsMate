@@ -53,7 +53,7 @@ export default function Info() {
                                 <div className="since_date"><div className="party_font">개설일: {partyinfo.sinceDate}</div></div>
                                 <div className="party_font">멤버수: {partyinfo.members}명 </div>
                                 <div className="party_font">활동: {party.sports_name}</div>
-                                  <Link href="/party/signup">
+                                  <Link href={`/party/${id}/partysignup`}>
                                     <a className="btn btn-danger m-r-10 btn-md m-t-20 ">
                                       파티 가입하기
                                     </a>
