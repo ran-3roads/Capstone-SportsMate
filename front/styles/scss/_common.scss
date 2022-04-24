@@ -5,22 +5,58 @@ made by 따봉
 .party_infobox {
   height: 500px;
   width: 300px;
-  background: gray;
+  background: #ffd9d9;
   border-top: #FFFFFF 2px solid;
   margin: 0;
   padding: 0;
+  text-align: justify;
 }
 .party_infobox2{
   height: 500px;
   width: 730px;
-  background: gray;
+  border-radius: 50px;
+  background: #ffd9d9;
   border-top: #FFFFFF 2px solid;
   margin: 0;
   padding: 0;
+  text-align: justify;
+}
+.pImage {
+  height: 320px;
+  width: 530px;
+  margin-top: 2%;
+  margin-left: 13%;
+  justify-content: center;
+  position: relative;
+  vertical-align: top;
+}
+
+.pImage .pInner {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background: #ebebeb;
+  border-radius: 10px;
+  font-size: 0;
+  line-height: 0;
+}
+.party_write_container{
+  margin-top: 5%;
+  display: flex;
+  justify-content: center;
 }
 .party_infoboxc {
+  border-radius : 40px;
   display: flex;
   background-color: skyblue;
+}
+.party_font{
+  color: black;
+  font-weight: bold;
+  font-style: normal;
+  font-size: 15px;
+  line-height: 30px;
+  text-align: justify;
 }
 //table_css
 .common-table {
@@ -212,6 +248,11 @@ made by 따봉
   float: left;
   margin-left: 3.2%;
   width: 30%;
+}
+.n_guide2{
+  float: left;
+  margin-left: 3.2%;
+  width: 60%;
 }
 
 .firstbox {
