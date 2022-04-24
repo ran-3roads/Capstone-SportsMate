@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { Container, Row, Col, Button } from "reactstrap";
 import { useRouter } from 'next/router'
+import Link from "next/link";
 import React from 'react';
 import Image from "next/image";
 import footballimg from "../../../assets/images/landingpage/football.png";
@@ -19,6 +20,10 @@ export default function Info() {
       title: '성풋모1', 
       infoimg: footballimg
   }
+    let partyinfo = {
+    manager: '맹구토씈갈리오',
+    sinceDate:'2022-4-5',
+  }
   return (
     <div>
       <Head>
@@ -34,17 +39,41 @@ export default function Info() {
                           <h1 className="title font-bold">Party Title</h1>
                           <h6 className="subtitle">Party 정보글</h6>
                       </Col>
-                      <div className="guide_margin">
-                      <div className="party_box">
-                        <div className="party_boxc">
-                        <div className='mImage'>
-                              <span className='mInner'>
-                              <Image src={footballimg} alt="모임사진"/>
-                              </span>
+                    <div className="guide_margin">
+                      <div className="n_guide">
+                        <div className="party_infobox" >
+                          <div className="my_box">
+                            <div className="party_infoboxc">
+                              <div className="left_section">
+                                <div className="inf_name"><div className="my_font">방장: {partyinfo.manager} 님</div></div>
+                                <div className="since_date"><div className="my_font">개설일: {partyinfo.sinceDate}</div></div>
+                              <div className="left_buttons">
+                                <div className="logout_button">
+                                  <div className="my_font">
+                                    <Link href="partySignupForm">
+                                      파티 가입
+                                    </Link>
+                                  </div>
+                                </div>
+                                <div className="logout_button">
+                                  <div className="my_font">
+                                    <Link href="partyMemberInfo">
+                                      파티원 정보
+                                    </Link>
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+                            </div>
                           </div>
+                        </div>                       
+                      </div>
+                      <div className="n_guide">
+                        <div className="party_infobox2" >
+
                         </div>
                       </div>
-                      </div>
+                    </div>
                   </Row> 
       </Container>
     </div>

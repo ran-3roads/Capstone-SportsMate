@@ -44,7 +44,6 @@ export default function Mypage() {
             <div className="my_boxc">
               <div className="left_section">
                 <div className="p_image">
-
                 </div>
                 <div className="inf_name"><div className="my_font">{customer.nickName} 님</div></div>
                 <div className="since_date"><div className="my_font">가입일 {customer.sinceDate}</div></div>
