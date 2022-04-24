@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from 'react';
 import Image from "next/image";
 import footballimg from "../../../assets/images/landingpage/football.png";
+import partyimg from "../../../assets/images/landingpage/20.jpg";
 import PartySelect from "../../../components/custom/partyselectform";
 
 export default function Info() {
@@ -20,9 +21,12 @@ export default function Info() {
       title: '성풋모1', 
       infoimg: footballimg
   }
-    let partyinfo = {
+    const partyinfo = {
     manager: '맹구토씈갈리오',
     sinceDate:'2022-4-5',
+    members:'40',
+    comments:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
+    infoimg: partyimg
   }
   return (
     <div>
@@ -45,32 +49,37 @@ export default function Info() {
                           <div className="my_box">
                             <div className="party_infoboxc">
                               <div className="left_section">
-                                <div className="inf_name"><div className="my_font">방장: {partyinfo.manager} 님</div></div>
-                                <div className="since_date"><div className="my_font">개설일: {partyinfo.sinceDate}</div></div>
-                              <div className="left_buttons">
-                                <div className="logout_button">
-                                  <div className="my_font">
-                                    <Link href="partySignupForm">
-                                      파티 가입
-                                    </Link>
-                                  </div>
-                                </div>
-                                <div className="logout_button">
-                                  <div className="my_font">
-                                    <Link href="partyMemberInfo">
+                                <div className="inf_name"><div className="party_font">방장: {partyinfo.manager} 님</div></div>
+                                <div className="since_date"><div className="party_font">개설일: {partyinfo.sinceDate}</div></div>
+                                <div className="party_font">멤버수: {partyinfo.members}명 </div>
+                                <div className="party_font">활동: {party.sports_name}</div>
+                                  <Link href="/party/signup">
+                                    <a className="btn btn-danger m-r-10 btn-md m-t-20 ">
+                                      파티 가입하기
+                                    </a>
+                                  </Link>
+                                  <Link href="/party/member">
+                                    <a className="btn btn-danger m-r-10 btn-md m-t-20 ">
                                       파티원 정보
-                                    </Link>
-                                  </div>
-                                </div>
-                              </div>
+                                    </a>
+                                  </Link>
                               </div>
                             </div>
                           </div>
                         </div>                       
                       </div>
-                      <div className="n_guide">
+                      <div className="n_guide2">
                         <div className="party_infobox2" >
-
+                          <div className='pImage'>
+                            <span className='pInner'>
+                            <Image src={partyinfo.infoimg} alt="파티사진"/>
+                            </span>
+                          </div>
+                          <div className="party_write_container">
+                            <div className="party_font">
+                            {partyinfo.comments}
+                            </div>     
+                          </div>
                         </div>
                       </div>
                     </div>
