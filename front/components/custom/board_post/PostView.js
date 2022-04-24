@@ -49,6 +49,11 @@ const PostView = ({board_id},{ history }) => {
           location.href=`/party/${id}/board`
           }}>
         목록으로 돌아가기</button>
+        <button className="post-view-delete-btn"
+        onClick={(event)=>{
+          event.preventDefault();
+          }}>
+        삭제</button>
       </div>
     </div>
   )

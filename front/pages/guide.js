@@ -24,8 +24,6 @@ export default function Guide() {
                               <h1 className="font_title">Party 이용 가이드</h1>
                               <br></br>
                               </div>
-                              
-                              
                           </div>
                           <div className="n_guide">
                             <div className="secondbox"><h2 className="font_title">용병 이용 가이드</h2></div>
