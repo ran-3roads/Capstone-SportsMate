@@ -2,18 +2,11 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Pagination, PaginationItem, PaginationLink, Container, Row, Col } from 'reactstrap';
+import { Button,Pagination, Form, FormGroup,PaginationItem, PaginationLink, Container, Row, Col,Input } from 'reactstrap';
 import footballimg from "../../assets/images/landingpage/football.png";
 import { useState } from "react";
 
-
 const PList = () => {
-    const[currentPage,setCurrentPage]=useState(0);
-    const handleClick=(e, index)=>{
-        e.preventDefault();   
-        setCurrentPage(index);
-    }
-    const pageSize = 4;
     const partys = [
         {
             party_id:1 ,
@@ -62,7 +55,7 @@ const PList = () => {
         },
         {
             party_id:6 ,
-             sports_name:'풋살',
+             sports_name:'농구',
              intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
              location: '성북구',
              since_date:'2022-4-18',
@@ -71,7 +64,7 @@ const PList = () => {
          },
          {
             party_id:7 ,
-             sports_name:'풋살',
+             sports_name:'농구',
              intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
              location: '성북구',
              since_date:'2022-4-18',
@@ -80,7 +73,7 @@ const PList = () => {
          },
          {
             party_id:8 ,
-             sports_name:'풋살',
+             sports_name:'농구',
              intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
              location: '성북구',
              since_date:'2022-4-18',
@@ -98,7 +91,7 @@ const PList = () => {
          },
          {
             party_id:10 ,
-             sports_name:'풋살',
+             sports_name:'농구',
              intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
              location: '성북구',
              since_date:'2022-4-18',
@@ -151,8 +144,112 @@ const PList = () => {
              infoimg: footballimg
          },
     ];
-
-    const pagesCount = Math.ceil(partys.length / pageSize);
+    let result = [...partys];
+    const[currentPage,setCurrentPage]=useState(0);
+    const[location,setLocation]=useState("all");
+    const[sports_name,setSports_name]=useState("all");
+    const[party_title,setParty_title]=useState("");
+    const[search,setSearch]=useState("");
+    const handleClick=(e, index)=>{
+        e.preventDefault();   
+        setCurrentPage(index);
+    }
+    const onchangeLocation = (e) =>{
+        setLocation(e.target.value)
+        setCurrentPage(0);
+    }
+    const onchangeSports_name = (e) =>{
+        setSports_name(e.target.value)
+        setCurrentPage(0);
+    }
+    const onchangeParty_title = (e) =>{
+        setParty_title(e.target.value)
+        setCurrentPage(0);
+    }
+    if(location=="all"&&sports_name=="all"){
+        let i=0;
+        result=null;
+        result=new Array();
+        if(search=="")
+        result=[...partys];
+        else{
+        partys.map(p=>{
+            if(p.title.indexOf(search)!=-1)
+            {
+              result[i]={...p};
+              i++;
+            }
+        })
+        }
+    }
+    else if(location=="all"){
+        let i=0;
+        result=null;
+        result=new Array();
+        if(search=="")
+        partys.map(p=>{
+            if(p.sports_name==sports_name)
+            {
+              result[i]={...p};
+              i++;
+            }
+        })
+        else
+        partys.map(p=>{
+            if(p.sports_name==sports_name&&p.title.indexOf(search)!=-1)
+            {
+              result[i]={...p};
+              i++;
+            }
+        })
+    }
+    else if(sports_name=="all"){
+        let i=0;
+        result=null;
+        result=new Array();
+        if(search=="")
+        partys.map(p=>{
+            if(p.location==location)
+            {
+              result[i]={...p};
+              i++;
+            }
+        })
+        else
+        partys.map(p=>{
+            if(p.location==location&&p.title.indexOf(search)!=-1)
+            {
+              result[i]={...p};
+              i++;
+            }
+        })
+    }
+    else{
+        let i=0;
+        result=null;
+        result=new Array();
+        if(search=="")
+        partys.map(p=>{
+            if(p.sports_name==sports_name&&p.location==location)
+            {
+              result[i]={...p};
+              i++;
+            }
+        })
+        else
+        partys.map(p=>{
+            if(p.sports_name==sports_name&&p.location==location&&p.title.indexOf(search)!=-1)
+            {
+              result[i]={...p};
+              i++;
+            }
+        })
+    }
+    let content=null;
+    if(result.length==0)
+    content=<div style={{height:500,display:"flex",width:"100%"}}><div style={{margin:"auto"}}><h1>No such party</h1></div></div>
+    const pageSize = 4;
+    const pagesCount = Math.ceil(result.length / pageSize);
     return (
         <div>
             <div className="spacer" id="pagination-component">
@@ -167,9 +264,9 @@ const PList = () => {
                 <Container>
                 <Row>
                 <div>
-                                    <span className="ps_box">
-                                    <select id="mm" aria-label="종목">
-										<option value="">종목선택</option>
+                                    <span className="partyfilter">
+                                    <Input type="select" name="sports_name" value={sports_name} onChange={onchangeSports_name}>
+                                    <option value="all" selected>종목선택(전체)</option>
 										  	 			<option value="축구">
                                                             축구
                                                         </option>
@@ -189,13 +286,13 @@ const PList = () => {
                                                             탁구
                                                         </option>
 										  	
-									</select>
+									</Input>
                                     </span>
                                     </div>
                                 <div>
-                                    <span className="ps_box">
-                                    <select id="mm" aria-label="장소">
-										<option value="">지역선택</option>
+                                    <span className="partyfilter">
+                                    <Input type="select" name="location" value={location} onChange={onchangeLocation}>
+                                    <option value="all" selected>지역선택(전체)</option>
 										  	 			<option value="강남구">
                                                             강남구
                                                         </option>
@@ -271,21 +368,49 @@ const PList = () => {
                                                         <option value="중랑구">
                                                             중랑구
                                                         </option>
-									</select>
+									</Input>
                                     </span>
+                                    </div>
+                                    <div>
+                                        <span className="partyfilter">
+                                            <Input type="text" className="form-control" id="party_name" placeholder="파티명을 검색하세요" value={party_title} onChange={onchangeParty_title}/>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span className="partyfilter">
+                                            <Button className="btn btn-inverse waves-effect waves-light" onClick={(event)=>{
+                                                event.preventDefault();
+                                                let tmp=party_title;
+                                                setSearch(tmp);
+                                            }}>검색</Button>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span className="partyfilter">
+                                            <Button className="btn btn-inverse waves-effect waves-light" onClick={(event)=>{
+                                                event.preventDefault();
+                                                setSearch("");
+                                                setLocation("all");
+                                                setSports_name("all");
+                                                setParty_title("");
+                                                setCurrentPage(0);
+                                            }}>검색필터초기화</Button>
+                                        </span>
                                     </div>
                                 </Row>
                 </Container>
                 <Container>
                 <ul className='mList'>
+                <div style={{height:500,width:"100%"}}>
                 {
-                    partys.slice(
+                    
+                    result.slice(
                         currentPage*pageSize,
                         (currentPage+1)*pageSize
                     ).map(p => {
                         return (
                             <li className='mItem'>
-                                <Link href={`/party/${p.party_id}/intro`}>
+                                <Link href={`/party/${p.party_id}/board`}>
                                     <div className='mUri' >
                                         <div class ="mcover">
                                             <div className='mImage'>
@@ -305,6 +430,8 @@ const PList = () => {
                         )
                     })
                 }
+                {content}
+                </div>
             </ul>
             <div className="pagination-wrapper">
           
