@@ -356,6 +356,17 @@ made by 따봉
 /******************* 
 made in 경민
 *******************/
+.partyfilter{
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: solid 1px #dadada;
+  padding: 11px 14px;
+  background: #fff;
+  box-sizing: border-box;
+  vertical-align: top;
+}
 select option[value=""][disabled] {
 	display: none;
 }
