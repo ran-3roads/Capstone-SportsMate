@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter @Setter
 public class ApplyForm {
@@ -18,7 +19,7 @@ public class ApplyForm {
     private String memberName; // 지원자 이름
     private String memberEmail; // 지원자 이메일
 
-    private LocalDate sinceDate; //보낸 날짜
+    private LocalDateTime sinceDate; //보낸 날짜
     private Sex sex;
 
     private Request state; // 승락, 거절 , 대기

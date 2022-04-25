@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -112,7 +113,7 @@ public class NoticeService {
     //----------지원서에 대한 승락 및 거절 결과 보내줌-----------
     public void sendReply(Member toMember,Request request,Party party){
         Reply reply= Reply.createReply(request,party);
-        Notice notice = Notice.createNotice(toMember, NoticeType.REPLY,NoticeStatus.UNCONFIRM,LocalDate.now());
+        Notice notice = Notice.createNotice(toMember, NoticeType.REPLY,NoticeStatus.UNCONFIRM, LocalDateTime.now());
         notice.setReply(reply);
         notice.setApply(null);
 

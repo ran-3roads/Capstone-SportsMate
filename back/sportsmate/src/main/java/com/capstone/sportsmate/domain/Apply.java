@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -27,7 +28,7 @@ public class Apply {
     private Request state;
 
     @Column(name="since_date")
-    private LocalDate sinceDate;
+    private LocalDateTime sinceDate;
 
     @JsonIgnore
     @ManyToOne(fetch = LAZY)
@@ -42,7 +43,7 @@ public class Apply {
 
     // entity 생성
 
-    public static Apply createApply(Request state, LocalDate sinceDate, Member member, Party party) {
+    public static Apply createApply(Request state, LocalDateTime sinceDate, Member member, Party party) {
         Apply apply = new Apply();
         apply.state = state;
         apply.sinceDate = sinceDate;

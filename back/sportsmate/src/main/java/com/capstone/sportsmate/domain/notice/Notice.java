@@ -14,6 +14,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -41,7 +42,7 @@ public class Notice { // 알림 Entity
     private NoticeType noticeType;
 
     @Column(name="since_date")
-    private LocalDate sinceDate;//가입날짜
+    private LocalDateTime sinceDate;//가입날짜
 
     @JsonIgnore
     @OneToOne(fetch = LAZY)
@@ -54,7 +55,7 @@ public class Notice { // 알림 Entity
     private Reply reply;
 
 
-    public static Notice createNotice(Member member,NoticeType noticeType, NoticeStatus noticeStatus, LocalDate sinceDate) {
+    public static Notice createNotice(Member member,NoticeType noticeType, NoticeStatus noticeStatus, LocalDateTime sinceDate) {
         Notice notice = new Notice();
         notice.member=member;
         notice.noticeType=noticeType;

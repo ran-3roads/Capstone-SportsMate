@@ -1,5 +1,6 @@
 package com.capstone.sportsmate.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,18 +31,24 @@ public class Schedule {
     @JoinColumn(name = "regist_id")
     private Regist regist;
 
+    @JsonIgnore
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name="party_id")
+    private Party party;
+
 
 
     //Create
 
 
-    public static Schedule createSchedule(int credit, int minMember, int maxMember, String contents, Regist regist) {
+    public static Schedule createSchedule(int credit, int minMember, int maxMember, String contents, Regist regist,Party party) {
         Schedule schedule = new Schedule();
         schedule.credit = credit;
         schedule.minMember = minMember;
         schedule.maxMember = maxMember;
         schedule.contents = contents;
         schedule.regist = regist;
+        schedule.party=party;
         return schedule;
     }
 }
