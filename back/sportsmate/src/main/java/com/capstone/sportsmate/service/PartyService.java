@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -45,8 +46,8 @@ public class PartyService {
         validateDuplicateApply(party,member);
 
         Member hostMember=memberRepository.findPartyHost(party);//해당 파티의 host 찾기
-        Apply apply=Apply.createApply(Request.WAITING,LocalDate.now(),member,party);//apply 생성
-        Notice notice=Notice.createNotice(hostMember,NoticeType.APPLY, NoticeStatus.UNCONFIRM,LocalDate.now());//notice 생성
+        Apply apply=Apply.createApply(Request.WAITING, LocalDateTime.now(),member,party);//apply 생성
+        Notice notice=Notice.createNotice(hostMember,NoticeType.APPLY, NoticeStatus.UNCONFIRM,LocalDateTime.now());//notice 생성
         notice.setApply(apply);
         notice.setReply(null);
         noticeRepository.saveApply(apply);
