@@ -24,17 +24,17 @@ public class Arena {
 
     @Enumerated(EnumType.STRING)
     @Column(name="sports_name")
-    private SportsName sportName;
+    private SportsName sportsName;
 
     private String name;
 
     //Create test
-    public static Arena createArena(int mapX,int mapY,int credit,SportsName sportName,String name) {
+    public static Arena createArena(int mapX,int mapY,int credit,SportsName sportsName,String name) {
         Arena arena = new Arena();
         arena.mapX=mapX;
         arena.mapY=mapY;
         arena.credit=credit;
-        arena.sportName=sportName;
+        arena.sportsName=sportsName;
         arena.name = name;
         return arena;
     }

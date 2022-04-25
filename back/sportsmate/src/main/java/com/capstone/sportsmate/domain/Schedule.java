@@ -1,8 +1,8 @@
 package com.capstone.sportsmate.domain;
 
+import com.capstone.sportsmate.web.response.EventResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -19,10 +19,13 @@ public class Schedule {
 
     private int credit;
 
-    @Column(name="min_member")
+    @Column(name="current_member")
     private int currentMember;
     @Column(name = "max_member")
     private int maxMember;
+
+    @Column(name="title")
+    private String title;
 
     @Column(columnDefinition = "TEXT")
     private String contents;
@@ -41,14 +44,22 @@ public class Schedule {
     //Create
 
 
-    public static Schedule createSchedule(int credit, int currentMember, int maxMember, String contents, Regist regist,Party party) {
+    public static Schedule createSchedule(int credit, int currentMember, int maxMember,String title, String contents, Regist regist,Party party) {
         Schedule schedule = new Schedule();
         schedule.credit = credit;
         schedule.currentMember = currentMember;
         schedule.maxMember = maxMember;
+        schedule.title=title;
         schedule.contents = contents;
         schedule.regist = regist;
         schedule.party=party;
         return schedule;
+    }
+    public void addCurrentMemeber(){
+        this.currentMember++;
+    }
+    public EventResponse toEventResponse(){
+        EventResponse eventResponse = new EventResponse(this.regist.getStartTime(),this.regist.getEndTime(),this.title,this.id);
+        return eventResponse;
     }
 }
