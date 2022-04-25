@@ -6,6 +6,7 @@ import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.domain.Schedule;
 import com.capstone.sportsmate.repository.PartyRepository;
 import com.capstone.sportsmate.repository.RegistRepository;
+import com.capstone.sportsmate.web.BookForm;
 import com.capstone.sportsmate.web.response.EventResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,4 +35,9 @@ public class RegistService {
     public Arena getArenaInfo(Long arenaId){
         return registRepository.findArenaOne(arenaId);
     }
+
+    public boolean isFull(BookForm bookForm){
+        return true;
+    }
+
 }

@@ -31,7 +31,13 @@ public class PartyController {
     private final MemberService memberService;
     private final PartyBoardService partyBoardService;
     private final RegistService registService;
-    
+
+
+    @GetMapping()
+    public List<Party> getPartyList(){
+        return partyService.getPartyList();
+    }
+
     @GetMapping("/myparty") //일단은 그냥 id 값 받는걸로 함 추후 security 숙지되면 변경할 예정
     public List<Party> myParty(){
         List<Party> parties = partyService.findMyParties(memberService.getMyInfo().getId());
@@ -169,10 +175,14 @@ public class PartyController {
         }
         return registService.getArenaInfo(arenaId);
     }
-    @PostMapping("/{partyId}/schedule/regist/{arenaId}/book") // 경기장을 확인한다.
-    String bookArena(@RequestBody PartyForm form,@PathVariable("partyId") Long partyId,@PathVariable("arenaId") Long arenaId){
+    @PostMapping("/{partyId}/schedule/regist/{arenaId}/book") // 경기장을 예약한다.
+    String bookArena(@RequestBody BookForm form,@PathVariable("partyId") Long partyId,@PathVariable("arenaId") Long arenaId){
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
             throw new MyRoleException("예약 권한이 없습니다.");
+        }
+        //예약 차있는지 확인
+        if(registService.isFull(form)) {
+            return "이미 예약이 되어 있습니다.";
         }
 
         return "예약 되었습니다";

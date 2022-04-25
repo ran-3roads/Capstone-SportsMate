@@ -39,6 +39,7 @@ public class MemberService {
         return  MemberResponse.of(memberRepository.save(member));
     }
 
+
     private Member findByEmail(String email){
         Member member =  memberRepository.findByEmail(email);
         return member;
@@ -138,5 +139,10 @@ public class MemberService {
     public void deposit(int credit) {
         Member member = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
         member.deposit(credit);
+    }
+    @Transactional
+    public void withdraw(int credit) {
+        Member member = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        member.withdraw(credit);
     }
 }

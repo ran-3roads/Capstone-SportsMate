@@ -30,8 +30,8 @@ public class Party {
     @Column(name="since_date")
     private LocalDate sinceDate;//가입날짜
 
-    @Column(name="meet_count")
-    private int meetCount;//미팅횟수
+    @Column(name="current_member")
+    private int currentMember;//현재 인원
 
     @Column(columnDefinition = "TEXT")
     private String info;//정보탭
@@ -39,16 +39,20 @@ public class Party {
 
     // entity 생성
 
-    public static Party createParty(SportsName sportsName,String title, String location, String intro, LocalDate sinceDate, int meetCount, String info) {
+    public static Party createParty(SportsName sportsName,String title, String location, String intro, LocalDate sinceDate, int currentMember, String info) {
         Party party = new Party();
         party.sportsName = sportsName;
         party.title=title;
         party.location = location;
         party.intro = intro;
         party.sinceDate = sinceDate;
-        party.meetCount = meetCount;
+        party.currentMember = currentMember;
         party.info = info;
         return party;
+    }
+
+    public void addMember(){
+        this.currentMember = this.currentMember + 1;
     }
 
 
