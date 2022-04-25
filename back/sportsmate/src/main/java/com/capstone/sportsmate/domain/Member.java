@@ -63,7 +63,6 @@ public class Member {
 
 
     // entity 생성
-
     public static Member createMember(String name, Sex sex, String email, String nickName, String password, LocalDate
             sinceDate, LocalDate birthDate, String phoneNumber,Authority authority) {
         Member member = new Member();
@@ -77,5 +76,9 @@ public class Member {
         member.phoneNumber = phoneNumber;
         member.authority = authority;
         return member;
+    }
+    //포인트 충전
+    public void deposit(int credit){
+        this.credit = this.credit + credit;
     }
 }

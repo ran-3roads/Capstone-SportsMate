@@ -3,6 +3,7 @@ package com.capstone.sportsmate.controller;
 import com.capstone.sportsmate.exception.LoginException;
 import com.capstone.sportsmate.exception.response.ErrorResponse;
 import com.capstone.sportsmate.jwt.JwtFilter;
+import com.capstone.sportsmate.web.CreditForm;
 import com.capstone.sportsmate.web.LoginForm;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.service.MemberService;
@@ -61,6 +62,11 @@ public class MemberController {
 //
 //        return new ResponseEntity<String>("success",headers, HttpStatus.ACCEPTED);
 //    }
+    @PostMapping("/deposit")
+    public ResponseEntity<String> deposit(@RequestBody CreditForm creditForm) {
+        memberService.deposit(creditForm.getCredit());
+        return ResponseEntity.ok("deposit");
+    }
     @GetMapping("/logout")
     public ResponseEntity<String> logout(@CookieValue(name="refreshToken") String refreshToken
             , @RequestHeader(value = JwtFilter.AUTHORIZATION_HEADER) String accessToken ,HttpServletResponse response){

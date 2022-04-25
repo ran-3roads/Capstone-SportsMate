@@ -134,4 +134,9 @@ public class MemberService {
         SecurityContextHolder.clearContext();
 
     }
+    @Transactional
+    public void deposit(int credit) {
+        Member member = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        member.deposit(credit);
+    }
 }
