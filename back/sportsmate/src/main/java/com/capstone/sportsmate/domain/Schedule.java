@@ -20,7 +20,7 @@ public class Schedule {
     private int credit;
 
     @Column(name="min_member")
-    private int minMember;
+    private int currentMember;
     @Column(name = "max_member")
     private int maxMember;
 
@@ -41,10 +41,10 @@ public class Schedule {
     //Create
 
 
-    public static Schedule createSchedule(int credit, int minMember, int maxMember, String contents, Regist regist,Party party) {
+    public static Schedule createSchedule(int credit, int currentMember, int maxMember, String contents, Regist regist,Party party) {
         Schedule schedule = new Schedule();
         schedule.credit = credit;
-        schedule.minMember = minMember;
+        schedule.currentMember = currentMember;
         schedule.maxMember = maxMember;
         schedule.contents = contents;
         schedule.regist = regist;
