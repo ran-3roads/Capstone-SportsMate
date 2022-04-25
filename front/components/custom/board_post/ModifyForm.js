@@ -7,12 +7,12 @@ import Popup from '../popup';
 
 
 const write = {
-    'title':'',
-    'content' : '',
+    "title": "첫번째 게시글입니다.",
+    "content": "첫번째 게시글 내용입니다.",
 }
 
 
-const WriteForm = () => {
+const ModifyForm = () => {
 
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
  
@@ -31,7 +31,7 @@ const WriteForm = () => {
 
     return (
         <div>
-            <h2 align="center">게시글 작성</h2>
+            <h2 align="center">게시글 수정</h2>
             <Popup open = {popup.open} setPopup = {setPopup} message = {popup.message} title = {popup.title} callback = {popup.callback}/>
             <Container>
                 <Row>
@@ -62,11 +62,11 @@ const WriteForm = () => {
                         }}>
                         <FormGroup className="col-md-6">
                                 <Label htmlFor="title">제목을 입력해주세요</Label>
-                                <Input type="text" className="form-control" id="title" placeholder="제목" value={title} onChange={onchangeTitle}/>
+                                <Input type="text" className="form-control" id="title" placeholder={write.title} value={title} onChange={onchangeTitle}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="phoneNumber">내용을 입력해주세요</Label>
-                                <textarea  rows="10" cols="60" id="content" placeholder="내용" value={content} onChange={onchangeContent}/>
+                                <textarea  rows="10" cols="60" id="content" placeholder={write.content} value={content} onChange={onchangeContent}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">저장</Button>
@@ -80,4 +80,4 @@ const WriteForm = () => {
     );
 }
 
-export default WriteForm;
+export default ModifyForm;
