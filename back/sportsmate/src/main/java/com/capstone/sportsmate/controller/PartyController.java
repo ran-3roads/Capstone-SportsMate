@@ -1,8 +1,10 @@
 package com.capstone.sportsmate.controller;
+import com.capstone.sportsmate.domain.Arena;
 import com.capstone.sportsmate.exception.InconsistencyException;
 import com.capstone.sportsmate.exception.NotFoundEntityException;
 import com.capstone.sportsmate.exception.response.ErrorResponse;
 import com.capstone.sportsmate.service.PartyBoardService;
+import com.capstone.sportsmate.service.RegistService;
 import com.capstone.sportsmate.web.*;
 import com.capstone.sportsmate.domain.PartyBoard;
 import com.capstone.sportsmate.domain.Comment;
@@ -12,6 +14,7 @@ import com.capstone.sportsmate.exception.MyRoleException;
 import com.capstone.sportsmate.service.MemberService;
 import com.capstone.sportsmate.service.PartyService;
 import com.capstone.sportsmate.web.response.CommentResponse;
+import com.capstone.sportsmate.web.response.EventResponse;
 import com.capstone.sportsmate.web.response.PartyBoardResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +30,7 @@ public class PartyController {
     private final PartyService partyService;
     private final MemberService memberService;
     private final PartyBoardService partyBoardService;
+    private final RegistService registService;
     
     @GetMapping("/myparty") //일단은 그냥 id 값 받는걸로 함 추후 security 숙지되면 변경할 예정
     public List<Party> myParty(){
@@ -142,6 +146,43 @@ public class PartyController {
         partyBoardService.deleteComment(commentId);//삭제
         return "delete";
     }
+    // ----------------------파티일정------------------------
+    // ------멤버시점------
+    @GetMapping("/{partyId}/schedule") // 파티일정들 불러 오기
+    public List<EventResponse> getEventList(@PathVariable("partyId") Long partyId){
+        return registService.getEventList(partyId);
+    }
+
+
+    // ------방장시점------
+    @GetMapping("/{partyId}/schedule/regist/getArenaList") // 파티 일정예약을 위해 경기장(arena) 정보들 불러오기 //팝업처리할지 물어봐야함
+    public List<Arena> getArenaList(@PathVariable("partyId") Long partyId){
+        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
+            throw new MyRoleException("예약 권한이 없습니다.");
+        }
+        return registService.getArenaList(partyId);
+    }
+    @GetMapping("/{partyId}/schedule/regist/{arenaId}/book") // 경기장을 확인한다.
+    public Arena getArenaInfo(@PathVariable("partyId") Long partyId, @PathVariable("arenaId") Long arenaId){
+        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
+            throw new MyRoleException("예약 권한이 없습니다.");
+        }
+        return registService.getArenaInfo(arenaId);
+    }
+    @PostMapping("/{partyId}/schedule/regist/{arenaId}/book") // 경기장을 확인한다.
+    String bookArena(@RequestBody PartyForm form,@PathVariable("partyId") Long partyId,@PathVariable("arenaId") Long arenaId){
+        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
+            throw new MyRoleException("예약 권한이 없습니다.");
+        }
+
+        return "예약 되었습니다";
+    }
+
+
+
+
+
+
     // --------------------투표--------------------
 //    //----------조회----------
 //    @GetMapping("/{partyId}/partyboard/{partyBoardId}/vote")//게시글 선택시 게시글에 댓글들 리턴
