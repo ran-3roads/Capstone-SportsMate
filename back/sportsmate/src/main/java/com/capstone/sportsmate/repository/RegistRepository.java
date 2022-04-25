@@ -2,6 +2,7 @@ package com.capstone.sportsmate.repository;
 
 import com.capstone.sportsmate.domain.Arena;
 import com.capstone.sportsmate.domain.Party;
+import com.capstone.sportsmate.domain.Regist;
 import com.capstone.sportsmate.domain.Schedule;
 import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.domain.status.SportsName;
@@ -45,4 +46,8 @@ public class RegistRepository {
     public Arena findArenaOne(Long id) {
         return em.find(Arena.class, id);
     }
+    public Regist findRegistOne(Long id) {
+        return em.find(Regist.class, id);
+    }
+
 }

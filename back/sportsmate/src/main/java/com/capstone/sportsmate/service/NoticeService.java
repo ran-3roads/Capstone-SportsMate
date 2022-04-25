@@ -87,6 +87,7 @@ public class NoticeService {
         PartyMember partyMember= PartyMember.createPartyMember(apply.getMember(),apply.getParty(), Role.MEMBER, LocalDate.now());
         apply.setState(Request.ACCEPT);
 
+        apply.getParty().addMember();
         sendReply(apply.getMember(),Request.ACCEPT,apply.getParty());
 
         partyRepository.mkPartyMember(partyMember);

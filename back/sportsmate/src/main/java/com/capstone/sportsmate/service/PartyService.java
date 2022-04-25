@@ -1,9 +1,6 @@
 package com.capstone.sportsmate.service;
 
-import com.capstone.sportsmate.domain.Apply;
-import com.capstone.sportsmate.domain.Member;
-import com.capstone.sportsmate.domain.Party;
-import com.capstone.sportsmate.domain.PartyMember;
+import com.capstone.sportsmate.domain.*;
 import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.domain.status.NoticeStatus;
 import com.capstone.sportsmate.domain.status.NoticeType;
@@ -21,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -34,7 +32,7 @@ public class PartyService {
     public Long mkParty (PartyForm form, Long id){
         validateDuplicateParty(form.getTitle());//중복 파티이름 검증
         Member member= memberRepository.findOne(id);
-        Party party = Party.createParty(form.getSportsName(), form.getTitle(), form.getLocation(), form.getIntro(), LocalDate.now(),0,form.getInfo());
+        Party party = Party.createParty(form.getSportsName(), form.getTitle(), form.getLocation(), form.getIntro(), LocalDate.now(),1,form.getInfo());
         partyRepository.save(party); // 파티 저장
         JoinPartytoHost(party,member); //파티멤버 추가
         return party.getId();
@@ -81,7 +79,9 @@ public class PartyService {
 
         return true;
     }
-
+    public List<Party> getPartyList(){
+       return partyRepository.findAll();
+    }
     private void JoinPartytoMember(Party party, Member member){
         PartyMember partyMember= PartyMember.createPartyMember(member,party, Role.MEMBER,LocalDate.now());
         partyRepository.mkPartyMember(partyMember);

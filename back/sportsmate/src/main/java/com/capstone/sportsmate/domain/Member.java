@@ -81,4 +81,8 @@ public class Member {
     public void deposit(int credit){
         this.credit = this.credit + credit;
     }
+    //포인트 감소
+    public void withdraw(int credit) {
+        this.credit = this.credit - credit;
+    }
 }

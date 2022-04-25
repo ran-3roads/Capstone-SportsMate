@@ -25,6 +25,10 @@ public class PartyRepository {
         em.persist(party);
         return party.getId();
     }
+    public List<Party> findAll(){
+        return em.createQuery("select p from Party p", Party.class)
+                .getResultList();
+    }
 
     public Party findByTitle(String title){
         Party party;

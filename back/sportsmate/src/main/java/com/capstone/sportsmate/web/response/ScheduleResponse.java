@@ -2,6 +2,7 @@ package com.capstone.sportsmate.web.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import java.time.LocalDateTime;
@@ -20,8 +21,10 @@ public class ScheduleResponse {
 
     private int maxMember; // 목표 인원
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startTime; // 경기 시작
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endTime; // 경기끝
 
 }
