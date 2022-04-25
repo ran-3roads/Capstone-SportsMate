@@ -2,11 +2,37 @@ import Head from "next/head";
 import { Container, Row, Col, Button } from "reactstrap";
 import { useRouter } from 'next/router'
 import React from 'react';
-import Image from "next/image";
 import footballimg from "../../../assets/images/landingpage/football.png";
 import PartySelect from "../../../components/custom/partyselectform";
+import MyCalendar from "../../../components/custom/calendar/MyCalendar"
 
 export default function Schedule() {
+  const events = [
+    {
+        title: "04.24 출근",
+        allDay: false,
+        start: new Date(2022,3,24,9,0),
+        end:new Date(2022,3,24,10,30),
+    },
+    {
+        title: "04.24 퇴근",
+        allDay: false,
+        start: new Date(2022,3,24,18,0),
+        end:new Date(2022,3,24,19,30),
+    },
+    {
+      title: "한성대경기장",
+      allDay: false,
+      start: new Date(2022,3,24,17,0),
+      end: new Date(2022,3,24,19,30),
+  },
+  {
+    title: "고척돔",
+    allDay: false,
+    start: new Date(2022,3,28,17,0),
+    end:new Date(2022,3,28,19,30),
+},
+];
     const router = useRouter();
     const { id } = router.query;
     console.log(id);
@@ -31,19 +57,11 @@ export default function Schedule() {
           <PartySelect>
           </PartySelect>
                       <Col md="7" className="text-center">
-                          <h1 className="title font-bold">Party Title</h1>
-                          <h6 className="subtitle">Party 정보글</h6>
+                          <h1 className="title font-bold">{party.title} 일정</h1>
+                          <h6 className="subtitle">Party Schedule</h6>
                       </Col>
                       <div className="guide_margin">
-                      <div className="party_box">
-                        <div className="party_boxc">
-                        <div className='mImage'>
-                              <span className='mInner'>
-                              <Image src={footballimg} alt="모임사진"/>
-                              </span>
-                          </div>
-                        </div>
-                      </div>
+                        <MyCalendar event={events} />
                       </div>
                   </Row> 
       </Container>
