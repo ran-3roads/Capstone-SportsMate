@@ -52,6 +52,12 @@ const PostView = ({board_id},{ history }) => {
         <button className="post-view-delete-btn"
         onClick={(event)=>{
           event.preventDefault();
+          location.href=`/party/${id}/board/modify`
+          }}>
+        수정</button>
+        <button className="post-view-delete-btn"
+        onClick={(event)=>{
+          event.preventDefault();
           }}>
         삭제</button>
       </div>
