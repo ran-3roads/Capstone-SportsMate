@@ -21,6 +21,8 @@ public class ScheduleResponse {
 
     private int maxMember; // 목표 인원
 
+    private double nShotCredit; // 비용에서  목표인원을 나눈값
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startTime; // 경기 시작
 
