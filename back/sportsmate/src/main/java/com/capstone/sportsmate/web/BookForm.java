@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BookForm {
     private int maxMember;
-    private int credit; // 경기장 비용으로 맞춰줘야함.
+    private String title;
+    private String contents;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startTime; // 경기 시작

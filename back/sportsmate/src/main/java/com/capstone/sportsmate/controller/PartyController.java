@@ -1,5 +1,6 @@
 package com.capstone.sportsmate.controller;
 import com.capstone.sportsmate.domain.Arena;
+import com.capstone.sportsmate.exception.RegistException;
 import com.capstone.sportsmate.exception.InconsistencyException;
 import com.capstone.sportsmate.exception.NotFoundEntityException;
 import com.capstone.sportsmate.exception.response.ErrorResponse;
@@ -16,6 +17,7 @@ import com.capstone.sportsmate.service.PartyService;
 import com.capstone.sportsmate.web.response.CommentResponse;
 import com.capstone.sportsmate.web.response.EventResponse;
 import com.capstone.sportsmate.web.response.PartyBoardResponse;
+import com.capstone.sportsmate.web.response.ScheduleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -152,12 +154,24 @@ public class PartyController {
         partyBoardService.deleteComment(commentId);//삭제
         return "delete";
     }
+
     // ----------------------파티일정------------------------
     // ------멤버시점------
     @GetMapping("/{partyId}/schedule") // 파티일정들 불러 오기
     public List<EventResponse> getEventList(@PathVariable("partyId") Long partyId){
         return registService.getEventList(partyId);
     }
+    @GetMapping("/{partyId}/schedule/{scheduleId}") // 한 스케쥴 열람 //파티원이 아니면 못보게 만들어야함
+    public ScheduleResponse getSchedule(@PathVariable("scheduleId") Long scheduleId){
+        return registService.getSchedule(scheduleId);
+    }
+    @PostMapping("/{partyId}/schedule/{scheduleId}") // 한 스케쥴 열람 //파티원이 아니면 못보게 만들어야함
+    String bookRegist(@PathVariable("scheduleId") Long scheduleId,@PathVariable("partyId") Long partyId){
+        registService.bookRegist(memberService.getMyInfo().getId(),partyId,scheduleId);
+        return "예약했습니다.";
+    }
+
+
 
 
     // ------방장시점------
@@ -181,10 +195,10 @@ public class PartyController {
             throw new MyRoleException("예약 권한이 없습니다.");
         }
         //예약 차있는지 확인
-        if(registService.isFull(form)) {
+        if(registService.isFull(form,arenaId)) {
             return "이미 예약이 되어 있습니다.";
         }
-
+        registService.bookArena(form,arenaId,partyId);
         return "예약 되었습니다";
     }
 
@@ -253,6 +267,14 @@ public class PartyController {
     //역할이 다를때
     @ExceptionHandler(MyRoleException.class)
     public ResponseEntity<ErrorResponse> myRoleExceptionhandling(MyRoleException e) {
+        ErrorResponse response = new ErrorResponse();
+        response.setStatusCode(HttpStatus.FORBIDDEN.value());
+        response.setMessage(e.getMessage());
+        response.setTimestamp(System.currentTimeMillis());
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+    //금액 부족할때
+    public ResponseEntity<ErrorResponse> CreditException(RegistException e){
         ErrorResponse response = new ErrorResponse();
         response.setStatusCode(HttpStatus.FORBIDDEN.value());
         response.setMessage(e.getMessage());

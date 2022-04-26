@@ -69,7 +69,6 @@ public class PartyService {
         return partyRepository.findOne(partyId);
     }
 
-    @Transactional
     public boolean isCheckRole(Long partyId, Long memberId){
         Party party = partyRepository.findOne(partyId);
         Member member = memberRepository.findOne(memberId);

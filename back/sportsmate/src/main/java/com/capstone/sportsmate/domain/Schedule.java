@@ -1,6 +1,7 @@
 package com.capstone.sportsmate.domain;
 
 import com.capstone.sportsmate.web.response.EventResponse;
+import com.capstone.sportsmate.web.response.ScheduleResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
@@ -30,6 +31,7 @@ public class Schedule {
     @Column(columnDefinition = "TEXT")
     private String contents;
 
+    @JsonIgnore
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "regist_id")
     private Regist regist;
@@ -61,5 +63,10 @@ public class Schedule {
     public EventResponse toEventResponse(){
         EventResponse eventResponse = new EventResponse(this.regist.getStartTime(),this.regist.getEndTime(),this.title,this.id);
         return eventResponse;
+    }
+    public ScheduleResponse toScheduleResponse(){
+        double nShot=(double)this.credit/this.maxMember;
+        ScheduleResponse scheduleResponse =new  ScheduleResponse(this.title,this.regist.getAreana().getName(),this.credit,this.currentMember,this.maxMember,nShot,this.regist.getStartTime(),this.regist.getEndTime());
+        return scheduleResponse;
     }
 }
