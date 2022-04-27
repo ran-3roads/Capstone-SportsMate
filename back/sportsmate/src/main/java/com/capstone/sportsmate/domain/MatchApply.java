@@ -63,6 +63,5 @@ public class MatchApply {
 
     public void rejectMatchApply() {
         this.state = Request.REJECT;
-
     }
 }

@@ -1,6 +1,11 @@
 package com.capstone.sportsmate.service;
 
 import com.capstone.sportsmate.domain.*;
+import com.capstone.sportsmate.domain.notice.Notice;
+import com.capstone.sportsmate.domain.status.NoticeStatus;
+import com.capstone.sportsmate.domain.status.NoticeType;
+import com.capstone.sportsmate.domain.status.Request;
+import com.capstone.sportsmate.exception.MyRoleException;
 import com.capstone.sportsmate.repository.*;
 import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.MatchApplyForm;
@@ -12,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +30,9 @@ public class MatchService {
     private final MemberRepository memberRepository;
     private final ScheduleRepository scheduleRepository;
     private final MatchApplyRepository matchApplyRepository;
+    private final NoticeRepository noticeRepository;
+
+    private final PartyService partyService;
 
     //게시판 생성
     @Transactional
@@ -31,6 +40,10 @@ public class MatchService {
         Schedule findSchedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(()-> new RuntimeException("해당 스케줄 없음"));
         Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        //방장 권한체크
+        if(!partyService.isCheckRole(findSchedule.getParty().getId(),findMember.getId())){
+            throw new RuntimeException("해당파티의 방장이 아니므로 권한이 없습니다.");
+        }
         MatchBoard matchBoard = MatchBoard.createMatchBoard(findSchedule, findMember, matchForm);
         matchBoardRepository.save(matchBoard);
     }
@@ -87,17 +100,25 @@ public class MatchService {
         findSchedule.addCurrentMemeber();
         findMatchBoard.addCurrentMember();
 
+        sendReply(findMember,Request.ACCEPT,findSchedule.getParty());
 
     }
-    //용병신청 accept
+    //용병신청 reject
     @Transactional
     public void rejectMatchApply(Long matchApplyId) {
         MatchApply findMatchApply = matchApplyRepository.findById(matchApplyId)
                 .orElseThrow(() -> new RuntimeException("해당 apply가 없습니다."));
-
-
        findMatchApply.rejectMatchApply();
+       sendReply(findMatchApply.getMember(),Request.REJECT,findMatchApply.getSchedule().getParty());
+    }
+    //용병신청 지원자에게 응답 결과 보내기
+    public void sendReply(Member toMember, Request request, Party party){
+        Reply reply= Reply.createReply(request,party);
+        Notice notice = Notice.createNotice(toMember, NoticeType.PARTYREPLY, NoticeStatus.UNCONFIRM, LocalDateTime.now());
+        notice.setReply(reply);
+        notice.setApply(null);
 
-
+        noticeRepository.saveNotice(notice);
+        noticeRepository.saveReply(reply);
     }
 }

@@ -80,7 +80,7 @@ public class MemberController {
         return ResponseEntity.ok("logout");
     }
 
-    @GetMapping("/private/my/modify")
+    @GetMapping("/my/modify")
     public ResponseEntity<Member> my(){
         return ResponseEntity.ok(memberService.getMyInfo());
     }
