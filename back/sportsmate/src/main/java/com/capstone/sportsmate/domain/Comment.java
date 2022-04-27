@@ -13,7 +13,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name="comment")
-@Getter @Setter
+@Getter
 public class Comment {
     @Id
     @Column(name="comment_id")

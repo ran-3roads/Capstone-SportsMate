@@ -1,6 +1,8 @@
 package com.capstone.sportsmate.domain;
 
-import com.capstone.sportsmate.domain.status.Category;
+import com.capstone.sportsmate.web.MatchForm;
+import com.capstone.sportsmate.web.response.MatchBoardListResponse;
+import com.capstone.sportsmate.web.response.MatchBoardResponse;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -26,8 +28,10 @@ public class MatchBoard {
     @Column(columnDefinition = "TEXT")
     private String contents;
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    private String title;
+
+    @Column(name="current_member")
+    private int currentMember;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "regist_id")
@@ -37,14 +41,27 @@ public class MatchBoard {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public static MatchBoard createMatchBoard(int maxMember, int credit, String contents, Category category, Regist regist, Member member) {
+    public static MatchBoard createMatchBoard(Schedule schedule,Member member ,MatchForm matchForm) {// 용병 게시판 생성
         MatchBoard matchBoard = new MatchBoard();
-        matchBoard.maxMember = maxMember;
-        matchBoard.credit = credit;
-        matchBoard.contents = contents;
-        matchBoard.category = category;
-        matchBoard.regist = regist;
-        matchBoard.member = member;
+        matchBoard.currentMember = schedule.getCurrentMember();
+        matchBoard.title     = schedule.getTitle();
+        matchBoard.maxMember = schedule.getMaxMember();
+        matchBoard.credit    = schedule.getCredit();
+        matchBoard.contents  = schedule.getContents();
+        matchBoard.regist    = schedule.getRegist();
+        matchBoard.member    = member;
         return matchBoard;
+    }
+    public MatchBoardListResponse toMatchBoardListResponse(){
+       return new MatchBoardListResponse(member.getName(),id, title,
+               regist.getStartTime(), regist.getEndTime());
+    }
+    public MatchBoardResponse toMatchBoardResponse(){
+        return new MatchBoardResponse(member.getName(),maxMember,credit,contents,title,
+                currentMember,regist.getStartTime(),regist.getEndTime(), regist.getId());
+    }
+
+    public void addCurrentMember() {
+        this.currentMember++;
     }
 }

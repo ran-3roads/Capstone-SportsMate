@@ -69,4 +69,10 @@ public class Schedule {
         ScheduleResponse scheduleResponse =new  ScheduleResponse(this.title,this.regist.getAreana().getName(),this.credit,this.currentMember,this.maxMember,nShot,this.regist.getStartTime(),this.regist.getEndTime());
         return scheduleResponse;
     }
+
+    public boolean isMaxMember() {
+        if(maxMember==currentMember)
+            return true;
+        return false;
+    }
 }
