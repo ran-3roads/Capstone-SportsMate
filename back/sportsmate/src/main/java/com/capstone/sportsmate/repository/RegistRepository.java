@@ -4,6 +4,7 @@ import com.capstone.sportsmate.domain.*;
 import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.domain.status.SportsName;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -87,4 +88,16 @@ public class RegistRepository {
 
     public Schedule findSchedule(Long id){return em.find(Schedule.class, id);}
 
+    public Schedule findByRegist(Regist regist){
+        String jpql="select s from Schedule s";
+
+        //검색 조건으로 검색
+        jpql += " where s.regist = :regist";
+        TypedQuery<Schedule> query = em.createQuery(jpql, Schedule.class)
+                .setMaxResults(1000); //최대 1000건
+        if(regist != null) {
+            query = query.setParameter("regist", regist);
+        }
+        return query.getSingleResult();
+    }
 }

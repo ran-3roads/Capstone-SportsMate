@@ -4,20 +4,14 @@ import com.capstone.sportsmate.exception.RegistException;
 import com.capstone.sportsmate.exception.InconsistencyException;
 import com.capstone.sportsmate.exception.NotFoundEntityException;
 import com.capstone.sportsmate.exception.response.ErrorResponse;
-import com.capstone.sportsmate.service.PartyBoardService;
-import com.capstone.sportsmate.service.RegistService;
+import com.capstone.sportsmate.service.*;
 import com.capstone.sportsmate.web.*;
 import com.capstone.sportsmate.domain.PartyBoard;
 import com.capstone.sportsmate.domain.Comment;
 
 import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.exception.MyRoleException;
-import com.capstone.sportsmate.service.MemberService;
-import com.capstone.sportsmate.service.PartyService;
-import com.capstone.sportsmate.web.response.CommentResponse;
-import com.capstone.sportsmate.web.response.EventResponse;
-import com.capstone.sportsmate.web.response.PartyBoardResponse;
-import com.capstone.sportsmate.web.response.ScheduleResponse;
+import com.capstone.sportsmate.web.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +27,7 @@ public class PartyController {
     private final MemberService memberService;
     private final PartyBoardService partyBoardService;
     private final RegistService registService;
+    private final MatchService matchService;
 
 
     @GetMapping()
@@ -170,7 +165,10 @@ public class PartyController {
         registService.bookRegist(memberService.getMyInfo().getId(),partyId,scheduleId);
         return "예약했습니다.";
     }
-
+    @GetMapping("/{partyId}/schedule/{scheduleId}/apply") // 스케줄로 용병신청 조회하기
+    public ResponseEntity<List<MatchApplyResponse>> getMatchApply(@PathVariable("scheduleId") Long scheduleId){
+        return ResponseEntity.ok(matchService.getMatchApplyList(scheduleId));
+    }
 
 
 
