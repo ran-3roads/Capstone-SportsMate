@@ -57,7 +57,6 @@ public class NoticeController {
         if(!noticeService.validateDuplicateCheck(noticeId)){
             return "이미 처리한 지원서 입니다.";
         }
-
         noticeService.acceptApply(noticeId);
         return "수락했습니다."; //수락
     }
@@ -70,7 +69,6 @@ public class NoticeController {
         if(!noticeService.validateDuplicateCheck(noticeId)){
             return "이미 처리한 지원서 입니다.";
         }
-
         noticeService.rejectApply(noticeId);
         return "거절했습니다."; //거절
     }

@@ -22,19 +22,19 @@ public class MatchController {
 
     //----------생성----------
     //방장이 매치보드 작성
-    @PostMapping("/create/{scheduleId}")
+    @PostMapping("/board/create/{scheduleId}")
     ResponseEntity<String> createMatchBoard(@RequestBody MatchForm matchForm, @PathVariable("scheduleId") Long scheduleId){
         matchService.createMatchBoard(matchForm,scheduleId);
-        //역할을 조회할 필요가있음 나중에 refactoring하면서 만드는게 좋을듯
+        //역할을 조회할 필요가있음 나중에 refactoring하면서 만드는게 좋을듯 // 해결!
         return ResponseEntity.ok("hire create");
     }
 
     //----------조회----------
-    @GetMapping()//매치보드 게시판 페이지 들어올때 모든 리스트 넘기기
+    @GetMapping("/board")//매치보드 게시판 페이지 들어올때 모든 리스트 넘기기
     ResponseEntity<List<MatchBoardListResponse>> getMatchBoardList(){
         return ResponseEntity.ok(matchService.getMatchBoardList());
     }
-    @GetMapping("/{matchBoardId}")//매치 게시판 클릭시 단일조회
+    @GetMapping("/board/{matchBoardId}")//매치 게시판 클릭시 단일조회
     ResponseEntity<MatchBoardResponse> getMatchBoard(@PathVariable("matchBoardId") Long matchBoardId){
         return ResponseEntity.ok(matchService.getMatchBoardResponse(matchBoardId));
     }

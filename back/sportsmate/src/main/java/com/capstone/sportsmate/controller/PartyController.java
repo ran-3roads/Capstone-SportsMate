@@ -51,13 +51,13 @@ public class PartyController {
         return "success";
     }
 
-    @GetMapping("/{partyId}/info")
+    @GetMapping("/{partyId}/info")  //*
     public Party viewParty(@PathVariable("partyId") Long partyId){
         Party party= partyService.findOne(partyId);
         return party;
     }
 
-    @GetMapping("/{partyId}/info/modify")
+    @GetMapping("/{partyId}/modify") //*
     public Party editParty(@PathVariable("partyId") Long partyId){
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
             throw new MyRoleException("수정 권한이 없습니다."); //exception 리턴타입 수정해야함
@@ -109,7 +109,7 @@ public class PartyController {
         return "modify";
     }
     //----------삭제----------
-    @GetMapping("/{partyId}/partyboard/{partyBoardId}/delete") //멤버 조회후 삭제
+    @DeleteMapping("/{partyId}/partyboard/{partyBoardId}") //멤버 조회후 삭제
     public String deletePartyBoard(@PathVariable("partyBoardId") Long partyBoardId){
         partyBoardService.verifiactionBoardMember(partyBoardId);//검증
         partyBoardService.deletePartyBoard(partyBoardId);//삭제
@@ -126,7 +126,7 @@ public class PartyController {
     }
 
     //----------생성----------
-    @PostMapping("/{partyId}/partyboard/{partyBoardId}/mkcomment")
+    @PostMapping("/{partyId}/partyboard/{partyBoardId}/comment")
     public String createComment(@PathVariable("partyBoardId") Long partyBoardId,@RequestBody CommentForm commentForm) {
         partyBoardService.createComment(partyBoardId, commentForm);
         return "mkcomment";
@@ -143,7 +143,7 @@ public class PartyController {
         return "update";
     }
     //----------삭제----------
-    @GetMapping("/{partyId}/partyboard/{partyBoardId}/comment/{commentId}/delete") //멤버 조회후 댓글 삭제
+    @DeleteMapping("/{partyId}/partyboard/{partyBoardId}/comment/{commentId}") //멤버 조회후 댓글 삭제
     public String deleteComment(@PathVariable("commentId") Long commentId){
         partyBoardService.verifiactionCommentMember(commentId);//검증
         partyBoardService.deleteComment(commentId);//삭제
@@ -165,14 +165,17 @@ public class PartyController {
         registService.bookRegist(memberService.getMyInfo().getId(),partyId,scheduleId);
         return "예약했습니다.";
     }
-    @GetMapping("/{partyId}/schedule/{scheduleId}/apply") // 스케줄로 용병신청 조회하기
-    public ResponseEntity<List<MatchApplyResponse>> getMatchApply(@PathVariable("scheduleId") Long scheduleId){
-        return ResponseEntity.ok(matchService.getMatchApplyList(scheduleId));
-    }
 
 
 
     // ------방장시점------
+    @GetMapping("/{partyId}/schedule/{scheduleId}/applyList") // 스케줄로 용병신청 조회하기
+    public ResponseEntity<List<MatchApplyResponse>> getMatchApply(@PathVariable("partyId") Long partyId, @PathVariable("scheduleId") Long scheduleId){
+        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
+            throw new MyRoleException("예약 권한이 없습니다.");
+        }
+        return ResponseEntity.ok(matchService.getMatchApplyList(scheduleId));
+    }
     @GetMapping("/{partyId}/schedule/regist/getArenaList") // 파티 일정예약을 위해 경기장(arena) 정보들 불러오기 //팝업처리할지 물어봐야함
     public List<Arena> getArenaList(@PathVariable("partyId") Long partyId){
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
