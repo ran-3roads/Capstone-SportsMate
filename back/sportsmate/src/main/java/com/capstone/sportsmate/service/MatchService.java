@@ -114,7 +114,7 @@ public class MatchService {
     //용병신청 지원자에게 응답 결과 보내기
     public void sendReply(Member toMember, Request request, Party party){
         Reply reply= Reply.createReply(request,party);
-        Notice notice = Notice.createNotice(toMember, NoticeType.PARTYREPLY, NoticeStatus.UNCONFIRM, LocalDateTime.now());
+        Notice notice = Notice.createNotice(toMember, NoticeType.MATCHREPLY, NoticeStatus.UNCONFIRM, LocalDateTime.now());
         notice.setReply(reply);
         notice.setApply(null);
 
