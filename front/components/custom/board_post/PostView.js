@@ -1,13 +1,14 @@
-import { useRouter } from "next/router";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const PostView = ({board_id},{ history }) => {
   const[exam,setExam]=useState({});
-  
+  const router = useRouter();
+  const { id } = router.query;
 
   useEffect(() => {
-  axios.get(`http://localhost:8080/sportsmate/party/1/partyboard/${board_id}`)
+  axios.get(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}`)
   .then(function (response) {
     if(response.status == 200){
       setExam(response.data);
@@ -21,9 +22,6 @@ const PostView = ({board_id},{ history }) => {
               category = "공지";
             else if(exam.category=="BASIC")
               category = "자유";
-  
-  const router = useRouter();
-  const { id } = router.query;
   return (
     <div>
       <h2 align="center">게시글 상세정보</h2>

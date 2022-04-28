@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reac
 import { useState } from 'react';
 import axios from 'axios';
 import Popup from '../popup';
-
+import { useRouter } from 'next/router';
 
 
 const write = {
@@ -14,7 +14,8 @@ const write = {
 
 
 const WriteForm = () => {
-
+    const router = useRouter();
+    const { id } = router.query;
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
  
     const[title,setTitle]=useState(write.title);
@@ -44,7 +45,7 @@ const WriteForm = () => {
                         <Form className="col" id="WirteForm" onSubmit={function (event) {
                             event.preventDefault();
                                 console.log()
-                                axios.post("http://localhost:8080/sportsmate/party/1/mkpartyboard", {
+                                axios.post(`http://localhost:8080/sportsmate/party/${id}/mkpartyboard`, {
                                     title: event.target.title.value,
                                     contents: event.target.contents.value,
                                     category: event.target.category.value
