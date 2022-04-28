@@ -26,15 +26,15 @@ public class Regist {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "arena_id")
-    private Arena areana;
+    private Arena arena;
 
     // entity 생성
 
-    public static Regist createRegist(LocalDateTime startTime, LocalDateTime endTime, Arena areana) {
+    public static Regist createRegist(LocalDateTime startTime, LocalDateTime endTime, Arena arena) {
         Regist regist = new Regist();
         regist.startTime = startTime;
         regist.endTime = endTime;
-        regist.areana = areana;
+        regist.arena = arena;
         return regist;
     }
 }

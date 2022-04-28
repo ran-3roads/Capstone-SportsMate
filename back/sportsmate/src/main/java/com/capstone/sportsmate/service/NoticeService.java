@@ -111,6 +111,7 @@ public class NoticeService {
         return false; //수락 또는 거절했으면 false
     }
 
+
     //----------지원서에 대한 승락 및 거절 결과 보내줌-----------
     public void sendReply(Member toMember,Request request,Party party){
         Reply reply= Reply.createReply(request,party);
@@ -118,8 +119,8 @@ public class NoticeService {
         notice.setReply(reply);
         notice.setApply(null);
 
-        noticeRepository.saveNotice(notice);
         noticeRepository.saveReply(reply);
+        noticeRepository.saveNotice(notice);
     }
 
 }
