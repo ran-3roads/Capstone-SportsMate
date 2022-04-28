@@ -95,11 +95,20 @@ const MkpartyForm = (props) => {
                             event.preventDefault();
                             const formData = new FormData()
                             formData.append('file', image.image_file);
+                            if(event.target.sportsName.value==""||event.target.location.value==""||event.target.intro.value==""){
+                                if(event.target.sportsName.value=="")
+                                alert("종목을 선택해주세요");
+                                else if(event.target.location.value=="")
+                                alert("지역을 선택해주세요");
+                                else if(event.target.intro.value=="")
+                                alert("소개글을 입력해주세요.");
+                            }
+                            else{
                             axios.post("http://localhost:8080/sportsmate/party/mkparty", {
                                     title: event.target.title.value,
                                     sportsName: event.target.sportsName.value,
                                     intro: event.target.intro.value, 
-                                    info: 'null',
+                                    info: '파티 정보를 소개해주세요', //인포에서 처리
                                     location: event.target.location.value
                                 }/*,formData 나중에해*/)
                                 .then(function (response) {
@@ -121,12 +130,15 @@ const MkpartyForm = (props) => {
                                                 document.location.href='/';
                                             }
                                         });
-                                }
+                                    }
                             }).catch(function (error) {
-                                    //error
+                                    if(error.response.status == 500){
+                                        alert("중복된 파티이름입니다.");
+                                    }
                                     console.log(error);
                                 });
                         }
+                    }
                     }>
                         <FormGroup className="col-md-6">
                                 <Label htmlFor="title">파티 이름</Label>

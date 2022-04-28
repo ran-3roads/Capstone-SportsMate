@@ -85,6 +85,16 @@ public class PartyService {
         if(partyMember==null) return false;
         return true;
     }
+
+    public boolean isPartyMember(Long partyId, Long memberId){
+        Party party = partyRepository.findOne(partyId);
+        Member member = memberRepository.findOne(memberId);
+        PartyMember partyMember= partyRepository.isRole(party,member);
+
+        if(partyMember==null) return false;
+        return true;
+    }
+
     public List<Party> getPartyList(){
        return partyRepository.findAll();
     }

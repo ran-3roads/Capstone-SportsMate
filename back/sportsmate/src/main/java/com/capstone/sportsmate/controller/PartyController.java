@@ -52,6 +52,7 @@ public class PartyController {
         }
         return true;
     }
+
     @PostMapping("/{partyId}/join") // 파티참가
     public String joinParty(@PathVariable("partyId") Long partyId){
         partyService.joinParty(partyId,memberService.getMyInfo().getId());
