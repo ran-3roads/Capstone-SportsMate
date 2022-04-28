@@ -3,45 +3,60 @@ import Link from "next/link";
 import CommonTable from './CommonTable';
 import CommonTableColumn from './CommonTableColumn';
 import CommonTableRow from './CommonTableRow';
-import { postList } from './Data';
+import axios from 'axios';
+
 const PostList = props => {
-  const [ dataList, setDataList ] = useState([]);
-  useEffect(() => {
-    setDataList(postList);
-  }, [ ])
-  return (
+  const [postList,setPostList]=useState([]);
+    useEffect(() => {
+        axios.get("http://localhost:8080/sportsmate/party/1/partyboard")
+        .then(function (response) {
+          if(response.status == 200){
+            setPostList(response.data)
+                                        console.log(postList)
+                                    }
+                            }).catch(function (error) {
+                                    console.log(error);
+                                });
+    }, []);
+
+return (
     <>
-      <CommonTable headersName={['글번호', '제목', '등록일', '조회수']}>
+      <CommonTable headersName={['글번호', '제목', '등록일', '카테고리']}>
         {
-          dataList ? dataList.map((item, index) => {
-          
+          postList ? postList.map((p, index) => {
+            let category = undefined;
+            if(p.category=="NOTICE")
+              category = "공지";
+            else if(p.category=="BASIC")
+              category = "자유";
+
             return (
                 <CommonTableRow key={index}>
                 <CommonTableColumn>
-                <Link href={`/party/${props.id}/board/${item.no}`}>
+                <Link href={`/party/${props.id}/board/${p.id}`}>
                 <a>
-                  { item.no }
+                  { p.id }
                 </a>
                 </Link>
                 </CommonTableColumn>
                 <CommonTableColumn>
-                <Link href={`/party/${props.id}/board/${item.no}`}>
+                <Link href={`/party/${props.id}/board/${p.id}`}>
                 <a>  
-                  { item.title }
+                  { p.title }
                   </a>
                 </Link>  
                 </CommonTableColumn>
                 <CommonTableColumn>
-                <Link href={`/party/${props.id}/board/${item.no}`}>
+                <Link href={`/party/${props.id}/board/${p.id}`}>
                 <a>    
-                  { item.createDate }
+                  { p.sinceDate }
                   </a>
                 </Link>  
                 </CommonTableColumn>
                 <CommonTableColumn>
-                <Link href={`/party/${props.id}/board/${item.no}`}>
+                <Link href={`/party/${props.id}/board/${p.id}`}>
                 <a>    
-                { item.readCount }
+                { category }
                 </a>
                 </Link>  
                 </CommonTableColumn>        

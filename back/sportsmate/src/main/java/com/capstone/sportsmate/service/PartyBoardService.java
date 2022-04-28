@@ -1,10 +1,10 @@
 package com.capstone.sportsmate.service;
 
-import com.capstone.sportsmate.domain.Comment;
-import com.capstone.sportsmate.domain.Member;
-import com.capstone.sportsmate.domain.Party;
-import com.capstone.sportsmate.domain.PartyBoard;
+import com.capstone.sportsmate.domain.*;
+import com.capstone.sportsmate.domain.status.Category;
+import com.capstone.sportsmate.domain.status.Role;
 import com.capstone.sportsmate.exception.InconsistencyException;
+import com.capstone.sportsmate.exception.MyRoleException;
 import com.capstone.sportsmate.exception.NotFoundEntityException;
 import com.capstone.sportsmate.repository.CommentRepository;
 import com.capstone.sportsmate.repository.MemberRepository;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PartyBoardService {
-
+//공지면 우선순위 위로
 
     private final MemberRepository memberRepository;
     private final PartyRepository partyRepository;
@@ -51,6 +51,13 @@ public class PartyBoardService {
     public void createPartyBoard(Long partyId, PartyBoardForm partyBoardForm){//파티보드 생성
         Party party = partyRepository.findOne(partyId);
         Member member = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        if(partyBoardForm.getCategory().equals(Category.NOTICE)){
+            PartyMember partyMember = partyRepository.isRole(party,member);
+            if(partyMember.getRole().equals(Role.MEMBER))
+                throw new MyRoleException("방장이 아니면 생성이 불가합니다.");
+            else if(partyMember.getRole().equals(null))//
+                throw new RuntimeException("파티원이 아닙니다.");//상세한 에러를 정해줘야함
+        }
         PartyBoard partyBoard = PartyBoard.createPartyBoard(partyBoardForm.getCategory(), partyBoardForm.getTitle(),
                 partyBoardForm.getContents(), LocalDateTime.now(), member, party);
         partyBoardRepository.save(partyBoard);
