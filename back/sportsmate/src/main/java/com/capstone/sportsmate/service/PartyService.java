@@ -83,9 +83,6 @@ public class PartyService {
         PartyMember partyMember= partyRepository.isRole(party,member);
 
         if(partyMember==null) return false;
-        if(!partyMember.getRole().equals(Role.HOST))return false;
-        if(!partyMember.getRole().equals(Role.MEMBER))return false;
-
         return true;
     }
     public List<Party> getPartyList(){
