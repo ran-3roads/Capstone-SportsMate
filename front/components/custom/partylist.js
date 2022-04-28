@@ -4,150 +4,25 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button,Pagination, Form, FormGroup,PaginationItem, PaginationLink, Container, Row, Col,Input } from 'reactstrap';
 import footballimg from "../../assets/images/landingpage/football.png";
-import { useState } from "react";
-
+import { useState,useEffect } from "react";
+import axios from "axios";
 const PList = () => {
-    const partys = [
-        {
-            party_id:1 ,
-            sports_name:'풋살',
-            intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-            location: '성북구',
-            since_date:'2022-4-18',
-            title: '성풋모1', 
-            infoimg: footballimg
-        },
-        {
-            party_id:2 ,
-            sports_name:'풋살',
-            intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-            location: '성북구',
-            since_date:'2022-4-18',
-            title: '성풋모2', 
-            infoimg: footballimg
-        },
-        {
-            party_id:3 ,
-            sports_name:'풋살',
-            intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-            location: '성북구',
-            since_date:'2022-4-18',
-            title: '성풋모3', 
-            infoimg: footballimg
-            },
-        {
-            party_id:4 ,
-            sports_name:'풋살',
-            intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-            location: '성북구',
-            since_date:'2022-4-18',
-            title: '성풋모4', 
-            infoimg: footballimg
-        },
-        {
-           party_id:5 ,
-            sports_name:'풋살',
-            intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-            location: '성북구',
-            since_date:'2022-4-18',
-            title: '성풋모5', 
-            infoimg: footballimg
-        },
-        {
-            party_id:6 ,
-             sports_name:'농구',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모6', 
-             infoimg: footballimg
-         },
-         {
-            party_id:7 ,
-             sports_name:'농구',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모7', 
-             infoimg: footballimg
-         },
-         {
-            party_id:8 ,
-             sports_name:'농구',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모8', 
-             infoimg: footballimg
-         },
-         {
-            party_id:9 ,
-             sports_name:'풋살',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모9', 
-             infoimg: footballimg
-         },
-         {
-            party_id:10 ,
-             sports_name:'농구',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모10', 
-             infoimg: footballimg
-         },
-         {
-            party_id:11 ,
-             sports_name:'풋살',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모11', 
-             infoimg: footballimg
-         },
-         {
-            party_id:12 ,
-             sports_name:'풋살',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모12', 
-             infoimg: footballimg
-         },
-         {
-            party_id:13 ,
-             sports_name:'풋살',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모13', 
-             infoimg: footballimg
-         },
-         {
-            party_id:14 ,
-             sports_name:'풋살',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모14', 
-             infoimg: footballimg
-         },
-         {
-            party_id:15 ,
-             sports_name:'풋살',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모15', 
-             infoimg: footballimg
-         },
-    ];
+    const [partys,setPartys]=useState([]);
+    useEffect(() => {
+        axios.get("http://localhost:8080/sportsmate/party")
+                                .then(function (response) {
+                                    if(response.status == 200){
+                                        setPartys(response.data)
+                                        console.log(partys)
+                                    }
+                            }).catch(function (error) {
+                                    console.log(error);
+                                });
+    }, [])
     let result = [...partys];
     const[currentPage,setCurrentPage]=useState(0);
     const[location,setLocation]=useState("all");
-    const[sports_name,setSports_name]=useState("all");
+    const[sportsName,setSportsName]=useState("all");
     const[party_title,setParty_title]=useState("");
     const[search,setSearch]=useState("");
     const handleClick=(e, index)=>{
@@ -158,15 +33,15 @@ const PList = () => {
         setLocation(e.target.value)
         setCurrentPage(0);
     }
-    const onchangeSports_name = (e) =>{
-        setSports_name(e.target.value)
+    const onchangeSportsName = (e) =>{
+        setSportsName(e.target.value)
         setCurrentPage(0);
     }
     const onchangeParty_title = (e) =>{
         setParty_title(e.target.value)
         setCurrentPage(0);
     }
-    if(location=="all"&&sports_name=="all"){
+    if(location=="all"&&sportsName=="all"){
         let i=0;
         result=null;
         result=new Array();
@@ -188,7 +63,7 @@ const PList = () => {
         result=new Array();
         if(search=="")
         partys.map(p=>{
-            if(p.sports_name==sports_name)
+            if(p.sportsName==sportsName)
             {
               result[i]={...p};
               i++;
@@ -196,14 +71,14 @@ const PList = () => {
         })
         else
         partys.map(p=>{
-            if(p.sports_name==sports_name&&p.title.indexOf(search)!=-1)
+            if(p.sportsName==sportsName&&p.title.indexOf(search)!=-1)
             {
               result[i]={...p};
               i++;
             }
         })
     }
-    else if(sports_name=="all"){
+    else if(sportsName=="all"){
         let i=0;
         result=null;
         result=new Array();
@@ -230,7 +105,7 @@ const PList = () => {
         result=new Array();
         if(search=="")
         partys.map(p=>{
-            if(p.sports_name==sports_name&&p.location==location)
+            if(p.sportsName==sportsName&&p.location==location)
             {
               result[i]={...p};
               i++;
@@ -238,7 +113,7 @@ const PList = () => {
         })
         else
         partys.map(p=>{
-            if(p.sports_name==sports_name&&p.location==location&&p.title.indexOf(search)!=-1)
+            if(p.sportsName==sportsName&&p.location==location&&p.title.indexOf(search)!=-1)
             {
               result[i]={...p};
               i++;
@@ -265,7 +140,7 @@ const PList = () => {
                 <Row>
                 <div>
                                     <span className="partyfilter">
-                                    <Input type="select" name="sports_name" value={sports_name} onChange={onchangeSports_name}>
+                                    <Input type="select" name="sportsName" value={sportsName} onChange={onchangeSportsName}>
                                     <option value="all" selected>종목선택(전체)</option>
 										  	 			<option value="축구">
                                                             축구
@@ -391,7 +266,7 @@ const PList = () => {
                                                 event.preventDefault();
                                                 setSearch("");
                                                 setLocation("all");
-                                                setSports_name("all");
+                                                setSportsName("all");
                                                 setParty_title("");
                                                 setCurrentPage(0);
                                             }}>검색필터초기화</Button>
@@ -410,18 +285,18 @@ const PList = () => {
                     ).map(p => {
                         return (
                             <li className='mItem'>
-                                <Link href={`/party/${p.party_id}/board`}>
+                                <Link href={`/party/${p.id}/board`}>
                                     <div className='mUri' >
                                         <div class ="mcover">
                                             <div className='mImage'>
                                                 <span className='mInner'>
-                                                <Image src={p.infoimg} alt="모임소개사진"/>
+                                                <Image src={footballimg} alt="모임소개사진"/>
                                                 </span>
                                             </div>
                                         </div>
                                         <div class ="mName">
                                             <strong class="name"><a>{p.title}</a></strong>
-                                            <a>{'종목:'+p.sports_name+'  지역:'+p.location}</a>
+                                            <a>{'종목:'+p.sportsName+'  지역:'+p.location}</a>
                                             <p className="pSubTxt">{p.intro}</p>
                                         </div>
                                     </div>

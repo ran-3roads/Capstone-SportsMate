@@ -1,26 +1,40 @@
 import Head from "next/head";
 import { Container, Row, Col, Button } from "reactstrap";
-import { useRouter } from 'next/router'
+import { useRouter} from 'next/router'
 import Link from "next/link";
 import React from 'react';
 import Image from "next/image";
 import footballimg from "../../../assets/images/landingpage/football.png";
 import partyimg from "../../../assets/images/landingpage/20.jpg";
 import PartySelect from "../../../components/custom/partyselectform";
-
+import axios from "axios";
+import { useState,useEffect } from "react";
 export default function Info() {
     const router = useRouter();
     const { id } = router.query;
-    console.log(id);
-    const party = {
-      party_id:id , // id 외의 정보는 db로 가져오기
-      sports_name:'풋살',
-      intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-      location: '성북구',
-      since_date:'2022-4-18',
-      title: '성풋모1', 
-      infoimg: footballimg
-  }
+    const [party,setParty]=useState([]);
+    const [ismember,setIsmember]=useState('false');
+    useEffect(() => {
+        axios.get(`http://localhost:8080/sportsmate/party/${id}/info`)
+                                .then(function (response) {
+                                    if(response.status == 200){
+                                        setParty(response.data)
+                                        console.log(party)
+                                    }
+                            }).catch(function (error) {
+                                    console.log(error);
+                                });
+    }, [])
+    useEffect(() => {
+      axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyMember`)
+                              .then(function (response) {
+                                  if(response.status == 200){
+                                    console.log(response);
+                                  }
+                          }).catch(function (error) {
+                                  console.log(error);
+                              });
+  }, [])
     const partyinfo = {
     manager: '맹구토씈갈리오',
     sinceDate:'2022-4-5',
@@ -50,9 +64,9 @@ export default function Info() {
                             <div className="party_infoboxc">
                               <div className="left_section">
                                 <div className="inf_name"><div className="party_font">방장: {partyinfo.manager} 님</div></div>
-                                <div className="since_date"><div className="party_font">개설일: {partyinfo.sinceDate}</div></div>
+                                <div className="since_date"><div className="party_font">개설일: {party.sinceDate}</div></div>
                                 <div className="party_font">멤버수: {partyinfo.members}명 </div>
-                                <div className="party_font">활동: {party.sports_name}</div>
+                                <div className="party_font">활동: {party.sportsName}</div>
                                   <Link href={`/party/${id}/partysignup`}>
                                     <a className="btn btn-danger m-r-10 btn-md m-t-20 ">
                                       파티 가입하기
