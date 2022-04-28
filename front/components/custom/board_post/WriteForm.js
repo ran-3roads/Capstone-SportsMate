@@ -58,7 +58,7 @@ const WriteForm = () => {
                                             title: "Confirm",
                                             message: "작성완료!", 
                                             callback: function(){
-                                                document.location.href='/';
+                                                document.location.href=`/party/${id}/board`;
                                             }
                                         });
                                 }
