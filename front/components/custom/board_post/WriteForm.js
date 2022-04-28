@@ -9,6 +9,7 @@ import Popup from '../popup';
 const write = {
     'title':'',
     'content' : '',
+    
 }
 
 
