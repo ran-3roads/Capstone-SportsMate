@@ -8,7 +8,7 @@ import axios from 'axios';
 const PostList = props => {
   const [postList,setPostList]=useState([]);
     useEffect(() => {
-        axios.get("http://localhost:8080/sportsmate/party/1/partyboard")
+        axios.get(`http://localhost:8080/sportsmate/party/${props.id}/partyboard`)
         .then(function (response) {
           if(response.status == 200){
             setPostList(response.data)
