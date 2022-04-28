@@ -75,7 +75,14 @@ public class PartyService {
         PartyMember partyMember= partyRepository.isRole(party,member);
         if(partyMember==null) return false;
         if(!partyMember.getRole().equals(Role.HOST))return false;
+        return true;
+    }
+    public boolean isPartyMember(Long partyId, Long memberId){
+        Party party = partyRepository.findOne(partyId);
+        Member member = memberRepository.findOne(memberId);
+        PartyMember partyMember= partyRepository.isRole(party,member);
 
+        if(partyMember==null) return false;
         return true;
     }
 
@@ -112,7 +119,6 @@ public class PartyService {
             throw new IllegalStateException("이미 신청했던 파티입니다.");
         }
     }
-
 
     public List<Party> findMyParties(Long id) { //멤버가 가입한 파티리스트 출력
         PartySearch partySearch= new PartySearch();
