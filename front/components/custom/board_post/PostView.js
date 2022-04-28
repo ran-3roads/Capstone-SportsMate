@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { useRouter } from "next/router";
-
-const PostView = ({board_id},{ history }) => {
+import Link from "next/link";
+const PostView = ({ history }) => {
   const[exam,setExam]=useState({});
   const router = useRouter();
   const { id } = router.query;
+  const { board_id } = router.query;
   useEffect(() => {
     axios.get(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}`)
   .then(function (response) {
@@ -54,23 +55,22 @@ const PostView = ({board_id},{ history }) => {
               </div>
             </div>
           }
-        <button className="post-view-go-list-btn"
-        onClick={(event)=>{
+        <Link href={`/party/${id}/board`}>
+              <a className="btn btn-md m-t-30  btn-outline-light bg-primary ">
+                목록으로 돌아가기
+              </a>
+        </Link>
+        <Link href={`/party/${id}/board/${board_id}/modify`}>
+              <a className="btn btn-md m-t-30  btn-outline-light bg-warning ">
+                수정
+              </a>
+        </Link>
+              <a className="btn btn-md m-t-30  btn-outline-light bg-danger "onClick={(event)=>{
           event.preventDefault();
-          location.href=`/party/${id}/board`
+          location.reload();
           }}>
-        목록으로 돌아가기</button>
-        <button className="post-view-delete-btn"
-        onClick={(event)=>{
-          event.preventDefault();
-          location.href=`/party/${id}/board/modify`
-          }}>
-        수정</button>
-        <button className="post-view-delete-btn"
-        onClick={(event)=>{
-          event.preventDefault();
-          }}>
-        삭제</button>
+                삭제
+              </a>
       </div>
     </div>
   )

@@ -1,60 +1,42 @@
 import React from 'react';
 import Head from "next/head";
 import { useRouter } from 'next/router'
-import PostView from "../../../../components/custom/board_post/PostView";
+import PostView from "../../../../../components/custom/board_post/PostView";
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import CommonTable from "../../../../components/custom/board_post/CommonTable";
-import CommonTableColumn from "../../../../components/custom/board_post/CommonTableColumn";
-import CommonTableRow from "../../../../components/custom/board_post/CommonTableRow";
-import { useState } from 'react';
-
+import CommonTable from "../../../../../components/custom/board_post/CommonTable";
+import CommonTableColumn from "../../../../../components/custom/board_post/CommonTableColumn";
+import CommonTableRow from "../../../../../components/custom/board_post/CommonTableRow";
+import { useState,useEffect } from 'react';
+import axios from 'axios';
 export default function Board_id() {
   const router = useRouter();
   const mynickName="장래희망hero"; //db에 토큰으로 내닉네임 요청 
   const { id } = router.query;
   const { board_id } = router.query;
+  const [comments,setComments]=useState([]);
+    useEffect(() => {
+        axios.get(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/comment`)
+        .then(function (response) {
+          if(response.status == 200){
+            setComments(response.data)
+            console.log(response.data)
+                                        console.log(comments)
+                                    }
+                            }).catch(function (error) {
+                                    console.log(error);
+                                });
+    }, []);
   const[text,setText]=useState('');
   const onchangeText = (e) =>{
     setText(e.target.value)
 }
-  const comments =[
-    {
+ /*{
       comment_id:"1",
       contents:"댓글로 안녕하다고 인사함1",
       since_date:"2022-04-22 14:31:10",
       nick_name:"맹구토슼갈리오1"
-    },
-    {
-      comment_id:"2",
-      contents:"댓글로 안녕하다고 인사함2",
-      since_date:"2022-04-22 14:32:10",
-      nick_name:"맹구토슼갈리오2"
-    },
-    {
-      comment_id:"3",
-      contents:"댓글로 안녕하다고 인사함3",
-      since_date:"2022-04-22 14:33:10",
-      nick_name:"맹구토슼갈리오3"
-    },
-    {
-      comment_id:"4",
-      contents:"댓글로 안녕하다고 인사함4",
-      since_date:"2022-04-22 14:34:10",
-      nick_name:"맹구토슼갈리오4"
-    },
-    {
-      comment_id:"5",
-      contents:"댓글로 안녕하다고 인사함5",
-      since_date:"2022-04-22 14:35:10",
-      nick_name:"맹구토슼갈리오5"
-    },
-    {
-      comment_id:"6",
-      contents:"댓글로 안녕하다고 인사함6",
-      since_date:"2022-04-22 14:36:10",
-      nick_name:"맹구토슼갈리오6"
-    },
-  ];
+    }
+    */
   return (
     <div>
       <Head>
@@ -73,10 +55,10 @@ export default function Board_id() {
                         {
                           comments.map(c => {
                             return (
-                                <CommonTableRow key={c.comment_id}>
+                                <CommonTableRow key={c.id}>
                                 <CommonTableColumn>
                                 <a>
-                                  { c.nick_name }
+                                  { c.nickName }
                                 </a>
                                 </CommonTableColumn>
                                 <CommonTableColumn>
@@ -86,11 +68,22 @@ export default function Board_id() {
                                 </CommonTableColumn>
                                 <CommonTableColumn>
                                 <a>    
-                                  { c.since_date } 
+                                  { c.sinceDate } 
                                   </a>
                                   
-                                  <button id={c.comment_id} value="삭제" onClick={(event)=>{
+                                  <button id={c.id} value="삭제" onClick={(event)=>{
                                     event.preventDefault();
+                                    axios.delete(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/comment/${event.target.id}`)
+                                .then(function (response) {
+                                    //받는거
+                                    if(response.status == 200){
+                                        alert("댓글이 삭제되었습니다.")
+                                        location.reload();
+                                }
+                            }).catch(function (error) {
+                                    //error
+                                    console.log(error);
+                                });
                                     /*
                                     event.target.id 이용해서 권한확인후삭제
                                     */
@@ -104,21 +97,19 @@ export default function Board_id() {
                     </CommonTable>
                     <Form id="commentForm" onSubmit={function (event) {
                             event.preventDefault();
-                            alert("댓글작성완료");
-                            location.reload();
-                            /*
-                            axios.post("http://localhost:8080/sportsmate/member/public/signup", {
-                            
+                            console.log(event.target.text.value)
+                            axios.post(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/comment`, {
+                              contents: event.target.text.value 
                             })
                             .then(function (response) {
                               if(response.status == 200){
                                 alert("댓글작성완료")
+                                location.reload();
                             }
                             }).catch(function (error) {
                               //error
                               console.log(error);
                             });
-                            */
                           }
                         }>
                     <Container id="comment_write">

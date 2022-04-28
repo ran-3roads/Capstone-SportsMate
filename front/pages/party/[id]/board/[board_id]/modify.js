@@ -1,5 +1,5 @@
 import React from 'react';
-import ModifyForm from "../../../../components/custom/board_post/ModifyForm";
+import ModifyForm from "../../../../../components/custom/board_post/ModifyForm";
 
 const Modify = () =>{
   return (
