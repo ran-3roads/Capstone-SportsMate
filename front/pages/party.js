@@ -8,7 +8,7 @@ import {useState} from 'react'
 
 
 export default function Party () {
-  const [mode,setMode]=useState('MYPARTY');
+  const [mode,setMode]=useState('PARTY');
   let content = null;
   if(mode == 'MYPARTY'){
     content = <MPList></MPList>

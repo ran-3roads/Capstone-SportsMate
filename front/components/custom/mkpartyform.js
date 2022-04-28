@@ -1,9 +1,83 @@
 import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Spin } from 'antd';
+import 'antd/dist/antd.css';
+import { useState } from 'react';
+import axios from 'axios';
+import Popup from './popup';
+const party = {
+    'sportsName':'',
+    'location' : '',
+    'intro':'',
+    'title':''
+}
 
-const MkpartyForm = () => {
+const MkpartyForm = (props) => {
+    const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
+ 
+    const[sportsName,setSportsName]=useState(party.sportsName);
+    const[location,setLocation]=useState(party.location);
+    const[intro,setIntro]=useState(party.intro);
+    const[title,setTitle]=useState(party.title);
+    
+
+    const onchangeSportsName = (e) =>{
+        console.log(e.target.value)
+        setSportsName(e.target.value)
+    }
+    const onchangeLocation = (e) =>{
+        console.log(e.target.value)
+        setLocation(e.target.value)
+    }
+    const onchangeIntro = (e) =>{
+        console.log(e.target.value)
+        setIntro(e.target.value)
+    }
+    const onchangeTitle = (e) =>{
+        console.log(e.target.value)
+        setTitle(e.target.value)
+    }
+    console.log(props)
+  const [image, setImage] = useState({
+    image_file: "",
+    preview_URL: "img/default_image.png",
+  });
+
+  const [loaded, setLoaded] = useState(false);
+
+  let inputRef;
+
+  const saveImage = (e) => {
+    e.preventDefault();
+    const fileReader = new FileReader();
+    
+    if(e.target.files[0]){
+      setLoaded("loading")
+      fileReader.readAsDataURL(e.target.files[0])
+    }
+    fileReader.onload = () => {
+      setImage(
+        {
+          image_file: e.target.files[0],
+          preview_URL: fileReader.result
+        }
+      )
+      setLoaded(true);
+    }
+    
+  }
+
+  const deleteImage = () => {
+    setImage({
+      image_file: "",
+      preview_URL: "img/default_image.png",
+    });
+    setLoaded(false);
+  }
+
     return (
         <div>
+            <Popup open = {popup.open} setPopup = {setPopup} message = {popup.message} title = {popup.title} callback = {popup.callback}/>
             <div className="spacer" id="forms-component">
                 <Container>
                     <Row className="justify-content-center">
@@ -17,43 +91,90 @@ const MkpartyForm = () => {
             <Container>
                 <Row>
                     <Col md="12">
-                        <Form className="col">
+                        <Form className="col" id="mkpartyForm" onSubmit={function (event) {
+                            event.preventDefault();
+                            const formData = new FormData()
+                            formData.append('file', image.image_file);
+                            if(event.target.sportsName.value==""||event.target.location.value==""||event.target.intro.value==""){
+                                if(event.target.sportsName.value=="")
+                                alert("종목을 선택해주세요");
+                                else if(event.target.location.value=="")
+                                alert("지역을 선택해주세요");
+                                else if(event.target.intro.value=="")
+                                alert("소개글을 입력해주세요.");
+                            }
+                            else{
+                            axios.post("http://localhost:8080/sportsmate/party/mkparty", {
+                                    title: event.target.title.value,
+                                    sportsName: event.target.sportsName.value,
+                                    intro: event.target.intro.value, 
+                                    info: '파티 정보를 소개해주세요', //인포에서 처리
+                                    location: event.target.location.value
+                                }/*,formData 나중에해*/)
+                                .then(function (response) {
+                                    //받는거
+                                    /*
+                                    이미지나중에해
+                                    setImage({
+                                        image_file: "",
+                                        preview_URL: "img/default_image.png",
+                                      });
+                                      setLoaded(false);
+                                      */
+                                    if(response.status == 200){
+                                        setPopup({
+                                            open: true,
+                                            title: "Confirm",
+                                            message: "파티를 만들었습니다!", 
+                                            callback: function(){
+                                                document.location.href='/';
+                                            }
+                                        });
+                                    }
+                            }).catch(function (error) {
+                                    if(error.response.status == 500){
+                                        alert("중복된 파티이름입니다.");
+                                    }
+                                    console.log(error);
+                                });
+                        }
+                    }
+                    }>
                         <FormGroup className="col-md-6">
                                 <Label htmlFor="title">파티 이름</Label>
-                                <Input type="text" className="form-control" id="title" placeholder="Enter party name" />
+                                <Input type="text" className="form-control" id="title" placeholder="Enter party name" value={title} onChange={onchangeTitle} />
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="sportsName">활동 선택</Label>
-                                <span className="ps_box">
-                                    <select id="mm" aria-label="종목">
-										<option value="sportsName">종목선택</option>
-										  	 			<option value="축구">
+                                <Input type="select" name="sportsName" value={sportsName} onChange={onchangeSportsName}>
+                                                    <option value="" selected disabled>
+                                                            종목 선택
+                                                    </option>
+                                     	 			<option value="SOCCER">
                                                             축구
-                                                        </option>
-										  	 			<option value="풋살">
+                                                    </option>
+										  	 		<option value="FOOTBALL">
                                                             풋살
-                                                        </option>
-										  	 			<option value="배구">
+                                                    </option>
+										  	 		<option value="VALLEYBALL">
                                                             배구
-                                                        </option>
-										  	 			<option value="배드민턴">
+                                                    </option>
+										  	 		<option value="BADMINTON">
                                                             배드민턴
-                                                        </option>
-										  	 			<option value="농구">
+                                                    </option>
+										  	 		<option value="BASKETBALL">
                                                             농구
-                                                        </option>
-										  	 			<option value="탁구">
+                                                    </option>
+										  	 		<option value="PINGPONG">
                                                             탁구
-                                                        </option>
-										  	
-									</select>
-                                    </span>
+                                                    </option>
+                                </Input>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="location">지역 선택</Label>
-                                <span className="ps_box">
-                                    <select id="mm" aria-label="장소">
-										<option value="location">지역선택</option>
+                                <Label htmlFor="sportsName">지역 선택</Label>
+                                <Input type="select" name="location" value={location} onChange={onchangeLocation}>
+										                <option value="" selected disabled>지역선택</option>
 										  	 			<option value="강남구">
                                                             강남구
                                                         </option>
@@ -129,16 +250,36 @@ const MkpartyForm = () => {
                                                         <option value="중랑구">
                                                             중랑구
                                                         </option>
-									</select>
-                                    </span>
+                                </Input>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="intro">파티 소개글</Label>
-                                <Input type="text" className="form-control" id="intro" placeholder="소개글을 작성해주세요" />
+                                <Input type="text" className="form-control" id="intro" placeholder="소개글을 작성해주세요" value={intro} onChange={onchangeIntro} />
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="image">파티 이미지 업로드</Label>
-                                <Input type="text" className="form-control" id="image" placeholder="이미지" />
+                                <Label htmlFor="intro">파티 이미지 업로드</Label>
+                                <div className="uploader-wrapper">
+                                <div className="upload-button">
+                                        <Button className="btn btn-success waves-effect waves-light m-r-10" onClick={() => inputRef.click()}>
+                                            이미지 가져오기
+                                        </Button>
+                                        <Button  className="btn btn-success waves-effect waves-light m-r-10" onClick={deleteImage} danger>
+                                            이미지 제거
+                                        </Button>
+                                    </div>
+                                    <input type="file" accept="image/*"
+                                        onChange={saveImage}
+                                        ref={refParam => inputRef = refParam}
+                                        style={{ display: "none" }}
+                                    />
+                                    <div className="img-wrapper">
+                                        {loaded === false || loaded === true ? (
+                                        <img src={image.preview_URL} />
+                                    ) : (
+                                        <Spin className="img-spinner" tip = "이미지 불러오는중"/>
+                                    )}
+                                    </div>
+                                 </div>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">파티 만들기</Button>

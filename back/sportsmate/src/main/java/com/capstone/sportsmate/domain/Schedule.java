@@ -1,10 +1,13 @@
 package com.capstone.sportsmate.domain;
 
+import com.capstone.sportsmate.web.response.EventResponse;
+import com.capstone.sportsmate.web.response.ScheduleResponse;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -18,30 +21,59 @@ public class Schedule {
 
     private int credit;
 
-    @Column(name="min_member")
-    private int minMember;
+    @Column(name="current_member")
+    private int currentMember;
     @Column(name = "max_member")
     private int maxMember;
+
+    @Column(name="title")
+    private String title;
 
     @Column(columnDefinition = "TEXT")
     private String contents;
 
-    @OneToOne(fetch = LAZY)
+    @JsonIgnore
+    @OneToOne(fetch = EAGER)
     @JoinColumn(name = "regist_id")
     private Regist regist;
+
+    @JsonIgnore
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name="party_id")
+    private Party party;
 
 
 
     //Create
 
 
-    public static Schedule createSchedule(int credit, int minMember, int maxMember, String contents, Regist regist) {
+    public static Schedule createSchedule(int credit, int currentMember, int maxMember,String title, String contents, Regist regist,Party party) {
         Schedule schedule = new Schedule();
         schedule.credit = credit;
-        schedule.minMember = minMember;
+        schedule.currentMember = currentMember;
         schedule.maxMember = maxMember;
+        schedule.title=title;
         schedule.contents = contents;
         schedule.regist = regist;
+        schedule.party=party;
         return schedule;
+    }
+    public void addCurrentMemeber(){
+        this.currentMember++;
+    }
+    public EventResponse toEventResponse(){
+        EventResponse eventResponse = new EventResponse(this.regist.getStartTime(),this.regist.getEndTime(),this.title,this.id);
+        return eventResponse;
+    }
+    public ScheduleResponse toScheduleResponse(){
+        double nShot=(double)this.credit/this.maxMember;
+        ScheduleResponse scheduleResponse =new  ScheduleResponse(this.title,this.regist.getArena().getName(),this.credit,this.currentMember,this.maxMember,nShot,this.regist.getStartTime(),this.regist.getEndTime());
+        return scheduleResponse;
+    }
+
+    public boolean isMaxMember() {
+        if(maxMember==currentMember)
+            return true;
+        return false;
     }
 }

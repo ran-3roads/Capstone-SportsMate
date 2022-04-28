@@ -4,17 +4,32 @@ import React from "react";
 import Link from "next/link";
 import { Pagination, PaginationItem, PaginationLink, Container, Row, Col } from 'reactstrap';
 import footballimg from "../../assets/images/landingpage/football.png";
-
-const party = {
-    party_id:1 ,
-    sports_name:'풋살',
-    title: '성풋모', //db에 추가해달라고 얘기해야함
-    location: '성북구',
-    intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-    infoimg: footballimg
-}
+import { useState,useEffect } from "react";
+import axios from "axios";
 
 const MPList = () => {
+    const [partys,setPartys]=useState([]);
+    useEffect(() => {
+        axios.get("http://localhost:8080/sportsmate/party/myparty")
+                                .then(function (response) {
+                                    if(response.status == 200){
+                                        setPartys(response.data)
+                                        console.log(partys)
+                                    }
+                            }).catch(function (error) {
+                                    console.log(error);
+                                });
+    }, [])
+    const[currentPage,setCurrentPage]=useState(0);
+    const handleClick=(e, index)=>{
+        e.preventDefault();   
+        setCurrentPage(index);
+    }
+    const pageSize = 4;
+    const pagesCount = Math.ceil(partys.length / pageSize);
+    let content=null;
+    if(partys.length==0)
+    content=<div style={{height:500,display:"flex",width:"100%"}}><div style={{margin:"auto"}}><h1>가입한 파티가 없습니다.</h1></div></div>
     return (
         <div>
             <div className="spacer" id="pagination-component">
@@ -28,112 +43,71 @@ const MPList = () => {
                 </Container>
                 <Container>
             <ul className='mList'>
-            <li className='mItem'>
-            <Link href={{
-                pathname:'/party/info',
-                query: { qparty: JSON.stringify(party) },
-            }} as={`party/${party.party_id}/info`}>
-                    <div className='mUri' >
-                        <div class ="mcover">
-                            <div className='mImage'>
-                                <span className='mInner'>
-                                <Image src={party.infoimg} alt="모임소개사진"/>
-                                </span>
-                            </div>
-                        </div>
-                        <div class ="mName">
-                            <strong class="name"><a>{party.title}</a></strong>
-                            <a>{'종목:'+party.sports_name+'  지역:'+party.location}</a>
-                            <p className="pSubTxt">{party.intro}</p>
-                        </div>
-                    </div>
-                </Link>
-                </li>
-                <li className='mItem'>
-            <Link href={{
-                pathname:'/party/info',
-                query: { qparty: JSON.stringify(party) },
-            }} as={`party/${party.party_id}/info`}>
-                    <div className='mUri' >
-                        <div class ="mcover">
-                            <div className='mImage'>
-                                <span className='mInner'>
-                                <Image src={party.infoimg} alt="모임소개사진"/>
-                                </span>
-                            </div>
-                        </div>
-                        <div class ="mName">
-                            <strong class="name"><a>{party.title}</a></strong>
-                            <a>{'종목:'+party.sports_name+'  지역:'+party.location}</a>
-                            <p className="pSubTxt">{party.intro}</p>
-                        </div>
-                    </div>
-                </Link>
-                </li>
-                <li className='mItem'>
-            <Link href={{
-                pathname:'/party/info',
-                query: { qparty: JSON.stringify(party) },
-            }} as={`party/${party.party_id}/info`}>
-                    <div className='mUri' >
-                        <div class ="mcover">
-                            <div className='mImage'>
-                                <span className='mInner'>
-                                <Image src={party.infoimg} alt="모임소개사진"/>
-                                </span>
-                            </div>
-                        </div>
-                        <div class ="mName">
-                            <strong class="name"><a>{party.title}</a></strong>
-                            <a>{'종목:'+party.sports_name+'  지역:'+party.location}</a>
-                            <p className="pSubTxt">{party.intro}</p>
-                        </div>
-                    </div>
-                </Link>
-                </li>
-                <li className='mItem'>
-            <Link href={{
-                pathname:'/party/info',
-                query: { qparty: JSON.stringify(party) },
-            }} as={`party/${party.party_id}/info`}>
-                    <div className='mUri' >
-                        <div class ="mcover">
-                            <div className='mImage'>
-                                <span className='mInner'>
-                                <Image src={party.infoimg} alt="모임소개사진"/>
-                                </span>
-                            </div>
-                        </div>
-                        <div class ="mName">
-                            <strong class="name"><a>{party.title}</a></strong>
-                            <a>{'종목:'+party.sports_name+'  지역:'+party.location}</a>
-                            <p className="pSubTxt">{party.intro}</p>
-                        </div>
-                    </div>
-                </Link>
-                </li>
-                <li className='mItem'>
-            <Link href={{
-                pathname:'/party/info',
-                query: { qparty: JSON.stringify(party) },
-            }} as={`party/${party.party_id}/info`}>
-                    <div className='mUri' >
-                        <div class ="mcover">
-                            <div className='mImage'>
-                                <span className='mInner'>
-                                <Image src={party.infoimg} alt="모임소개사진"/>
-                                </span>
-                            </div>
-                        </div>
-                        <div class ="mName">
-                            <strong class="name"><a>{party.title}</a></strong>
-                            <a>{'종목:'+party.sports_name+'  지역:'+party.location}</a>
-                            <p className="pSubTxt">{party.intro}</p>
-                        </div>
-                    </div>
-                </Link>
-                </li>
+                <div style={{height:500,width:"100%"}}>
+                {
+                    partys.slice(
+                        currentPage*pageSize,
+                        (currentPage+1)*pageSize
+                    ).map(p => {
+                        return (
+                            <li className='mItem'>
+                                <Link href={`/party/${p.id}/board`}>
+                                    <div className='mUri' >
+                                        <div class ="mcover">
+                                            <div className='mImage'>
+                                                <span className='mInner'>
+                                                <Image src={footballimg} alt="모임소개사진"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class ="mName">
+                                            <strong class="name"><a>{p.title}</a></strong>
+                                            <a>{'종목:'+p.sportsName+'  지역:'+p.location}</a>
+                                            <p className="pSubTxt">{p.intro}</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </li>
+                        )
+                    })
+                }
+                {content}
+                </div>
             </ul>
+            <div className="pagination-wrapper">
+          
+                <Pagination aria-label="Page navigation example">
+                    
+                    <PaginationItem disabled={currentPage <= 0}>
+                    
+                    <PaginationLink
+                        onClick={e => handleClick(e, currentPage - 1)}
+                        previous
+                        href="#"
+                    />
+                    
+                    </PaginationItem>
+
+                    {[...Array(pagesCount)].map((page, i) => 
+                    <PaginationItem active={i === currentPage} key={i}>
+                        <PaginationLink onClick={e => handleClick(e, i)} href="#">
+                        {i + 1}
+                        </PaginationLink>
+                    </PaginationItem>
+                    )}
+
+                    <PaginationItem disabled={currentPage >= pagesCount - 1}>
+                    
+                    <PaginationLink
+                        onClick={e => handleClick(e, currentPage + 1)}
+                        next
+                        href="#"
+                    />
+                    
+                    </PaginationItem>
+                    
+                </Pagination>
+            </div>
             </Container>
             </div>
         </div>

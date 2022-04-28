@@ -1,16 +1,11 @@
 package com.capstone.sportsmate.domain;
 
+import com.capstone.sportsmate.domain.status.SportsName;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name="party")
@@ -26,7 +21,7 @@ public class Party {
 
     @Enumerated(EnumType.STRING)
     @Column(name="sports_name")
-    private SportsName sportName;
+    private SportsName sportsName;
 
     private String location;//위치이름
     private String intro;//간단한 소개
@@ -35,8 +30,8 @@ public class Party {
     @Column(name="since_date")
     private LocalDate sinceDate;//가입날짜
 
-    @Column(name="meet_count")
-    private int meetCount;//미팅횟수
+    @Column(name="current_member")
+    private int currentMember;//현재 인원
 
     @Column(columnDefinition = "TEXT")
     private String info;//정보탭
@@ -44,16 +39,20 @@ public class Party {
 
     // entity 생성
 
-    public static Party createParty(SportsName sportName,String title, String location, String intro, LocalDate sinceDate, int meetCount, String info) {
+    public static Party createParty(SportsName sportsName,String title, String location, String intro, LocalDate sinceDate, int currentMember, String info) {
         Party party = new Party();
-        party.sportName = sportName;
+        party.sportsName = sportsName;
         party.title=title;
         party.location = location;
         party.intro = intro;
         party.sinceDate = sinceDate;
-        party.meetCount = meetCount;
+        party.currentMember = currentMember;
         party.info = info;
         return party;
+    }
+
+    public void addMember(){
+        this.currentMember = this.currentMember + 1;
     }
 
 

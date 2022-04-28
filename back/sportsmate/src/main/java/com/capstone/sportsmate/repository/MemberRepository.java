@@ -1,12 +1,15 @@
 package com.capstone.sportsmate.repository;
 
+
 import com.capstone.sportsmate.domain.Member;
+import com.capstone.sportsmate.domain.Party;
+import com.capstone.sportsmate.domain.PartyMember;
+import com.capstone.sportsmate.domain.status.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
@@ -35,5 +38,17 @@ public class MemberRepository {
             return null;
         }
         return member;
+    }
+    public Member findPartyHost(Party party){
+        PartyMember hostMember;
+        try {
+            hostMember = em.createQuery("select m from PartyMember m where m.party=:party and m.role=:role", PartyMember.class)
+                    .setParameter("party", party)
+                    .setParameter("role", Role.HOST)
+                    .getSingleResult();
+        } catch(NoResultException e){
+            return null;
+        }
+        return hostMember.getMember();
     }
 }

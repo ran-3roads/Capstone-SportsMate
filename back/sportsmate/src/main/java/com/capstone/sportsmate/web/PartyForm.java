@@ -1,12 +1,9 @@
 package com.capstone.sportsmate.web;
 
 
-import com.capstone.sportsmate.domain.SportsName;
+import com.capstone.sportsmate.domain.status.SportsName;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter

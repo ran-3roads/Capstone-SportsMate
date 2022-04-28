@@ -94,7 +94,7 @@ const SignupForm = () => {
                                 })
                                 .then(function (response) {
                                     //받는거
-                                    if(response.data.code == 200){
+                                    if(response.status == 200){
                                         setPopup({
                                             open: true,
                                             title: "Confirm",

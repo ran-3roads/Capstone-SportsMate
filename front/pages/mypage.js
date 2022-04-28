@@ -5,15 +5,15 @@ import axios from "axios";
 
 
 export default function Mypage() {
-  const customer = {
-    'email':'qaz5216@naver.com',
-    'password' : 'asdf7034',
-    'name':'박경민',
-    'nickName':'장래희망Hero',
-    'sinceDate':'2022-4-5',
-    'birthDate':'1998-11-23',
-    'sex':'MALE',
-    'phoneNumber':'01027597034'
+  let customer = {
+    email:'qaz5216@naver.com',
+    password : 'asdf7034',
+    name:'박경민',
+    nickName:'장래희망Hero',
+    sinceDate:'2022-4-5',
+    birthDate:'1998-11-23',
+    sex:'MALE',
+    phoneNumber:'01027597034'
   }
   console.log(axios.defaults.headers.common['Authorization']);
 
@@ -44,7 +44,6 @@ export default function Mypage() {
             <div className="my_boxc">
               <div className="left_section">
                 <div className="p_image">
-
                 </div>
                 <div className="inf_name"><div className="my_font">{customer.nickName} 님</div></div>
                 <div className="since_date"><div className="my_font">가입일 {customer.sinceDate}</div></div>

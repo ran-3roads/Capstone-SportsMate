@@ -1,19 +1,21 @@
 package com.capstone.sportsmate.domain;
 
 
+import com.capstone.sportsmate.domain.notice.Notice;
+import com.capstone.sportsmate.domain.status.Request;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "apply")
-@Getter
+@Getter@Setter
 public class Apply {
 
     //entity 컬럼
@@ -26,19 +28,22 @@ public class Apply {
     private Request state;
 
     @Column(name="since_date")
-    private LocalDate sinceDate;
+    private LocalDateTime sinceDate;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="party_id")
     private Party party;
 
+
     // entity 생성
 
-    public static Apply createApply(Request state, LocalDate sinceDate, Member member, Party party) {
+    public static Apply createApply(Request state, LocalDateTime sinceDate, Member member, Party party) {
         Apply apply = new Apply();
         apply.state = state;
         apply.sinceDate = sinceDate;

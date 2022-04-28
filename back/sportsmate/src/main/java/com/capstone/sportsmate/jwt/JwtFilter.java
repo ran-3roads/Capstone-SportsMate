@@ -1,6 +1,5 @@
 package com.capstone.sportsmate.jwt;
 
-import com.capstone.sportsmate.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

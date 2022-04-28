@@ -1,8 +1,8 @@
 package com.capstone.sportsmate.web;
 
-import com.capstone.sportsmate.domain.Authority;
+import com.capstone.sportsmate.domain.status.Authority;
 import com.capstone.sportsmate.domain.Member;
-import com.capstone.sportsmate.domain.Sex;
+import com.capstone.sportsmate.domain.status.Sex;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;

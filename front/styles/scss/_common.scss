@@ -1,7 +1,127 @@
 /**
 made by 따봉
 **/
+//recruit
 
+//party_info_box
+.party_infobox {
+  height: 500px;
+  width: 300px;
+  background: #ffd9d9;
+  border-top: #FFFFFF 2px solid;
+  margin: 0;
+  padding: 0;
+  text-align: justify;
+}
+.party_infobox2{
+  height: 500px;
+  width: 730px;
+  border-radius: 50px;
+  background: #ffd9d9;
+  border-top: #FFFFFF 2px solid;
+  margin: 0;
+  padding: 0;
+  text-align: justify;
+}
+.pImage {
+  height: 320px;
+  width: 530px;
+  margin-top: 2%;
+  margin-left: 13%;
+  justify-content: center;
+  position: relative;
+  vertical-align: top;
+}
+
+.pImage .pInner {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background: #ebebeb;
+  border-radius: 10px;
+  font-size: 0;
+  line-height: 0;
+}
+.party_write_container{
+  margin-top: 5%;
+  display: flex;
+  justify-content: center;
+}
+.party_infoboxc {
+  border-radius : 40px;
+  display: flex;
+  background-color: skyblue;
+}
+.party_font{
+  color: black;
+  font-weight: bold;
+  font-style: normal;
+  font-size: 15px;
+  line-height: 30px;
+  text-align: justify;
+}
+//table_css
+.common-table {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  border-spacing: 0;
+}
+
+.common-table-header-column {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 0;
+  font-size: 16px;
+  padding: 10px 5px;
+  font-weight: bold;
+}
+.common-table-row{
+  border-bottom: 1px solid #e8e8e8;
+}
+
+
+.common-table-row:hover {
+  background-color: #eceaea;
+  cursor: pointer;
+}
+
+.common-table-column {
+  padding: 10px 5px;
+}
+//post_css
+.post-view-wrapper {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.post-view-go-list-btn {
+  border: 0;
+  padding: 10px;
+  background-color: #ffd9d9;
+}
+.post-view-delete-btn {
+  margin-left: 10px;
+  border: 0;
+  padding: 10px;
+  background-color: gray;
+}
+
+.post-view-row {
+  margin: 10px 0;
+  display: flex;
+}
+
+.post-view-row > label:first-child {
+  margin: 10px 0;
+  width: 30%;
+  font-weight: bold;
+}
+
+.post-view-row > *:nth-child(2) {
+  margin: 10px 0;
+  width: 70%;
+}
 //container
 #container {
   position: relative;
@@ -131,6 +251,11 @@ made by 따봉
   margin-left: 3.2%;
   width: 30%;
 }
+.n_guide2{
+  float: left;
+  margin-left: 3.2%;
+  width: 60%;
+}
 
 .firstbox {
   height: 500px;
@@ -183,10 +308,79 @@ made by 따봉
   line-height: 30px;
   text-align: center;
 }
+
+.uploader-wrapper{
+  display: flex;
+  flex-direction: column;
+  .img-wrapper{
+      margin: 50px 0 20px 0;
+      img{
+          width: 200px;
+          height: 200px;
+      }
+      .img-spinner{
+          width: 200px;
+          height: 200px;
+      }
+  }
+  .upload-button{
+      button{
+          margin: 0 5px;
+      }
+  }
+}
+
+//party
+.party_box {
+  padding: 24px 10.6666666667px 40px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.party_header6 {
+  .navbar-toggler {
+    color: $white;
+  }
+  background-color: gray;
+}
+.party_boxc {
+  margin: 0 auto;
+  display: flex;
+  background-color: white;
+}
+
+.party_header{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
 /******************* 
 made in 경민
 *******************/
+.partyfilter{
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: solid 1px #dadada;
+  padding: 11px 14px;
+  background: #fff;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+select option[value=""][disabled] {
+	display: none;
+}
 
+.pagination-wrapper {
+  overflow-x:auto;
+}
+
+.pagination {
+  justify-content: center;
+  margin:30px;
+}
 
 .ps_box, .ps_box_disable {
   display: block;
@@ -326,6 +520,46 @@ input#yy.form-control,input#dd.form-control {
   position: relative;
   border-radius: 2px;
 }
+.cmt_box{
+    border-style: solid;
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0px;
+    border-top-width: 1px;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+#commentForm{
+  border: 1px solid black;
+  
+}
+#comment_write{
+  padding-left: 0px;
+  padding-right: 0px;
+  max-width: 100%;
+}
+
+#cmt_write_box{
+  border-top: 1px solid #e8e8e8;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-top: 10px;
+  text-align: center;
+}
+
+#cmt_write_nickname{
+  margin-top: 10px;
+  margin-left: 15px;
+  text-align: center;
+}
+#cmt_write_bottonbox{
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 10px;
+}
+
 /******************* 
 
 *******************/

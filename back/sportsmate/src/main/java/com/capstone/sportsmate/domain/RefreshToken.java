@@ -22,14 +22,22 @@ public class RefreshToken {
     @Column(name = "rt_value")
     private String value;
 
+    @Column(name = "rt_access_token")
+    private String accessToken;
+
     @Builder
-    public RefreshToken(String key, String value) {
+    public RefreshToken(String key, String value, String accessToken) {
         this.key = key;
         this.value = value;
+        this.accessToken = accessToken;
     }
 
     public RefreshToken updateValue(String token) {
         this.value = token;
+        return this;
+    }
+    public RefreshToken updateAccessToken(String accessToken){
+        this.accessToken = accessToken;
         return this;
     }
 }
