@@ -33,28 +33,28 @@ return (
             return (
                 <CommonTableRow key={index}>
                 <CommonTableColumn>
-                <Link href={`/party/${props.id}/board/${p.id}`}>
+                <Link href={`/party/${props.id}/board/${p.id}/info`}>
                 <a>
                   { p.id }
                 </a>
                 </Link>
                 </CommonTableColumn>
                 <CommonTableColumn>
-                <Link href={`/party/${props.id}/board/${p.id}`}>
+                <Link href={`/party/${props.id}/board/${p.id}/info`}>
                 <a>  
                   { p.title }
                   </a>
                 </Link>  
                 </CommonTableColumn>
                 <CommonTableColumn>
-                <Link href={`/party/${props.id}/board/${p.id}`}>
+                <Link href={`/party/${props.id}/board/${p.id}/info`}>
                 <a>    
                   { p.sinceDate }
                   </a>
                 </Link>  
                 </CommonTableColumn>
                 <CommonTableColumn>
-                <Link href={`/party/${props.id}/board/${p.id}`}>
+                <Link href={`/party/${props.id}/board/${p.id}/info`}>
                 <a>    
                 { category }
                 </a>

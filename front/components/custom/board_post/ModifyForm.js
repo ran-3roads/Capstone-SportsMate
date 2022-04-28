@@ -8,12 +8,13 @@ import { useRouter } from 'next/router';
 
 
 const ModifyForm = () => {
-    const router = useRouter();
-    const { id } = router.query;
-    const { board_id } = router.query;
-
     const[write,setWrite]=useState({});
+    const router = useRouter();
+    const board_id = 1;
+
 useEffect(() => {
+    const { id } = router.query;
+    console.log(id,board_id)
     axios.get(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}`)
   .then(function (response) {
     if(response.status == 200){
@@ -57,7 +58,7 @@ useEffect(() => {
                                 console.log()
                                 axios.post(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/modify`, {
                                     title: event.target.title.value,
-                                    content: event.target.content.value,
+                                    contents: event.target.contents.value,
                                     category: event.target.category.value
                                 })
                                 .then(function (response) {
@@ -83,17 +84,17 @@ useEffect(() => {
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="category">활동 선택</Label>
-                                <Input type="select" name="category" value={category} onChange={onchangeCategory}>
+                                <Input type="select" name="category" placeholder={write.category} value={category} onChange={onchangeCategory}>
                                                     <option value="" selected disabled>
                                                             카테고리 선택
                                                     </option>
-                                                  <option value="BASIC">
+                                     	 			<option value="BASIC">
                                                             기본
                                                     </option>
-                                          <option value="NOTICE">
+										  	 		<option value="NOTICE">
                                                             공지
                                                     </option>
-                                       
+										  	 	
                                 </Input>
                             </FormGroup>
                             <FormGroup className="col-md-6">
