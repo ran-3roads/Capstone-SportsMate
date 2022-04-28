@@ -1,13 +1,27 @@
 import { useRouter } from "next/router";
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
 
 const PostView = ({board_id},{ history }) => {
-  const exam={
-    "no": board_id,
-    "title": "첫번째 게시글입니다.",
-    "content": "첫번째 게시글 내용입니다.",
-    "createDate": "2020-10-25",
-    "readCount": 6
-  }
+  const[exam,setExam]=useState({});
+  
+
+  useEffect(() => {
+  axios.get(`http://localhost:8080/sportsmate/party/1/partyboard/${board_id}`)
+  .then(function (response) {
+    if(response.status == 200){
+      setExam(response.data);
+    }})
+    .catch(function (error) {
+       console.log(error);
+      });
+    });
+    let category = undefined;
+            if(exam.category=="NOTICE")
+              category = "공지";
+            else if(exam.category=="BASIC")
+              category = "자유";
+  
   const router = useRouter();
   const { id } = router.query;
   return (
@@ -19,7 +33,7 @@ const PostView = ({board_id},{ history }) => {
             <div>
               <div className="post-view-row">
                 <label>게시글 번호</label>
-                <label>{ exam.no }</label>
+                <label>{ exam.id }</label>
               </div>
               <div className="post-view-row">
                 <label>제목</label>
@@ -27,17 +41,17 @@ const PostView = ({board_id},{ history }) => {
               </div>
               <div className="post-view-row">
                 <label>작성일</label>
-                <label>{ exam.createDate }</label>
+                <label>{ exam.sinceDate }</label>
               </div>
               <div className="post-view-row">
-                <label>조회수</label>
-                <label>{ exam.readCount }</label>
+                <label>카테고리</label>
+                <label>{ category }</label>
               </div>
               <div className="post-view-row">
                 <label>내용</label>
                 <div>
                   {
-                    exam.content
+                    exam.contents
                   }
                 </div>
               </div>

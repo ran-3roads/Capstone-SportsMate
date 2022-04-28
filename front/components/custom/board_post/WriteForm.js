@@ -8,8 +8,8 @@ import Popup from '../popup';
 
 const write = {
     'title':'',
-    'content' : '',
-    
+    'category':'',
+    'contents' : '', 
 }
 
 
@@ -18,16 +18,20 @@ const WriteForm = () => {
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
  
     const[title,setTitle]=useState(write.title);
-    const[content,setContent]=useState(write.content);
-
+    const[contents,setContents]=useState(write.contents);
+    const[category,setCategory]=useState(write.category);
     
     const onchangeTitle = (e) =>{
         console.log(e.target.value)
         setTitle(e.target.value)
     }
-    const onchangeContent = (e) =>{
+    const onchangeCategory = (e) =>{
         console.log(e.target.value)
-        setContent(e.target.value)
+        setCategory(e.target.value)
+    }
+    const onchangeContents = (e) =>{
+        console.log(e.target.value)
+        setContents(e.target.value)
     }
 
     return (
@@ -40,9 +44,10 @@ const WriteForm = () => {
                         <Form className="col" id="WirteForm" onSubmit={function (event) {
                             event.preventDefault();
                                 console.log()
-                                axios.post("http://localhost:8080/sportsmate/member/public/signup", {
+                                axios.post("http://localhost:8080/sportsmate/party/1/mkpartyboard", {
                                     title: event.target.title.value,
-                                    content: event.target.content.value
+                                    contents: event.target.contents.value,
+                                    category: event.target.category.value
                                 })
                                 .then(function (response) {
                                     //받는거
@@ -50,7 +55,7 @@ const WriteForm = () => {
                                         setPopup({
                                             open: true,
                                             title: "Confirm",
-                                            message: "Join Success!", 
+                                            message: "작성완료!", 
                                             callback: function(){
                                                 document.location.href='/';
                                             }
@@ -58,7 +63,7 @@ const WriteForm = () => {
                                 }
                             }).catch(function (error) {
                                     //error
-                                    console.log(error);
+                                    console.log(error.status);
                                 });
                         }}>
                         <FormGroup className="col-md-6">
@@ -66,8 +71,23 @@ const WriteForm = () => {
                                 <Input type="text" className="form-control" id="title" placeholder="제목" value={title} onChange={onchangeTitle}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
+                                <Label htmlFor="category">활동 선택</Label>
+                                <Input type="select" name="category" value={category} onChange={onchangeCategory}>
+                                                    <option value="" selected disabled>
+                                                            카테고리 선택
+                                                    </option>
+                                     	 			<option value="BASIC">
+                                                            기본
+                                                    </option>
+										  	 		<option value="NOTICE">
+                                                            공지
+                                                    </option>
+										  	 	
+                                </Input>
+                            </FormGroup>
+                            <FormGroup className="col-md-6">
                                 <Label htmlFor="phoneNumber">내용을 입력해주세요</Label>
-                                <textarea  rows="10" cols="60" id="content" placeholder="내용" value={content} onChange={onchangeContent}/>
+                                <textarea  rows="10" cols="60" id="contents" placeholder="내용" value={contents} onChange={onchangeContents}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">저장</Button>
