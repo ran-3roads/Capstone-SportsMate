@@ -100,6 +100,8 @@ public class MatchService {
         findSchedule.addCurrentMemeber();
         findMatchBoard.addCurrentMember();
 
+        findMember.withdraw((int)findSchedule.toScheduleResponse().getNShotCredit());
+
         sendReply(findMember,Request.ACCEPT,findSchedule.getParty());
 
     }
