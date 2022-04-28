@@ -45,6 +45,11 @@ public class PartyController {
         List<Party> parties= partyService.findSearchParties(form);
         return parties;
     }
+    @PostMapping("/{partyId}/isPartyMember") //파티 멤버인지 아닌지 확인
+    public boolean checkMember(@PathVariable("partyId") Long partyId){
+        if(!partyService.isPartyMember(partyId,memberService.getMyInfo().getId())) return false; // 멤버가 아니다
+        return true;
+    }
     @PostMapping("/{partyId}/join") // 파티참가
     public String joinParty(@PathVariable("partyId") Long partyId){
         partyService.joinParty(partyId,memberService.getMyInfo().getId());
