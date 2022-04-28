@@ -1,11 +1,11 @@
 import React from 'react';
 import Head from "next/head";
 import { useRouter } from 'next/router'
-import PostView from "../../../../components/custom/board_post/PostView";
+import PostView from "../../../../../components/custom/board_post/PostView";
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import CommonTable from "../../../../components/custom/board_post/CommonTable";
-import CommonTableColumn from "../../../../components/custom/board_post/CommonTableColumn";
-import CommonTableRow from "../../../../components/custom/board_post/CommonTableRow";
+import CommonTable from "../../../../../components/custom/board_post/CommonTable";
+import CommonTableColumn from "../../../../../components/custom/board_post/CommonTableColumn";
+import CommonTableRow from "../../../../../components/custom/board_post/CommonTableRow";
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 export default function Board_id() {
