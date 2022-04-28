@@ -6,9 +6,8 @@ const PostView = ({board_id},{ history }) => {
   const[exam,setExam]=useState({});
   const router = useRouter();
   const { id } = router.query;
-
   useEffect(() => {
-  axios.get(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}`)
+    axios.get(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}`)
   .then(function (response) {
     if(response.status == 200){
       setExam(response.data);
@@ -16,7 +15,7 @@ const PostView = ({board_id},{ history }) => {
     .catch(function (error) {
        console.log(error);
       });
-    });
+}, [])
     let category = undefined;
             if(exam.category=="NOTICE")
               category = "공지";
