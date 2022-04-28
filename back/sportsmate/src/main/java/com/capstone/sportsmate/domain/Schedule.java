@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -32,7 +33,7 @@ public class Schedule {
     private String contents;
 
     @JsonIgnore
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = EAGER)
     @JoinColumn(name = "regist_id")
     private Regist regist;
 
@@ -66,7 +67,7 @@ public class Schedule {
     }
     public ScheduleResponse toScheduleResponse(){
         double nShot=(double)this.credit/this.maxMember;
-        ScheduleResponse scheduleResponse =new  ScheduleResponse(this.title,this.regist.getAreana().getName(),this.credit,this.currentMember,this.maxMember,nShot,this.regist.getStartTime(),this.regist.getEndTime());
+        ScheduleResponse scheduleResponse =new  ScheduleResponse(this.title,this.regist.getArena().getName(),this.credit,this.currentMember,this.maxMember,nShot,this.regist.getStartTime(),this.regist.getEndTime());
         return scheduleResponse;
     }
 
