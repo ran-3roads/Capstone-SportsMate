@@ -30,6 +30,18 @@ public class NoticeRepository {
         }
         return query.getResultList();
     }
+    public List<Apply> findApplies(Party party){
+        String jpql="select a from Apply a";
+
+        //검색 조건으로 검색
+        jpql += " where a.party = :party";
+        TypedQuery<Apply> query = em.createQuery(jpql, Apply.class)
+                .setMaxResults(1000); //최대 1000건
+        if(party != null) {
+            query = query.setParameter("party", party);
+        }
+        return query.getResultList();
+    }
 
     public Notice findOne(Long id) {
         return em.find(Notice.class, id);
@@ -58,6 +70,21 @@ public class NoticeRepository {
             return null;
         }
         return apply;
+    }
+    public Apply findApplyOne(Long id){
+        return em.find(Apply.class, id);
+    }
+
+    public Notice findNoticeByApply(Apply apply){
+        Notice notice;
+        try {
+            notice = em.createQuery("select n from Notice n where n.apply=:apply", Notice.class)
+                    .setParameter("apply", apply)
+                    .getSingleResult();
+        } catch(NoResultException e){
+            return null;
+        }
+        return notice;
     }
     public Long saveApply(Apply apply){
         em.persist(apply);

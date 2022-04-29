@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -47,23 +48,24 @@ public class NoticeService {
         }
         return true;
     }
-    //------apply entity를 직접 참조하지않고 form 담아서 데이터보냄---
+    //------개인)apply entity를 직접 참조하지않고 form 담아서 데이터보냄---
     @Transactional
-    public ApplyForm getNoticeApply(Long noticeId){
+    public ApplyForm MemberGetNoticeApply(Long noticeId){
         Notice notice = noticeRepository.findOne(noticeId);
         notice.setNoticeStatus(NoticeStatus.CONFIRM); //읽음 처리
 
-        ApplyForm applyForm= new ApplyForm();
         Apply apply = notice.getApply();
-        //================지원자 정보 =================//
-        applyForm.setPartyTitle(apply.getParty().getTitle());
-        applyForm.setMemberName(apply.getMember().getName());
-        applyForm.setMemberEmail(apply.getMember().getEmail());
-        applyForm.setSinceDate(apply.getSinceDate());
-        applyForm.setState(apply.getState());
-        applyForm.setSex(apply.getMember().getSex());
-
+                //================지원자 정보 =================//
+        ApplyForm applyForm = apply.toApplyForm();
         return applyForm;
+    }
+    //------파티)apply entity를 직접 참조하지않고 form 담아서 데이터보냄---
+    @Transactional
+    public List<ApplyForm> PartyGetApplies(Long partyId){
+        Party party = partyRepository.findOne(partyId);
+
+        return noticeRepository.findApplies(party).stream().map(Apply::toApplyForm).collect(Collectors.toList());
+
     }
     //------reply entity를 직접 참조하지않고 form 담아서 데이터보냄---
     @Transactional
@@ -121,6 +123,9 @@ public class NoticeService {
 
         noticeRepository.saveReply(reply);
         noticeRepository.saveNotice(notice);
+    }
+    public Notice findNoticeByApply(Long applyId){
+        return noticeRepository.findNoticeByApply(noticeRepository.findApplyOne(applyId));
     }
 
 }

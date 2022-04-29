@@ -1,5 +1,6 @@
 package com.capstone.sportsmate.controller;
 import com.capstone.sportsmate.domain.Arena;
+import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.exception.RegistException;
 import com.capstone.sportsmate.exception.InconsistencyException;
 import com.capstone.sportsmate.exception.NotFoundEntityException;
@@ -28,6 +29,7 @@ public class PartyController {
     private final PartyBoardService partyBoardService;
     private final RegistService registService;
     private final MatchService matchService;
+    private final NoticeService noticeService;
 
 
     @GetMapping()
@@ -54,8 +56,8 @@ public class PartyController {
     }
 
     @PostMapping("/{partyId}/join") // 파티참가
-    public String joinParty(@PathVariable("partyId") Long partyId){
-        partyService.joinParty(partyId,memberService.getMyInfo().getId());
+    public String joinParty(@RequestBody MemberApplyForm form,@PathVariable("partyId") Long partyId){
+        partyService.joinParty(form,partyId,memberService.getMyInfo().getId());
         return "success";
     }
 
@@ -63,6 +65,47 @@ public class PartyController {
     public Party viewParty(@PathVariable("partyId") Long partyId){
         Party party= partyService.findOne(partyId);
         return party;
+    }
+    @GetMapping("/{partyId}/applyList")  //*
+    public List<ApplyForm> viewPartyApply(@PathVariable("partyId") Long partyId){
+        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){ //exception 리턴타입 수정해야함
+            throw new MyRoleException("확인 권한이 없습니다.");
+        }
+        List<ApplyForm> applyFormList= noticeService.PartyGetApplies(partyId);
+        return applyFormList;
+    }
+    @PostMapping("/{partyId}/applyList/{applyId}/accept")  //*
+    public String acceptPartyApply(@PathVariable("partyId") Long partyId,@PathVariable("applyId") Long applyId){
+        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){ //exception 리턴타입 수정해야함
+            throw new MyRoleException("확인 권한이 없습니다.");
+        }
+        Notice notice = noticeService.findNoticeByApply(applyId);
+
+        if(!noticeService.validateDuplicateCheck(notice.getId())){
+            return "이미 처리한 지원서 입니다.";
+        }
+        noticeService.acceptApply(notice.getId());
+        return "수락했습니다";
+    }
+    @PostMapping("/{partyId}/applyList/{applyId}/reject")  //*
+    public String rejectPartyApply(@PathVariable("partyId") Long partyId,@PathVariable("applyId") Long applyId){
+        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){ //exception 리턴타입 수정해야함
+            throw new MyRoleException("확인 권한이 없습니다.");
+        }
+        Notice notice = noticeService.findNoticeByApply(applyId);
+
+        if(!noticeService.validateDuplicateCheck(notice.getId())){
+            return "이미 처리한 지원서 입니다.";
+        }
+        noticeService.rejectApply(notice.getId());
+        return "거절했습니다.";
+    }
+    @GetMapping("/{partyId}/isHost")
+    public boolean checkHost(@PathVariable("partyId") Long partyId){
+        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())) {
+            return false; // 방장 아니다
+        }
+        return true; //방장이다
     }
 
     @GetMapping("/{partyId}/modify") //*

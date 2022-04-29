@@ -37,7 +37,7 @@ public class NoticeController {
         if(!noticeService.isRoute(noticeId,memberService.getMyInfo().getId())){
             throw new MyRoleException("확인 권한이없습니다.");
         }
-        return noticeService.getNoticeApply(noticeId);
+        return noticeService.MemberGetNoticeApply(noticeId);
     }
     //-------------파티 지원에 대한 결과-----------
     @GetMapping("/{noticeId}/getReply") // 파티신청에 대한 응답 확인.
