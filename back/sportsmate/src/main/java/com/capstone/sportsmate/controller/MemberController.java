@@ -9,6 +9,7 @@ import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.service.MemberService;
 import com.capstone.sportsmate.web.MemberForm;
 import com.capstone.sportsmate.jwt.TokenObject;
+import com.capstone.sportsmate.web.MemberMoidfyForm;
 import com.capstone.sportsmate.web.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -80,9 +81,13 @@ public class MemberController {
         return ResponseEntity.ok("logout");
     }
 
-    @GetMapping("/my/modify")
+    @GetMapping("/my")
     public ResponseEntity<Member> my(){
         return ResponseEntity.ok(memberService.getMyInfo());
+    }
+    @PostMapping("/my")//정보변경
+    public ResponseEntity<String> myModify (@RequestBody MemberMoidfyForm memberMoidfyForm) {
+        return   ResponseEntity.ok(memberService.modifyInfo(memberMoidfyForm));
     }
 
     @GetMapping("/public/reissue")//accesstoken재요청

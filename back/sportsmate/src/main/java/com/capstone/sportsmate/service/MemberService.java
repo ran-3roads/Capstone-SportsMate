@@ -10,6 +10,7 @@ import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.LoginForm;
 import com.capstone.sportsmate.web.MemberForm;
 import com.capstone.sportsmate.jwt.TokenObject;
+import com.capstone.sportsmate.web.MemberMoidfyForm;
 import com.capstone.sportsmate.web.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -144,5 +145,12 @@ public class MemberService {
     public void withdraw(int credit) {
         Member member = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
         member.withdraw(credit);
+    }
+
+    @Transactional
+    public String modifyInfo(MemberMoidfyForm memberMoidfyForm) {//정보 변경
+        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        findMember.updateFindMember(memberMoidfyForm);
+        return "modify";
     }
 }

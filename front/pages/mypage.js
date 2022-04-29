@@ -2,33 +2,36 @@ import Head from "next/head";
 import Link from "next/link";
 import { Container, Row, Col, Button } from "reactstrap";
 import axios from "axios";
+import { useState, useEffect } from "react";
+import { loadTossPayments } from '@tosspayments/payment-sdk'
+var uuid = require("uuid").v4;
+
+const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq'
 
 
 export default function Mypage() {
-  let customer = {
-    email:'qaz5216@naver.com',
-    password : 'asdf7034',
-    name:'박경민',
-    nickName:'장래희망Hero',
-    sinceDate:'2022-4-5',
-    birthDate:'1998-11-23',
-    sex:'MALE',
-    phoneNumber:'01027597034'
-  }
+
+  const [my, setMy] = useState({});
   console.log(axios.defaults.headers.common['Authorization']);
 
-  axios.get("http://localhost:8080/sportsmate/member/private/my/modify")
-.then(function (response) {
-    console.log(response.data)
-}).catch(function (error) {
-    //error
-    console.log(error);
-});
+  useEffect(() => {
+    axios.get(`http://localhost:8080/sportsmate/member/my`)
+      .then(function (response) {
+        if (response.status == 200) {
+          setMy(response.data);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [])
 
 
 
   return (
+
     <div className="static-slider-head">
+
       <Head>
         <title>My</title>
         <meta
@@ -38,49 +41,65 @@ export default function Mypage() {
         <link rel="icon" href="/favicon.ico" />
 
       </Head>
-        <div className="font_title">My Information</div>
-        <div className="my">
-          <div className="my_box">
-            <div className="my_boxc">
-              <div className="left_section">
-                <div className="p_image">
-                </div>
-                <div className="inf_name"><div className="my_font">{customer.nickName} 님</div></div>
-                <div className="since_date"><div className="my_font">가입일 {customer.sinceDate}</div></div>
-                <div className="left_buttons">
-                 <div className="logout_button">
-                 <div className="my_font">
-                 <Link href="/mypage/modify">
-                   정보수정
-                   </Link>
-                   </div>
-                 </div>
+      <div className="font_title">My Information</div>
+      <div className="my">
+        <div className="my_box">
+          <div className="my_boxc">
+            <div className="left_section">
+              <div className="p_image">
+              </div>
+              <div className="inf_name"><div className="my_font">{my.nickName} 님</div></div>
+              <div className="since_date"><div className="my_font">가입일 {my.sinceDate}</div></div>
+              <div className="inf_name"><div className="my_font">포인트 {my.credit}</div></div>
+              <div className="left_buttons">
                 <div className="logout_button">
-                <div className="my_font">
-                <Link href="/my">
-                  로그아웃
-                  </Link>
+                  <div className="my_font">
+                    <Link href="/mypage/modify">
+                      정보수정
+                    </Link>
                   </div>
                 </div>
+                <div className="logout_button">
+                  <div className="my_font">
+                    <Link href="/my">
+                      로그아웃
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <Row className="justify-content-center">
+        </div>
+        <Row className="justify-content-center">
           <Col lg="8" md="6" className="align-self-center text-center">
-          <Link href="/party">
+            <Link href="/party">
               <Button className="btn btn-danger m-t-30 btn-info-gradiant font-14">
                 My Party 목록
               </Button>
             </Link>
             <Link href="/mymatch">
               <Button className="btn btn-danger m-t-30 btn-info-gradiant font-14">
-               My 경기 목록
+                My 경기 목록
               </Button>
+              
             </Link>
+
           </Col>
         </Row>
-        </div>
+      </div>
     </div>
   );
 };
+/* <button id={board_id} value="포인트 충전" onClick={(event) => {
+                event.preventDefault();
+                loadTossPayments(clientKey).then(tossPayments => {
+                  tossPayments.requestPayment("토스결제", {
+                    amount: 5000,
+                    orderId: uuid(),
+                    orderName: "스포츠 포인트 충전 ",
+                    customerName: "송영우 ",
+                    successUrl: window.location.origin + "/success",
+                    failUrl: window.location.origin + "/fail",
+                  });
+                })
+              }}>포인트충전</button> */
