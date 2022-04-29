@@ -32,6 +32,7 @@ public class Apply {
     @Column(name="since_date")
     private LocalDateTime sinceDate;
 
+    @Column(columnDefinition = "TEXT")
     private String contents;
 
     @JsonIgnore

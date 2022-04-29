@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reac
 import { useState } from 'react';
 import axios from 'axios';
 import Popup from './popup';
-
+import { useRouter } from 'next/router';
 
 
 const partyinfo = {
@@ -13,19 +13,20 @@ const partyinfo = {
     members:'40',
 }
 const request = {
-    'content' : '',
+    'contents' : '',
 }
 
 
 const PartySignupForm = () => {
-
+    const router=useRouter();
+    const { id } = router.query;
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
  
-    const[content,setContent]=useState(request.content);
+    const[contents,setContents]=useState(request.contents);
 
     const onchangeContent = (e) =>{
         console.log(e.target.value)
-        setContent(e.target.value)
+        setContents(e.target.value)
     }
     
 
@@ -47,27 +48,16 @@ const PartySignupForm = () => {
                     <Col md="12">
                         <Form className="col" id="signupForm" onSubmit={function (event) {
                             event.preventDefault();
-                                console.log()
-                                axios.post("http://localhost:8080/sportsmate/member/public/signup", {
-                                    email: event.target.email.value,
-                                    password: event.target.password.value,
-                                    name: event.target.name.value,
-                                    nickName: event.target.nickName.value,
-                                    birthDate: event.target.birthDate.value,
-                                    sex: event.target.sex.value,
-                                    phoneNumber: event.target.phoneNumber.value
+                                console.log(id);
+                                console.log(event.target.contents.value);
+                                axios.post(`http://localhost:8080/sportsmate/party/${id}/join`, {
+                                    contents:event.target.contents.value
                                 })
                                 .then(function (response) {
-                                    //받는거
                                     if(response.status == 200){
-                                        setPopup({
-                                            open: true,
-                                            title: "Confirm",
-                                            message: "Join Success!", 
-                                            callback: function(){
-                                                document.location.href='/';
-                                            }
-                                        });
+                                        alert("가입신청 완료")
+                                        document.location.href=`/party/${id}/info`;
+                                        
                                 }
                             }).catch(function (error) {
                                     //error
@@ -88,7 +78,7 @@ const PartySignupForm = () => {
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="phoneNumber">자기소개</Label>
-                                <textarea  rows="10" cols="60" id="content" placeholder="ex)이름/나이/성별" value={content} onChange={onchangeContent}/>
+                                <textarea  rows="10" cols="60" id="contents" placeholder="ex)이름/나이/성별" value={contents} onChange={onchangeContent}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">신청</Button>
