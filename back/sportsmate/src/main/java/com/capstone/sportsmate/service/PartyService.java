@@ -9,6 +9,7 @@ import com.capstone.sportsmate.domain.status.Role;
 import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.NoticeRepository;
 import com.capstone.sportsmate.repository.PartyRepository;
+import com.capstone.sportsmate.web.MemberApplyForm;
 import com.capstone.sportsmate.web.PartySearch;
 import com.capstone.sportsmate.web.PartyForm;
 import lombok.RequiredArgsConstructor;
@@ -38,13 +39,13 @@ public class PartyService {
         return party.getId();
     }
     @Transactional
-    public Long joinParty (Long partyId, Long memberId){
+    public Long joinParty (MemberApplyForm form,Long partyId, Long memberId){
         Member member= memberRepository.findOne(memberId);
         Party party= partyRepository.findOne(partyId);
         validateDuplicateApply(party,member);
 
         Member hostMember=memberRepository.findPartyHost(party);//해당 파티의 host 찾기
-        Apply apply=Apply.createApply(Request.WAITING, LocalDateTime.now(),member,party);//apply 생성
+        Apply apply=Apply.createApply(Request.WAITING, LocalDateTime.now(),member,party,form.getContents());//apply 생성
         Notice notice=Notice.createNotice(hostMember,NoticeType.APPLY, NoticeStatus.UNCONFIRM,LocalDateTime.now());//notice 생성
         notice.setApply(apply);
         notice.setReply(null);
