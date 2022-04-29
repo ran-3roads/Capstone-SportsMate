@@ -1,33 +1,29 @@
 import React, { useCallback } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import { useState } from 'react';
-
-const customer = {
-    'email':'qaz5216@naver.com',
-    'password' : 'asdf7034',
-    'name':'박경민',
-    'nickName':'맹구토슼갈리오',
-    'birthDate':'1998-11-23',
-    'sex':'FEMALE',
-    'phoneNumber':'01027597034'
-}
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 
 const ModifyForm = () => {
     
-    const[email,setEmail]=useState(customer.email);
-    const[password,setPassword]=useState(customer.password);
-    const[passwordconfirm,setPasswordconfirm]=useState(customer.password);
-    const[name,setName]=useState(customer.name);
-    const[nickName,setNickname]=useState(customer.nickName);
-    const[birthDate,setBirthDate]=useState(customer.birthDate);
-    const[sex,setSex]=useState(customer.sex);
-    const[phoneNumber,setPhoneNumber]=useState(customer.phoneNumber);
+    const[my,setMy]=useState({});
 
-    const onchangeEmail = (e) =>{
-        console.log(e.target.value)
-        setEmail(e.target.value)
-    }
+    useEffect(() => {
+        axios.get(`http://localhost:8080/sportsmate/member/my`)
+      .then(function (response) {
+        if(response.status == 200){
+          setMy(response.data);
+        }})
+        .catch(function (error) {
+           console.log(error);
+          });
+    }, [])
+
+    const[password,setPassword]=useState(my.password);
+    const[passwordconfirm,setPasswordconfirm]=useState(my.password);
+    const[nickName,setNickname]=useState(my.nickName);
+    const[phoneNumber,setPhoneNumber]=useState(my.phoneNumber);
+
     const onchangePassword = (e) =>{
         console.log(e.target.value)
         setPassword(e.target.value)
@@ -36,21 +32,9 @@ const ModifyForm = () => {
         console.log(e.target.value)
         setPasswordconfirm(e.target.value)
     }
-    const onchangeName = (e) =>{
-        console.log(e.target.value)
-        setName(e.target.value)
-    }
     const onchangeNickName = (e) =>{
         console.log(e.target.value)
         setNickname(e.target.value)
-    }
-    const onchangeBirthDate = (e) =>{
-        console.log(e.target.value)
-        setBirthDate(e.target.value)
-    }
-    const onchangeSex = (e) =>{
-        console.log(e.target.value)
-        setSex(e.target.value)
     }
     const onchangePhoneNumber = (e) =>{
         console.log(e.target.value)
@@ -72,10 +56,33 @@ const ModifyForm = () => {
             <Container>
                 <Row>
                     <Col md="12">
-                    <Form className="col">
+                    <Form className="col" id="ModifyForm" onSubmit={function (event) {
+                            event.preventDefault();
+                                console.log()
+                                axios.post(`http://localhost:8080/sportsmate/member/my`, {
+                                    nickName: event.target.nickName.value,
+                                    password: event.target.password.value,
+                                    phoneNumber: event.target.phoneNumber.value
+                                })
+                                .then(function (response) {
+                                    //받는거
+                                    if(response.status == 200){
+                                        setPopup({
+                                            open: true,
+                                            title: "Confirm",
+                                            message: "Join Success!", 
+                                            callback: function(){
+                                                document.location.href='/';
+                                            }
+                                        });
+                                }
+                            }).catch(function (error) {
+                                    //error
+                                    console.log(error);
+                                });
+                        }}>
                         <FormGroup className="col-md-6">
-                                <Label htmlFor="email">Email 아이디</Label>
-                                <Input type="email" className="form-control" id="email" placeholder="Enter email" value={email} onChange={onchangeEmail}/>
+                                <Label htmlFor="email">Email 아이디: {my.email}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="password">비밀번호</Label>
@@ -86,27 +93,21 @@ const ModifyForm = () => {
                                 <Input type="password" className="form-control" id="confirmpassword" placeholder="Confirm Password" value={passwordconfirm} onChange={onchangePasswordconfirm}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="name">이름</Label>
-                                <Input type="text" className="form-control" id="name" placeholder="Enter Username" value={name} onChange={onchangeName}/>
+                                <Label htmlFor="name">이름: {my.name}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="nickNsame">별명</Label>
-                                <Input type="text" className="form-control" id="nickname" placeholder="Enter Nickname" value={nickName} onChange={onchangeNickName}/>
+                                <Input type="text" className="form-control" id="nickname" placeholder={my.nickName} value={nickName} onChange={onchangeNickName}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="birthDate">생년월일</Label>
-                                <Input type="date" name="birthDate" placeholder="date placeholder" value={birthDate} onChange={onchangeBirthDate}/>    
+                                <Label htmlFor="birthDate">생년월일: {my.birthDate}</Label>   
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="sex">성별</Label>
-                                <Input type="select" name="sex" value={sex} onChange={onchangeSex}>
-                                    <option value="MALE">남자</option>
-                                    <option value="FEMALE">여자</option>
-                                </Input>
+                                <Label htmlFor="sex">성별: {my.sex}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="phoneNumber">핸드폰번호</Label>
-                                <Input type="text" className="form-control" id="phoneNumber" placeholder="Enter Phone Number" value={phoneNumber} onChange={onchangePhoneNumber}/>
+                                <Input type="text" className="form-control" id="phoneNumber" placeholder={my.phoneNumber} value={phoneNumber} onChange={onchangePhoneNumber}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">수정</Button>

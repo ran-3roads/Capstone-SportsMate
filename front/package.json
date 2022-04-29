@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-navigation/stack": "^6.2.1",
+    "@tosspayments/payment-sdk": "^1.1.0",
     "antd": "^4.19.5",
     "axios": "^0.26.1",
     "bootstrap": "^4.6.0",
@@ -25,7 +26,8 @@
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "reactstrap": "8.10.0",
-    "sass": "^1.29.0"
+    "sass": "^1.29.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "eslint": "7.32.0",
