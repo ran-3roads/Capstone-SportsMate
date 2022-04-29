@@ -66,23 +66,26 @@ const PostView = ({ history }) => {
                 수정
               </a>
         </Link>
-        <button id={board_id} value="삭제" onClick={(event)=>{
+        <a className="btn btn-md m-t-30  btn-outline-light bg-danger "onClick={(event)=>{
                   event.preventDefault();
                    axios.delete(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}`)
                     .then(function (response) {
                     //받는거
                     if(response.status == 200){
                     alert("게시글이 삭제되었습니다.")
-                    location.reload();
+                    location.href=`/party/${id}/board`
                     }
                     }).catch(function (error) {
                     //error
                     console.log(error);
+                    console.log(error.response.data);
                     });
                      /*
                     event.target.id 이용해서 권한확인후삭제
                     */
-                    }}>삭제</button>
+                    }}>
+                삭제
+              </a>
       </div>
     </div>
   )
