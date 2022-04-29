@@ -13,7 +13,19 @@ export default function Info() {
     const router = useRouter();
     const { id } = router.query;
     const [party,setParty]=useState([]);
-    const [ismember,setIsmember]=useState('false');
+    const [ismember,setIsmember]=useState(false);
+    const [ismanager,setIsmanager]=useState(true);
+    let managecontent=null;
+    if(ismanager)
+    {
+      managecontent=<div className="justify-content-center">
+        <Link href={`/party/${id}/manage`}>
+              <a className="btn btn-md m-t-30  btn-outline-light bg-warning ">
+                파티관리
+              </a>
+        </Link>
+      </div>
+    }
     useEffect(() => {
         axios.get(`http://localhost:8080/sportsmate/party/${id}/info`)
                                 .then(function (response) {
@@ -80,6 +92,7 @@ export default function Info() {
                               </div>
                             </div>
                           </div>
+                          {managecontent}
                         </div>                       
                       </div>
                       <div className="n_guide2">

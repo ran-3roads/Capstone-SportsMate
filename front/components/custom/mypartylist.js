@@ -51,7 +51,7 @@ const MPList = () => {
                     ).map(p => {
                         return (
                             <li className='mItem'>
-                                <Link href={`/party/${p.id}/board`}>
+                                <Link href={`/party/${p.id}/info`}>
                                     <div className='mUri' >
                                         <div class ="mcover">
                                             <div className='mImage'>

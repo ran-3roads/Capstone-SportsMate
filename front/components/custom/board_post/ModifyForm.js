@@ -7,13 +7,12 @@ import { useRouter } from 'next/router';
 
 
 
-const ModifyForm = () => {
+const ModifyForm = (props) => {
     const[write,setWrite]=useState({});
     const router = useRouter();
-    const board_id = 1;
-
-useEffect(() => {
     const { id } = router.query;
+    const { board_id } = router.query;
+useEffect(() => {
     console.log(id,board_id)
     axios.get(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}`)
   .then(function (response) {
@@ -49,13 +48,12 @@ useEffect(() => {
     return (
         <div>
             <h2 align="center">게시글 수정</h2>
-            <Popup open = {popup.open} setPopup = {setPopup} message = {popup.message} title = {popup.title} callback = {popup.callback}/>
             <Container>
                 <Row>
                     <Col md="12">
                         <Form className="col" id="ModifyForm" onSubmit={function (event) {
                             event.preventDefault();
-                                console.log()
+                                console.log(id,board_id)
                                 axios.post(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/modify`, {
                                     title: event.target.title.value,
                                     contents: event.target.contents.value,
@@ -64,14 +62,8 @@ useEffect(() => {
                                 .then(function (response) {
                                     //받는거
                                     if(response.status == 200){
-                                        setPopup({
-                                            open: true,
-                                            title: "Confirm",
-                                            message: "Join Success!", 
-                                            callback: function(){
-                                                document.location.href='/';
-                                            }
-                                        });
+                                        alert("수정 성공");
+                                        document.location.href=`/party/${id}/board/${board_id}/info`
                                 }
                             }).catch(function (error) {
                                     //error
