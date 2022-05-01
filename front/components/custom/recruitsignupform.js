@@ -5,6 +5,7 @@ import axios from 'axios';
 import Popup from './popup';
 import Image from "next/image";
 import mapimg from "../../assets/images/landingpage/mapimg.png";
+import { useRouter } from 'next/router';
 
 
 
@@ -22,13 +23,16 @@ const request = {
 
 
 const RecruitSignupForm = () => {
+    const router=useRouter();
+    const { id } = router.query;
 
     const[recruits,setRecruits]=useState({});
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/sportsmate/member/my`)
+        axios.get(`http://localhost:8080/sportsmate/match/board/${id}`)
       .then(function (response) {
         if(response.status == 200){
+            console.log(response.data);
           setRecruits(response.data);
         }})
         .catch(function (error) {
@@ -92,10 +96,16 @@ const RecruitSignupForm = () => {
                                 <Label htmlFor="manager">스포츠: {recruits.sportsName}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                            <Label htmlFor="members">모집수: {recruits.num}명</Label>
+                            <Label htmlFor="members">모집수: {recruits.maxMember}명</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="sincedate">참여일: {recruits.date}</Label>
+                                <Label htmlFor="sincedate">비용: {recruits.credit}</Label>
+                            </FormGroup>
+                            <FormGroup className="col-md-6">
+                                <Label htmlFor="sincedate">시작 시간: {recruits.startTime}</Label>
+                            </FormGroup>
+                            <FormGroup className="col-md-6">
+                                <Label htmlFor="sincedate">종료 시간: {recruits.endTime}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="location">장소: {recruits.location}</Label>
@@ -105,7 +115,7 @@ const RecruitSignupForm = () => {
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="phoneNumber">신청양식</Label>
-                                <textarea  rows="10" cols="60" id="content" placeholder="ex)이름/나이/성별/포지션" value={contents} onChange={onchangeContents}/>
+                                <textarea  rows="10" cols="60" id="contents" placeholder="ex)이름/나이/성별/포지션" value={contents} onChange={onchangeContents}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">신청</Button>
