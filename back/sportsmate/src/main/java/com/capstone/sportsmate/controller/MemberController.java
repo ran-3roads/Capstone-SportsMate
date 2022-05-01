@@ -100,16 +100,29 @@ public class MemberController {
 
         return  new ResponseEntity<String>("reissue",headers, HttpStatus.ACCEPTED);
     }
+    //--------------------exceptionc처리--------------------
+   @ExceptionHandler
+    public ResponseEntity<ErrorResponse> errorHandling(LoginException e) {
+        ErrorResponse response = new ErrorResponse();
+        response.setStatusCode(HttpStatus.NOT_FOUND.value());
+        response.setMessage(e.getMessage());
+        response.setTimestamp(System.currentTimeMillis());
 
-//    @ExceptionHandler
-//    public ResponseEntity<ErrorResponse> errorHandling(LoginException e) {
-//        ErrorResponse response = new ErrorResponse();
-//        response.setStatusCode(HttpStatus.NOT_FOUND.value());
-//        response.setMessage(e.getMessage());
-//        response.setTimestamp(System.currentTimeMillis());
-//
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> errorHandling(RuntimeException e,HttpServletResponse servletResponse) {
+        ErrorResponse response = new ErrorResponse();
+        response.setStatusCode(HttpStatus.NOT_FOUND.value());
+        response.setMessage(e.getMessage());
+        response.setTimestamp(System.currentTimeMillis());
+        Cookie cookie = new Cookie("refreshToken",null);
+        cookie.setPath("/");//쿠키가 사용가능한 영역을 지정해줌
+        cookie.setMaxAge(0);
+        servletResponse.addCookie(cookie);
+
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
 
 
 }
