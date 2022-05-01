@@ -5,7 +5,7 @@ import Popup from './popup';
 import axios from 'axios';
 
 
-const ModifyForm = () => {
+const ModifyForms = () => {
     
     const[my,setMy]=useState({});
 
@@ -62,7 +62,7 @@ const ModifyForm = () => {
                     <Form className="col" id="ModifyForm" onSubmit={function (event) {
                             event.preventDefault();
                                 console.log()
-                                axios.post(`http://localhost:8080/sportsmate/member/my/modify`, {
+                                axios.post(`http://localhost:8080/sportsmate/member/my`, {
                                     nickName: event.target.nickName.value,
                                     password: event.target.password.value,
                                     phoneNumber: event.target.phoneNumber.value
@@ -100,7 +100,7 @@ const ModifyForm = () => {
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="nickNsame">별명</Label>
-                                <Input type="text" className="form-control" id="nickname" placeholder={my.nickName} value={nickName} onChange={onchangeNickName}/>
+                                <Input type="text" className="form-control" id="nickName" placeholder={my.nickName} value={nickName} onChange={onchangeNickName}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="birthDate">생년월일: {my.birthDate}</Label>   
@@ -124,4 +124,4 @@ const ModifyForm = () => {
     );
 }
 
-export default ModifyForm;
+export default ModifyForms;
