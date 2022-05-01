@@ -62,9 +62,8 @@ public class PartyController {
     }
 
     @GetMapping("/{partyId}/info")  //*
-    public Party viewParty(@PathVariable("partyId") Long partyId){
-        Party party= partyService.findOne(partyId);
-        return party;
+    public PartyResponse viewParty(@PathVariable("partyId") Long partyId){
+        return partyService.viewParty(partyId);
     }
     @GetMapping("/{partyId}/applyList")  //*
     public List<ApplyForm> viewPartyApply(@PathVariable("partyId") Long partyId){
@@ -79,25 +78,12 @@ public class PartyController {
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){ //exception 리턴타입 수정해야함
             throw new MyRoleException("확인 권한이 없습니다.");
         }
-        Notice notice = noticeService.findNoticeByApply(applyId);
-
-        if(!noticeService.validateDuplicateCheck(notice.getId())){
-            return "이미 처리한 지원서 입니다.";
-        }
-        noticeService.acceptApply(notice.getId());
+        partyService.acceptApply(partyId,applyId);
         return "수락했습니다";
     }
     @PostMapping("/{partyId}/applyList/{applyId}/reject")  //*
     public String rejectPartyApply(@PathVariable("partyId") Long partyId,@PathVariable("applyId") Long applyId){
-        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){ //exception 리턴타입 수정해야함
-            throw new MyRoleException("확인 권한이 없습니다.");
-        }
-        Notice notice = noticeService.findNoticeByApply(applyId);
-
-        if(!noticeService.validateDuplicateCheck(notice.getId())){
-            return "이미 처리한 지원서 입니다.";
-        }
-        noticeService.rejectApply(notice.getId());
+        partyService.rejectApply(partyId,applyId);
         return "거절했습니다.";
     }
     @GetMapping("/{partyId}/isHost")

@@ -1,7 +1,9 @@
 package com.capstone.sportsmate.service;
 
 import com.capstone.sportsmate.domain.*;
+import com.capstone.sportsmate.domain.notice.Apply;
 import com.capstone.sportsmate.domain.notice.Notice;
+import com.capstone.sportsmate.domain.notice.Reply;
 import com.capstone.sportsmate.domain.status.NoticeStatus;
 import com.capstone.sportsmate.domain.status.NoticeType;
 import com.capstone.sportsmate.domain.status.Request;
@@ -112,7 +114,6 @@ public class NoticeService {
         }
         return false; //수락 또는 거절했으면 false
     }
-
 
     //----------지원서에 대한 승락 및 거절 결과 보내줌-----------
     public void sendReply(Member toMember,Request request,Party party){

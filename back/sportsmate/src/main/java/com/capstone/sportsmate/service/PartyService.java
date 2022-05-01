@@ -1,7 +1,9 @@
 package com.capstone.sportsmate.service;
 
 import com.capstone.sportsmate.domain.*;
+import com.capstone.sportsmate.domain.notice.Apply;
 import com.capstone.sportsmate.domain.notice.Notice;
+import com.capstone.sportsmate.domain.notice.Reply;
 import com.capstone.sportsmate.domain.status.NoticeStatus;
 import com.capstone.sportsmate.domain.status.NoticeType;
 import com.capstone.sportsmate.domain.status.Request;
@@ -12,6 +14,7 @@ import com.capstone.sportsmate.repository.PartyRepository;
 import com.capstone.sportsmate.web.MemberApplyForm;
 import com.capstone.sportsmate.web.PartySearch;
 import com.capstone.sportsmate.web.PartyForm;
+import com.capstone.sportsmate.web.response.PartyResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -54,6 +56,36 @@ public class PartyService {
 
         return party.getId();
     }
+    @Transactional
+    public void acceptApply (Long partyId,Long applyId){
+
+        Apply apply= noticeRepository.findApplyOne(applyId);
+        if(!validateDuplicateCheck(apply)){throw new IllegalStateException("이미 처리한 지원서입니다.");}
+        apply.setState(Request.ACCEPT);
+
+        Party party= partyRepository.findOne(partyId);
+        party.addMember();
+        PartyMember partyMember= PartyMember.createPartyMember(apply.getMember(),party, Role.MEMBER, LocalDate.now());
+        partyRepository.mkPartyMember(partyMember);
+
+        sendReply(apply.getMember(),Request.ACCEPT,party);
+
+    }
+    @Transactional
+    public void rejectApply (Long partyId,Long applyId){
+
+        Apply apply= noticeRepository.findApplyOne(applyId);
+        if(!validateDuplicateCheck(apply)){throw new IllegalStateException("이미 처리한 지원서입니다.");}
+        sendReply(apply.getMember(),Request.REJECT,apply.getParty());
+        apply.setState(Request.REJECT);
+    }
+    //-----------지원서 중복 승락 및 거절 방지----------
+    public boolean validateDuplicateCheck(Apply apply) {
+        if(apply.getState().equals(Request.WAITING)){ //대기 처리면 true
+            return true;
+        }
+        return false; //수락 또는 거절했으면 false
+    }
 
     @Transactional
     public void updateParty(Long partyId,String title,String intro,String info,String location){
@@ -69,6 +101,11 @@ public class PartyService {
     public Party findOne(Long partyId){
         return partyRepository.findOne(partyId);
     }
+    public PartyResponse viewParty(Long partyId){
+        Party party=partyRepository.findOne(partyId);
+        Member hostMember= memberRepository.findPartyHost(party);
+        return party.toPartyResponse(hostMember.getNickName());
+    }
 
     public boolean isCheckRole(Long partyId, Long memberId){
         Party party = partyRepository.findOne(partyId);
@@ -77,6 +114,24 @@ public class PartyService {
         if(partyMember==null) return false;
         if(!partyMember.getRole().equals(Role.HOST))return false;
         return true;
+    }
+    //파티 수락했다는 메소드
+    public void sendReply(Member toMember,Request request,Party party){
+
+        Reply reply= Reply.createReply(request,party);
+        noticeRepository.saveReply(reply);
+
+        Notice notice = Notice.createNotice(toMember, NoticeType.PARTYREPLY,NoticeStatus.UNCONFIRM, LocalDateTime.now());
+        notice.setReply(reply);
+        notice.setApply(null);
+
+        noticeRepository.saveNotice(notice);
+    }
+    @Transactional
+    public Party addCurrentMember(Long partyId){
+        Party party = partyRepository.findOne(partyId);
+        party.addMember();
+        return party;
     }
 
     public boolean isPartyMember(Long partyId, Long memberId){
