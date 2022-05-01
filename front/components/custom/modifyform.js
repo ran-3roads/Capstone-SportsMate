@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState, useEffect } from 'react';
+import Popup from './popup';
 import axios from 'axios';
 
 
@@ -18,10 +19,11 @@ const ModifyForm = () => {
            console.log(error);
           });
     }, [])
-
+    const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
+    
     const[password,setPassword]=useState(my.password);
     const[passwordconfirm,setPasswordconfirm]=useState(my.password);
-    const[nickName,setNickname]=useState(my.nickName);
+    const[nickName,setNickName]=useState(my.nickName);
     const[phoneNumber,setPhoneNumber]=useState(my.phoneNumber);
 
     const onchangePassword = (e) =>{
@@ -34,7 +36,7 @@ const ModifyForm = () => {
     }
     const onchangeNickName = (e) =>{
         console.log(e.target.value)
-        setNickname(e.target.value)
+        setNickName(e.target.value)
     }
     const onchangePhoneNumber = (e) =>{
         console.log(e.target.value)
@@ -43,6 +45,7 @@ const ModifyForm = () => {
 
     return (
         <div>
+             <Popup open = {popup.open} setPopup = {setPopup} message = {popup.message} title = {popup.title} callback = {popup.callback}/>
             <div className="spacer" id="forms-component">
                 <Container>
                     <Row className="justify-content-center">
@@ -59,7 +62,7 @@ const ModifyForm = () => {
                     <Form className="col" id="ModifyForm" onSubmit={function (event) {
                             event.preventDefault();
                                 console.log()
-                                axios.post(`http://localhost:8080/sportsmate/member/my`, {
+                                axios.post(`http://localhost:8080/sportsmate/member/my/modify`, {
                                     nickName: event.target.nickName.value,
                                     password: event.target.password.value,
                                     phoneNumber: event.target.phoneNumber.value
@@ -70,9 +73,9 @@ const ModifyForm = () => {
                                         setPopup({
                                             open: true,
                                             title: "Confirm",
-                                            message: "Join Success!", 
+                                            message: "변경 완료!", 
                                             callback: function(){
-                                                document.location.href='/';
+                                                document.location.href=`/mypage`;
                                             }
                                         });
                                 }

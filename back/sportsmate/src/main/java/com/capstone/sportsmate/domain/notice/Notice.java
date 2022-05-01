@@ -1,8 +1,6 @@
 package com.capstone.sportsmate.domain.notice;
 
-import com.capstone.sportsmate.domain.Apply;
 import com.capstone.sportsmate.domain.Member;
-import com.capstone.sportsmate.domain.Reply;
 import com.capstone.sportsmate.domain.status.NoticeStatus;
 import com.capstone.sportsmate.domain.status.NoticeType;
 import com.fasterxml.jackson.annotation.JsonIgnore;

@@ -75,9 +75,9 @@ export default function Info() {
                           <div className="my_box">
                             <div className="party_infoboxc">
                               <div className="left_section">
-                                <div className="inf_name"><div className="party_font">방장: {partyinfo.manager} 님</div></div>
+                                <div className="inf_name"><div className="party_font">방장: {party.manager} 님</div></div>
                                 <div className="since_date"><div className="party_font">개설일: {party.sinceDate}</div></div>
-                                <div className="party_font">멤버수: {partyinfo.members}명 </div>
+                                <div className="party_font">멤버수: {party.currentMember}명 </div>
                                 <div className="party_font">활동: {party.sportsName}</div>
                                   <Link href={`/party/${id}/partysignup`}>
                                     <a className="btn btn-danger m-r-10 btn-md m-t-20 ">
@@ -104,7 +104,7 @@ export default function Info() {
                           </div>
                           <div className="party_write_container">
                             <div className="party_font">
-                            {partyinfo.comments}
+                            {party.info}
                             </div>     
                           </div>
                         </div>

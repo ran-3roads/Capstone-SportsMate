@@ -2,10 +2,10 @@ package com.capstone.sportsmate.service;
 
 import com.capstone.sportsmate.domain.*;
 import com.capstone.sportsmate.domain.notice.Notice;
+import com.capstone.sportsmate.domain.notice.Reply;
 import com.capstone.sportsmate.domain.status.NoticeStatus;
 import com.capstone.sportsmate.domain.status.NoticeType;
 import com.capstone.sportsmate.domain.status.Request;
-import com.capstone.sportsmate.exception.MyRoleException;
 import com.capstone.sportsmate.repository.*;
 import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.MatchApplyForm;

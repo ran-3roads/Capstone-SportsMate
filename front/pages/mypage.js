@@ -80,26 +80,16 @@ export default function Mypage() {
             <Link href="/mymatch">
               <Button className="btn btn-danger m-t-30 btn-info-gradiant font-14">
                 My 경기 목록
-              </Button>
-              
+              </Button> 
             </Link>
-
+            <Link href="/mymatch">
+              <Button className="btn btn-danger m-t-30 btn-info-gradiant font-14">
+                포인트 충전
+              </Button> 
+            </Link>
           </Col>
         </Row>
       </div>
     </div>
   );
 };
-/* <button id={board_id} value="포인트 충전" onClick={(event) => {
-                event.preventDefault();
-                loadTossPayments(clientKey).then(tossPayments => {
-                  tossPayments.requestPayment("토스결제", {
-                    amount: 5000,
-                    orderId: uuid(),
-                    orderName: "스포츠 포인트 충전 ",
-                    customerName: "송영우 ",
-                    successUrl: window.location.origin + "/success",
-                    failUrl: window.location.origin + "/fail",
-                  });
-                })
-              }}>포인트충전</button> */
