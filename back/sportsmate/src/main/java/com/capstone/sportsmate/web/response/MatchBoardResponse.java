@@ -1,5 +1,6 @@
 package com.capstone.sportsmate.web.response;
 
+import com.capstone.sportsmate.domain.status.SportsName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,7 +22,8 @@ public class MatchBoardResponse {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endTime; // 경기끝
     private Long registId; //경기를 조회하기 위해 보내야됨
-
+    private SportsName sportsName;//종목
+    private String location;//위치
 
 
 }
