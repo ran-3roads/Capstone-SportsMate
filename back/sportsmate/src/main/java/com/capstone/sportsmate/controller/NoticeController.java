@@ -1,14 +1,11 @@
 package com.capstone.sportsmate.controller;
 
 
-import com.capstone.sportsmate.domain.Apply;
 import com.capstone.sportsmate.domain.notice.Notice;
-import com.capstone.sportsmate.domain.status.Request;
 import com.capstone.sportsmate.exception.MyRoleException;
 import com.capstone.sportsmate.exception.response.ErrorResponse;
 import com.capstone.sportsmate.service.MemberService;
 import com.capstone.sportsmate.service.NoticeService;
-import com.capstone.sportsmate.service.PartyService;
 import com.capstone.sportsmate.web.ApplyForm;
 import com.capstone.sportsmate.web.ReplyForm;
 import lombok.RequiredArgsConstructor;

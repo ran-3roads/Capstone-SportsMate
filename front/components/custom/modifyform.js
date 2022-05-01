@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState, useEffect } from 'react';
+import Popup from './popup';
 import axios from 'axios';
 
 
-const ModifyForm = () => {
+const ModifyForms = () => {
     
     const[my,setMy]=useState({});
 
@@ -18,10 +19,11 @@ const ModifyForm = () => {
            console.log(error);
           });
     }, [])
-
+    const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
+    
     const[password,setPassword]=useState(my.password);
     const[passwordconfirm,setPasswordconfirm]=useState(my.password);
-    const[nickName,setNickname]=useState(my.nickName);
+    const[nickName,setNickName]=useState(my.nickName);
     const[phoneNumber,setPhoneNumber]=useState(my.phoneNumber);
 
     const onchangePassword = (e) =>{
@@ -34,7 +36,7 @@ const ModifyForm = () => {
     }
     const onchangeNickName = (e) =>{
         console.log(e.target.value)
-        setNickname(e.target.value)
+        setNickName(e.target.value)
     }
     const onchangePhoneNumber = (e) =>{
         console.log(e.target.value)
@@ -43,6 +45,7 @@ const ModifyForm = () => {
 
     return (
         <div>
+             <Popup open = {popup.open} setPopup = {setPopup} message = {popup.message} title = {popup.title} callback = {popup.callback}/>
             <div className="spacer" id="forms-component">
                 <Container>
                     <Row className="justify-content-center">
@@ -70,9 +73,9 @@ const ModifyForm = () => {
                                         setPopup({
                                             open: true,
                                             title: "Confirm",
-                                            message: "Join Success!", 
+                                            message: "변경 완료!", 
                                             callback: function(){
-                                                document.location.href='/';
+                                                document.location.href=`/mypage`;
                                             }
                                         });
                                 }
@@ -97,7 +100,7 @@ const ModifyForm = () => {
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="nickNsame">별명</Label>
-                                <Input type="text" className="form-control" id="nickname" placeholder={my.nickName} value={nickName} onChange={onchangeNickName}/>
+                                <Input type="text" className="form-control" id="nickName" placeholder={my.nickName} value={nickName} onChange={onchangeNickName}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="birthDate">생년월일: {my.birthDate}</Label>   
@@ -121,4 +124,4 @@ const ModifyForm = () => {
     );
 }
 
-export default ModifyForm;
+export default ModifyForms;

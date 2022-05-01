@@ -1,16 +1,15 @@
-package com.capstone.sportsmate.domain;
+package com.capstone.sportsmate.domain.notice;
 
 
-import com.capstone.sportsmate.domain.notice.Notice;
+import com.capstone.sportsmate.domain.Member;
+import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.domain.status.Request;
 import com.capstone.sportsmate.web.ApplyForm;
-import com.capstone.sportsmate.web.response.ScheduleResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;

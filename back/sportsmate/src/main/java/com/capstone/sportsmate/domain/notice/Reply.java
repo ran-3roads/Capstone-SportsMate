@@ -1,5 +1,6 @@
-package com.capstone.sportsmate.domain;
+package com.capstone.sportsmate.domain.notice;
 
+import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.domain.status.Request;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -11,8 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "reply")
-@Getter
-@Setter
+@Getter @Setter
 public class Reply { //응답에 대한 entity
     @Id
     @Column(name="reply_id")
@@ -31,7 +31,6 @@ public class Reply { //응답에 대한 entity
         Reply reply= new Reply();
         reply.state=state;
         reply.party=party;
-
         return reply;
     }
 

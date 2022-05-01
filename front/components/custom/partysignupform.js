@@ -1,27 +1,37 @@
 import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import axios from 'axios';
 import Popup from './popup';
 import { useRouter } from 'next/router';
 
 
-const partyinfo = {
-    title: '성풋모',
-    manager: '맹구토씈갈리오',
-    sinceDate:'2022-4-5',
-    members:'40',
-}
+
 const request = {
     'contents' : '',
 }
 
 
 const PartySignupForm = () => {
+
+    const[partyinfo,setPartyInfo]=useState({});
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/sportsmate/party/${id}/info`)
+      .then(function (response) {
+        if(response.status == 200){
+          setPartyInfo(response.data);
+        }})
+        .catch(function (error) {
+           console.log(error);
+          });
+    }, [])
+
     const router=useRouter();
     const { id } = router.query;
+
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
- 
+
     const[contents,setContents]=useState(request.contents);
 
     const onchangeContent = (e) =>{
@@ -68,10 +78,13 @@ const PartySignupForm = () => {
                                 <Label htmlFor="title">파티명: {partyinfo.title}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
+                                <Label htmlFor="title">종목: {partyinfo.sportsName}</Label>
+                            </FormGroup>
+                            <FormGroup className="col-md-6">
                                 <Label htmlFor="manager">파티장: {partyinfo.manager}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                            <Label htmlFor="members">회원수: {partyinfo.members}명</Label>
+                            <Label htmlFor="members">회원수: {partyinfo.currentMember}명</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="sincedate">개설일: {partyinfo.sinceDate}</Label>
