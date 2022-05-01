@@ -1,19 +1,13 @@
 import Head from "next/head";
 import { Container, Row, Col, Button } from "reactstrap";
 import RList from "../components/custom/recruitlist";
-import {useState} from 'react'
 
 
 
 export default function Party () {
-  const [mode,setMode]=useState('MYRECRUIT');
-  let content = null;
-  if(mode == 'MYRECRUIT'){
-    content = <RList></RList>
-  }
-  else if(mode == 'RECRUIT'){
-    content = <RList></RList>
-  }
+
+  const content = <RList/>
+
   return (
     <div>
       <Head>
@@ -22,27 +16,10 @@ export default function Party () {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container>
-        <Row>
-      <div>
-      <Button className="btn btn-md m-t-30 btn-info-gradiant font-14" onClick={(event)=>{
-        event.preventDefault();
-        setMode('MYRECRUIT');
-      }}>
-                My Recruit
-      </Button>
-      </div>
-      <div>
-      <Button className="btn btn-md m-t-30 btn-info-gradiant font-14" onClick={(event)=>{
-        event.preventDefault();
-        setMode('RECRUIT');
-      }}>
-                용병검색
-      </Button>
-      </div>
+      <Row>
+          {content}
       </Row>
       </Container>
-      {content}
-          
     </div>
   );
 };

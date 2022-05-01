@@ -4,146 +4,22 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button,Pagination, Form, FormGroup,PaginationItem, PaginationLink, Container, Row, Col,Input } from 'reactstrap';
 import footballimg from "../../assets/images/landingpage/football.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const RList = () => {
-    const recruits = [
-        {
-            recruit_id:1 ,
-            sports_name:'풋살',
-            intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-            location: '성북구',
-            since_date:'2022-4-18',
-            title: '성풋모1', 
-            infoimg: footballimg
-        },
-        {
-            recruit_id:2 ,
-            sports_name:'풋살',
-            intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-            location: '성북구',
-            since_date:'2022-4-18',
-            title: '성풋모2', 
-            infoimg: footballimg
-        },
-        {
-            recruit_id:3 ,
-            sports_name:'풋살',
-            intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-            location: '성북구',
-            since_date:'2022-4-18',
-            title: '성풋모3', 
-            infoimg: footballimg
-            },
-        {
-            recruit_id:4 ,
-            sports_name:'풋살',
-            intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-            location: '성북구',
-            since_date:'2022-4-18',
-            title: '성풋모4', 
-            infoimg: footballimg
-        },
-        {
-            recruit_id:5 ,
-            sports_name:'풋살',
-            intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-            location: '성북구',
-            since_date:'2022-4-18',
-            title: '성풋모5', 
-            infoimg: footballimg
-        },
-        {
-            recruit_id:6 ,
-             sports_name:'농구',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모6', 
-             infoimg: footballimg
-         },
-         {
-            recruit_id:7 ,
-             sports_name:'농구',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모7', 
-             infoimg: footballimg
-         },
-         {
-            recruit_id:8 ,
-             sports_name:'농구',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모8', 
-             infoimg: footballimg
-         },
-         {
-            recruit_id:9 ,
-             sports_name:'풋살',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모9', 
-             infoimg: footballimg
-         },
-         {
-            recruit_id:10 ,
-             sports_name:'농구',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모10', 
-             infoimg: footballimg
-         },
-         {
-            recruit_id:11 ,
-             sports_name:'풋살',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모11', 
-             infoimg: footballimg
-         },
-         {
-            recruit_id:12 ,
-             sports_name:'풋살',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모12', 
-             infoimg: footballimg
-         },
-         {
-            recruit_id:13 ,
-             sports_name:'풋살',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모13', 
-             infoimg: footballimg
-         },
-         {
-            recruit_id:14 ,
-             sports_name:'풋살',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모14', 
-             infoimg: footballimg
-         },
-         {
-            recruit_id:15 ,
-             sports_name:'풋살',
-             intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-             location: '성북구',
-             since_date:'2022-4-18',
-             title: '성풋모15', 
-             infoimg: footballimg
-         },
-    ];
+    const [recruits,setRecruits] = useState([]);
+    useEffect(() => {
+        axios.get("http://localhost:8080/sportsmate/match/board")
+                                .then(function (response) {
+                                    if(response.status == 200){
+                                        setRecruits(response.data)
+                                        console.log(recruits)
+                                    }
+                            }).catch(function (error) {
+                                    console.log(error);
+                                });
+    }, [])
     let result = [...recruits];
     const[currentPage,setCurrentPage]=useState(0);
     const[location,setLocation]=useState("all");

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Popup from './popup';
 import Image from "next/image";
@@ -17,19 +17,32 @@ const recruitinfo = {
     infoimg: mapimg
 }
 const request = {
-    'content' : '',
+    'contents' : '',
 }
 
 
 const RecruitSignupForm = () => {
 
+    const[recruits,setRecruits]=useState({});
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/sportsmate/member/my`)
+      .then(function (response) {
+        if(response.status == 200){
+          setRecruits(response.data);
+        }})
+        .catch(function (error) {
+           console.log(error);
+          });
+    }, [])
+
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
  
-    const[content,setContent]=useState(request.content);
+    const[contents,setContents]=useState(request.contents);
 
-    const onchangeContent = (e) =>{
+    const onchangeContents = (e) =>{
         console.log(e.target.value)
-        setContent(e.target.value)
+        setContents(e.target.value)
     }
     
 
@@ -53,13 +66,7 @@ const RecruitSignupForm = () => {
                             event.preventDefault();
                                 console.log()
                                 axios.post("http://localhost:8080/sportsmate/member/public/signup", {
-                                    email: event.target.email.value,
-                                    password: event.target.password.value,
-                                    name: event.target.name.value,
-                                    nickName: event.target.nickName.value,
-                                    birthDate: event.target.birthDate.value,
-                                    sex: event.target.sex.value,
-                                    phoneNumber: event.target.phoneNumber.value
+                                    contents:event.target.contents.value
                                 })
                                 .then(function (response) {
                                     //받는거
@@ -67,9 +74,9 @@ const RecruitSignupForm = () => {
                                         setPopup({
                                             open: true,
                                             title: "Confirm",
-                                            message: "Join Success!", 
+                                            message: "신청 완료!", 
                                             callback: function(){
-                                                document.location.href='/';
+                                                document.location.href=`/recruit`;
                                             }
                                         });
                                 }
@@ -79,26 +86,26 @@ const RecruitSignupForm = () => {
                                 });
                         }}>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="title">파티명: {recruitinfo.title}</Label>
+                                <Label htmlFor="title">파티명: {recruits.title}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="manager">스포츠: {recruitinfo.sportsName}</Label>
+                                <Label htmlFor="manager">스포츠: {recruits.sportsName}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                            <Label htmlFor="members">모집수: {recruitinfo.num}명</Label>
+                            <Label htmlFor="members">모집수: {recruits.num}명</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="sincedate">참여일: {recruitinfo.date}</Label>
+                                <Label htmlFor="sincedate">참여일: {recruits.date}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="location">장소: {recruitinfo.location}</Label>
+                                <Label htmlFor="location">장소: {recruits.location}</Label>
                                 <span className='mInner'>
                                      <Image src={recruitinfo.infoimg} alt="모임소개사진"/>
                                 </span>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="phoneNumber">신청양식</Label>
-                                <textarea  rows="10" cols="60" id="content" placeholder="ex)이름/나이/성별/포지션" value={content} onChange={onchangeContent}/>
+                                <textarea  rows="10" cols="60" id="content" placeholder="ex)이름/나이/성별/포지션" value={contents} onChange={onchangeContents}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">신청</Button>
