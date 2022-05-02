@@ -16,10 +16,12 @@ public class Arena {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Column(name = "map_x")
-    private int mapX;
+    private float mapX;
     @Column(name = "map_y")
-    private int mapY;
+    private float mapY;
+
     private int credit;
 
     @Enumerated(EnumType.STRING)
@@ -29,7 +31,7 @@ public class Arena {
     private String name;
 
     //Create test
-    public static Arena createArena(int mapX,int mapY,int credit,SportsName sportsName,String name) {
+    public static Arena createArena(float mapX,float mapY,int credit,SportsName sportsName,String name) {
         Arena arena = new Arena();
         arena.mapX=mapX;
         arena.mapY=mapY;

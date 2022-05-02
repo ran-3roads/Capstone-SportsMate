@@ -25,5 +25,8 @@ public class MatchBoardResponse {
     private SportsName sportsName;//종목
     private String location;//위치
 
+    private float mapX;
+    private float mapY;
+
 
 }

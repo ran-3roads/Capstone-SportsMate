@@ -1,12 +1,13 @@
 /* global kakao */
 import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import Popup from './popup';
 import Image from "next/image";
 import mapimg from "../../assets/images/landingpage/mapimg.png";
 import { useRouter } from 'next/router';
+
 
 const recruitinfo = {
     title: '성풋모',
@@ -20,12 +21,15 @@ const request = {
     'contents' : '',
 }
 
-
 const RecruitSignupForm = () => {
     const router=useRouter();
     const { id } = router.query;
 
     const[recruits,setRecruits]=useState({});
+
+    const container = useRef();
+    const [kakaoMap, setKakaoMap] = useState(null);
+    const [, setMarkers] = useState([]);
 
     useEffect(() => {
         axios.get(`http://localhost:8080/sportsmate/match/board/${id}`)
@@ -33,18 +37,46 @@ const RecruitSignupForm = () => {
         if(response.status == 200){
             console.log(response.data);
           setRecruits(response.data);
+          return response.data;
         }})
+        .then((data) => {
+            const script = document.createElement("script");
+            script.src ="https://dapi.kakao.com/v2/maps/sdk.js?appkey=3dbb4a851361084c24a23040d0abd3c6&autoload=false";
+            document.head.appendChild(script);
+        
+            script.onload = () => {
+              kakao.maps.load(() => {
+                const center = new kakao.maps.LatLng(data.mapX,data.mapY);
+                const options = {
+                  center,
+                  level: 3
+                };
+                const map = new kakao.maps.Map(container.current, options);
+                setKakaoMap(map);
+              });
+            };
+          })
         .catch(function (error) {
            console.log(error);
           });
-
-        // var container = document.getElementById('map');
-        // var options = {
-        //   center: new kakao.maps.LatLng(37.365264512305174, 127.10676860117488),
-        //   level: 3
-        // };
-        // var map = new kakao.maps.Map(container, options);
     }, [])
+      useEffect(() => {
+        if (kakaoMap === null) {
+          return;
+        }
+    
+        // save center position
+        const center = kakaoMap.getCenter();
+    
+        // relayout and...
+        kakaoMap.relayout();
+        // restore
+        kakaoMap.setCenter(center);
+        let marker = new kakao.maps.Marker({
+            position: center,
+        });
+        marker.setMap(kakaoMap);
+      }, [kakaoMap]);
       
 
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
@@ -117,17 +149,7 @@ const RecruitSignupForm = () => {
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="location">장소: {recruits.location}</Label>
                                 <span className='mInner'>
-                                <Map
-                                    center={{ lat: 33.5563, lng: 126.79581 }}
-                                    style={{ width: "100%", height: "360px" }}
-                                >
-                                <MapMarker position={{ lat: 33.55635, lng: 126.795841 }}>
-                                <div style={{color:"#000"}}>Hello World!</div>
-                                 </MapMarker>
-                                </Map>
-                                {/* <div>
-        	                        <div id="map" style={{width:"300px", height:"200px"}}></div> 
-                                    </div> */}
+                                <div id="container" ref={container} style={{width:"500px", height:"400px"}}/>
                                 </span>
                             </FormGroup>
                             <FormGroup className="col-md-6">
