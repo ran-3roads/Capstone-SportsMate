@@ -150,7 +150,7 @@ public class MemberService {
     @Transactional
     public String modifyInfo(MemberMoidfyForm memberMoidfyForm) {//정보 변경
         Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
-        findMember.updateFindMember(memberMoidfyForm);
+        findMember.updateFindMember(memberMoidfyForm,passwordEncoder);
         return "modify";
     }
 }
