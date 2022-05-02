@@ -1,3 +1,4 @@
+/* global kakao */
 import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState, useEffect } from 'react';
@@ -6,8 +7,6 @@ import Popup from './popup';
 import Image from "next/image";
 import mapimg from "../../assets/images/landingpage/mapimg.png";
 import { useRouter } from 'next/router';
-
-
 
 const recruitinfo = {
     title: '성풋모',
@@ -38,7 +37,15 @@ const RecruitSignupForm = () => {
         .catch(function (error) {
            console.log(error);
           });
+
+        // var container = document.getElementById('map');
+        // var options = {
+        //   center: new kakao.maps.LatLng(37.365264512305174, 127.10676860117488),
+        //   level: 3
+        // };
+        // var map = new kakao.maps.Map(container, options);
     }, [])
+      
 
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
  
@@ -110,7 +117,17 @@ const RecruitSignupForm = () => {
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="location">장소: {recruits.location}</Label>
                                 <span className='mInner'>
-                                     <Image src={recruitinfo.infoimg} alt="모임소개사진"/>
+                                <Map
+                                    center={{ lat: 33.5563, lng: 126.79581 }}
+                                    style={{ width: "100%", height: "360px" }}
+                                >
+                                <MapMarker position={{ lat: 33.55635, lng: 126.795841 }}>
+                                <div style={{color:"#000"}}>Hello World!</div>
+                                 </MapMarker>
+                                </Map>
+                                {/* <div>
+        	                        <div id="map" style={{width:"300px", height:"200px"}}></div> 
+                                    </div> */}
                                 </span>
                             </FormGroup>
                             <FormGroup className="col-md-6">
@@ -128,5 +145,4 @@ const RecruitSignupForm = () => {
         </div>
     );
 }
-
 export default RecruitSignupForm;
