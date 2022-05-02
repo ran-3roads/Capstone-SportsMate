@@ -54,6 +54,13 @@ public class PartyController {
         }
         return true;
     }
+    @GetMapping("/{partyId}/isPartyManager") //파티 방장인지 아닌지 확인
+    public boolean checkManager(@PathVariable("partyId") Long partyId){
+        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())) {
+            return false; // 방장이 아니다.
+        }
+        return true;
+    }
 
     @PostMapping("/{partyId}/join") // 파티참가
     public String joinParty(@RequestBody MemberApplyForm form,@PathVariable("partyId") Long partyId){

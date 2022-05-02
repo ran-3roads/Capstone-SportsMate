@@ -1,102 +1,90 @@
 import Head from "next/head";
 import { Container, Row, Col, Button } from "reactstrap";
 import { useRouter } from 'next/router'
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Link from "next/link";
 import CommonTable from "../../../components/custom/board_post/CommonTable"
 import CommonTableRow from "../../../components/custom/board_post/CommonTableRow"
 import CommonTableColumn from "../../../components/custom/board_post/CommonTableColumn"
+import axios from "axios";
 export default function Board() {
     const [mode,setMode]= useState('MANAGE');
+    const [permissions,setPermissions]=useState([]);
+    const [members,setMembers]=useState([]);
     const router = useRouter();
     const { id } = router.query;
+    const today = new Date();
     console.log(id);
-    const members = [{
-        nickName:'맹구토',
-        sinceDate:'2022-04-28',
-        age:24,
-        sex:'MALE',
-    },
-    {
-            nickName:'버기',
-            sinceDate:'2022-04-26',
-            age:20,
-            sex:'FEMALE',
-    }
-    ]
-const permissions = [{
-    nickName:'맹구토',
-    sinceDate:'2022-04-28',
-    age:24,
-    sex:'MALE',
-    content:'가입받아주세요'
-    },
-    {
-    nickName:'버기',
-    sinceDate:'2022-04-26',
-    age:20,
-    sex:'FEMALE',
-    content:'나도받아다오'
-    }
-    ]
+    useEffect(() => {
+      axios.get(`http://localhost:8080/sportsmate/party/${id}/applyList`)
+                              .then(function (response) {
+                                  if(response.status == 200){
+                                      setPermissions(response.data)
+                                  }
+                          }).catch(function (error) {
+                                  console.log(error);
+                              });
+    }, [])
+    useEffect(() => {
+      axios.get(`http://localhost:8080/sportsmate/party/${id}/memberList`)
+                              .then(function (response) {
+                                  if(response.status == 200){
+                                      setMembers(response.data)
+                                  }
+                          }).catch(function (error) {
+                                  console.log(error);
+                              });
+    }, [])
     let managecontent=null;
     if(mode=="PERMISSION"){
         managecontent=<div>
         <div id="comment_count">
         승인대기중인 가입수{permissions.length}개
       </div>
-      <CommonTable headersName={['닉네임/나이/성별', '자기소개','신청일']}>
+      <CommonTable headersName={['닉네임/성별', '자기소개','신청일']}>
           {
-            permissions.map(p => {
+            permissions.filter(p=>p.state=="WAITING").map(p => {
               return (
-                  <CommonTableRow key={p.nickName}>
+                  <CommonTableRow key={p.id}>
                   <CommonTableColumn>
                   <a>
-                    { p.nickName },{p.age},{p.sex}
+                    { p.memberName },{p.sex}
                   </a>
                   </CommonTableColumn>
                   <CommonTableColumn>
                   <a>  
-                    { p.content }
+                    { p.contents }
                     </a>
                   </CommonTableColumn>
                   <CommonTableColumn>
                   <a>    
                     { p.sinceDate } 
                     </a>
-                    <button id={p.nickName} value="승인" onClick={(event)=>{
+                    <button id={p.id} value="승인" onClick={(event)=>{
                       event.preventDefault();
-                      /*
-                      axios.delete(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/comment/${event.target.id}`)
-                  .then(function (response) {
+                      axios.post(`http://localhost:8080/sportsmate/party/${id}/applyList/${event.target.id}/accept`)
+                      .then(function (response) {
                       //받는거
                       if(response.status == 200){
-                          alert("댓글이 삭제되었습니다.")
+                          alert("가입요청을 승인했습니다.")
                           location.reload();
-                  }
-              }).catch(function (error) {
-                      //error
+                      }
+                      }).catch(function (error) {
                       console.log(error);
-                  });
-                      
-                      */
+                      });
                   }}>승인</button>
-                  <button id={p.nickName} value="거절" onClick={(event)=>{
+                  <button id={p.id} value="거절" onClick={(event)=>{
                       event.preventDefault();
-                      /*
-                      axios.delete(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/comment/${event.target.id}`)
-                  .then(function (response) {
+                      axios.post(`http://localhost:8080/sportsmate/party/${id}/applyList/${event.target.id}/reject`)
+                      .then(function (response) {
                       //받는거
                       if(response.status == 200){
-                          alert("댓글이 삭제되었습니다.")
+                          alert("가입요청을 거절했습니다.")
                           location.reload();
-                  }
-              }).catch(function (error) {
-                      //error
+                      }
+                      }).catch(function (error) {
                       console.log(error);
-                  });
-                      
-                      */
+                      });
                   }}>거절</button>
                   </CommonTableColumn>
                   </CommonTableRow>
@@ -113,7 +101,7 @@ const permissions = [{
         <div id="comment_count">
         전체 파티원수 {members.length} 명
       </div>
-      <CommonTable headersName={['닉네임', '나이', '성별','등록일']}>
+      <CommonTable headersName={['닉네임', '나이/성별','직위','가입일']}>
           {
             members.map(m => {
               return (
@@ -125,12 +113,12 @@ const permissions = [{
                   </CommonTableColumn>
                   <CommonTableColumn>
                   <a>  
-                    { m.age }
+                    { today.getFullYear()-m.birthDate.getFullYear()+1}세/{m.sex}
                     </a>
                   </CommonTableColumn>
                   <CommonTableColumn>
                   <a>  
-                    { m.sex }
+                    { m.role }
                     </a>
                   </CommonTableColumn>
                   

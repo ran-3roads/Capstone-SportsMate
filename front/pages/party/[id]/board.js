@@ -7,20 +7,14 @@ import footballimg from "../../../assets/images/landingpage/football.png";
 import PartySelect from "../../../components/custom/partyselectform";
 import PostMain from "../../../components/custom/board_post/PostMain";
 import Link from "next/link";
-
+import { useState } from "react";
 export default function Board() {
     const router = useRouter();
-    const { id } = router.query;
-    console.log(id);
-    const party = {
-      party_id:id , // id 외의 정보는 db로 가져오기
-      sports_name:'풋살',
-      intro:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-      location: '성북구',
-      since_date:'2022-4-18',
-      title: '성풋모1', 
-      infoimg: footballimg
-  }
+    let idcontent =null;
+    const {id} =router.query;
+    if(id!=undefined){
+      idcontent=<PostMain id={`${id}`}/>
+    }
   return (
     <div>
       <Head>
@@ -38,7 +32,8 @@ export default function Board() {
                       </Col>
                       <div className="guide_margin">
                       <div className="party_box">
-                          <PostMain id={`${id}`}/>
+                          {idcontent}
+                          
                       </div>
                       <Link href={`/party/${id}/board/write`}>
                           <a className="btn btn-danger m-r-20 btn-md m-t-30 ">
