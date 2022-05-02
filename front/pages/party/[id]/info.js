@@ -54,11 +54,18 @@ export default function Info() {
       }
     }
     else{
+      if(!isalreadyapply){
       memberjoincontent=<Link href={`/party/${id}/partysignup`}>
       <a className="btn btn-danger m-r-10 btn-md m-t-20 ">
         파티 가입하기
       </a>
       </Link>
+      }
+      else{
+      memberjoincontent=<a className="btn btn-warning m-r-10 btn-md m-t-20 ">
+      가입승인 대기중
+      </a>
+      }
     }
 
     useEffect(() => {
@@ -92,6 +99,17 @@ export default function Info() {
                                   console.log(error);
                               });
   }, [])
+  
+  useEffect(() => {
+    axios.get(`http://localhost:8080/sportsmate/party/${id}/alreadyApply`)
+                            .then(function (response) {
+                                if(response.status == 200){
+                                  setIsalreadyapply(response.data)
+                                }
+                        }).catch(function (error) {
+                                console.log(error);
+                            });
+}, [])
     const partyinfo = {
     manager: '맹구토씈갈리오',
     sinceDate:'2022-4-5',
