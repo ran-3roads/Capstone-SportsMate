@@ -14,24 +14,58 @@ export default function Info() {
     const { id } = router.query;
     const [party,setParty]=useState([]);
     const [ismember,setIsmember]=useState(false);
-    const [ismanager,setIsmanager]=useState(true);
+    const [ismanager,setIsmanager]=useState(false);
+    const [isalreadyapply,setIsalreadyapply]=useState(false);
     let managecontent=null;
-    if(ismanager)
-    {
-      managecontent=<div className="justify-content-center">
-        <Link href={`/party/${id}/manage`}>
-              <a className="btn btn-md m-t-30  btn-outline-light bg-warning ">
-                파티관리
-              </a>
-        </Link>
-      </div>
+    let membercontent=null;
+    let memberjoincontent=null;
+
+
+    if(ismember){
+      membercontent=<PartySelect>
+      </PartySelect>
+      if(ismanager)
+        {
+          managecontent=
+            <Link href={`/party/${id}/manage`}>
+                  <a className="btn btn-md m-t-30  btn-outline-light bg-warning ">
+                    파티관리
+                  </a>
+            </Link>
+        }
+      else{
+        memberjoincontent=
+        <a className="btn btn-danger m-r-10 btn-md m-t-20 "
+        // onClick={(event)=>{
+        //   event.preventDefault();
+        //   axios.delete(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/comment/${event.target.id}`)
+        //   .then(function (response) {
+        //       if(response.status == 200){
+        //           alert("파티에서 탈퇴되었습니다.")
+        //           location.reload();
+        //   }
+        //   }).catch(function (error) {
+        //       console.log(error);
+        //   });
+        // }}
+        >
+              파티 탈퇴하기
+        </a>
+      }
     }
+    else{
+      memberjoincontent=<Link href={`/party/${id}/partysignup`}>
+      <a className="btn btn-danger m-r-10 btn-md m-t-20 ">
+        파티 가입하기
+      </a>
+      </Link>
+    }
+
     useEffect(() => {
         axios.get(`http://localhost:8080/sportsmate/party/${id}/info`)
                                 .then(function (response) {
                                     if(response.status == 200){
                                         setParty(response.data)
-                                        console.log(party)
                                     }
                             }).catch(function (error) {
                                     console.log(error);
@@ -41,7 +75,7 @@ export default function Info() {
       axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyMember`)
                               .then(function (response) {
                                   if(response.status == 200){
-                                    console.log(response);
+                                    setIsmember(response.data)
                                   }
                           }).catch(function (error) {
                                   console.log(error);
@@ -63,8 +97,7 @@ export default function Info() {
       </Head>
       <Container>
       <Row className="justify-content-center">
-          <PartySelect>
-          </PartySelect>
+          {membercontent}
                       <Col md="7" className="text-center">
                           <h1 className="title font-bold">Party Title</h1>
                           <h6 className="subtitle">Party 정보글</h6>
@@ -79,20 +112,11 @@ export default function Info() {
                                 <div className="since_date"><div className="party_font">개설일: {party.sinceDate}</div></div>
                                 <div className="party_font">멤버수: {party.currentMember}명 </div>
                                 <div className="party_font">활동: {party.sportsName}</div>
-                                  <Link href={`/party/${id}/partysignup`}>
-                                    <a className="btn btn-danger m-r-10 btn-md m-t-20 ">
-                                      파티 가입하기
-                                    </a>
-                                  </Link>
-                                  <Link href="/party/member">
-                                    <a className="btn btn-danger m-r-10 btn-md m-t-20 ">
-                                      파티원 정보
-                                    </a>
-                                  </Link>
+                                  {memberjoincontent}
+                                  {managecontent}
                               </div>
                             </div>
                           </div>
-                          {managecontent}
                         </div>                       
                       </div>
                       <div className="n_guide2">

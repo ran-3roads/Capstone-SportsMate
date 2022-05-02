@@ -75,18 +75,13 @@ export default function Board_id() {
                                     event.preventDefault();
                                     axios.delete(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/comment/${event.target.id}`)
                                 .then(function (response) {
-                                    //받는거
                                     if(response.status == 200){
                                         alert("댓글이 삭제되었습니다.")
                                         location.reload();
                                 }
                             }).catch(function (error) {
-                                    //error
                                     console.log(error);
                                 });
-                                    /*
-                                    event.target.id 이용해서 권한확인후삭제
-                                    */
                                 }}>삭제</button>
                                 </CommonTableColumn>
                                 </CommonTableRow>
