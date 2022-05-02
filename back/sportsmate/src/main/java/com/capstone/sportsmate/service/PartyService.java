@@ -10,10 +10,12 @@ import com.capstone.sportsmate.domain.status.Request;
 import com.capstone.sportsmate.domain.status.Role;
 import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.NoticeRepository;
+import com.capstone.sportsmate.repository.PartyMemberRepository;
 import com.capstone.sportsmate.repository.PartyRepository;
 import com.capstone.sportsmate.web.MemberApplyForm;
 import com.capstone.sportsmate.web.PartySearch;
 import com.capstone.sportsmate.web.PartyForm;
+import com.capstone.sportsmate.web.response.PartyMemberResponse;
 import com.capstone.sportsmate.web.response.PartyResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,6 +33,7 @@ public class PartyService {
     private final MemberRepository memberRepository;
     private final PartyRepository partyRepository;
     private final NoticeRepository noticeRepository;
+    private final PartyMemberRepository partyMemberRepository;
 
     @Transactional
     public Long mkParty (PartyForm form, Long id){
@@ -175,5 +179,10 @@ public class PartyService {
     }
     public List<Party> findSearchParties(PartySearch partySearch) { //멤버가 가입한 파티리스트 출력
         return partyRepository.SearchParties(partySearch);
+    }
+
+    public List<PartyMemberResponse> partyMemberList(Long partyId) {
+        return partyMemberRepository.findByParty(partyRepository.findOne(partyId))
+                .stream().map(PartyMember::toPartyMemberResponse).collect(Collectors.toList());
     }
 }

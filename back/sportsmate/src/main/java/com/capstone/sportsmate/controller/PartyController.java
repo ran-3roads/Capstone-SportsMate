@@ -86,6 +86,12 @@ public class PartyController {
         partyService.rejectApply(partyId,applyId);
         return "거절했습니다.";
     }
+
+    @GetMapping("/{partyId}/memberList")
+    public List<PartyMemberResponse> partyMemberList(@PathVariable("partyId") Long partyId){
+        return partyService.partyMemberList(partyId);
+    }
+
     @GetMapping("/{partyId}/isHost")
     public boolean checkHost(@PathVariable("partyId") Long partyId){
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())) {
