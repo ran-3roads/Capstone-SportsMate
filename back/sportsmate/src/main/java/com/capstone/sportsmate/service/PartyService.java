@@ -91,6 +91,17 @@ public class PartyService {
         }
         return false; //수락 또는 거절했으면 false
     }
+    //----- 지원했는데 방장이 확인못해서 waiting 인 상황-----
+    public boolean applyWaitForHost(Long partyId, Long memberId) {
+        Party party=partyRepository.findOne(partyId);
+        Member member=memberRepository.findOne(memberId);
+        Apply apply=noticeRepository.findByApply(party,member);
+        if(apply==null) return false; // 지원조차안했으면 false
+        if(apply.getState().equals(Request.WAITING)){ //대기 처리면 true
+            return true;
+        }
+        return false; //수락 또는 거절했으면 false
+    }
 
     @Transactional
     public void updateParty(Long partyId,String title,String intro,String info,String location){

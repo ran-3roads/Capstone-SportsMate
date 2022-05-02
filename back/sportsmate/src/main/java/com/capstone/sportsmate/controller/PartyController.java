@@ -61,6 +61,13 @@ public class PartyController {
         }
         return true;
     }
+    @GetMapping("/{partyId}/alreadyApply") //waiting apply
+    public boolean applyWaitForHost(@PathVariable("partyId") Long partyId){
+        if(partyService.applyWaitForHost(partyId,memberService.getMyInfo().getId())) {
+            return true;
+        }
+        return false;
+    }
 
     @PostMapping("/{partyId}/join") // 파티참가
     public String joinParty(@RequestBody MemberApplyForm form,@PathVariable("partyId") Long partyId){
