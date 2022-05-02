@@ -44,7 +44,18 @@ const WriteForm = () => {
                     <Col md="12">
                         <Form className="col" id="WirteForm" onSubmit={function (event) {
                             event.preventDefault();
-                                console.log()
+                                if(event.target.title.value==""||event.target.contents.value==""||event.target.category.value==""){
+                                    if(event.target.title.value==""){
+                                        alert("제목을 입력해주세요")
+                                    }
+                                    else if(event.target.category.value==""){
+                                        alert("카테고리를 선택해주세요")
+                                    }
+                                    else if(event.target.contents.value==""){
+                                        alert("내용을 입력해주세요")
+                                    }
+                                }
+                                else{
                                 axios.post(`http://localhost:8080/sportsmate/party/${id}/mkpartyboard`, {
                                     title: event.target.title.value,
                                     contents: event.target.contents.value,
@@ -66,6 +77,7 @@ const WriteForm = () => {
                                     //error
                                     console.log(error.status);
                                 });
+                            }
                         }}>
                         <FormGroup className="col-md-6">
                                 <Label htmlFor="title">제목을 입력해주세요</Label>

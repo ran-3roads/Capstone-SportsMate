@@ -62,7 +62,53 @@ const SignupForm = () => {
         console.log(e.target.value)
         setPhoneNumber(e.target.value)
     }
-
+    function checkjoin(e){
+        if(e.target.email.value==""){
+            alert("이메일을 입력해주세요")
+            return false;
+        }
+        if(password==""){
+            alert("비밀번호를 입력해주세요")
+            return false;
+        }
+        if(passwordconfirm==""){
+            alert("비밀번호확인을 입력해주세요")
+            return false;
+        }
+        if(passwordconfirm!=password){
+            alert("비밀번호와 확인이 다릅니다.")
+            return false;
+        }
+        if(e.target.name.value==""){
+            alert("이름을 입력해주세요")
+            return false;
+        }
+        if(e.target.nickName.value==""){
+            alert("별명을 입력해주세요")
+            return false;
+        }
+        if(e.target.birthDate.value==""){
+            alert("생년월일을 입력해주세요")
+            return false;
+        }
+        if(e.target.sex.value==""){
+            alert("성별을 입력해주세요")
+            return false;
+        }
+        if(e.target.phoneNumber.value==""){
+            alert("핸드폰번호를 입력해주세요")
+            return false;
+        }
+        if(e.target.nickName.value==""){
+            alert("별명을 입력해주세요")
+            return false;
+        }
+        if(!e.target.checkbox1.checked){
+            alert("약관에 동의해주세요")
+            return false;
+        }
+        return true;
+    }
     return (
         <div>
             <Popup open = {popup.open} setPopup = {setPopup} message = {popup.message} title = {popup.title} callback = {popup.callback}/>
@@ -81,7 +127,7 @@ const SignupForm = () => {
                     <Col md="12">
                         <Form className="col" id="signupForm" onSubmit={function (event) {
                             event.preventDefault();
-                            if(event.target.checkbox1.checked){
+                            if(checkjoin(event)){
                                 console.log()
                                 axios.post("http://localhost:8080/sportsmate/member/public/signup", {
                                     email: event.target.email.value,
@@ -108,9 +154,6 @@ const SignupForm = () => {
                                     //error
                                     console.log(error);
                                 });
-                            }
-                            else{
-                            alert("약관에 동의해주세요");
                             }
                         }}>
                         <FormGroup className="col-md-6">

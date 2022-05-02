@@ -12,6 +12,7 @@ import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.NoticeRepository;
 import com.capstone.sportsmate.repository.PartyMemberRepository;
 import com.capstone.sportsmate.repository.PartyRepository;
+import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.MemberApplyForm;
 import com.capstone.sportsmate.web.PartySearch;
 import com.capstone.sportsmate.web.PartyForm;
@@ -184,5 +185,17 @@ public class PartyService {
     public List<PartyMemberResponse> partyMemberList(Long partyId) {
         return partyMemberRepository.findByParty(partyRepository.findOne(partyId))
                 .stream().map(PartyMember::toPartyMemberResponse).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void deletePartyMember(Long partyMemberId) {
+        partyMemberRepository.deleteById(partyMemberId);
+    }
+
+    //파티 탈퇴
+    @Transactional
+    public void leavePartyMember(Long partyId) {
+        partyMemberRepository.deleteByPartyAndMember(
+                partyRepository.findOne(partyId),memberRepository.findOne(SecurityUtil.getCurrentMemberId()));
     }
 }
