@@ -95,8 +95,10 @@ const MkpartyForm = (props) => {
                             event.preventDefault();
                             const formData = new FormData()
                             formData.append('file', image.image_file);
-                            if(event.target.sportsName.value==""||event.target.location.value==""||event.target.intro.value==""){
-                                if(event.target.sportsName.value=="")
+                            if(event.target.title.value==""||event.target.sportsName.value==""||event.target.location.value==""||event.target.intro.value==""){
+                                if(event.target.title.value=="")
+                                alert("파티이름을 입력해주세요.")
+                                else if(event.target.sportsName.value=="")
                                 alert("종목을 선택해주세요");
                                 else if(event.target.location.value=="")
                                 alert("지역을 선택해주세요");

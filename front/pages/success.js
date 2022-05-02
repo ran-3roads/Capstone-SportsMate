@@ -5,24 +5,25 @@ import { Container, Row, Col, Button } from "reactstrap";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { loadTossPayments } from '@tosspayments/payment-sdk'
+import { useRouter } from "next/router";
 var uuid = require("uuid").v4;
 
 var secretKey = "test_ak_ZORzdMaqN3wQd5k6ygr5AkYXQGwy";
 
 export default function Success() {
-
-    const [my, setMy] = useState({});
-  
+    const router = useRouter();
+    const { orderId,paymentKey,amount } = router.query;
+    console.log(orderId,paymentKey,amount);
     useEffect(() => {
-      axios.post("https://api.tosspayments.com/v1/payments/" + req.query.paymentKey, {
+      axios.post("https://api.tosspayments.com/v1/payments/" + paymentKey, {
         headers: {
           Authorization:
             "Basic " + Buffer.from(secretKey + ":").toString("base64"),
           "Content-Type": "application/json",
         },
         json: {
-          orderId: req.query.orderId,
-          amount: req.query.amount,
+          orderId: orderId,
+          amount: amount,
         },
         responseType: "json",
       })
@@ -30,19 +31,14 @@ export default function Success() {
           if(response.status == 202){
           axios.defaults.headers.common['Authorization'] = response.headers.authorization;
          return axios.post("http://localhost:8080/sportsmate/member/deposit",{
-          credit : req.query.amount
+          credit : amount
         });
       }
       });
     }, []);
-  
-  
-  
     return (
   
       <div className="static-slider-head">
-  
-       
       </div>
     );
   };

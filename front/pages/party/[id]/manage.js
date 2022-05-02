@@ -39,7 +39,7 @@ export default function Board() {
     if(mode=="PERMISSION"){
         managecontent=<div>
         <div id="comment_count">
-        승인대기중인 가입수{permissions.length}개
+        승인대기중인 가입수{permissions.filter(p=>p.state=="WAITING").length}개
       </div>
       <CommonTable headersName={['닉네임/성별', '자기소개','신청일']}>
           {
@@ -102,8 +102,8 @@ export default function Board() {
         전체 파티원수 {members.length} 명
       </div>
       <CommonTable headersName={['닉네임', '나이/성별','직위','가입일']}>
-          {
-            members.map(m => {
+      {
+            members.filter(m=>m.role=="HOST").map(m => {
               return (
                   <CommonTableRow key={m.nickName}>
                   <CommonTableColumn>
@@ -113,7 +113,8 @@ export default function Board() {
                   </CommonTableColumn>
                   <CommonTableColumn>
                   <a>  
-                    { today.getFullYear()-m.birthDate.getFullYear()+1}세/{m.sex}
+                    { m.birthDate}세/{m.sex}
+                    {console.log(m.birthDate.type)}
                     </a>
                   </CommonTableColumn>
                   <CommonTableColumn>
@@ -126,14 +127,45 @@ export default function Board() {
                   <a>    
                     { m.sinceDate } 
                     </a>
-                    <button id={m.nickName} value="추방" onClick={(event)=>{
+                  </CommonTableColumn>
+                  </CommonTableRow>
+                
+              )
+            })
+          }
+          {
+            members.filter(m=>m.role!="HOST").map(m => {
+              return (
+                  <CommonTableRow key={m.nickName}>
+                  <CommonTableColumn>
+                  <a>
+                    { m.nickName }
+                  </a>
+                  </CommonTableColumn>
+                  <CommonTableColumn>
+                  <a>  
+                    { m.birthDate}세/{m.sex}
+                    {console.log(m.birthDate.type)}
+                    </a>
+                  </CommonTableColumn>
+                  <CommonTableColumn>
+                  <a>  
+                    { m.role }
+                    </a>
+                  </CommonTableColumn>
+                  
+                  <CommonTableColumn>
+                  <a>    
+                    { m.sinceDate } 
+                    </a>
+                    <button id={m.memberId} value="추방" onClick={(event)=>{
                       event.preventDefault();
-                      /*
-                      axios.delete(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/comment/${event.target.id}`)
+                      axios.delete(`http://localhost:8080/sportsmate/party/${id}/member/${event.target.id}`)
                   .then(function (response) {
                       //받는거
                       if(response.status == 200){
-                          alert("댓글이 삭제되었습니다.")
+                          console.log(response.data)
+                          alert("멤버를 추방하였습니다.")
                           location.reload();
                   }
               }).catch(function (error) {
@@ -141,7 +173,6 @@ export default function Board() {
                       console.log(error);
                   });
                       
-                      */
                   }}>추방</button>
                   </CommonTableColumn>
                   </CommonTableRow>

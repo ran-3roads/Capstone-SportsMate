@@ -92,7 +92,9 @@ export default function Board_id() {
                     </CommonTable>
                     <Form id="commentForm" onSubmit={function (event) {
                             event.preventDefault();
-                            console.log(event.target.text.value)
+                            if(event.target.text.value=='')
+                            alert("댓글을 입력해주세요")
+                            else{
                             axios.post(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/comment`, {
                               contents: event.target.text.value 
                             })
@@ -105,6 +107,7 @@ export default function Board_id() {
                               //error
                               console.log(error);
                             });
+                            }
                           }
                         }>
                     <Container id="comment_write">

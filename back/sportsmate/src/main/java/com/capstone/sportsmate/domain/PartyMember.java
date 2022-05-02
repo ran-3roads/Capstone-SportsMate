@@ -46,7 +46,7 @@ public class PartyMember {
         return partyMember;
     }
     public PartyMemberResponse toPartyMemberResponse(){
-        return new PartyMemberResponse(member.getNickName(), member.getBirthDate(),
+        return new PartyMemberResponse(id, member.getNickName(), member.getBirthDate(),
                 member.getSex(), role,member.getSinceDate());
     }
 

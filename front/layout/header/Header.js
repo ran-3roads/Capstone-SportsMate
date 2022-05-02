@@ -29,6 +29,7 @@ const Header = () => {
   const allCookies = cookies(coa);
   const refreshTokenByCookie = allCookies['refreshToken'];
   let LoginNav = null;
+  let NoticeNav =null;
   if(refreshTokenByCookie!=undefined){
     console.log("로그인중임")
     LoginNav = <NavItem>
@@ -41,8 +42,21 @@ const Header = () => {
         }
       >
         로그아웃                   </a>
-    </Link>
-  </NavItem>
+      </Link>
+    </NavItem>
+    const noticelength=5; //안읽은알림수 수정예정
+    NoticeNav=<NavItem>
+    <Link href="/notice">
+      <a
+        className={
+          router.pathname == "/logout"
+            ? "text-white nav-link"
+            : "nav-link"
+        }
+      >
+        알림({noticelength})                   </a>
+      </Link>
+    </NavItem>
   }
   else{
     console.log("로그인중아님")
@@ -196,6 +210,9 @@ const Header = () => {
                     </a>
                   </Link>
                 </NavItem>
+                {
+                  NoticeNav
+                }
               </Nav>
               
             </Collapse>

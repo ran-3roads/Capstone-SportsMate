@@ -29,25 +29,35 @@ const LoginForm = ( ) => {
             <Col md="12">
                 <Form className="col" id="loginForm" onSubmit={function (event) {
                     event.preventDefault();
-                    axios.post("http://localhost:8080/sportsmate/member/public/login", {
-                            email: event.target.email.value,
-                            password: event.target.password.value
-                        })
-                        .then(function (response) {
-                            if(response.status == 202){
-                            axios.defaults.headers.common['Authorization'] = response.headers.authorization;
-                            setPopup({
-                                 open: true,
-                                 title: "Confirm",
-                                 message: "Join Success!", 
-                                 callback: function(){
-                                     document.location.href='/'
-                                 }
+                    if(event.target.email.value!=''){
+                        if(event.target.password.value!=''){
+                        axios.post("http://localhost:8080/sportsmate/member/public/login", {
+                                email: event.target.email.value,
+                                password: event.target.password.value
+                            })
+                            .then(function (response) {
+                                if(response.status == 202){
+                                axios.defaults.headers.common['Authorization'] = response.headers.authorization;
+                                setPopup({
+                                    open: true,
+                                    title: "Confirm",
+                                    message: "Join Success!", 
+                                    callback: function(){
+                                        document.location.href='/'
+                                    }
+                                });
+                            }
+                            }).catch(function (error) {
+                                console.log(error);
                             });
                         }
-                        }).catch(function (error) {
-                            console.log(error);
-                        });
+                        else{
+                            alert("비밀번호를 입력하세요");
+                        }
+                    }
+                    else{
+                        alert("이메일을 입력하세요")
+                    }
                 }}>
                 <FormGroup className="col-md-6">
                         <Label htmlFor="email">Email 아이디</Label>

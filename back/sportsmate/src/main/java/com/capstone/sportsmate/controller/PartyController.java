@@ -99,6 +99,19 @@ public class PartyController {
         return partyService.partyMemberList(partyId);
     }
 
+    @DeleteMapping("/{partyId}/member/{partyMemberId}")
+    public String deletePartyMember(@PathVariable("partyMemberId") Long partyMemberId){
+        partyService.deletePartyMember(partyMemberId);
+        return "delete";
+    }
+
+    //파티 탈퇴
+    @DeleteMapping("/{partyId}/member")
+    public String leavePartyMember(@PathVariable("partyId") Long partyId){
+        partyService.leavePartyMember(partyId);
+        return "delete";
+    }
+
     @GetMapping("/{partyId}/isHost")
     public boolean checkHost(@PathVariable("partyId") Long partyId){
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())) {

@@ -36,18 +36,18 @@ export default function Info() {
       else{
         memberjoincontent=
         <a className="btn btn-danger m-r-10 btn-md m-t-20 "
-        // onClick={(event)=>{
-        //   event.preventDefault();
-        //   axios.delete(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/comment/${event.target.id}`)
-        //   .then(function (response) {
-        //       if(response.status == 200){
-        //           alert("파티에서 탈퇴되었습니다.")
-        //           location.reload();
-        //   }
-        //   }).catch(function (error) {
-        //       console.log(error);
-        //   });
-        // }}
+        onClick={(event)=>{
+          event.preventDefault();
+          axios.delete(`http://localhost:8080/sportsmate/party/${id}/member`)
+          .then(function (response) {
+              if(response.status == 200){
+                  alert("파티에서 탈퇴하였습니다.")
+                  location.reload();
+          }
+          }).catch(function (error) {
+              console.log(error);
+          });
+        }}
         >
               파티 탈퇴하기
         </a>

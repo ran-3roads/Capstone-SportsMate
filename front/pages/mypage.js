@@ -81,7 +81,7 @@ export default function Mypage() {
               </Button> 
             </Link>
             <Link href="/mymatch">
-            <button  value="포인트 충전" onClick={(event) => {
+            <a className="btn btn-warning m-r-10 btn-md m-t-20"  onClick={(event) => {
                 event.preventDefault();
                 loadTossPayments(clientKey).then(tossPayments => {
                   tossPayments.requestPayment("토스결제", {
@@ -93,7 +93,7 @@ export default function Mypage() {
                     failUrl: window.location.origin + "/fail",
                   });
                 })
-              }}>포인트충전</button>
+              }}>포인트충전</a>
             </Link>
           </Col>
         </Row>

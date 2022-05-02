@@ -53,7 +53,18 @@ useEffect(() => {
                     <Col md="12">
                         <Form className="col" id="ModifyForm" onSubmit={function (event) {
                             event.preventDefault();
-                                console.log(id,board_id)
+                            if(event.target.title.value==""||event.target.contents.value==""||event.target.category.value==""){
+                                if(event.target.title.value==""){
+                                    alert("제목을 입력해주세요")
+                                }
+                                else if(event.target.category.value==""){
+                                    alert("카테고리를 선택해주세요")
+                                }
+                                else if(event.target.contents.value==""){
+                                    alert("내용을 입력해주세요")
+                                }
+                            }
+                            else{
                                 axios.post(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/modify`, {
                                     title: event.target.title.value,
                                     contents: event.target.contents.value,
@@ -69,6 +80,7 @@ useEffect(() => {
                                     //error
                                     console.log(error);
                                 });
+                            }
                         }}>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="title">제목을 입력해주세요</Label>
