@@ -72,6 +72,17 @@ export default function Info() {
                                 });
     }, [])
     useEffect(() => {
+      axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyManager`)
+                              .then(function (response) {
+                                  if(response.status == 200){
+                                      console.log(response.data)
+                                      setIsmanager(response.data)
+                                  }
+                          }).catch(function (error) {
+                                  console.log(error);
+                              });
+  }, [])
+    useEffect(() => {
       axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyMember`)
                               .then(function (response) {
                                   if(response.status == 200){
