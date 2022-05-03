@@ -10,7 +10,7 @@
  const RList = () => {
      const [recruits,setRecruits] = useState([]);
      useEffect(() => { 
-         axios.get("http://localhost:8080/sportsmate/match/board")
+         axios.get("http://localhost:8080/sportsmate/match/public/board")
                                  .then(function (response) {
                                      if(response.status == 200){
                                          setRecruits(response.data)

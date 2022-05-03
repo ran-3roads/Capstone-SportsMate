@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 export default function Logout() {
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
-    axios.get("http://localhost:8080/sportsmate/member/logout")
+    axios.get("http://localhost:8080/sportsmate/member/public/logout")
     .then(function (response) {
         if(response.status == 200){
         axios.defaults.headers.common['Authorization'] = null;

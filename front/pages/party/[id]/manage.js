@@ -7,7 +7,7 @@ import CommonTable from "../../../components/custom/board_post/CommonTable"
 import CommonTableRow from "../../../components/custom/board_post/CommonTableRow"
 import CommonTableColumn from "../../../components/custom/board_post/CommonTableColumn"
 import axios from "axios";
-export default function Board() {
+export default function Manage() {
     const [mode,setMode]= useState('MANAGE');
     const [permissions,setPermissions]=useState([]);
     const [members,setMembers]=useState([]);

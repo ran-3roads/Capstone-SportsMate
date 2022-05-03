@@ -9,7 +9,7 @@ import axios from "axios";
 const PList = () => {
     const [partys,setPartys]=useState([]);
     useEffect(() => {
-        axios.get("http://localhost:8080/sportsmate/party")
+        axios.get("http://localhost:8080/sportsmate/party/public/all")
                                 .then(function (response) {
                                     if(response.status == 200){
                                         setPartys(response.data)
