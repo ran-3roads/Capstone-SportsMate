@@ -161,6 +161,11 @@ public class PartyController {
     public PartyBoardResponse partyBoardOne(@PathVariable("partyBoardId") Long partyBoardId){
         return partyBoardService.getPartyBoard(partyBoardId);
     }
+    @GetMapping("/{partyId}/partyboard/{partyBoardId}/isWriter")//게시글이 작성자가 본인지인지 확인
+    public boolean isWriter(@PathVariable("partyBoardId") Long partyBoardId){
+        if(partyBoardService.isWriter(partyBoardId)) return true;
+        return false;
+    }
     //----------생성----------
     @PostMapping("/{partyId}/mkpartyboard")//파티 게시판 작성
     public String createPartyBoard(@RequestBody PartyBoardForm partyBoardForm ,@PathVariable("partyId") Long partyId){
