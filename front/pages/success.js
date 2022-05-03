@@ -6,8 +6,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { loadTossPayments } from '@tosspayments/payment-sdk'
 import { useRouter } from "next/router";
+import got from 'react-got';
 var uuid = require("uuid").v4;
-
 var secretKey = "test_ak_ZORzdMaqN3wQd5k6ygr5AkYXQGwy";
 
 export default function Success() {
