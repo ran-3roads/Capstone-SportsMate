@@ -107,8 +107,8 @@ public class PartyController {
     }
 
     @DeleteMapping("/{partyId}/member/{partyMemberId}")
-    public String deletePartyMember(@PathVariable("partyMemberId") Long partyMemberId){
-        partyService.deletePartyMember(partyMemberId);
+    public String deletePartyMember(@PathVariable("partyId") Long partyId,@PathVariable("partyMemberId") Long partyMemberId){
+        partyService.deletePartyMember(partyId,partyMemberId);
         return "delete";
     }
 
