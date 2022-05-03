@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 
 var secretKey = "test_sk_JQbgMGZzorzwlMpMwxk8l5E1em4d";
 
+
 export default function Success() {
     const router = useRouter();
     const { orderId,paymentKey,amount } = router.query;

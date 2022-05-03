@@ -107,8 +107,8 @@ public class PartyController {
     }
 
     @DeleteMapping("/{partyId}/member/{partyMemberId}")
-    public String deletePartyMember(@PathVariable("partyMemberId") Long partyMemberId){
-        partyService.deletePartyMember(partyMemberId);
+    public String deletePartyMember(@PathVariable("partyId") Long partyId,@PathVariable("partyMemberId") Long partyMemberId){
+        partyService.deletePartyMember(partyId,partyMemberId);
         return "delete";
     }
 
@@ -160,6 +160,11 @@ public class PartyController {
     @GetMapping("/{partyId}/partyboard/{partyBoardId}")//게시글 선택시 글 리턴 혹은 변경페이지로 이동시 정보 반환
     public PartyBoardResponse partyBoardOne(@PathVariable("partyBoardId") Long partyBoardId){
         return partyBoardService.getPartyBoard(partyBoardId);
+    }
+    @GetMapping("/{partyId}/partyboard/{partyBoardId}/isWriter")//게시글이 작성자가 본인지인지 확인
+    public boolean isWriter(@PathVariable("partyBoardId") Long partyBoardId){
+        if(partyBoardService.isWriter(partyBoardId)) return true;
+        return false;
     }
     //----------생성----------
     @PostMapping("/{partyId}/mkpartyboard")//파티 게시판 작성

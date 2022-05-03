@@ -134,4 +134,15 @@ public class PartyBoardService {
                 .orElseThrow(() -> new NotFoundEntityException("지워진 댓글입니다."));
         commentRepository.delete(comment);
     }
+    //---------검증----------
+    public boolean isWriter(Long partyBoardId) {//파티보드 작성자 확인
+        PartyBoard  partyBoard = partyBoardRepository.findById(partyBoardId)
+                .orElseThrow(() -> new NotFoundEntityException("지워진 게시판입니다."));
+        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        if(partyBoard.getMember().equals(findMember)){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

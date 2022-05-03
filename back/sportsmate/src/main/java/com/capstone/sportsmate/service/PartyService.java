@@ -199,14 +199,18 @@ public class PartyService {
     }
 
     @Transactional
-    public void deletePartyMember(Long partyMemberId) {
+    public void deletePartyMember(Long partyId,Long partyMemberId) {
+        Party party=partyRepository.findOne(partyId);
+        party.minusMember();
         partyMemberRepository.deleteById(partyMemberId);
     }
 
     //파티 탈퇴
     @Transactional
     public void leavePartyMember(Long partyId) {
+        Party party=partyRepository.findOne(partyId);
+        party.minusMember();
         partyMemberRepository.deleteByPartyAndMember(
-                partyRepository.findOne(partyId),memberRepository.findOne(SecurityUtil.getCurrentMemberId()));
+                party,memberRepository.findOne(SecurityUtil.getCurrentMemberId()));
     }
 }
