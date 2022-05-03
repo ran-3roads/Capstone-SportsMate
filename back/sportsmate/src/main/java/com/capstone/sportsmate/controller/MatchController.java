@@ -6,6 +6,7 @@ import com.capstone.sportsmate.web.MatchApplyForm;
 import com.capstone.sportsmate.web.MatchForm;
 import com.capstone.sportsmate.web.response.MatchBoardListResponse;
 import com.capstone.sportsmate.web.response.MatchBoardResponse;
+import com.capstone.sportsmate.web.response.MyGameResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,10 @@ public class MatchController {
     }
 
     //----------조회----------
+    @GetMapping("/my")
+    ResponseEntity<List<MyGameResponse>> getMyMatchBoardList(){
+        return ResponseEntity.ok(matchService.getMyGameList());
+    }
     @GetMapping("/public/board")//매치보드 게시판 페이지 들어올때 모든 리스트 넘기기
     ResponseEntity<List<MatchBoardListResponse>> getMatchBoardList(){
         return ResponseEntity.ok(matchService.getMatchBoardList());

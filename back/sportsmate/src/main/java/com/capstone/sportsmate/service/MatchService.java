@@ -13,6 +13,7 @@ import com.capstone.sportsmate.web.MatchForm;
 import com.capstone.sportsmate.web.response.MatchApplyResponse;
 import com.capstone.sportsmate.web.response.MatchBoardListResponse;
 import com.capstone.sportsmate.web.response.MatchBoardResponse;
+import com.capstone.sportsmate.web.response.MyGameResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,7 @@ public class MatchService {
     private final ScheduleRepository scheduleRepository;
     private final MatchApplyRepository matchApplyRepository;
     private final NoticeRepository noticeRepository;
+    private final JoinGameRepository joinGameRepository;
 
     private final PartyService partyService;
 
@@ -50,6 +52,7 @@ public class MatchService {
 
     //게시판 리스트
     public List<MatchBoardListResponse> getMatchBoardList() {
+
         return matchBoardRepository.findAll().stream().map(MatchBoard::toMatchBoardListResponse).collect(Collectors.toList());
     }
     //게시판 조회
@@ -122,5 +125,10 @@ public class MatchService {
 
         noticeRepository.saveNotice(notice);
         noticeRepository.saveReply(reply);
+    }
+
+    public List<MyGameResponse> getMyGameList() {
+        return  joinGameRepository.findByMember(memberRepository.findOne(SecurityUtil.getCurrentMemberId())).stream()
+                .map(JoinGame::toMyGameResponse).collect(Collectors.toList());
     }
 }
