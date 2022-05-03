@@ -16,36 +16,34 @@ import {
 const PartySelect = () => {
   const router = useRouter();
  const {id} = router.query;
+ const [isOpen, setIsOpen] = useState(false);
+ const toggle = () => setIsOpen(!isOpen);
    return (
     <div className="topbar" id="top">
-      <div className="party_header6">
-        <div className="party_header">
-          <Navbar className="navbar-expand-lg h6-nav-bar">
-              <Nav navbar className="ml-auto">
-                <NavItem>
+      <div className="partyheader6">
+        <Container className="po-relative">
+        <Navbar className="navbar-expand-lg h6-nav-bar">
+          <NavbarToggler onClick={toggle} />
+           <Collapse isOpen={isOpen} navbar className="hover-dropdown ml-auto">
+           <div className="n_party">
                   <Link href={`/party/${id}/info`}>
-                   <a>
-                      정보                    </a>
-                  </Link>
-                </NavItem>
-                <NavItem>
+                  <div className="my_font"><a>정보</a></div>
+                  </Link>  
+                </div>
+                <div className="n_party">
                   <Link href={`/party/${id}/board`}>
-                    <a>
-                      게시판
-                    </a>
-                  </Link>
-                </NavItem>
-                <NavItem>
+                    <div className="my_font"><a>게시판</a></div>
+                  </Link>     
+                </div>
+                <div className="n_party">
                   <Link href={`/party/${id}/schedule`}>
-                    <a>
-                      일정
-                    </a>
+                  <div className="my_font"><a>일정</a></div>
                   </Link>
-                </NavItem>
-                  </Nav>
+                </div>
+                </Collapse>
                 </Navbar>
-        </div>
-      </div>
+              </Container>
+            </div>
     </div>
   );
 };

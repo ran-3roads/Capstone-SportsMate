@@ -1,7 +1,46 @@
 /**
 made by 따봉
 **/
-//recruit
+
+//party_select
+.n_party{
+  float:left;
+  margin-left: 4%;
+  width: 28%;
+  height: 60px;
+}
+.partyheader6 {
+  .partynavbar-toggler {
+    justify-content: center;
+    color: white;
+    width: 30px;
+  }
+  background-color: gray;
+}
+
+.partyh6-nav-bar {
+  padding: 15px;
+  margin-right: 300px;
+  align-items: center;
+  .partynavbar-nav {
+    .partynav-link {
+      padding: 35px 15px;
+      color: rgba(255, 255, 255, 0.5);
+      transition-duration: 0.2s;
+    }
+
+    .partynav-item:hover .nav-link,
+    .partynav-item.active .nav-link {
+      color: rgba(255, 255, 255, 1);
+    }
+  }
+
+  .partyact-buttons {
+    .btn {
+      margin: 10px 0 10px 10px;
+    }
+  }
+}
 
 //party_info_box
 .party_infobox {
@@ -338,12 +377,6 @@ made by 따봉
   max-width: 1000px;
   margin: 0 auto;
 }
-.party_header6 {
-  .navbar-toggler {
-    color: $white;
-  }
-  background-color: gray;
-}
 .party_boxc {
   margin: 0 auto;
   display: flex;
@@ -351,6 +384,7 @@ made by 따봉
 }
 
 .party_header{
+  height: 3.5rem;
   display:flex;
   justify-content: center;
   align-items: center;
