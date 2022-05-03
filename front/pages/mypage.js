@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { loadTossPayments } from '@tosspayments/payment-sdk'
 var uuid = require("uuid").v4;
 
-const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq'
+const clientKey = 'test_ck_XjExPeJWYVQbodkMjRpr49R5gvNL'
 
 
 export default function Mypage() {
@@ -86,9 +86,9 @@ export default function Mypage() {
                 loadTossPayments(clientKey).then(tossPayments => {
                   tossPayments.requestPayment("토스결제", {
                     amount: 5000,
-                    orderId: uuid(),
+                    orderId: `${uuid()}`,
                     orderName: "스포츠 포인트 충전 ",
-                    customerName: "송영우 ",
+                    customerName: my.nickName,
                     successUrl: window.location.origin + "/success",
                     failUrl: window.location.origin + "/fail",
                   });

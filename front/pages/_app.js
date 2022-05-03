@@ -47,6 +47,8 @@ axios.interceptors.response.use(
           onTokenRefreshed(accessToken);
         },0);
         
+      } else{
+        return Promise.reject(error);
       }
       // token이 재발급 되는 동안의 요청은 refreshSubscribers에 저장
       const retryOriginalRequest = new Promise((resolve) => {
