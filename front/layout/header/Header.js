@@ -30,8 +30,8 @@ const Header = () => {
   const refreshTokenByCookie = allCookies['refreshToken'];
   let LoginNav = null;
   let NoticeNav =null;
+  let myNav=null;
   if(refreshTokenByCookie!=undefined){
-    console.log("로그인중임")
     LoginNav = <NavItem>
     <Link href="/logout">
       <a
@@ -57,6 +57,19 @@ const Header = () => {
         알림({noticelength})                   </a>
       </Link>
     </NavItem>
+    myNav=<NavItem>
+    <Link href="/mypage">
+      <a
+        className={
+          router.pathname == "/mypage"
+            ? "text-white nav-link"
+            : "nav-link"
+        }
+      >
+        MY
+      </a>
+    </Link>
+  </NavItem>
   }
   else{
     console.log("로그인중아님")
@@ -158,19 +171,7 @@ const Header = () => {
                     </a>
                   </Link>
                 </NavItem>
-                <NavItem>
-                  <Link href="/mypage">
-                    <a
-                      className={
-                        router.pathname == "/mypage"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
-                      MY
-                    </a>
-                  </Link>
-                </NavItem>
+                {myNav}
                 <NavItem>
                   <Link href="/basic">
                     <a
