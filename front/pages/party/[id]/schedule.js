@@ -56,9 +56,9 @@ export default function Schedule() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container>
+      <PartySelect>
+      </PartySelect>
       <Row className="justify-content-center">
-          <PartySelect>
-          </PartySelect>
                       <Col md="7" className="text-center">
                           <h1 className="title font-bold">{party.title} 일정</h1>
                           <h6 className="subtitle">Party Schedule</h6>

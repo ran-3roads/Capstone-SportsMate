@@ -19,6 +19,11 @@ const MkpartyForm = (props) => {
     const[location,setLocation]=useState(party.location);
     const[intro,setIntro]=useState(party.intro);
     const[title,setTitle]=useState(party.title);
+    const [image, setImage] = useState({
+        image_file: "",
+        preview_URL: "img/default_image.png",
+      });
+      const [loaded, setLoaded] = useState(false);
     
 
     const onchangeSportsName = (e) =>{
@@ -38,12 +43,7 @@ const MkpartyForm = (props) => {
         setTitle(e.target.value)
     }
     console.log(props)
-  const [image, setImage] = useState({
-    image_file: "",
-    preview_URL: "img/default_image.png",
-  });
 
-  const [loaded, setLoaded] = useState(false);
 
   let inputRef;
 
@@ -74,6 +74,22 @@ const MkpartyForm = (props) => {
     });
     setLoaded(false);
   }
+  const sendImageToServer = async () => {
+    if(image.image_file){
+      const formData = new FormData();
+      formData.append('file', image.image_file);
+      await axios.post('/api/image/upload', formData);
+      alert("서버에 등록이 완료되었습니다!");
+      setImage({
+        image_file: "",
+        preview_URL: "img/default_image.png",
+      });
+      setLoaded(false);
+    }
+    else{
+      alert("사진을 등록하세요!")
+    }
+  }
 
     return (
         <div>
@@ -93,8 +109,6 @@ const MkpartyForm = (props) => {
                     <Col md="12">
                         <Form className="col" id="mkpartyForm" onSubmit={function (event) {
                             event.preventDefault();
-                            const formData = new FormData()
-                            formData.append('file', image.image_file);
                             if(event.target.title.value==""||event.target.sportsName.value==""||event.target.location.value==""||event.target.intro.value==""){
                                 if(event.target.title.value=="")
                                 alert("파티이름을 입력해주세요.")
@@ -106,6 +120,7 @@ const MkpartyForm = (props) => {
                                 alert("소개글을 입력해주세요.");
                             }
                             else{
+                            sendImageToServer();
                             axios.post("http://localhost:8080/sportsmate/party/mkparty", {
                                     title: event.target.title.value,
                                     sportsName: event.target.sportsName.value,
@@ -259,7 +274,7 @@ const MkpartyForm = (props) => {
                                 <Input type="text" className="form-control" id="intro" placeholder="소개글을 작성해주세요" value={intro} onChange={onchangeIntro} />
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="intro">파티 이미지 업로드</Label>
+                                <Label htmlFor="image">파티 이미지 업로드</Label>
                                 <div className="uploader-wrapper">
                                 <div className="upload-button">
                                         <Button className="btn btn-success waves-effect waves-light m-r-10" onClick={() => inputRef.click()}>
