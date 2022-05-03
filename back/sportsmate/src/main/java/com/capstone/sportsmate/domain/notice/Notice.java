@@ -3,6 +3,7 @@ package com.capstone.sportsmate.domain.notice;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.status.NoticeStatus;
 import com.capstone.sportsmate.domain.status.NoticeType;
+import com.capstone.sportsmate.web.response.NoticeResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -56,4 +57,18 @@ public class Notice { // 알림 Entity
         notice.noticeStatus=noticeStatus;
         notice.sinceDate=sinceDate;
         return notice;
-    }}
+    }
+
+    public NoticeResponse toNoticeResponse(){
+        if(apply!=null)
+        return new NoticeResponse(id,sinceDate, noticeStatus, noticeType,apply.getMember().getNickName()
+                ,apply.getParty().getId(),apply.getState());
+        else if(reply!=null)
+            return new NoticeResponse(id,sinceDate, noticeStatus, noticeType,reply.getParty().getTitle()
+                    ,reply.getParty().getId(),reply.getState());
+        else
+            return null;
+    }
+
+
+}
