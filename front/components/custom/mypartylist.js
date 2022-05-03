@@ -9,6 +9,7 @@ import axios from "axios";
 
 const MPList = () => {
     const [partys,setPartys]=useState([]);
+    const [islogerror,setIslogerror]=useState(false);
     useEffect(() => {
         axios.get("http://localhost:8080/sportsmate/party/myparty")
                                 .then(function (response) {
@@ -17,6 +18,9 @@ const MPList = () => {
                                         console.log(partys)
                                     }
                             }).catch(function (error) {
+                                    if(error.response.status==401)
+                                    setIslogerror(true)
+                                    else
                                     console.log(error);
                                 });
     }, [])
@@ -28,8 +32,13 @@ const MPList = () => {
     const pageSize = 4;
     const pagesCount = Math.ceil(partys.length / pageSize);
     let content=null;
-    if(partys.length==0)
+    if(partys.length==0){
+        if(islogerror){
+            content=<div style={{height:500,display:"flex",width:"100%"}}><div style={{margin:"auto"}}><h1>로그인후 파티를 이용해보세요</h1></div></div>
+        }
+        else
     content=<div style={{height:500,display:"flex",width:"100%"}}><div style={{margin:"auto"}}><h1>가입한 파티가 없습니다.</h1></div></div>
+    }
     return (
         <div>
             <div className="spacer" id="pagination-component">

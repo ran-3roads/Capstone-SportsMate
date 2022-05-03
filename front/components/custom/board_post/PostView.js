@@ -5,6 +5,7 @@ import Link from "next/link";
 
 const PostView = ({ history }) => {
   const[exam,setExam]=useState({});
+  const[iswriter,setIswriter]=useState(false);
   const router = useRouter();
   const { id } = router.query;
   const { board_id } = router.query;
@@ -18,11 +19,52 @@ const PostView = ({ history }) => {
        console.log(error);
       });
 }, [])
+useEffect(() => {
+  axios.get(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/isWriter`)
+.then(function (response) {
+  if(response.status == 200){
+    setIswriter(response.data);
+  }})
+  .catch(function (error) {
+     console.log(error);
+    });
+}, [])
     let category = undefined;
             if(exam.category=="NOTICE")
               category = "공지";
             else if(exam.category=="BASIC")
               category = "자유";
+    let writercontent1 = null;
+    let writercontent2 = null;
+    if(iswriter){
+        writercontent1=<Link href={`/party/${id}/board/${board_id}/modify`}>
+          <a className="btn btn-md m-t-30  btn-outline-light bg-warning ">
+            수정
+          </a>
+        </Link> 
+        writercontent2=<a className="btn btn-md m-t-30  btn-outline-light bg-danger "onClick={(event)=>{
+          event.preventDefault();
+           axios.delete(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}`)
+            .then(function (response) {
+            //받는거
+            if(response.status == 200){
+            alert("게시글이 삭제되었습니다.")
+            location.href=`/party/${id}/board`
+            }
+            }).catch(function (error) {
+            //error
+            console.log(error);
+            console.log(error.response.data);
+            });
+             /*
+            event.target.id 이용해서 권한확인후삭제
+            */
+            }}>
+            삭제
+          </a>
+      }
+
+
   return (
     <div>
       <h2 align="center">게시글 상세정보</h2>
@@ -37,6 +79,10 @@ const PostView = ({ history }) => {
               <div className="post-view-row">
                 <label>제목</label>
                 <label>{ exam.title }</label>
+              </div>
+              <div className="post-view-row">
+                <label>작성자</label>
+                <label>{ exam.nickName }</label>
               </div>
               <div className="post-view-row">
                 <label>작성일</label>
@@ -61,31 +107,9 @@ const PostView = ({ history }) => {
                 목록으로 돌아가기
               </a>
         </Link>
-        <Link href={`/party/${id}/board/${board_id}/modify`}>
-              <a className="btn btn-md m-t-30  btn-outline-light bg-warning ">
-                수정
-              </a>
-        </Link>
-        <a className="btn btn-md m-t-30  btn-outline-light bg-danger "onClick={(event)=>{
-                  event.preventDefault();
-                   axios.delete(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}`)
-                    .then(function (response) {
-                    //받는거
-                    if(response.status == 200){
-                    alert("게시글이 삭제되었습니다.")
-                    location.href=`/party/${id}/board`
-                    }
-                    }).catch(function (error) {
-                    //error
-                    console.log(error);
-                    console.log(error.response.data);
-                    });
-                     /*
-                    event.target.id 이용해서 권한확인후삭제
-                    */
-                    }}>
-                삭제
-              </a>
+        
+        {writercontent1}
+        {writercontent2}
       </div>
     </div>
   )

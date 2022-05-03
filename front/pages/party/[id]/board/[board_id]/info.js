@@ -9,11 +9,21 @@ import CommonTableRow from "../../../../../components/custom/board_post/CommonTa
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 export default function Board_id() {
+  const [my, setMy] = useState({});
   const router = useRouter();
-  const mynickName="장래희망hero"; //db에 토큰으로 내닉네임 요청 
   const { id } = router.query;
   const { board_id } = router.query;
   const [comments,setComments]=useState([]);
+  useEffect(() => {
+    axios.get(`http://localhost:8080/sportsmate/member/my`)
+      .then(function (response) {
+          setMy(response.data);
+      })
+      .catch(function (error) {
+        console.log("에러입니뎅");
+      });
+  }, []);
+
     useEffect(() => {
         axios.get(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/comment`)
         .then(function (response) {
@@ -117,7 +127,7 @@ export default function Board_id() {
                         </Col>
                       </Row>
                         <Row id="cmt_write_box">
-                          <Col md="2" ><span>{mynickName}</span></Col>
+                          <Col md="2" ><span>{my.nickName}</span></Col>
                           <Col md="10"><Input type='textarea' className="form-control" id="text" placeholder="댓글을 입력하세요" value={text} onChange={onchangeText}/></Col>
                         </Row>
                         <Row id="cmt_write_bottonbox">
