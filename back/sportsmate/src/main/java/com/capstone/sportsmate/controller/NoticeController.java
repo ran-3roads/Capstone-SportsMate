@@ -8,6 +8,7 @@ import com.capstone.sportsmate.service.MemberService;
 import com.capstone.sportsmate.service.NoticeService;
 import com.capstone.sportsmate.web.ApplyForm;
 import com.capstone.sportsmate.web.ReplyForm;
+import com.capstone.sportsmate.web.response.NoticeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +25,8 @@ public class NoticeController {
 
     //-------------알림리스트 불러옴-----------
     @GetMapping()// Notice 관련 소스코드
-    public List<Notice> noticeList(){
-        List<Notice> noticeList=noticeService.findMyNotices(memberService.getMyInfo().getId());
-        return noticeList;
+    public List<NoticeResponse> noticeList(){
+        return noticeService.findMyNotices(memberService.getMyInfo().getId());
     }
     //-------------파티 지원서 확인-----------
     @GetMapping("/{noticeId}/getApply") // 파티신청에 대한 지원서 확인.

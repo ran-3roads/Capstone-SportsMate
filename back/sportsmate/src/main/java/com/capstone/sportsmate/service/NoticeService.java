@@ -13,6 +13,7 @@ import com.capstone.sportsmate.repository.NoticeRepository;
 import com.capstone.sportsmate.repository.PartyRepository;
 import com.capstone.sportsmate.web.ApplyForm;
 import com.capstone.sportsmate.web.ReplyForm;
+import com.capstone.sportsmate.web.response.NoticeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +34,10 @@ public class NoticeService {
     public Notice findOne(Long id){return noticeRepository.findOne(id);}
 
     @Transactional
-    public List<Notice> findMyNotices(Long memberId){ // Notice 관련 소스코드
+    public List<NoticeResponse> findMyNotices(Long memberId){ // Notice 관련 소스코드
         Member member=memberRepository.findOne(memberId);
 
-        return  noticeRepository.findNotices(member);
+        return  noticeRepository.findNotices(member).stream().map(Notice::toNoticeResponse).collect(Collectors.toList());
     }
     //----------알림 읽을수 있는지에 대한 권한 확인 메소드--------
     @Transactional
