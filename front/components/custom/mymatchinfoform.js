@@ -7,6 +7,7 @@ import Popup from './popup';
 import Image from "next/image";
 import mapimg from "../../assets/images/landingpage/mapimg.png";
 import { useRouter } from 'next/router';
+import Link from "next/link";
 
 
 const recruitinfo = {
@@ -32,7 +33,7 @@ const MymatchInfoForm = () => {
     const [, setMarkers] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/sportsmate/match/board/${id}`)
+        axios.get(`http://localhost:8080/sportsmate/match/myMatch/${id}`)
       .then(function (response) {
         if(response.status == 200){
             console.log(response.data);
@@ -101,7 +102,7 @@ const MymatchInfoForm = () => {
                     <Col md="12">
                         <Form className="col" id="matchinfoForm">
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="title">파티명: {mymatchs.title}</Label>
+                                <Label htmlFor="title">모임 이름: {mymatchs.title}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="sprotsName">종목: {mymatchs.sportsName}</Label>
@@ -110,20 +111,25 @@ const MymatchInfoForm = () => {
                             <Label htmlFor="members">인원: {mymatchs.maxMember}명</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
+                            <Label htmlFor="members">비용: {mymatchs.credit}원</Label>
+                            </FormGroup>
+                            <FormGroup className="col-md-6">
                                 <Label htmlFor="sincedate">시작 시간: {mymatchs.startTime}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="sincedate">종료 시간: {mymatchs.endTime}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="location">장소: {mymatchs.location}</Label>
+                                <Label htmlFor="location">경기장 이름: {mymatchs.arenaName}</Label>
                                 <span className='mInner'>
                                 <div id="container" ref={container} style={{width:"500px", height:"400px"}}/>
                                 </span>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">신청</Button>
-                                <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                            <Link href={`/mymatch`}>
+                                <a className="btn btn-md m-t-30  btn-outline-light bg-primary ">목록으로 돌아가기
+                                </a>
+                            </Link>
                             </FormGroup>
                         </Form>
                     </Col>

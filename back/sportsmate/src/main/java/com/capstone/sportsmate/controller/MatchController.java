@@ -7,6 +7,7 @@ import com.capstone.sportsmate.web.MatchForm;
 import com.capstone.sportsmate.web.response.MatchBoardListResponse;
 import com.capstone.sportsmate.web.response.MatchBoardResponse;
 import com.capstone.sportsmate.web.response.MyGameResponse;
+import com.capstone.sportsmate.web.response.ScheduleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,10 @@ public class MatchController {
     ResponseEntity<List<MyGameResponse>> getMyMatchBoardList(){
         return ResponseEntity.ok(matchService.getMyGameList());
     }
+    @GetMapping("/myMatch/{registId}")//매치 게시판 클릭시 단일조회
+    ResponseEntity<ScheduleResponse> getMyMatch(@PathVariable("registId") Long registId){
+        return ResponseEntity.ok(matchService.getMyMatch(registId));
+    }
     @GetMapping("/public/board")//매치보드 게시판 페이지 들어올때 모든 리스트 넘기기
     ResponseEntity<List<MatchBoardListResponse>> getMatchBoardList(){
         return ResponseEntity.ok(matchService.getMatchBoardList());
@@ -43,6 +48,7 @@ public class MatchController {
     ResponseEntity<MatchBoardResponse> getMatchBoard(@PathVariable("matchBoardId") Long matchBoardId){
         return ResponseEntity.ok(matchService.getMatchBoardResponse(matchBoardId));
     }
+
     //----------수정----------
 
     //----------삭제----------
