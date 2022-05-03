@@ -68,7 +68,7 @@ public class MemberController {
         memberService.deposit(creditForm.getCredit());
         return ResponseEntity.ok("deposit");
     }
-    @GetMapping("/logout")
+    @GetMapping("public/logout")
     public ResponseEntity<String> logout(@CookieValue(name="refreshToken") String refreshToken
             , @RequestHeader(value = JwtFilter.AUTHORIZATION_HEADER) String accessToken ,HttpServletResponse response){
         memberService.logout(accessToken.substring(7),refreshToken);//logout

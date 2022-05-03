@@ -32,7 +32,7 @@ public class PartyController {
     private final NoticeService noticeService;
 
 
-    @GetMapping()
+    @GetMapping("/public/all")
     public List<Party> getPartyList(){
         return partyService.getPartyList();
     }

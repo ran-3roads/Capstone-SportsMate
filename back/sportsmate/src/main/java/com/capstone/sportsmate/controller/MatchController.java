@@ -30,7 +30,7 @@ public class MatchController {
     }
 
     //----------조회----------
-    @GetMapping("/board")//매치보드 게시판 페이지 들어올때 모든 리스트 넘기기
+    @GetMapping("/public/board")//매치보드 게시판 페이지 들어올때 모든 리스트 넘기기
     ResponseEntity<List<MatchBoardListResponse>> getMatchBoardList(){
         return ResponseEntity.ok(matchService.getMatchBoardList());
     }
