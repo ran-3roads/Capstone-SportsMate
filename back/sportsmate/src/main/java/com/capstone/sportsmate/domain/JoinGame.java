@@ -1,5 +1,6 @@
 package com.capstone.sportsmate.domain;
 
+import com.capstone.sportsmate.web.response.MyGameResponse;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -26,12 +27,14 @@ public class JoinGame {
     private Regist regist;
 
     // entity 생성
-
-
     public static JoinGame createJoinGame(Member member, Regist regist) {
         JoinGame joinGame = new JoinGame();
         joinGame.member = member;
         joinGame.regist = regist;
         return joinGame;
+    }
+    public MyGameResponse toMyGameResponse(){
+        return new MyGameResponse(regist.getId(), regist.getArena().getSportsName(),
+                regist.getArena().getName(), regist.getStartTime(), regist.getEndTime());
     }
 }
