@@ -44,6 +44,32 @@ const PartySelect = () => {
                 </Navbar>
               </Container>
             </div>
+      <div className="party_header6">
+        <div className="party_header">
+              <div className="partymenu">
+                <div className="partymenu-item">
+                  <Link href={`/party/${id}/info`}>
+                   <a>
+                      정보                    </a>
+                  </Link>
+                  </div>
+                  <div className="partymenu-item">
+                  <Link href={`/party/${id}/board`}>
+                    <a>
+                      게시판
+                    </a>
+                  </Link>
+                  </div>    
+                <div className="partymenu-item">
+                <Link href={`/party/${id}/schedule`}>
+                    <a>
+                      일정
+                    </a>
+                    </Link>
+                    </div>
+                </div>  
+        </div>
+      </div>
     </div>
   );
 };

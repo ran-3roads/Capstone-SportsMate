@@ -21,7 +21,7 @@ const PostList = props => {
 
 return (
     <>
-      <CommonTable headersName={['글번호', '제목', '등록일', '카테고리']}>
+      <CommonTable headersName={['글번호', '제목','작성자','등록일', '카테고리']}>
         {
           postList ? postList.map((p, index) => {
             let category = undefined;
@@ -46,6 +46,14 @@ return (
                   </a>
                 </Link>  
                 </CommonTableColumn>
+                <CommonTableColumn>
+                <Link href={`/party/${props.id}/board/${p.id}/info`}>
+                <a>  
+                  { p.nickName }
+                  </a>
+                </Link>  
+                </CommonTableColumn>
+                
                 <CommonTableColumn>
                 <Link href={`/party/${props.id}/board/${p.id}/info`}>
                 <a>    

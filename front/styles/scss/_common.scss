@@ -2,6 +2,7 @@
 made by 따봉
 **/
 
+
 //party_select
 .n_party{
   float:left;
@@ -41,6 +42,36 @@ made by 따봉
     }
   }
 }
+
+//partymenu
+.partymenu {
+  background-color: #ffffff;
+  height: 3.5rem;
+}
+
+.partymenu-item {
+  display: inline-block;
+  color: rgb(59, 59, 59);
+  font-size: 1.2rem;
+  font-style: bold;
+  line-height: 3.5rem;
+  width: 33.3333%;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-decoration: none;
+}
+
+.partymenu-item:hover {
+  background-color: #cdfff3;
+}
+
+.partymenu-item:active,
+.partymenu-item.active {
+  background-color: #9cd7ee;
+}
+//recruit
+
 
 //party_info_box
 .party_infobox {
