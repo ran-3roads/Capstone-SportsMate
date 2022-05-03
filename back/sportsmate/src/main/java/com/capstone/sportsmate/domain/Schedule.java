@@ -67,7 +67,8 @@ public class Schedule {
     }
     public ScheduleResponse toScheduleResponse(){
         double nShot=(double)this.credit/this.maxMember;
-        ScheduleResponse scheduleResponse =new  ScheduleResponse(this.title,this.regist.getArena().getName(),this.credit,this.currentMember,this.maxMember,nShot,this.regist.getStartTime(),this.regist.getEndTime());
+        ScheduleResponse scheduleResponse =new  ScheduleResponse(this.title,this.regist.getArena().getName(),this.credit,this.currentMember,this.maxMember,nShot,
+                this.regist.getStartTime(),this.regist.getEndTime(),this.regist.getArena().getMapX(),this.regist.getArena().getMapY(),this.regist.getArena().getSportsName());
         return scheduleResponse;
     }
 

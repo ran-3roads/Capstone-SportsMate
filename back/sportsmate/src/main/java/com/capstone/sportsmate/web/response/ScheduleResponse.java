@@ -1,5 +1,6 @@
 package com.capstone.sportsmate.web.response;
 
+import com.capstone.sportsmate.domain.status.SportsName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,5 +29,10 @@ public class ScheduleResponse {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endTime; // 경기끝
+
+    private float mapX;
+    private float mapY;
+
+    private SportsName sportsName;
 
 }

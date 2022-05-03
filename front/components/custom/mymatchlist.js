@@ -60,7 +60,7 @@ const MatchList = () => {
                     ).map(p => {
                         return (
                             <li className='mItem'>
-                                <Link href={`/mymatch/${p.id}/info`}>
+                                <Link href={`/mymatch/${p.regist_id}/info`}>
                                     <div className='mUri' >
                                         <div class ="mcover">
                                             <div className='mImage'>

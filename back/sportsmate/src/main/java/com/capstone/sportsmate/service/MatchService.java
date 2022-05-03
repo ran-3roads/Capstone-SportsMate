@@ -10,10 +10,7 @@ import com.capstone.sportsmate.repository.*;
 import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.MatchApplyForm;
 import com.capstone.sportsmate.web.MatchForm;
-import com.capstone.sportsmate.web.response.MatchApplyResponse;
-import com.capstone.sportsmate.web.response.MatchBoardListResponse;
-import com.capstone.sportsmate.web.response.MatchBoardResponse;
-import com.capstone.sportsmate.web.response.MyGameResponse;
+import com.capstone.sportsmate.web.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +57,13 @@ public class MatchService {
         return matchBoardRepository.findById(matchBoardId)
                         .orElseThrow(()-> new RuntimeException("해당 메치게시판 없음")).toMatchBoardResponse();
     }
+    //내 경기 확인
+    public ScheduleResponse getMyMatch(Long registId){
+        Regist regist = registRepository.findRegistOne(registId);
+        return scheduleRepository.findByRegist(regist)
+                .orElseThrow(()-> new RuntimeException("해당스케쥴없음")).toScheduleResponse();
+    }
+
     //용병신청서 만들기
     @Transactional
     public void createMatchApply(MatchApplyForm matchApplyForm) {
