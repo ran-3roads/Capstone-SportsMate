@@ -9,6 +9,7 @@ import partyimg from "../../../assets/images/landingpage/20.jpg";
 import PartySelect from "../../../components/custom/partyselectform";
 import axios from "axios";
 import { useState,useEffect } from "react";
+
 export default function Info() {
     const router = useRouter();
     const { id } = router.query;
@@ -70,46 +71,35 @@ export default function Info() {
 
     useEffect(() => {
         axios.get(`http://localhost:8080/sportsmate/party/${id}/info`)
-                                .then(function (response) {
+                            .then(function (response) {
                                     if(response.status == 200){
-                                        setParty(response.data)
+                                        setParty(response.data);
+                                        return  axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyManager`)
                                     }
-                            }).catch(function (error) {
+                            })
+                            .then(function(response){
+                              if(response.status == 200){
+                                console.log(response.data)
+                                setIsmanager(response.data)
+                                return  axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyMember`)
+                            }
+                            })
+                            .then(function(response){
+                              if(response.status == 200){
+                                setIsmember(response.data)
+                                return axios.get(`http://localhost:8080/sportsmate/party/${id}/alreadyApply`)
+                              }
+                            })
+                            .then(function(response){
+                              if(response.status == 200){
+                                setIsalreadyapply(response.data)
+                              }
+                            })
+                            .catch(function (error) {
                                     console.log(error);
                                 });
     }, [])
-    useEffect(() => {
-      axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyManager`)
-                              .then(function (response) {
-                                  if(response.status == 200){
-                                      console.log(response.data)
-                                      setIsmanager(response.data)
-                                  }
-                          }).catch(function (error) {
-                                  console.log(error);
-                              });
-  }, [])
-    useEffect(() => {
-      axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyMember`)
-                              .then(function (response) {
-                                  if(response.status == 200){
-                                    setIsmember(response.data)
-                                  }
-                          }).catch(function (error) {
-                                  console.log(error);
-                              });
-  }, [])
-  
-  useEffect(() => {
-    axios.get(`http://localhost:8080/sportsmate/party/${id}/alreadyApply`)
-                            .then(function (response) {
-                                if(response.status == 200){
-                                  setIsalreadyapply(response.data)
-                                }
-                        }).catch(function (error) {
-                                console.log(error);
-                            });
-}, [])
+
     const partyinfo = {
     manager: '맹구토씈갈리오',
     sinceDate:'2022-4-5',
