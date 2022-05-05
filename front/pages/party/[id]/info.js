@@ -17,9 +17,11 @@ export default function Info() {
     const [ismember,setIsmember]=useState(false);
     const [ismanager,setIsmanager]=useState(false);
     const [isalreadyapply,setIsalreadyapply]=useState(false);
+    const [partyimg, setPartyimg] = useState({});
     let managecontent=null;
     let membercontent=null;
     let memberjoincontent=null;
+
 
 
     if(ismember){
@@ -93,7 +95,14 @@ export default function Info() {
                             .then(function(response){
                               if(response.status == 200){
                                 setIsalreadyapply(response.data)
+                                const formData = new FormData();
+                                formData.append('id',id);
+                                formData.append('imageCategory','PARTY');
+                                return axios.get('http://localhost:8080/sportsmate/file/image',formData)
                               }
+                            })
+                            .then(function(response){
+                                setPartyimg(response.data);
                             })
                             .catch(function (error) {
                                     console.log(error);
@@ -142,7 +151,7 @@ export default function Info() {
                         <div className="party_infobox2" >
                           <div className='pImage'>
                             <span className='pInner'>
-                            <Image src={partyinfo.infoimg} alt="파티사진"/>
+                            <Image src={partyimg} alt="파티사진"/>
                             </span>
                           </div>
                           <div className="party_write_container">

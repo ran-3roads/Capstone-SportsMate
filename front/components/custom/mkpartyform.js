@@ -74,10 +74,12 @@ const MkpartyForm = (props) => {
     });
     setLoaded(false);
   }
-  const sendImageToServer = async () => {
+  const sendImageToServer = async (id) => {
     if(image.image_file){
       const formData = new FormData();
-      formData.append('file', image.image_file);
+      formData.append('multipartFile', image.image_file);
+      formData.append('id',id);
+      formData.append('imageCategory','PARTY');
       await axios.post('/api/image/upload', formData);
       alert("서버에 등록이 완료되었습니다!");
       setImage({
@@ -120,7 +122,6 @@ const MkpartyForm = (props) => {
                                 alert("소개글을 입력해주세요.");
                             }
                             else{
-                            sendImageToServer();
                             axios.post("http://localhost:8080/sportsmate/party/mkparty", {
                                     title: event.target.title.value,
                                     sportsName: event.target.sportsName.value,
@@ -129,6 +130,7 @@ const MkpartyForm = (props) => {
                                     location: event.target.location.value
                                 }/*,formData 나중에해*/)
                                 .then(function (response) {
+                                    sendImageToServer();
                                     //받는거
                                     /*
                                     이미지나중에해
