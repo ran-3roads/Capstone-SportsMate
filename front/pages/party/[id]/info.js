@@ -103,7 +103,6 @@ export default function Info() {
                             })
                             .then(function(response){                   
                                 return axios.get('http://localhost:8080/sportsmate/file/image', { params: { id: id,imageCategory:"PARTY" } })
-                              }
                             })
                             .then(function(response){
                               console.log(response.data);
