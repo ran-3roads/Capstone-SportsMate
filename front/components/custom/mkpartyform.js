@@ -74,12 +74,26 @@ const MkpartyForm = (props) => {
     });
     setLoaded(false);
   }
-  const sendImageToServer = async () => {
+  const sendImageToServer = async (id) => {
     if(image.image_file){
       const formData = new FormData();
-      formData.append('file', image.image_file);
-      await axios.post('/api/image/upload', formData);
-      alert("서버에 등록이 완료되었습니다!");
+      formData.append('multipartFile', image.image_file);
+      formData.append('id',id);
+      formData.append('imageCategory','PARTY');
+      try{
+      await axios.post('http://localhost:8080/sportsmate/file/image', formData);
+      } catch(error){
+          console.log(error);
+          return;
+      }
+      setPopup({
+        open: true,
+        title: "Confirm",
+        message: "파티를 만들었습니다!",
+        callback: function(){
+            document.location.href='/';
+        }
+    });
       setImage({
         image_file: "",
         preview_URL: "img/default_image.png",
@@ -89,6 +103,7 @@ const MkpartyForm = (props) => {
     else{
       alert("사진을 등록하세요!")
     }
+    
   }
 
     return (
@@ -120,8 +135,7 @@ const MkpartyForm = (props) => {
                                 alert("소개글을 입력해주세요.");
                             }
                             else{
-                            sendImageToServer();
-                            axios.post("http://localhost:8080/sportsmate/party/mkparty", {
+                             axios.post("http://localhost:8080/sportsmate/party/mkparty", {
                                     title: event.target.title.value,
                                     sportsName: event.target.sportsName.value,
                                     intro: event.target.intro.value, 
@@ -129,6 +143,7 @@ const MkpartyForm = (props) => {
                                     location: event.target.location.value
                                 }/*,formData 나중에해*/)
                                 .then(function (response) {
+                                    
                                     //받는거
                                     /*
                                     이미지나중에해
@@ -139,14 +154,15 @@ const MkpartyForm = (props) => {
                                       setLoaded(false);
                                       */
                                     if(response.status == 200){
-                                        setPopup({
-                                            open: true,
-                                            title: "Confirm",
-                                            message: "파티를 만들었습니다!", 
-                                            callback: function(){
-                                                document.location.href='/';
-                                            }
-                                        });
+                                        sendImageToServer(response.data);
+                                        // setPopup({
+                                        //     open: true,
+                                        //     title: "Confirm",
+                                        //     message: "파티를 만들었습니다!", 
+                                        //     callback: function(){
+                                        //         document.location.href='/';
+                                        //     }
+                                        // });
                                     }
                             }).catch(function (error) {
                                     if(error.response.status == 500){
