@@ -80,6 +80,8 @@ const MkpartyForm = (props) => {
       formData.append('multipartFile', image.image_file);
       formData.append('id',id);
       formData.append('imageCategory','PARTY');
+      await axios.post('/api/image/upload', formData);
+      alert("서버에 등록이 완료되었습니다!");
       try{
       await axios.post('http://localhost:8080/sportsmate/file/image', formData);
       } catch(error){
@@ -143,10 +145,6 @@ const MkpartyForm = (props) => {
                                     location: event.target.location.value
                                 }/*,formData 나중에해*/)
                                 .then(function (response) {
-                                    
-                                    //받는거
-                                    /*
-                                    이미지나중에해
                                     setImage({
                                         image_file: "",
                                         preview_URL: "img/default_image.png",
@@ -155,14 +153,7 @@ const MkpartyForm = (props) => {
                                       */
                                     if(response.status == 200){
                                         sendImageToServer(response.data);
-                                        // setPopup({
-                                        //     open: true,
-                                        //     title: "Confirm",
-                                        //     message: "파티를 만들었습니다!", 
-                                        //     callback: function(){
-                                        //         document.location.href='/';
-                                        //     }
-                                        // });
+                                       });
                                     }
                             }).catch(function (error) {
                                     if(error.response.status == 500){

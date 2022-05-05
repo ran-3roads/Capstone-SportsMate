@@ -95,7 +95,13 @@ export default function Info() {
                             .then(function(response){
                               if(response.status == 200){
                                 setIsalreadyapply(response.data)
-                                
+                                const formData = new FormData();
+                                formData.append('id',id);
+                                formData.append('imageCategory','PARTY');
+                                return axios.get('http://localhost:8080/sportsmate/file/image',formData)
+                              }
+                            })
+                            .then(function(response){                   
                                 return axios.get('http://localhost:8080/sportsmate/file/image', { params: { id: id,imageCategory:"PARTY" } })
                               }
                             })
