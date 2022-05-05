@@ -145,9 +145,9 @@ public class PartyController {
     }
 
     @PostMapping("/mkparty") // 파티 만들기
-    public String createParty(@RequestBody PartyForm form){
-        partyService.mkParty(form,memberService.getMyInfo().getId());
-        return "success";
+    public Long createParty(@RequestBody PartyForm form){
+
+        return partyService.mkParty(form,memberService.getMyInfo().getId());
     }
     // --------------------파티 보드--------------------
 

@@ -101,7 +101,12 @@ export default function Info() {
                                 return axios.get('http://localhost:8080/sportsmate/file/image',formData)
                               }
                             })
+                            .then(function(response){                   
+                                return axios.get('http://localhost:8080/sportsmate/file/image', { params: { id: id,imageCategory:"PARTY" } })
+                              }
+                            })
                             .then(function(response){
+                              console.log(response.data);
                                 setPartyimg(response.data);
                             })
                             .catch(function (error) {
@@ -151,7 +156,8 @@ export default function Info() {
                         <div className="party_infobox2" >
                           <div className='pImage'>
                             <span className='pInner'>
-                            <Image src={partyimg} alt="파티사진"/>
+                              <img src={partyimg} width="500"></img>
+                            {/* <Image src={partyimg} alt="파티사진"/> */}
                             </span>
                           </div>
                           <div className="party_write_container">
