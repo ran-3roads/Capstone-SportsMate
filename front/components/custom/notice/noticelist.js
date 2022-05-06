@@ -3,55 +3,21 @@ import React from "react";
 import Link from "next/link";
 import { Pagination, PaginationItem, PaginationLink, Container, Row, Col } from 'reactstrap';
 import { useState,useEffect } from "react";
+import { useRouter } from "next/router"
 import axios from "axios";
-
 const NoticeList = () => {
-    const exnotice = [
-        {
-            id:1,
-            noticesStatus:"CONFIRM",
-            noticeType:"APPLY",
-            sinceDate:"2022-05-02 18:38:35"
-        },
-        {
-            id:2,
-            noticesStatus:"CONFIRM",
-            noticeType:"PARTYREPLY",
-            sinceDate:"2022-05-02 18:40:35"
-        },
-        {
-            id:3,
-            noticesStatus:"CONFIRM",
-            noticeType:"PARTYREPLY",
-            sinceDate:"2022-05-02 18:42:35"
-        },
-        {
-            id:4,
-            noticesStatus:"CONFIRM",
-            noticeType:"APPLY",
-            sinceDate:"2022-05-02 18:44:35"
-        },
-        {
-            id:5,
-            noticesStatus:"UNCONFIRM",
-            noticeType:"APPLY",
-            sinceDate:"2022-05-02 19:40:35"
-        },
-        {
-            id:6,
-            noticesStatus:"UNCONFIRM",
-            noticeType:"PARTYREPLY",
-            sinceDate:"2022-05-02 19:42:35"
-        },
-        {
-            id:7,
-            noticesStatus:"UNCONFIRM",
-            noticeType:"APPLY",
-            sinceDate:"2022-05-02 19:44:35"
-        },
-        
-    ]
-    const [notices,setNotices]=useState(exnotice);
+    const router = useRouter();
+    const [notices,setNotices]=useState([]);
+    useEffect(() => {
+        axios.get(`http://localhost:8080/sportsmate/notice`)
+                                .then(function (response) {
+                                    if(response.status == 200){
+                                        setNotices(response.data)
+                                    }
+                            }).catch(function (error) {
+                                    console.log(error);
+                                });
+      }, [])
     /*
     useEffect(() => {
         axios.get("http://localhost:8080/sportsmate/party/myparty")
@@ -79,14 +45,14 @@ const NoticeList = () => {
         setCurrentPage2(index);
     }
     const pageSize = 5;
-    const pagesCount1 = Math.ceil(notices.filter(n=>n.noticesStatus=="UNCONFIRM").length / pageSize);
-    const pagesCount2 = Math.ceil(notices.filter(n=>n.noticesStatus=="CONFIRM").length / pageSize);
+    const pagesCount1 = Math.ceil(notices.filter(n=>n.noticeStatus=="UNCONFIRM").length / pageSize);
+    const pagesCount2 = Math.ceil(notices.filter(n=>n.noticeStatus=="CONFIRM").length / pageSize);
     let content1=null;//안읽음
     let content2=null;//읽음
-    if(notices.filter(n=>n.noticesStatus=="UNCONFIRM").length==0){//안읽음
+    if(notices.filter(n=>n.noticeStatus=="UNCONFIRM").length==0){//안읽음
         content1=<div style={{height:500,display:"flex",width:"100%"}}><div style={{margin:"auto"}}><h1>확인하지않은 알림이 없습니다.</h1></div></div>
     }
-    if(notices.filter(n=>n.noticesStatus=="CONFIRM").length==0){//읽음
+    if(notices.filter(n=>n.noticeStatus=="CONFIRM").length==0){//읽음
         content2=<div style={{height:500,display:"flex",width:"100%"}}><div style={{margin:"auto"}}><h1>확인한 알림이 없습니다.</h1></div></div>
     }
 
@@ -108,35 +74,53 @@ const NoticeList = () => {
                 <div style={{height:500,width:"100%"}}>
                 <ul className='mList'>
                 {
-                    notices.filter(n=>n.noticesStatus=="UNCONFIRM").slice(
+                    notices.filter(n=>n.noticeStatus=="UNCONFIRM").reverse().slice(
                         currentPage1*pageSize,
                         (currentPage1+1)*pageSize
                     ).map(n => {
                         if(n.noticeType=="APPLY")
                         return (
-                            <Link href={`/party/${n.id}/info`}>
-                            <li className='mItem' key={n.id}>
+                            <a onClick={()=>{
+                                axios.post(`http://localhost:8080/sportsmate/notice/${n.noticeId}`)
+                                .then(function (response) {
+                                  if(response.status == 200){
+                                    router.push(`/party/${n.partyId}/manage`)         
+                                    }
+                                }).catch(function (error) {
+                                    console.log(error);
+                                });
+                            }}>
+                            <li className='mItem' key={n.noticeId}>
                                     <div className='mUri' >
                                         <div className="mName">
-                                            <strong className="name"><a>가입요청이 왔습니다.</a></strong>
+                                            <strong className="name"><a>{n.sender}님이 가입요청을 했습니다.</a></strong>
                                             <a>시간:{n.sinceDate}</a>
                                         </div>
                                     </div>
                             </li>
-                            </Link>
+                            </a>
                         )
                         else
                         return (
-                            <Link href={`/party/${n.id}/info`}>
-                            <li className='mItem' key={n.id}>
+                            <a onClick={()=>{
+                                axios.post(`http://localhost:8080/sportsmate/notice/${n.noticeId}`)
+                                .then(function (response) {
+                                    if(response.status == 200){
+                                        router.push(`/party/${n.partyId}/info`) 
+                                    }
+                                }).catch(function (error) {
+                                    console.log(error);
+                                });
+                            }}>
+                            <li className='mItem' key={n.noticeId}>
                                     <div className='mUri' >
                                         <div className="mName">
-                                            <strong className="name"><a>가입신청이 승인or거절되었습니다.</a></strong>
+                                            <strong className="name"><a>{n.sender}파티 가입신청이 {n.state}되었습니다.</a></strong>
                                             <a>시간:{n.sinceDate}</a>
                                         </div>
                                     </div>
                             </li>
-                            </Link>
+                            </a>
                         )
                     })
                 }
@@ -183,36 +167,42 @@ const NoticeList = () => {
                 <div style={{height:500,width:"100%"}}>
                 <ul className='mList'>
                 {
-                    notices.filter(n=>n.noticesStatus=="CONFIRM").slice(
+                    notices.filter(n=>n.noticeStatus=="CONFIRM").reverse().slice(
                         currentPage2*pageSize,
                         (currentPage2+1)*pageSize
                         ).map(n => {
                             if(n.noticeType=="APPLY")
-                            return (
-                                <Link href={`/party/${n.id}/info`}>
-                                <li className='mItem' key={n.id}>
-                                        <div className='mUri' >
-                                            <div className="mName">
-                                                <strong className="name"><a>가입요청이 왔습니다.</a></strong>
-                                                <a>시간:{n.sinceDate}</a>
-                                            </div>
+                        return (
+                            <a onClick={()=>{
+                            
+                            router.push(`/party/${n.partyId}/manage`) 
+                            }}>
+                            <li className='mItem' key={n.noticeId}>
+                                    <div className='mUri' >
+                                        <div className="mName">
+                                            <strong className="name"><a>{n.sender}님이 가입요청을 했습니다.</a></strong>
+                                            <a>시간:{n.sinceDate}</a>
                                         </div>
-                                </li>
-                                </Link>
-                            )
-                            else
-                            return (
-                                <Link href={`/party/${n.id}/info`}>
-                                <li className='mItem' key={n.id}>
-                                        <div className='mUri' >
-                                            <div className="mName">
-                                                <strong className="name"><a>가입신청이 승인or거절되었습니다.</a></strong>
-                                                <a>시간:{n.sinceDate}</a>
-                                            </div>
+                                    </div>
+                            </li>
+                            </a>
+                        )
+                        else
+                        return (
+                            <a onClick={()=>{
+
+                               router.push(`/party/${n.partyId}/info`) 
+                            }}>
+                            <li className='mItem' key={n.noticeId}>
+                                    <div className='mUri' >
+                                        <div className="mName">
+                                            <strong className="name"><a>{n.sender}파티 가입신청이 {n.state}되었습니다.</a></strong>
+                                            <a>시간:{n.sinceDate}</a>
                                         </div>
-                                </li>
-                                </Link>
-                            )
+                                    </div>
+                            </li>
+                            </a>
+                        )
                         })
                 }
                 </ul>

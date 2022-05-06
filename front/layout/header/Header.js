@@ -18,11 +18,12 @@ import logo from "../../assets/images/logos/white-text.png";
 import axios from "axios";
 import cookie from 'react-cookies';
 import cookies from "next-cookies";
-
+import { useEffect } from "react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLogin, setIsLogin] = useState('false');
+  const [notice,setNotice]=useState([]);
   const router = useRouter();
   const toggle = () => setIsOpen(!isOpen);
   const coa = cookie.loadAll();
@@ -31,7 +32,18 @@ const Header = () => {
   let LoginNav = null;
   let NoticeNav =null;
   let myNav=null;
+  let SignupNav=null;
   if(refreshTokenByCookie!=undefined){
+    useEffect(() => {
+      axios.get(`http://localhost:8080/sportsmate/notice`)
+                              .then(function (response) {
+                                  if(response.status == 200){
+                                      setNotice(response.data);
+                                  }
+                          }).catch(function (error) {
+                                  console.log(error);
+                              });
+    }, [])
     LoginNav = <NavItem>
     <Link href="/logout">
       <a
@@ -44,19 +56,33 @@ const Header = () => {
         로그아웃                   </a>
       </Link>
     </NavItem>
-    const noticelength=5; //안읽은알림수 수정예정
+    if(notice.filter(n=>n.noticeStatus=="UNCONFIRM").length==0)
     NoticeNav=<NavItem>
     <Link href="/notice">
       <a
         className={
-          router.pathname == "/logout"
+          router.pathname == "/notice"
             ? "text-white nav-link"
             : "nav-link"
         }
       >
-        알림({noticelength})                   </a>
+        알림                   </a>
       </Link>
     </NavItem>
+    else{
+    NoticeNav=<NavItem>
+    <Link href="/notice">
+      <a
+        className={
+          router.pathname == "/notice"
+            ? "text-white nav-link"
+            : "nav-link"
+        }
+      >
+        알림({notice.filter(n=>n.noticeStatus=="UNCONFIRM").length})                   </a>
+      </Link>
+    </NavItem>
+    }
     myNav=<NavItem>
     <Link href="/mypage">
       <a
@@ -85,6 +111,18 @@ const Header = () => {
         로그인                    </a>
     </Link>
     </NavItem>
+    SignupNav=<NavItem>
+    <Link href="/signup">
+      <a
+        className={
+          router.pathname == "/signup"
+            ? "text-white nav-link"
+            : "nav-link"
+        }
+      >
+        회원가입                    </a>
+    </Link>
+  </NavItem>
   }
    return (
     <div className="topbar" id="top"  >
@@ -106,18 +144,7 @@ const Header = () => {
             >
               <Nav navbar className="ml-test">
                 {LoginNav}
-                <NavItem>
-                  <Link href="/signup">
-                    <a
-                      className={
-                        router.pathname == "/signup"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
-                      회원가입                    </a>
-                  </Link>
-                </NavItem>
+                {SignupNav}
               </Nav>
               <Nav navbar className="ml-auto">
                 <NavItem>

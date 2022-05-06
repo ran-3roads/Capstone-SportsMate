@@ -6,33 +6,10 @@ import footballimg from "../../../assets/images/landingpage/football.png";
 import PartySelect from "../../../components/custom/partyselectform";
 import MyCalendar from "../../../components/custom/calendar/MyCalendar"
 import Popup from '../../../components/custom/calendar/popup';
-import { useState } from 'react';
-let events = [
-  {
-      title: "04.24 출근",
-      allDay: false,
-      start: new Date(2022,3,24,9,0),
-      end:new Date(2022,3,24,10,30),
-  },
-  {
-      title: "04.24 퇴근",
-      allDay: false,
-      start: new Date(2022,3,24,18,0),
-      end:new Date(2022,3,24,19,30),
-  },
-  {
-    title: "한성대경기장",
-    allDay: false,
-    start: new Date(2022,3,24,17,0),
-    end: new Date(2022,3,24,19,30),
-},
-{
-  title: "고척돔",
-  allDay: false,
-  start: new Date(2022,3,28,17,0),
-  end:new Date(2022,3,28,19,30),
-},
-];
+import { useState,useEffect } from 'react';
+import axios from 'axios' 
+
+
 
 export default function Schedule() { 
   const router = useRouter();
@@ -46,7 +23,36 @@ export default function Schedule() {
     title: '성풋모1', 
     infoimg: footballimg
 }
-  const [popup, setPopup] = useState({open: false, title: "", party_id: id, callback: false});
+  const [events,setEvents]=useState([]);
+  console.log(events);
+useEffect(() => {
+  axios.get(`http://localhost:8080/sportsmate/party/${id}/schedule`)
+                          .then(function (response) {
+                              if(response.status == 200){
+                                  console.log(response.data)
+                                  let tmp=[];
+                                  let i=0;
+                                  response.data.map(
+                                    d=>{
+                                      let day = d.day.split('-')
+                                      let time= d.time.split('-');    
+                                      tmp[i]={
+                                        id:d.scheduleId,
+                                        title: d.title,
+                                        allDay: false,
+                                        start: new Date(day[0],day[1]-1,day[2],time[0],0),
+                                        end:new Date(day[0],day[1]-1,day[2],time[1],0),
+                                      }
+                                      i++
+                                  }                                   
+                                  )
+                                  setEvents([...tmp]); 
+                              }
+                      }).catch(function (error) {
+                              console.log(error);
+                          });
+}, [])
+  const [popup, setPopup] = useState({open: false, party_id: id, callback: false});
   return (
     <div>
       <Popup open = {popup.open} setPopup = {setPopup} party_id = {popup.party_id} title = {popup.title} callback = {popup.callback}/>
@@ -64,7 +70,7 @@ export default function Schedule() {
                           <h6 className="subtitle">Party Schedule</h6>
                       </Col>
                       <div className="guide_margin">
-                        <MyCalendar event={events}/>
+                        <MyCalendar event={events} party_id={id}/>
                         <Button className="btn btn-success waves-effect waves-light m-r-10" onClick={(event)=>{
                           event.preventDefault();
                           setPopup({
