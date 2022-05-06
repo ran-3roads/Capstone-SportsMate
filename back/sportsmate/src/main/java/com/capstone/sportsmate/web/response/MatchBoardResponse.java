@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,10 +18,10 @@ public class MatchBoardResponse {
     private String contents;
     private String title;
     private int currentMember;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime startTime; // 경기 시작
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime endTime; // 경기끝
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate day;
+
+    private String time;
     private Long registId; //경기를 조회하기 위해 보내야됨
     private SportsName sportsName;//종목
     private String location;//위치

@@ -35,6 +35,6 @@ public class JoinGame {
     }
     public MyGameResponse toMyGameResponse(){
         return new MyGameResponse(regist.getId(), regist.getArena().getSportsName(),
-                regist.getArena().getName(), regist.getStartTime(), regist.getEndTime());
+                regist.getArena().getName(), regist.getDay(), regist.getArenaTime().getTime());
     }
 }

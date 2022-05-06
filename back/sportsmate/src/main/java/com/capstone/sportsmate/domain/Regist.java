@@ -1,8 +1,10 @@
 package com.capstone.sportsmate.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
@@ -17,11 +19,12 @@ public class Regist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="start_time")
-    private LocalDateTime startTime;
+    @Column(name="day")
+    private LocalDate day;
 
-    @Column(name="end_time")
-    private LocalDateTime endTime;
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name="arena_time_id") // 시간
+    private ArenaTime arenaTime;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "arena_id")
@@ -29,10 +32,10 @@ public class Regist {
 
     // entity 생성
 
-    public static Regist createRegist(LocalDateTime startTime, LocalDateTime endTime, Arena arena) {
+    public static Regist createRegist(LocalDate day, ArenaTime arenaTime, Arena arena) {
         Regist regist = new Regist();
-        regist.startTime = startTime;
-        regist.endTime = endTime;
+        regist.day = day;
+        regist.arenaTime = arenaTime;
         regist.arena = arena;
         return regist;
     }

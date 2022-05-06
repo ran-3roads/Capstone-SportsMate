@@ -54,11 +54,11 @@ public class MatchBoard {
     }
     public MatchBoardListResponse toMatchBoardListResponse(){
        return new MatchBoardListResponse(member.getName(),id, title,regist.getArena().getSportsName(),
-               regist.getArena().getName(), regist.getStartTime(), regist.getEndTime());
+               regist.getArena().getName(), regist.getDay(), regist.getArenaTime().getTime());
     }
     public MatchBoardResponse toMatchBoardResponse(){
         return new MatchBoardResponse(member.getName(),maxMember,credit,contents,title,
-                currentMember,regist.getStartTime(),regist.getEndTime(), regist.getId(),regist.getArena().getSportsName(),
+                currentMember,regist.getDay(), regist.getArenaTime().getTime(), regist.getId(),regist.getArena().getSportsName(),
                 regist.getArena().getName(),regist.getArena().getMapX(),regist.getArena().getMapY());
     }
 
