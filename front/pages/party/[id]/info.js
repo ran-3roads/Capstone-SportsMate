@@ -92,15 +92,6 @@ export default function Info() {
                                 return axios.get(`http://localhost:8080/sportsmate/party/${id}/alreadyApply`)
                               }
                             })
-                            .then(function(response){
-                              if(response.status == 200){
-                                setIsalreadyapply(response.data)
-                                const formData = new FormData();
-                                formData.append('id',id);
-                                formData.append('imageCategory','PARTY');
-                                return axios.get('http://localhost:8080/sportsmate/file/image',formData)
-                              }
-                            })
                             .then(function(response){                   
                                 return axios.get('http://localhost:8080/sportsmate/file/image', { params: { id: id,imageCategory:"PARTY" } })
                             })
@@ -135,6 +126,15 @@ export default function Info() {
                           <h6 className="subtitle">Party 정보글</h6>
                       </Col>
                     <div className="guide_margin">
+                    <Row className="justify-content-center">
+                        <Col md="7" className="text-center">
+                        <Link href={`/party/${id}/info/modify`}>
+                        <Button className="btn btn-danger m-t-30 btn-info-gradiant font-14">
+                        파티 홈 수정하기
+                        </Button> 
+                         </Link>
+                        </Col>
+                    </Row>
                       <div className="n_guide">
                         <div className="party_infobox" >
                           <div className="my_box">

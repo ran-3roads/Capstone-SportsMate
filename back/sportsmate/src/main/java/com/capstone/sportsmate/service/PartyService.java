@@ -104,15 +104,19 @@ public class PartyService {
     }
 
     @Transactional
-    public void updateParty(Long partyId,String title,String intro,String info,String location){
+    public void updateParty(Long partyId,String title,String intro,String info,String location) {
         Party findParty = partyRepository.findOne(partyId);
-        if(!title.equals(findParty.getTitle())) { //그전 타이틀과 같은지 확인
-            validateDuplicateParty(title);//중복 파티이름 검증
+        if (title != null && intro != null && info != null && location != null) {
+            if (!title.equals(findParty.getTitle())) { //그전 타이틀과 같은지 확인
+                validateDuplicateParty(title);//중복 파티이름 검증
+            }
+            findParty.setTitle(title);
+            findParty.setIntro(intro);
+            findParty.setInfo(info);
+            findParty.setLocation(location);
         }
-        findParty.setTitle(title);
-        findParty.setIntro(intro);
-        findParty.setInfo(info);
-        findParty.setLocation(location);
+        else
+            throw new NullPointerException();
     }
     public Party findOne(Long partyId){
         return partyRepository.findOne(partyId);
