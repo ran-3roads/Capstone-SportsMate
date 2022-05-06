@@ -2,18 +2,22 @@ package com.capstone.sportsmate.domain;
 
 import com.capstone.sportsmate.web.response.ArenaResponse;
 import com.capstone.sportsmate.web.response.MyGameResponse;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name="arenatime")
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ArenaTime {
 
     @Id
@@ -30,11 +34,5 @@ public class ArenaTime {
     @JoinColumn(name = "arena_id")
     private Arena arena;
 
-    public boolean equals(Regist regist) {
-       Long registGetArenaTimeId=regist.getArenaTime().getId();
-        if (this.id == registGetArenaTimeId) {
-            return true;
-        }
-        return false;
-    }
+
 }

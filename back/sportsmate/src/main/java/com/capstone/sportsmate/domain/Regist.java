@@ -1,6 +1,8 @@
 package com.capstone.sportsmate.domain;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -12,6 +14,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Table(name = "regist")
 @Getter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Regist {
     //entity 컬럼
     @Id

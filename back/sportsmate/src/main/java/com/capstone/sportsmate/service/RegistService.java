@@ -68,17 +68,22 @@ public class RegistService {
 
         //해당 경기장 예약들을 불러와라
         List<Regist> registList=registRepository.findArenaRegistByArena(findArena);
-        //해당 날짜에 예약들을 불러와라
-        registList.stream().filter(r->r.getDay().equals(form.getDay())).collect(Collectors.toList());
 
         List<ArenaTime> arenaTimes=registRepository.findArenaTimeByArena(findArena);
-
         //예약이 없다면 모든시간이 가능하독 보내라
         if(registList.isEmpty()){
             return arenaTimes;
         }
-        //예약되어있는시간들을 제외하고 보내라
-        for(Regist r : registList){
+
+        //해당 날짜에 예약들을 불러와라 //수정해야함 작동안됨
+        List<Regist> registList1=new ArrayList<>();
+
+        for(Regist r: registList){
+            registList.stream().filter(a ->a.getDay().isEqual(form.getDay()))
+                    .collect(Collectors.toList())
+                    .forEach(ls->{registList1.add(ls);});
+        }
+        for(Regist r : registList1){
             arenaTimes.stream().filter(a ->a.getId().equals(r.getArenaTime().getId()))
                     .collect(Collectors.toList())
                     .forEach(ls->{arenaTimes.remove(ls);});
