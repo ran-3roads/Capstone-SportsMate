@@ -45,29 +45,14 @@ public class NoticeController {
         return noticeService.getNoticeReply(noticeId);
     }
 
-    //-------------파티 승락-----------------
-    @PostMapping("/{noticeId}/acceptApply")
-    String acceptApply(@PathVariable("noticeId") Long noticeId){
+    //---------읽음 처리---------
+    @PostMapping("/{noticeId}")
+    String confirmNotice(@PathVariable("noticeId") Long noticeId){
         if(!noticeService.isRoute(noticeId,memberService.getMyInfo().getId())){
             throw new MyRoleException("확인 권한이없습니다.");
         }
-        if(!noticeService.validateDuplicateCheck(noticeId)){
-            return "이미 처리한 지원서 입니다.";
-        }
-        noticeService.acceptApply(noticeId);
-        return "수락했습니다."; //수락
-    }
-    //-------------파티 거절-----------------
-    @PostMapping("/{noticeId}/rejectApply")
-    String rejectApply(@PathVariable("noticeId") Long noticeId){
-        if(!noticeService.isRoute(noticeId,memberService.getMyInfo().getId())){
-            throw new MyRoleException("확인 권한이없습니다.");
-        }
-        if(!noticeService.validateDuplicateCheck(noticeId)){
-            return "이미 처리한 지원서 입니다.";
-        }
-        noticeService.rejectApply(noticeId);
-        return "거절했습니다."; //거절
+        noticeService.confirmNotice(noticeId);
+        return "확인했습니다."; //거절
     }
     //권한이 없을 경우
     @ExceptionHandler(MyRoleException.class)

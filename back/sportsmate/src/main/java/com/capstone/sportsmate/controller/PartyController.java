@@ -1,5 +1,5 @@
 package com.capstone.sportsmate.controller;
-import com.capstone.sportsmate.domain.Arena;
+import com.capstone.sportsmate.domain.*;
 import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.exception.RegistException;
 import com.capstone.sportsmate.exception.InconsistencyException;
@@ -7,10 +7,7 @@ import com.capstone.sportsmate.exception.NotFoundEntityException;
 import com.capstone.sportsmate.exception.response.ErrorResponse;
 import com.capstone.sportsmate.service.*;
 import com.capstone.sportsmate.web.*;
-import com.capstone.sportsmate.domain.PartyBoard;
-import com.capstone.sportsmate.domain.Comment;
 
-import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.exception.MyRoleException;
 import com.capstone.sportsmate.web.response.*;
 import lombok.RequiredArgsConstructor;
@@ -235,7 +232,7 @@ public class PartyController {
     public ScheduleResponse getSchedule(@PathVariable("scheduleId") Long scheduleId){
         return registService.getSchedule(scheduleId);
     }
-    @PostMapping("/{partyId}/schedule/{scheduleId}") // 한 스케쥴 열람 //파티원이 아니면 못보게 만들어야함
+    @PostMapping("/{partyId}/schedule/{scheduleId}") // 한 스케쥴 예약 //파티원이 아니면 못보게 만들어야함
     String bookRegist(@PathVariable("scheduleId") Long scheduleId,@PathVariable("partyId") Long partyId){
         registService.bookRegist(memberService.getMyInfo().getId(),partyId,scheduleId);
         return "예약했습니다.";
@@ -258,6 +255,15 @@ public class PartyController {
         }
         return registService.getArenaList(partyId);
     }
+    //---new 방장시점----
+    @PostMapping("/{partyId}/schedule/regist/getArenaList") // 경기장 넘겨서 예약 시간알아봄
+    public List<ArenaTime> getPossibletime(@RequestBody RegistTimeForm form, @PathVariable("partyId") Long partyId){
+        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
+            throw new MyRoleException("예약 권한이 없습니다.");
+        }
+        return registService.getPossibleTime(form,partyId);
+    }
+/*
     @GetMapping("/{partyId}/schedule/regist/{arenaId}/book") // 경기장을 확인한다.
     public Arena getArenaInfo(@PathVariable("partyId") Long partyId, @PathVariable("arenaId") Long arenaId){
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
@@ -265,18 +271,18 @@ public class PartyController {
         }
         return registService.getArenaInfo(arenaId);
     }
-    @PostMapping("/{partyId}/schedule/regist/{arenaId}/book") // 경기장을 예약한다.
-    String bookArena(@RequestBody BookForm form,@PathVariable("partyId") Long partyId,@PathVariable("arenaId") Long arenaId){
+    */
+    //---new 방장시점----
+    @PostMapping("/{partyId}/schedule/regist/book") // 경기장을 예약한다.
+    String bookArena(@RequestBody BookForm form,@PathVariable("partyId") Long partyId){
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
             throw new MyRoleException("예약 권한이 없습니다.");
         }
-        //예약 차있는지 확인
-        if(registService.isFull(form,arenaId)) {
-            return "이미 예약이 되어 있습니다.";
-        }
-        registService.bookArena(form,arenaId,partyId);
+        registService.bookArena(form,partyId);
         return "예약 되었습니다";
     }
+
+
 
 
 

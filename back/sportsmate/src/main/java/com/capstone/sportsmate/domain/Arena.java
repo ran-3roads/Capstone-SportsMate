@@ -2,6 +2,7 @@ package com.capstone.sportsmate.domain;
 
 
 import com.capstone.sportsmate.domain.status.SportsName;
+import com.capstone.sportsmate.web.response.ArenaResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,22 +23,23 @@ public class Arena {
     @Column(name = "map_y")
     private float mapY;
 
-    private int credit;
-
     @Enumerated(EnumType.STRING)
     @Column(name="sports_name")
     private SportsName sportsName;
 
     private String name;
 
+    private String location;
+
     //Create test
-    public static Arena createArena(float mapX,float mapY,int credit,SportsName sportsName,String name) {
+    public static Arena createArena(float mapX,float mapY,SportsName sportsName,String name,String location) {
         Arena arena = new Arena();
         arena.mapX=mapX;
         arena.mapY=mapY;
-        arena.credit=credit;
         arena.sportsName=sportsName;
         arena.name = name;
+        arena.location=location;
         return arena;
     }
+
 }

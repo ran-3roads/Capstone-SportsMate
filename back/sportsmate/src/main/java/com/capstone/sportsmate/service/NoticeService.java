@@ -58,7 +58,7 @@ public class NoticeService {
         notice.setNoticeStatus(NoticeStatus.CONFIRM); //읽음 처리
 
         Apply apply = notice.getApply();
-                //================지원자 정보 =================//
+        //================지원자 정보 =================//
         ApplyForm applyForm = apply.toApplyForm();
         return applyForm;
     }
@@ -98,12 +98,9 @@ public class NoticeService {
         partyRepository.mkPartyMember(partyMember);
     }
     @Transactional
-    public void rejectApply(Long noticeId){
+    public void confirmNotice(Long noticeId){
         Notice notice = noticeRepository.findOne(noticeId);
-        Apply apply= notice.getApply();
-
-        sendReply(apply.getMember(),Request.REJECT,apply.getParty());
-        apply.setState(Request.REJECT);
+        notice.setNoticeStatus(NoticeStatus.CONFIRM);
     }
 
     //-----------지원서 중복 승락 및 거절 방지----------

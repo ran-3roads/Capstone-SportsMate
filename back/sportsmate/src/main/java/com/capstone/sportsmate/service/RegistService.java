@@ -7,6 +7,8 @@ import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.PartyRepository;
 import com.capstone.sportsmate.repository.RegistRepository;
 import com.capstone.sportsmate.web.BookForm;
+import com.capstone.sportsmate.web.RegistTimeForm;
+import com.capstone.sportsmate.web.response.ArenaResponse;
 import com.capstone.sportsmate.web.response.EventResponse;
 import com.capstone.sportsmate.web.response.ScheduleResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,16 +30,16 @@ public class RegistService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void bookArena(BookForm bookForm,Long arenaId,Long partyId){
+    public void bookArena(BookForm bookForm,Long partyId){
         Party party= partyRepository.findOne(partyId);
-        Arena bookArena = registRepository.findArenaOne(arenaId);
+        ArenaTime bookArenaTime=registRepository.findArenaTime(bookForm.getArenaTimeId());
 
         //예약 등록
-        Regist regist=Regist.createRegist(bookForm.getStartTime(),bookForm.getEndTime(),bookArena);
+        Regist regist=Regist.createRegist(bookForm.getDay(),bookArenaTime,bookArenaTime.getArena());
         registRepository.registSave(regist);
 
         //스케쥴 생성
-        Schedule schedule=Schedule.createSchedule(bookArena.getCredit(),0,
+        Schedule schedule=Schedule.createSchedule(bookArenaTime.getCredit(),0,
                 bookForm.getMaxMember(), bookForm.getTitle(),bookForm.getContents(),regist,party);
         registRepository.scheduleSave(schedule);
     }
@@ -59,6 +62,31 @@ public class RegistService {
         registRepository.joinGameSave(joinGame);
     }
 
+    public List<ArenaTime> getPossibleTime(RegistTimeForm form, Long partyId){
+        Party party= partyRepository.findOne(partyId);
+        Arena findArena = registRepository.findArenaOne(form.getArenaId());
+
+        //해당 경기장 예약들을 불러와라
+        List<Regist> registList=registRepository.findArenaRegistByArena(findArena);
+        //해당 날짜에 예약들을 불러와라
+        registList.stream().filter(r->r.getDay().equals(form.getDay())).collect(Collectors.toList());
+
+        List<ArenaTime> arenaTimes=registRepository.findArenaTimeByArena(findArena);
+
+        //예약이 없다면 모든시간이 가능하독 보내라
+        if(registList.isEmpty()){
+            return arenaTimes;
+        }
+        //예약되어있는시간들을 제외하고 보내라
+        for(Regist r : registList){
+            arenaTimes.stream().filter(a ->a.getId().equals(r.getArenaTime().getId()))
+                    .collect(Collectors.toList())
+                    .forEach(ls->{arenaTimes.remove(ls);});
+        }
+
+        return arenaTimes;
+    }
+
     private boolean validateBookRegist (Member member,Regist regist) {
         JoinGame joinGame=registRepository.findByMemberRegistToJoinGame(member,regist);
         if(joinGame!=null){
@@ -76,23 +104,11 @@ public class RegistService {
         Party party= partyRepository.findOne(partyId);
         return registRepository.findBySportsName(party.getSportsName());
     }
+
     public Arena getArenaInfo(Long arenaId){
         return registRepository.findArenaOne(arenaId);
     }
 
-    public boolean isFull(BookForm bookForm,Long arenaId){
-        //1. 경기장예약이있는지 없는지
-        Arena bookArena = registRepository.findArenaOne(arenaId);
-        List<Regist> registList=registRepository.findArenaRegist(bookArena);
-        if(registList.isEmpty()){
-            return false;
-        }
-        //2. 그 날에 예약이 되있는지확인하고 시작시간이 같은지 확인한다.
-        if(!registList.stream().map(Regist::getStartTime).filter(bookForm.getStartTime()::equals).findFirst().isPresent()){
-            return false; //시작하는 시간 같은게 없다면 false 반환
-        }
-        return true;
-    }
     public ScheduleResponse getSchedule(Long scheduleId){
         Schedule schedule= registRepository.findSchedule(scheduleId);
         return schedule.toScheduleResponse();
