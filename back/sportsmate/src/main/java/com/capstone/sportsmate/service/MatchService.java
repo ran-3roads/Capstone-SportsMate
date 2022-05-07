@@ -46,7 +46,6 @@ public class MatchService {
         MatchBoard matchBoard = MatchBoard.createMatchBoard(findSchedule, findMember, matchForm);
         matchBoardRepository.save(matchBoard);
     }
-
     //게시판 리스트
     public List<MatchBoardListResponse> getMatchBoardList() {
 
