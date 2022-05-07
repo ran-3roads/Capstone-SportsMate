@@ -298,7 +298,7 @@
                                          <div class ="mName">
                                              <strong class="name"><a>{p.title}</a></strong>
                                              <a>{'종목:'+p.sportsName+'  지역:'+p.location}</a>
-                                             <p className="pSubTxt">{'경기시간: '+ p.startTime + ~ + p.endTime}</p>
+                                             <p className="pSubTxt">{'경기시간: '+ p.time}</p>
                                          </div>
                                      </div>
                                  </Link>
