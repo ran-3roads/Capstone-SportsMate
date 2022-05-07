@@ -114,10 +114,10 @@ const MymatchInfoForm = () => {
                             <Label htmlFor="members">비용: {mymatchs.credit}원</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="sincedate">시작 시간: {mymatchs.startTime}</Label>
+                                <Label htmlFor="sincedate">날짜: {mymatchs.day}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="sincedate">종료 시간: {mymatchs.endTime}</Label>
+                                <Label htmlFor="sincedate">경기 시간: {mymatchs.time}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="location">경기장 이름: {mymatchs.arenaName}</Label>

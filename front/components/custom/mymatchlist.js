@@ -72,7 +72,8 @@ const MatchList = () => {
                                         <div class ="mName">
                                             <strong class="name"><a>{'종목:'+p.sportsName}</a></strong>
                                             <strong class="name"><a>{'지역:'+p.location}</a></strong>
-                                            <p className="pSubTxt">{'경기시간: '+ p.startTime + ~ + p.endTime}</p>
+                                            <strong class="name"><a>{'날짜:'+p.day}</a></strong>
+                                            <p className="pSubTxt">{'경기시간: '+ p.time}</p>
                                         </div>
                                     </div>
                                 </Link>
