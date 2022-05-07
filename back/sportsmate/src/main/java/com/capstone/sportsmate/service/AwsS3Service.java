@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.capstone.sportsmate.domain.status.ImageCategory;
+import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,8 +27,10 @@ public class AwsS3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+
     //amazons3client 주입
     private final AmazonS3 amazonS3;
+    private final MemberRepository memberRepository;
 
     //파일 업로드 다시 같은 이름으로 업로드시 덮어씌움
     public List<String> uploadFile(List<MultipartFile> multipartFile, Long id, ImageCategory imageCategory) {
@@ -36,6 +39,30 @@ public class AwsS3Service {
             id = SecurityUtil.getCurrentMemberId();
         // forEach 구문을 통해 multipartFile로 넘어온 파일들 하나씩 fileNameList에 추가
         Long finalId = id;
+        multipartFile.forEach(file -> {
+            System.out.println("file name is"+file.getOriginalFilename());
+            String fileName = imageCategory.value()+ finalId +".png";
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentLength(file.getSize());
+            objectMetadata.setContentType(file.getContentType());
+
+            try(InputStream inputStream = file.getInputStream()) {
+                amazonS3.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+            } catch(IOException e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
+            }
+
+            fileNameList.add(fileName);
+        });
+
+        return fileNameList;
+    }
+    //파일 업로드 다시 같은 이름으로 업로드시 덮어씌움
+    public List<String> uploadSignupFile(List<MultipartFile> multipartFile, String email, ImageCategory imageCategory) {
+        List<String> fileNameList = new ArrayList<>();
+        // forEach 구문을 통해 multipartFile로 넘어온 파일들 하나씩 fileNameList에 추가
+        Long finalId = memberRepository.findByEmail(email).getId();
         multipartFile.forEach(file -> {
             System.out.println("file name is"+file.getOriginalFilename());
             String fileName = imageCategory.value()+ finalId +".png";

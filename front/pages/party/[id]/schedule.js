@@ -11,9 +11,12 @@ import axios from 'axios'
 
 
 
-export default function Schedule() { 
+export default function Schedule() {
   const router = useRouter();
   const { id } = router.query;
+  const [ismanager,setIsmanager]=useState(false); 
+  const [popup, setPopup] = useState({open: false, party_id: id, callback: false});
+  const [events,setEvents]=useState([]);
   const party = {
     party_id:id , // id 외의 정보는 db로 가져오기
     sports_name:'풋살',
@@ -23,36 +26,53 @@ export default function Schedule() {
     title: '성풋모1', 
     infoimg: footballimg
 }
-  const [events,setEvents]=useState([]);
   console.log(events);
-useEffect(() => {
-  axios.get(`http://localhost:8080/sportsmate/party/${id}/schedule`)
-                          .then(function (response) {
-                              if(response.status == 200){
-                                  console.log(response.data)
-                                  let tmp=[];
-                                  let i=0;
-                                  response.data.map(
-                                    d=>{
-                                      let day = d.day.split('-')
-                                      let time= d.time.split('-');    
-                                      tmp[i]={
-                                        id:d.scheduleId,
-                                        title: d.title,
-                                        allDay: false,
-                                        start: new Date(day[0],day[1]-1,day[2],time[0],0),
-                                        end:new Date(day[0],day[1]-1,day[2],time[1],0),
-                                      }
-                                      i++
-                                  }                                   
-                                  )
-                                  setEvents([...tmp]); 
-                              }
-                      }).catch(function (error) {
-                              console.log(error);
-                          });
-}, [])
-  const [popup, setPopup] = useState({open: false, party_id: id, callback: false});
+  let managercontent=null;
+  useEffect(() => {
+    axios.get(`http://localhost:8080/sportsmate/party/${id}/schedule`)
+                            .then(function (response) {
+                                if(response.status == 200){
+                                    console.log(response.data)
+                                    let tmp=[];
+                                    let i=0;
+                                    response.data.map(
+                                      d=>{
+                                        let day = d.day.split('-')
+                                        let time= d.time.split('-');    
+                                        tmp[i]={
+                                          id:d.scheduleId,
+                                          title: d.title,
+                                          allDay: false,
+                                          start: new Date(day[0],day[1]-1,day[2],time[0],0),
+                                          end:new Date(day[0],day[1]-1,day[2],time[1],0),
+                                        }
+                                        i++
+                                    }                                   
+                                    )
+                                    setEvents([...tmp]); 
+                                    return  axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyManager`)
+                                }
+                        }).then(function(response){
+                          if(response.status == 200){
+                            console.log(response.data)
+                            setIsmanager(response.data)
+                        }
+                        }).catch(function (error) {
+                                console.log(error);
+                            });
+    }, [])
+  if(ismanager){
+    managercontent=<Button className="btn btn-success waves-effect waves-light m-r-10" onClick={(event)=>{
+      event.preventDefault();
+      setPopup({
+        open: true,
+        title: "일정 추가하기",
+        party_id: id, 
+        callback: function(){
+        }
+   });
+    }}>일정추가</Button>
+  }
   return (
     <div>
       <Popup open = {popup.open} setPopup = {setPopup} party_id = {popup.party_id} title = {popup.title} callback = {popup.callback}/>
@@ -70,21 +90,13 @@ useEffect(() => {
                           <h6 className="subtitle">Party Schedule</h6>
                       </Col>
                       <div className="guide_margin">
-                        <MyCalendar event={events} party_id={id}/>
-                        <Button className="btn btn-success waves-effect waves-light m-r-10" onClick={(event)=>{
-                          event.preventDefault();
-                          setPopup({
-                            open: true,
-                            title: "일정 추가하기",
-                            party_id: id, 
-                            callback: function(){
-                            }
-                       });
-                        }}>일정추가</Button>
+                        <MyCalendar event={events} party_id={id} ismanager={ismanager}/>
+                        {managercontent}
+                        
                         <div>
                         </div>
                       </div>
-                  </Row> 
+        </Row> 
       </Container>
     </div>
   );

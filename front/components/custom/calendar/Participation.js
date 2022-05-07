@@ -5,13 +5,60 @@ import { useState,useEffect } from 'react';
 import axios from 'axios';
 
 
-function Participation({open, setPopup, callback,party_id,schedule_id,viewdata}) {
+function Participation({open, setPopup, callback,party_id,schedule_id,viewdata,isalreadyP,ismanager}) {
     const handleClose = () => {
       setPopup({open: false});
       if(callback){
         callback();
       }
     }
+    let buttoncontent=null;
+    if(isalreadyP){
+      buttoncontent=<Button className="btn btn-warning waves-effect waves-light m-r-10" onClick={(event)=>{
+        event.preventDefault();
+        if(confirm(`정말 ${viewdata.title}에 참가신청을 취소하시겠습니까?`)){
+        /*axios.post(`http://localhost:8080/sportsmate/party/${party_id}/schedule/${schedule_id}`, {
+          })
+              .then(function (response) {
+                  if(response.status == 200){
+                      alert(`${viewdata.title}에 참가완료.`)
+                      handleClose();
+                  setPopup({open: false});
+                      if(callback){
+                      }
+                  }
+          }).catch(function (error) {
+                  console.log(error);
+              });*/  
+        }
+        
+      }}>참가 중</Button>
+    }
+    else{
+      buttoncontent=<Button className="btn btn-success waves-effect waves-light m-r-10" onClick={(event)=>{
+        event.preventDefault();
+        axios.post(`http://localhost:8080/sportsmate/party/${party_id}/schedule/${schedule_id}`, {
+          })
+              .then(function (response) {
+                  if(response.status == 200){
+                      alert(`${viewdata.title}에 참가완료.`)
+                      handleClose();
+                  setPopup({open: false});
+                      if(callback){
+                      }
+                  }
+          }).catch(function (error) {
+                  console.log(error);
+              });
+      }}>일정참가</Button>
+    }
+    let managercontent=null;
+    if(ismanager){
+      managercontent=<button>
+        용병모집
+      </button>
+    }
+
     if(viewdata!=undefined)
     return (
       <>
@@ -35,27 +82,12 @@ function Participation({open, setPopup, callback,party_id,schedule_id,viewdata})
                         </Col>
                         <Col className='text-left'>
                         <h6 className="title font-bold">{viewdata.location}</h6>
-                        <h6 className="title font-bold">{viewdata.currentMember}/{viewdata.maxMember}</h6>
+                        <h6 className="title font-bold">{viewdata.currentMember}/{viewdata.maxMember} {managercontent}</h6>
                         <h6 className="title font-bold">{viewdata.nshotCredit}포인트</h6>
                         </Col>
                         </Row>  
                         </Container>
-                        <Button className="btn btn-success waves-effect waves-light m-r-10" onClick={(event)=>{
-                          event.preventDefault();
-                          axios.post(`http://localhost:8080/sportsmate/party/${party_id}/schedule/${schedule_id}`, {
-                            })
-                                .then(function (response) {
-                                    if(response.status == 200){
-                                        alert(`${viewdata.title}에 참가완료.`)
-                                        handleClose();
-                                    setPopup({open: false});
-                                        if(callback){
-                                        }
-                                    }
-                            }).catch(function (error) {
-                                    console.log(error);
-                                });
-                        }}>일정참가</Button>
+                        {buttoncontent}
                         <div>
                         </div>
                       </div>
