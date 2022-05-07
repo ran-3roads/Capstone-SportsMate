@@ -61,6 +61,9 @@ public class Schedule {
     public void addCurrentMemeber(){
         this.currentMember++;
     }
+    public void minusCurrentMember(){
+        this.currentMember--;
+    }
     public EventResponse toEventResponse(){
         EventResponse eventResponse = new EventResponse(this.regist.getDay(),this.regist.getArenaTime().getTime(),this.title,this.id,this.regist.getArena().getLocation());
         return eventResponse;

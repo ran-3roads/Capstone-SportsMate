@@ -3,9 +3,11 @@ package com.capstone.sportsmate.service;
 
 import com.capstone.sportsmate.domain.*;
 import com.capstone.sportsmate.exception.RegistException;
+import com.capstone.sportsmate.repository.JoinGameRepository;
 import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.PartyRepository;
 import com.capstone.sportsmate.repository.RegistRepository;
+import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.BookForm;
 import com.capstone.sportsmate.web.RegistTimeForm;
 import com.capstone.sportsmate.web.response.ArenaResponse;
@@ -28,6 +30,7 @@ public class RegistService {
     private final RegistRepository registRepository;
     private final PartyRepository partyRepository;
     private final MemberRepository memberRepository;
+    private final JoinGameRepository joinGameRepository;
 
     @Transactional
     public void bookArena(BookForm bookForm,Long partyId){
@@ -60,6 +63,27 @@ public class RegistService {
         schedule.addCurrentMemeber();
         JoinGame joinGame= JoinGame.createJoinGame(member,regist);
         registRepository.joinGameSave(joinGame);
+    }
+    @Transactional
+    public void cancelRegist(Long scheduleId, Long memberId){
+//        if(!isAlreadyRegist(scheduleId)) throw new RegistException("예약하지도 않은 스케쥴입니다.");
+        Schedule schedule= registRepository.findSchedule(scheduleId);
+        ScheduleResponse scheduleResponse=schedule.toScheduleResponse();
+        Member member=memberRepository.findOne(memberId);
+
+        schedule.minusCurrentMember();
+        JoinGame joinGame=registRepository.findByMemberRegistToJoinGame(member,schedule.getRegist());
+        joinGameRepository.deleteById(joinGame.getId());
+        member.deposit((int)scheduleResponse.getNShotCredit());
+    }
+
+    public boolean isAlreadyRegist(Long scheduleId){
+        Schedule schedule = registRepository.findSchedule(scheduleId);
+        Member member= memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        if(!validateBookRegist(member,schedule.getRegist())){
+            return true; //이미예약했어
+        }
+        return false; // 예약안했음.
     }
 
     public List<ArenaTime> getPossibleTime(RegistTimeForm form, Long partyId){

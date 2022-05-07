@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface JoinGameRepository extends JpaRepository<JoinGame,Long> {
     List<JoinGame> findByMember(Member member);
+    void deleteById(Long id);
 }

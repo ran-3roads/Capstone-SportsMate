@@ -228,15 +228,26 @@ public class PartyController {
     public List<EventResponse> getEventList(@PathVariable("partyId") Long partyId){
         return registService.getEventList(partyId);
     }
-    @GetMapping("/{partyId}/schedule/{scheduleId}") // 한 스케쥴 열람 //파티원이 아니면 못보게 만들어야함
+    @GetMapping("/{partyId}/schedule/{scheduleId}") // 한 스케쥴 열람
     public ScheduleResponse getSchedule(@PathVariable("scheduleId") Long scheduleId){
         return registService.getSchedule(scheduleId);
     }
-    @PostMapping("/{partyId}/schedule/{scheduleId}") // 한 스케쥴 예약 //파티원이 아니면 못보게 만들어야함
+    @PostMapping("/{partyId}/schedule/{scheduleId}") // 한 스케쥴 예약
     String bookRegist(@PathVariable("scheduleId") Long scheduleId,@PathVariable("partyId") Long partyId){
         registService.bookRegist(memberService.getMyInfo().getId(),partyId,scheduleId);
         return "예약했습니다.";
     }
+    @GetMapping("/{partyId}/schedule/{scheduleId}/isAlreadyRegist") // 예약했는지 확인해주라.
+    public boolean isAlreadyRegist(@PathVariable("scheduleId") Long scheduleId){
+        if(registService.isAlreadyRegist(scheduleId)) return true; //이미 예약했다.
+        return false; // 예약안했다,
+    }
+    @PostMapping("/{partyId}/schedule/{scheduleId}/cancel") // 예약했는지 확인해주라.
+    public String cancelRegist(@PathVariable("scheduleId") Long scheduleId){
+        registService.cancelRegist(scheduleId,memberService.getMyInfo().getId());
+        return "예약 취소했습니다.";
+    }
+
 
 
 
