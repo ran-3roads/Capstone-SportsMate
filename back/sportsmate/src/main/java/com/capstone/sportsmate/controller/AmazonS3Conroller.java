@@ -25,6 +25,12 @@ public class AmazonS3Conroller {
                                                         @RequestParam ImageCategory imageCategory) {//멤버의 경우 필요가 없으니 -1을 부탁한다.
         return ResponseEntity.ok(awsS3Service.uploadFile(multipartFile,id,imageCategory));
     }
+    @PostMapping("/singupimage")
+    public ResponseEntity<List<String>> uploadSingupFile(@RequestPart List<MultipartFile> multipartFile,
+                                                   @RequestParam String email,
+                                                   @RequestParam ImageCategory imageCategory) {//멤버의 경우 필요가 없으니 -1을 부탁한다.
+        return ResponseEntity.ok(awsS3Service.uploadSignupFile(multipartFile,email,imageCategory));
+    }
 
     @GetMapping("/image")
     public ResponseEntity<String> getFile(@RequestParam Long id,
