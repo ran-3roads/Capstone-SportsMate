@@ -40,7 +40,6 @@ public class AwsS3Service {
         // forEach 구문을 통해 multipartFile로 넘어온 파일들 하나씩 fileNameList에 추가
         Long finalId = id;
         multipartFile.forEach(file -> {
-            System.out.println("file name is"+file.getOriginalFilename());
             String fileName = imageCategory.value()+ finalId +".png";
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(file.getSize());
