@@ -12,13 +12,19 @@ const clientKey = 'test_ck_XjExPeJWYVQbodkMjRpr49R5gvNL'
 export default function Mypage() {
 
   const [my, setMy] = useState({});
+  const [myimg, setMyimg] = useState({});
   console.log(axios.defaults.headers.common['Authorization']);
 
   useEffect(() => {
     axios.get(`http://localhost:8080/sportsmate/member/my`)
       .then(function (response) {
           setMy(response.data);
-      })
+          return axios.get('http://localhost:8080/sportsmate/file/image', 
+          { params: { id: id,imageCategory:"MEMBER" } })
+        })
+        .then(function (response){
+          setMyimg(response.data);
+        })
       .catch(function (error) {
         console.log("에러입니뎅");
       });
@@ -45,6 +51,7 @@ export default function Mypage() {
           <div className="my_boxc">
             <div className="left_section">
               <div className="p_image">
+              <img src={myimg}></img>
               </div>
               <div className="inf_name"><div className="my_font">{my.nickName} 님</div></div>
               <div className="since_date"><div className="my_font">가입일 {my.sinceDate}</div></div>
