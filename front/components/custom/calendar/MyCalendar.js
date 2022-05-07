@@ -9,6 +9,8 @@ import {useState} from 'react'
 moment.locale("ko")
 const localizer = momentLocalizer(moment)
 export default function MyCalendar(props){
+  
+  let isalreadyP=false;
   const [participation, setParticipation] = useState({open: false, callback: false});
   console.log(participation)
   return (
@@ -20,14 +22,21 @@ export default function MyCalendar(props){
         startAccessor="start"
         endAccessor="end"
         onSelectEvent={event => {
-          axios.get(`http://localhost:8080/sportsmate/party/${props.party_id}/schedule/${event.id}`)
+          axios.get(`http://localhost:8080/sportsmate/party/${props.party_id}/schedule/${event.id}/isAlreadyRegist`)
+          .then(function (response) {
+            if(response.status == 200){
+                console.log("참가했냐?",response.data)
+                isalreadyP=response.data
+                return axios.get(`http://localhost:8080/sportsmate/party/${props.party_id}/schedule/${event.id}`)
+              }
+            })
           .then(function (response) {
               if(response.status == 200){ 
                 setParticipation({
                   open: true,
                   schedule_id: event.id,
                   ismanager: props.ismanager,
-                  isalreadyP: true,
+                  isalreadyP: isalreadyP,
                   party_id: props.party_id,
                   viewdata:response.data ,
                   callback: function(){

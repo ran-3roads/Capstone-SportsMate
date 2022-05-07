@@ -17,11 +17,11 @@ function Participation({open, setPopup, callback,party_id,schedule_id,viewdata,i
       buttoncontent=<Button className="btn btn-warning waves-effect waves-light m-r-10" onClick={(event)=>{
         event.preventDefault();
         if(confirm(`정말 ${viewdata.title}에 참가신청을 취소하시겠습니까?`)){
-        /*axios.post(`http://localhost:8080/sportsmate/party/${party_id}/schedule/${schedule_id}`, {
+        axios.post(`http://localhost:8080/sportsmate/party/${party_id}/schedule/${schedule_id}/cancel`, {
           })
               .then(function (response) {
                   if(response.status == 200){
-                      alert(`${viewdata.title}에 참가완료.`)
+                      alert(`참가취소되었습니다.`)
                       handleClose();
                   setPopup({open: false});
                       if(callback){
@@ -29,10 +29,10 @@ function Participation({open, setPopup, callback,party_id,schedule_id,viewdata,i
                   }
           }).catch(function (error) {
                   console.log(error);
-              });*/  
+              });  
         }
         
-      }}>참가 중</Button>
+      }}>참가 중(취소)</Button>
     }
     else{
       buttoncontent=<Button className="btn btn-success waves-effect waves-light m-r-10" onClick={(event)=>{
