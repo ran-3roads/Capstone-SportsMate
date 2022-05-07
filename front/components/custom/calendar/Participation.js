@@ -3,9 +3,12 @@ import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState,useEffect } from 'react';
 import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 
 function Participation({open, setPopup, callback,party_id,schedule_id,viewdata,isalreadyP,ismanager}) {
+    const router = useRouter()
     const handleClose = () => {
       setPopup({open: false});
       if(callback){
@@ -23,7 +26,7 @@ function Participation({open, setPopup, callback,party_id,schedule_id,viewdata,i
                   if(response.status == 200){
                       alert(`참가취소되었습니다.`)
                       handleClose();
-                  setPopup({open: false});
+                      setPopup({open: false});
                       if(callback){
                       }
                   }
@@ -54,7 +57,14 @@ function Participation({open, setPopup, callback,party_id,schedule_id,viewdata,i
     }
     let managercontent=null;
     if(ismanager){
-      managercontent=<button>
+      managercontent=<button onClick={(event)=>{
+        event.preventDefault();
+        handleClose();
+        setPopup({open: false});
+        if(callback){
+        }
+        router.push(`/recruit/form/${schedule_id}/write`);
+      }}>
         용병모집
       </button>
     }
@@ -77,11 +87,13 @@ function Participation({open, setPopup, callback,party_id,schedule_id,viewdata,i
                         <Row>
                         <Col className='text-right'>
                         <h6 className="title font-bold">장소:</h6>
+                        <h6 className="title font-bold">경기장:</h6>
                         <h6 className="title font-bold">현재참가인원수:</h6>
                         <h6 className="title font-bold">참가비용:</h6>
                         </Col>
                         <Col className='text-left'>
                         <h6 className="title font-bold">{viewdata.location}</h6>
+                        <h6 className="title font-bold">{viewdata.arenaName}</h6>
                         <h6 className="title font-bold">{viewdata.currentMember}/{viewdata.maxMember} {managercontent}</h6>
                         <h6 className="title font-bold">{viewdata.nshotCredit}포인트</h6>
                         </Col>
