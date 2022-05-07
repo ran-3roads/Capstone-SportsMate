@@ -13,7 +13,7 @@ export default function MyCalendar(props){
   console.log(participation)
   return (
     <div style={{height:500}}>
-      <Participation open = {participation.open} setPopup = {setParticipation} schedule_id={participation.schedule_id} party_id = {props.party_id} viewdata={participation.viewdata} callback = {participation.callback}/>
+      <Participation open = {participation.open} setPopup = {setParticipation} schedule_id={participation.schedule_id} party_id = {props.party_id} viewdata={participation.viewdata} callback = {participation.callback} isalreadyP={participation.isalreadyP} ismanager={participation.ismanager}/>
       <Calendar
         localizer={localizer}
         events={props.event}
@@ -26,6 +26,8 @@ export default function MyCalendar(props){
                 setParticipation({
                   open: true,
                   schedule_id: event.id,
+                  ismanager: props.ismanager,
+                  isalreadyP: true,
                   party_id: props.party_id,
                   viewdata:response.data ,
                   callback: function(){
