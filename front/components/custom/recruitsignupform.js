@@ -141,10 +141,10 @@ const RecruitSignupForm = () => {
                                 <Label htmlFor="sincedate">비용: {recruits.credit}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="sincedate">시작 시간: {recruits.startTime}</Label>
+                                <Label htmlFor="sincedate">날짜: {recruits.day}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="sincedate">종료 시간: {recruits.endTime}</Label>
+                                <Label htmlFor="sincedate">경기 시간: {recruits.time}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Label htmlFor="location">장소: {recruits.location}</Label>
