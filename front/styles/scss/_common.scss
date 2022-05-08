@@ -1,12 +1,25 @@
 /**
 made by 따봉
 **/
-//image
+//partyinfoimage
+.partyuploader-wrapper {
+  display: flex;
+  flex-direction: column;
+  .partyimg-wrapper {
+    margin: 20px 0 20px 0;
+    img {
+      width: 500px;
+      height: auto;
+    }
+  }
+}
+
+//myimage
 .myuploader-wrapper {
   display: flex;
   flex-direction: column;
   .myimg-wrapper {
-    margin: 50px 0 20px 0;
+    margin: 20px 0 20px 0;
     img {
       width: 100px;
       height: 100px;
@@ -84,9 +97,10 @@ made by 따봉
 
 //party_info_box
 .party_infobox {
+  border-radius: 40px;
   height: 500px;
   width: 300px;
-  background: #ffd9d9;
+  background: rgb(235, 233, 135);
   border-top: #ffffff 2px solid;
   margin: 0;
   padding: 0;
@@ -97,7 +111,7 @@ made by 따봉
   overflow: hidden;
   height: auto;
   border-radius: 50px;
-  background: #ffd9d9;
+  background: white;
   border-top: #ffffff 2px solid;
   margin: 0;
   padding: 0;

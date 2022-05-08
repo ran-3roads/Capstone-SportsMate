@@ -151,21 +151,20 @@ export default function Info() {
                           </div>
                         </div>                       
                       </div>
-                      <div className="n_guide2">
+                      <Col className="n_guide2">
                         <div className="party_infobox2" >
-                          <div className='pImage'>
-                            <span className='pInner'>
-                              <img src={partyimg} width="500"></img>
-                            {/* <Image src={partyimg} alt="파티사진"/> */}
-                            </span>
+                        <div className="partyuploader-wrapper">
+                          <div className="partyimg-wrapper">
+                            <img src={partyimg}></img>
                           </div>
-                          <div className="party_write_container">
-                            <div className="party_font">
-                            {party.info}
-                            </div>     
                           </div>
                         </div>
+                        <div className="party_write_container">
+                        <div className="party_font">
+                          {party.info}
+                        </div>     
                       </div>
+                      </Col>
                     </div>
                   </Row> 
       </Container>
