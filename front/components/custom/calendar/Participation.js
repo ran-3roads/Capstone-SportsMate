@@ -51,7 +51,9 @@ function Participation({open, setPopup, callback,party_id,schedule_id,viewdata,i
                       }
                   }
           }).catch(function (error) {
-                  console.log(error);
+                  if(error.response.status == 403){
+                    alert(error.response.data.message);
+                  }
               });
       }}>일정참가</Button>
     }
