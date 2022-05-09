@@ -56,7 +56,7 @@ public class MatchController {
     //----------생성----------
     //용병신청서 생성
     @PostMapping("/apply")
-    ResponseEntity<String> createMatchApply(MatchApplyForm matchApplyForm){
+    ResponseEntity<String> createMatchApply(@RequestBody MatchApplyForm matchApplyForm){
         matchService.createMatchApply(matchApplyForm);
         return ResponseEntity.ok("apply");
     }
