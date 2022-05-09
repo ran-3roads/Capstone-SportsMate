@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Spin } from 'antd';
 import 'antd/dist/antd.css';
 import Popup from './popup';
+import Link from "next/link";
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
@@ -304,7 +305,9 @@ const PartyModifyForm = () => {
               </FormGroup>
               <FormGroup className="col-md-6">
                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">수정</Button>
-                <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                <Link href={`/party/${id}/info`}>
+                    <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                </Link>
               </FormGroup>
             </Form>
           </Col>

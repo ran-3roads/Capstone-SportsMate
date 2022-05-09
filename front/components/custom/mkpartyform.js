@@ -4,6 +4,7 @@ import { Spin } from 'antd';
 import 'antd/dist/antd.css';
 import { useState } from 'react';
 import axios from 'axios';
+import Link from "next/link";
 import Popup from './popup';
 const party = {
     'sportsName': '',
@@ -304,7 +305,9 @@ const MkpartyForm = (props) => {
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">파티 만들기</Button>
-                                <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                                <Link href={`/party`}>
+                                      <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                                 </Link>
                             </FormGroup>
                         </Form>
                     </Col>
