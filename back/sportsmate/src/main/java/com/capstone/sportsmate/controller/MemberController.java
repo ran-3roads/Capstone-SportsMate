@@ -119,7 +119,6 @@ public class MemberController {
         response.setStatusCode(HttpStatus.REQUEST_TIMEOUT.value());
         response.setMessage(e.getMessage());
         response.setTimestamp(System.currentTimeMillis());
-
         return new ResponseEntity<>(response, HttpStatus.REQUEST_TIMEOUT);
     }
 
