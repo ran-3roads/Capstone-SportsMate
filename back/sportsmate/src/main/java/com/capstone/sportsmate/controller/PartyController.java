@@ -1,14 +1,11 @@
 package com.capstone.sportsmate.controller;
 import com.capstone.sportsmate.domain.*;
 import com.capstone.sportsmate.domain.notice.Notice;
-import com.capstone.sportsmate.exception.RegistException;
-import com.capstone.sportsmate.exception.InconsistencyException;
-import com.capstone.sportsmate.exception.NotFoundEntityException;
+import com.capstone.sportsmate.exception.*;
 import com.capstone.sportsmate.exception.response.ErrorResponse;
 import com.capstone.sportsmate.service.*;
 import com.capstone.sportsmate.web.*;
 
-import com.capstone.sportsmate.exception.MyRoleException;
 import com.capstone.sportsmate.web.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -300,44 +297,6 @@ public class PartyController {
 
 
 
-    // --------------------투표--------------------
-//    //----------조회----------
-//    @GetMapping("/{partyId}/partyboard/{partyBoardId}/vote")//게시글 선택시 게시글에 댓글들 리턴
-//    public List<Comment> getVoteList(@PathVariable("partyBoardId") Long partyBoardId){
-//        return partyBoardService.getCommentList(partyBoardId);
-//    }
-//    //----------생성----------
-//    @PostMapping("/{partyId}/partyboard/{partyBoardId}/mkvote")
-//    public String createVote(@PathVariable("partyBoardId") Long partyBoardId,@RequestBody VoteForm voteForm) {
-//        partyBoardService.createVote(partyBoardId, voteForm);
-//        return "mkcomment";
-//    }
-//    //----------수정----------
-//    @GetMapping("/{partyId}/partyboard/{partyBoardId}/vote/{voteId}/modify") //멤버 조회후 수정할 댓글 정보 리턴 아마 인증만 해주고 그전 내용 반영은 프론트에 맡겨도 될듯
-//    public Comment getVoteModify(@PathVariable("commentId") Long commentId){
-//        return partyBoardService.verifiactionCommentMember(commentId);
-//    }
-//    @PostMapping("/{partyId}/partyboard/{partyBoardId}/vote/{voteId}/modify") //멤버 조회후 수정할 댓글 내용 반환
-//    public String updateVote(@PathVariable("commentId") Long commentId,@RequestBody CommentForm commentForm){
-//        partyBoardService.verifiactionCommentMember(commentId);
-//        partyBoardService.updateComment(commentId,commentForm);
-//        return "update";
-//    }
-//    //----------삭제----------
-//    @GetMapping("/{partyId}/partyboard/{partyBoardId}/vote/{voteId}/delete") //멤버 조회후 댓글 삭제
-//    public String deleteVote(@PathVariable("commentId") Long commentId){
-//        partyBoardService.verifiactionCommentMember(commentId);//검증
-//        partyBoardService.deleteComment(commentId);//삭제
-//        return "delete";
-//    }
-//
-
-
-
-
-
-
-
     //--------------------exceptionc처리--------------------
     //댓글 혹은 파티보드를 지울때 같은 멤버가 아닐때
     @ExceptionHandler(InconsistencyException.class)
@@ -367,12 +326,22 @@ public class PartyController {
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
     //금액 부족할때
-    public ResponseEntity<ErrorResponse> CreditException(RegistException e){
+    @ExceptionHandler(RegistException.class)
+    public ResponseEntity<ErrorResponse> creditException(RegistException e){
         ErrorResponse response = new ErrorResponse();
         response.setStatusCode(HttpStatus.FORBIDDEN.value());
         response.setMessage(e.getMessage());
         response.setTimestamp(System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+    //이미 존재할때
+    @ExceptionHandler(AlreadyExistException.class)
+    public ResponseEntity<ErrorResponse> alreadyExistException(AlreadyExistException e){
+        ErrorResponse response = new ErrorResponse();
+        response.setStatusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
+        response.setMessage(e.getMessage());
+        response.setTimestamp(System.currentTimeMillis());
+        return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
 
