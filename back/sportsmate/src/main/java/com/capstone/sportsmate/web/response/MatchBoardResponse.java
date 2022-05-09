@@ -21,6 +21,7 @@ public class MatchBoardResponse {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate day;
 
+
     private String time;
     private Long registId; //경기를 조회하기 위해 보내야됨
     private SportsName sportsName;//종목
