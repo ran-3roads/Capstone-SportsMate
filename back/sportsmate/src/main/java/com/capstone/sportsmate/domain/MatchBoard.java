@@ -65,4 +65,7 @@ public class MatchBoard {
     public void addCurrentMember() {
         this.currentMember++;
     }
+    public void minusCurrentMember() {
+        this.currentMember--;
+    }
 }

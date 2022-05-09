@@ -3,10 +3,7 @@ package com.capstone.sportsmate.service;
 
 import com.capstone.sportsmate.domain.*;
 import com.capstone.sportsmate.exception.RegistException;
-import com.capstone.sportsmate.repository.JoinGameRepository;
-import com.capstone.sportsmate.repository.MemberRepository;
-import com.capstone.sportsmate.repository.PartyRepository;
-import com.capstone.sportsmate.repository.RegistRepository;
+import com.capstone.sportsmate.repository.*;
 import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.BookForm;
 import com.capstone.sportsmate.web.RegistTimeForm;
@@ -31,6 +28,7 @@ public class RegistService {
     private final PartyRepository partyRepository;
     private final MemberRepository memberRepository;
     private final JoinGameRepository joinGameRepository;
+    private final MatchBoardRepository matchBoardRepository;
 
     @Transactional
     public void bookArena(BookForm bookForm,Long partyId){
@@ -63,6 +61,12 @@ public class RegistService {
         schedule.addCurrentMemeber();
         JoinGame joinGame= JoinGame.createJoinGame(member,regist);
         registRepository.joinGameSave(joinGame);
+        MatchBoard matchBoard = matchBoardRepository.findByRegist(regist)
+                .orElseGet(null);
+        if(matchBoard==null)
+            return;
+        else
+            matchBoard.minusCurrentMember();
     }
     @Transactional
     public void cancelRegist(Long scheduleId, Long memberId){
@@ -70,11 +74,17 @@ public class RegistService {
         Schedule schedule= registRepository.findSchedule(scheduleId);
         ScheduleResponse scheduleResponse=schedule.toScheduleResponse();
         Member member=memberRepository.findOne(memberId);
-
+        Regist regist=schedule.getRegist();
         schedule.minusCurrentMember();
         JoinGame joinGame=registRepository.findByMemberRegistToJoinGame(member,schedule.getRegist());
         joinGameRepository.deleteById(joinGame.getId());
         member.deposit((int)scheduleResponse.getNShotCredit());
+        MatchBoard matchBoard = matchBoardRepository.findByRegist(regist)
+                .orElseGet(null);
+        if(matchBoard==null)
+            return;
+        else
+            matchBoard.minusCurrentMember();
     }
 
     public boolean isAlreadyRegist(Long scheduleId){
