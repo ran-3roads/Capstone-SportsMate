@@ -110,4 +110,12 @@ public class NoticeRepository {
         em.persist(notice);
         return notice.getId();
     }
+    public Long deleteApply(Apply apply){
+        em.remove(apply);
+        return apply.getId();
+    }
+    public Long deleteNotice(Notice notice){
+        em.remove(notice);
+        return notice.getId();
+    }
 }

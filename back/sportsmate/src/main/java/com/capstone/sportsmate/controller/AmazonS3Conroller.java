@@ -32,7 +32,7 @@ public class AmazonS3Conroller {
         return ResponseEntity.ok(awsS3Service.uploadSignupFile(multipartFile,email,imageCategory));
     }
 
-    @GetMapping("/image")
+    @GetMapping("/public/image")
     public ResponseEntity<String> getFile(@RequestParam Long id,
                                           @RequestParam ImageCategory imageCategory) {//멤버의 경우 필요가 없으니 -1을 부탁한다.
         return ResponseEntity.ok(awsS3Service.getFile(id,imageCategory));
