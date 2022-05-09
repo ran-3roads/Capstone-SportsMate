@@ -13,6 +13,7 @@ import { useState } from "react";
 import axios from "axios";
 import Popup from "./popup";
 import { Spin } from "antd";
+import Link from "next/link";
 import "antd/dist/antd.css";
 
 const customer = {
@@ -376,12 +377,9 @@ const SignupForm = () => {
                 >
                   회원가입
                 </Button>
-                <Button
-                  type="reset"
-                  className="btn btn-inverse waves-effect waves-light"
-                >
-                  취소
-                </Button>
+                <Link href={`/`}>
+                    <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                </Link>
               </FormGroup>
             </Form>
           </Col>

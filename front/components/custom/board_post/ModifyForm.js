@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reac
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Popup from '../popup';
+import Link from "next/link";
 import { useRouter } from 'next/router';
 
 
@@ -107,7 +108,9 @@ useEffect(() => {
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">저장</Button>
-                                <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                                <Link href={`/party/${id}/board/${board_id}/info`}>
+                                      <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                                </Link>
                             </FormGroup>
                         </Form>
                     </Col>

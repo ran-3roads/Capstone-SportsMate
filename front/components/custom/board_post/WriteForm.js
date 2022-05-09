@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState } from 'react';
 import axios from 'axios';
+import Link from "next/link";
 import Popup from '../popup';
 import { useRouter } from 'next/router';
 
@@ -104,7 +105,9 @@ const WriteForm = () => {
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">저장</Button>
-                                <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                                <Link href={`/party/${id}/board`}>
+                                      <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                                 </Link>
                             </FormGroup>
                         </Form>
                     </Col>

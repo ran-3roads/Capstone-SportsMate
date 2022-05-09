@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import { Spin } from "antd";
 import "antd/dist/antd.css";
 import Popup from "./popup";
+import Link from "next/link";
 import axios from "axios";
 
 const ModifyForms = () => {
@@ -267,12 +268,9 @@ const ModifyForms = () => {
                 >
                   수정
                 </Button>
-                <Button
-                  type="reset"
-                  className="btn btn-inverse waves-effect waves-light"
-                >
-                  취소
-                </Button>
+                <Link href={`/mypage`}>
+                      <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                </Link>
               </FormGroup>
             </Form>
           </Col>

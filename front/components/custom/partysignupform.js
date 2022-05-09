@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState,useEffect } from 'react';
 import axios from 'axios';
+import Link from "next/link";
 import Popup from './popup';
 import { useRouter } from 'next/router';
 
@@ -95,7 +96,9 @@ const PartySignupForm = () => {
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">신청</Button>
-                                <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                                <Link href={`/party/${id}/info`}>
+                                      <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                                 </Link>
                             </FormGroup>
                         </Form>
                     </Col>
