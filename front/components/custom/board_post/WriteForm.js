@@ -76,6 +76,9 @@ const WriteForm = () => {
                                 }
                             }).catch(function (error) {
                                     //error
+                                    if(error.response.status == 403){
+                                        alert("공지는 파티장만 가능합니다!")
+                                    }
                                     console.log(error.status);
                                 });
                             }

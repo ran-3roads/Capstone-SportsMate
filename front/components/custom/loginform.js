@@ -48,6 +48,9 @@ const LoginForm = ( ) => {
                                 });
                             }
                             }).catch(function (error) {
+                                if(error.response.status == 404){
+                                    alert("아이디 혹은 비밀번호가 틀렸습니다")
+                                }
                                 console.log(error);
                             });
                         }

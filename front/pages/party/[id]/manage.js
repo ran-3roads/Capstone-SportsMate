@@ -70,6 +70,9 @@ export default function Manage() {
                           location.reload();
                       }
                       }).catch(function (error) {
+                        if(error.response.staus==405){
+                          alert("중복된 승인 요청입니다.")
+                        }
                       console.log(error);
                       });
                   }}>승인</button>
@@ -83,6 +86,9 @@ export default function Manage() {
                           location.reload();
                       }
                       }).catch(function (error) {
+                        if(error.response.staus==405){
+                          alert("중복된 거절 요청입니다.")
+                        }
                       console.log(error);
                       });
                   }}>거절</button>
@@ -169,6 +175,9 @@ export default function Manage() {
                           location.reload();
                   }
               }).catch(function (error) {
+                  if(error.response.staus==405){
+                    alert("중복된 추방 요청입니다.")
+                    }
                       //error
                       console.log(error);
                   });
