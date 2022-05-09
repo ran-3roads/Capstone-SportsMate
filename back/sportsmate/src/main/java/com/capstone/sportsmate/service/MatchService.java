@@ -1,6 +1,8 @@
 package com.capstone.sportsmate.service;
 
 import com.capstone.sportsmate.domain.*;
+import com.capstone.sportsmate.domain.notice.Apply;
+import com.capstone.sportsmate.domain.notice.MatchApply;
 import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.domain.notice.Reply;
 import com.capstone.sportsmate.domain.status.NoticeStatus;
@@ -10,6 +12,7 @@ import com.capstone.sportsmate.repository.*;
 import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.MatchApplyForm;
 import com.capstone.sportsmate.web.MatchForm;
+import com.capstone.sportsmate.web.MemberApplyForm;
 import com.capstone.sportsmate.web.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -66,12 +69,24 @@ public class MatchService {
     //용병신청서 만들기
     @Transactional
     public void createMatchApply(MatchApplyForm matchApplyForm) {
-        Schedule findSchedule = scheduleRepository.findByRegist(registRepository.findRegistOne(matchApplyForm.getRegistId()))
+
+        Regist findRegist = registRepository.findRegistOne(matchApplyForm.getRegistId());
+        Schedule findSchedule = scheduleRepository.findByRegist(findRegist)
                 .orElseThrow(() -> new RuntimeException("해당 스케줄이 없음"));//크흠 수정이 필요할거같다.
+        MatchBoard findMatchBoard =matchBoardRepository.findByRegist(findRegist)
+                .orElseThrow(()->new RuntimeException("그런 매치보드 없다"));
+        Member host = findMatchBoard.getMember();
+
         Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
         MatchApply matchApply = MatchApply.createMatchApply(matchApplyForm, findMember, findSchedule);
+
+        Notice notice=Notice.createNotice(host,NoticeType.MATCHAPPLY, NoticeStatus.UNCONFIRM,LocalDateTime.now());//notice 생성
+        notice.setMatchApply(matchApply);
+
         matchApplyRepository.save(matchApply);
+        noticeRepository.saveNotice(notice);
     }
+
     //한 스케줄의 용병신청 전체 조회하기
     public List<MatchApplyResponse> getMatchApplyList(Long scheduleId) {
         Schedule findSchedule = scheduleRepository.findById(scheduleId)

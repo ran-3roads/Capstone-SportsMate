@@ -16,7 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Table(name = "notice")
 @Getter@Setter
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Notice { // 알림 Entity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +49,11 @@ public class Notice { // 알림 Entity
     @JoinColumn(name="reply_id") // 지원서에 대한 응답
     private Reply reply;
 
+    @JsonIgnore
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name="match_apply_id") // 지원서에 대한 응답
+    private MatchApply matchApply;
+
 
     public static Notice createNotice(Member member,NoticeType noticeType, NoticeStatus noticeStatus, LocalDateTime sinceDate) {
         Notice notice = new Notice();
@@ -66,6 +71,9 @@ public class Notice { // 알림 Entity
         else if(reply!=null)
             return new NoticeResponse(id,sinceDate, noticeStatus, noticeType,reply.getParty().getTitle()
                     ,reply.getParty().getId(),reply.getState());
+        else if(matchApply!=null)
+            return new NoticeResponse(id,sinceDate, noticeStatus, noticeType,matchApply.getMember().getNickName()
+                ,matchApply.getSchedule().getParty().getId(),matchApply.getState());
         else
             return null;
     }

@@ -1,5 +1,7 @@
-package com.capstone.sportsmate.domain;
+package com.capstone.sportsmate.domain.notice;
 
+import com.capstone.sportsmate.domain.Member;
+import com.capstone.sportsmate.domain.Schedule;
 import com.capstone.sportsmate.domain.status.Request;
 import com.capstone.sportsmate.web.MatchApplyForm;
 import com.capstone.sportsmate.web.response.MatchApplyResponse;
