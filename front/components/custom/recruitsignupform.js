@@ -4,21 +4,13 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reac
 import { useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import Popup from './popup';
-import Image from "next/image";
-import mapimg from "../../assets/images/landingpage/mapimg.png";
+import Link from "next/link";
 import { useRouter } from 'next/router';
 
 
-const recruitinfo = {
-    title: '성풋모',
-    sportsName: '풋살',
-    date:'2022-4-5',
-    num:'2',
-    location:'성북구',
-    infoimg: mapimg
-}
+
 const request = {
-    'contents' : '',
+    'suggest' : '',
 }
 
 const RecruitSignupForm = () => {
@@ -81,11 +73,11 @@ const RecruitSignupForm = () => {
 
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
  
-    const[contents,setContents]=useState(request.contents);
+    const[suggest,setSuggest]=useState(request.suggest);
 
-    const onchangeContents = (e) =>{
+    const onchangeSuggest = (e) =>{
         console.log(e.target.value)
-        setContents(e.target.value)
+        setSuggest(e.target.value)
     }
     
 
@@ -109,7 +101,7 @@ const RecruitSignupForm = () => {
                             event.preventDefault();
                                 console.log()
                                 axios.post("http://localhost:8080/sportsmate/member/public/signup", {
-                                    contents:event.target.contents.value
+                                    suggest:event.target.suggest.value
                                 })
                                 .then(function (response) {
                                     //받는거
@@ -153,12 +145,17 @@ const RecruitSignupForm = () => {
                                 </span>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="phoneNumber">신청양식</Label>
-                                <textarea  rows="10" cols="60" id="contents" placeholder="ex)이름/나이/성별/포지션" value={contents} onChange={onchangeContents}/>
+                                <Label htmlFor="contents">모집 내용: {recruits.contents}</Label>
+                            </FormGroup>
+                            <FormGroup className="col-md-6">
+                                <Label htmlFor="suggest">신청양식</Label>
+                                <textarea  rows="10" cols="60" id="suggest" placeholder="ex)이름/나이/성별/포지션" value={suggest} onChange={onchangeSuggest}/>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                                 <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">신청</Button>
-                                <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                                <Link href={`/recruit`}>
+                                      <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                                </Link>
                             </FormGroup>
                         </Form>
                     </Col>
