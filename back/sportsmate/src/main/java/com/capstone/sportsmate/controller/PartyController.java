@@ -72,7 +72,7 @@ public class PartyController {
         return "success";
     }
 
-    @GetMapping("/{partyId}/info")  //*
+    @GetMapping("/public/{partyId}/info")  //*
     public PartyResponse viewParty(@PathVariable("partyId") Long partyId){
         return partyService.viewParty(partyId);
     }
@@ -102,7 +102,7 @@ public class PartyController {
     public List<PartyMemberResponse> partyMemberList(@PathVariable("partyId") Long partyId){
         return partyService.partyMemberList(partyId);
     }
-
+    //파티원 추방 //방장시점
     @DeleteMapping("/{partyId}/member/{partyMemberId}")
     public String deletePartyMember(@PathVariable("partyId") Long partyId,@PathVariable("partyMemberId") Long partyMemberId){
         partyService.deletePartyMember(partyId,partyMemberId);

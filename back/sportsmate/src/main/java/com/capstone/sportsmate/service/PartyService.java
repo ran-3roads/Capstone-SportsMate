@@ -8,6 +8,7 @@ import com.capstone.sportsmate.domain.status.NoticeStatus;
 import com.capstone.sportsmate.domain.status.NoticeType;
 import com.capstone.sportsmate.domain.status.Request;
 import com.capstone.sportsmate.domain.status.Role;
+import com.capstone.sportsmate.exception.NotFoundEntityException;
 import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.NoticeRepository;
 import com.capstone.sportsmate.repository.PartyMemberRepository;
@@ -205,16 +206,30 @@ public class PartyService {
     @Transactional
     public void deletePartyMember(Long partyId,Long partyMemberId) {
         Party party=partyRepository.findOne(partyId);
+        PartyMember partyMember=partyMemberRepository.findOneById(partyMemberId).orElseThrow(() -> new NotFoundEntityException("이미 없는 회원입니다."));;
         party.minusMember();
         partyMemberRepository.deleteById(partyMemberId);
+
+        Apply apply=noticeRepository.findByApply(party,partyMember.getMember());
+        Notice notice=noticeRepository.findNoticeByApply(apply);
+
+        noticeRepository.deleteApply(apply);
+        noticeRepository.deleteNotice(notice);
+
     }
 
     //파티 탈퇴
     @Transactional
     public void leavePartyMember(Long partyId) {
         Party party=partyRepository.findOne(partyId);
+        Member member=memberRepository.findOne(SecurityUtil.getCurrentMemberId());
         party.minusMember();
         partyMemberRepository.deleteByPartyAndMember(
-                party,memberRepository.findOne(SecurityUtil.getCurrentMemberId()));
+                party,member);
+
+        Apply apply=noticeRepository.findByApply(party,member);
+        Notice notice=noticeRepository.findNoticeByApply(apply);
+        noticeRepository.deleteApply(apply);
+        noticeRepository.deleteNotice(notice);
     }
 }

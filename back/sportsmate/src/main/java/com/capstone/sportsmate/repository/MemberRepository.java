@@ -51,4 +51,5 @@ public class MemberRepository {
         }
         return hostMember.getMember();
     }
+
 }
