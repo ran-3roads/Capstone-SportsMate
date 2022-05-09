@@ -90,6 +90,9 @@ export default function Board_id() {
                                         location.reload();
                                 }
                             }).catch(function (error) {
+                                    if(error.response.status == 403){
+                                      alert("삭제는 본인만 가능합니다!")
+                                    }
                                     console.log(error);
                                 });
                                 }}>삭제</button>

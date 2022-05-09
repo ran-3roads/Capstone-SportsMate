@@ -154,7 +154,7 @@ const MkpartyForm = (props) => {
                                             //     }
                                             // });
                                     }).catch(function (error) {
-                                        if (error.response.status == 500) {
+                                        if (error.response.status == 405) {
                                             alert("중복된 파티이름입니다.");
                                         }
                                         console.log(error);
