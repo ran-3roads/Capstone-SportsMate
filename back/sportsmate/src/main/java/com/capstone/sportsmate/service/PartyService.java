@@ -8,6 +8,7 @@ import com.capstone.sportsmate.domain.status.NoticeStatus;
 import com.capstone.sportsmate.domain.status.NoticeType;
 import com.capstone.sportsmate.domain.status.Request;
 import com.capstone.sportsmate.domain.status.Role;
+import com.capstone.sportsmate.exception.AlreadyExistException;
 import com.capstone.sportsmate.exception.NotFoundEntityException;
 import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.NoticeRepository;
@@ -66,7 +67,7 @@ public class PartyService {
     public void acceptApply (Long partyId,Long applyId){
 
         Apply apply= noticeRepository.findApplyOne(applyId);
-        if(!validateDuplicateCheck(apply)){throw new IllegalStateException("이미 처리한 지원서입니다.");}
+        if(!validateDuplicateCheck(apply)){throw new AlreadyExistException("이미 처리한 지원서입니다.");}
         apply.setState(Request.ACCEPT);
 
         Party party= partyRepository.findOne(partyId);
@@ -81,7 +82,7 @@ public class PartyService {
     public void rejectApply (Long partyId,Long applyId){
 
         Apply apply= noticeRepository.findApplyOne(applyId);
-        if(!validateDuplicateCheck(apply)){throw new IllegalStateException("이미 처리한 지원서입니다.");}
+        if(!validateDuplicateCheck(apply)){throw new AlreadyExistException("이미 처리한 지원서입니다.");}
         sendReply(apply.getMember(),Request.REJECT,apply.getParty());
         apply.setState(Request.REJECT);
     }
@@ -179,13 +180,13 @@ public class PartyService {
     private void validateDuplicateParty(String title) {
         Party findParty = partyRepository.findByTitle(title);
         if(findParty!=null){
-            throw new IllegalStateException("이미 존재하는 파티입니다.");
+            throw new AlreadyExistException("이미 존재하는 파티입니다.");
         }
     }
     private void validateDuplicateApply(Party party,Member member) {
         Apply apply = noticeRepository.findByApply(party,member);
         if(apply!=null){
-            throw new IllegalStateException("이미 신청했던 파티입니다.");
+            throw new AlreadyExistException("이미 신청했던 파티입니다.");
         }
     }
 
@@ -206,7 +207,7 @@ public class PartyService {
     @Transactional
     public void deletePartyMember(Long partyId,Long partyMemberId) {
         Party party=partyRepository.findOne(partyId);
-        PartyMember partyMember=partyMemberRepository.findOneById(partyMemberId).orElseThrow(() -> new NotFoundEntityException("이미 없는 회원입니다."));;
+        PartyMember partyMember=partyMemberRepository.findOneById(partyMemberId).orElseThrow(() -> new AlreadyExistException("이미 없는 회원입니다."));;
         party.minusMember();
         partyMemberRepository.deleteById(partyMemberId);
 

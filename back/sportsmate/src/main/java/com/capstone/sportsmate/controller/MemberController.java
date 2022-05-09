@@ -12,6 +12,7 @@ import com.capstone.sportsmate.jwt.TokenObject;
 import com.capstone.sportsmate.web.MemberMoidfyForm;
 import com.capstone.sportsmate.web.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.SessionException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -101,6 +102,7 @@ public class MemberController {
         return  new ResponseEntity<String>("reissue",headers, HttpStatus.ACCEPTED);
     }
     //--------------------exceptionc처리--------------------
+
    @ExceptionHandler
     public ResponseEntity<ErrorResponse> errorHandling(LoginException e) {
         ErrorResponse response = new ErrorResponse();
@@ -110,6 +112,17 @@ public class MemberController {
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> errorHandling(SessionException e) {
+        ErrorResponse response = new ErrorResponse();
+        response.setStatusCode(HttpStatus.REQUEST_TIMEOUT.value());
+        response.setMessage(e.getMessage());
+        response.setTimestamp(System.currentTimeMillis());
+
+        return new ResponseEntity<>(response, HttpStatus.REQUEST_TIMEOUT);
+    }
+
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> errorHandling(RuntimeException e,HttpServletResponse servletResponse) {
         ErrorResponse response = new ErrorResponse();
@@ -120,7 +133,6 @@ public class MemberController {
         cookie.setPath("/");//쿠키가 사용가능한 영역을 지정해줌
         cookie.setMaxAge(0);
         servletResponse.addCookie(cookie);
-
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
