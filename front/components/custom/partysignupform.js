@@ -17,7 +17,7 @@ const PartySignupForm = () => {
     const[partyinfo,setPartyInfo]=useState({});
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/sportsmate/party/${id}/info`)
+        axios.get(`http://localhost:8080/sportsmate/party/public/${id}/info`)
       .then(function (response) {
         if(response.status == 200){
           setPartyInfo(response.data);

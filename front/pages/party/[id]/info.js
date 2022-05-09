@@ -72,7 +72,7 @@ export default function Info() {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/sportsmate/party/${id}/info`)
+        axios.get(`http://localhost:8080/sportsmate/party/public/${id}/info`)
                             .then(function (response) {
                                     if(response.status == 200){
                                         setParty(response.data);
@@ -93,7 +93,7 @@ export default function Info() {
                               }
                             })
                             .then(function(response){                   
-                                return axios.get('http://localhost:8080/sportsmate/file/image', { params: { id: id,imageCategory:"PARTY" } })
+                                return axios.get('http://localhost:8080/sportsmate/file/public/image', { params: { id: id,imageCategory:"PARTY" } })
                             })
                             .then(function(response){
                               console.log(response.data);

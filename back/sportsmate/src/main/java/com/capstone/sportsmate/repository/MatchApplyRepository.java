@@ -1,6 +1,6 @@
 package com.capstone.sportsmate.repository;
 
-import com.capstone.sportsmate.domain.MatchApply;
+import com.capstone.sportsmate.domain.notice.MatchApply;
 import com.capstone.sportsmate.domain.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
