@@ -7,8 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MatchApplyResponse {
     private String name;
-    private String title;
-    private String contents;
+    private String suggest;
     private Long matchApplyId;
 
 }

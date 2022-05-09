@@ -27,8 +27,6 @@ public class MatchApply {
     @Column(name="since_date")
     private LocalDateTime sinceDate;
 
-    private String title;
-
     private String contents;
 
     @JsonIgnore
@@ -43,8 +41,7 @@ public class MatchApply {
 
     public static  MatchApply createMatchApply(MatchApplyForm matchApplyForm,Member member,Schedule schedule){
         MatchApply matchApply = new MatchApply();
-        matchApply.contents = matchApplyForm.getContents();
-        matchApply.title = matchApplyForm.getTitle();
+        matchApply.contents = matchApplyForm.getSuggest();
         matchApply.member = member;
         matchApply.schedule = schedule;
         matchApply.sinceDate = LocalDateTime.now();
@@ -54,7 +51,7 @@ public class MatchApply {
     }
 
     public MatchApplyResponse toMatchApplyResponse(){
-       return new MatchApplyResponse(member.getNickName(),this.title,this.contents,this.id);
+       return new MatchApplyResponse(member.getNickName(),this.contents,this.id);
     }
 
     public void acceptMatchApply(){
