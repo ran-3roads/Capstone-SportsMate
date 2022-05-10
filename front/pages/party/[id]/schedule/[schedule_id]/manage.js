@@ -8,29 +8,20 @@ import CommonTableRow from "../../../../../components/custom/board_post/CommonTa
 import CommonTableColumn from "../../../../../components/custom/board_post/CommonTableColumn"
 import axios from "axios";
 export default function Manage() {
-    const [permissions,setPermissions]=useState([
-      {
-        id:1,
-        suggest:"나좀받아주소",
-        name:"축구신동"
-      },
-      {
-        id:2,
-        suggest:"나좀받아주소2",
-        name:"축구신동2"
-      }
-    ]); //받아올거
+    const [permissions,setPermissions]=useState([]); //받아올거
     const [schedule,setSchedule]=useState({});
     const router = useRouter();
     const { id,schedule_id } = router.query;
     const [recruits, setRecruits] = useState({});
     console.log(id,schedule_id);
     useEffect(() => {
-      // axios.get(`http://localhost:8080/sportsmate/party/${id}/schedule/${schedule_id}/applyList`)
-      //                         .then(function (response) {
-      //                             if(response.status == 200){
-      //                                 setPermissions(response.data)
-                            axios.get(`http://localhost:8080/sportsmate/party/${id}/schedule/${schedule_id}`)
+      axios.get(`http://localhost:8080/sportsmate/party/${id}/schedule/${schedule_id}/applyList`)
+                              .then(function (response) {
+                                  if(response.status == 200){
+                                      setPermissions(response.data)
+                                      return axios.get(`http://localhost:8080/sportsmate/party/${id}/schedule/${schedule_id}`)
+                                  }
+                                })
                             .then(function (response){
                             setSchedule(response.data)
                             console.log(response.data)    
