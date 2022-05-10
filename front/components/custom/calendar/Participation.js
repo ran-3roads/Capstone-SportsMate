@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 
-function Participation({open, setPopup, callback,party_id,schedule_id,viewdata,isalreadyP,ismanager}) {
+function Participation({open, setPopup, callback,party_id,schedule_id,viewdata,isalreadyP,ismanager,isalreadyR}) {
     const router = useRouter()
     const handleClose = () => {
       setPopup({open: false});
@@ -59,16 +59,30 @@ function Participation({open, setPopup, callback,party_id,schedule_id,viewdata,i
     }
     let managercontent=null;
     if(ismanager){
-      managercontent=<button onClick={(event)=>{
-        event.preventDefault();
-        handleClose();
-        setPopup({open: false});
-        if(callback){
-        }
-        router.push(`/recruit/form/${schedule_id}/write`);
-      }}>
-        용병모집
-      </button>
+      if(isalreadyR){
+        managercontent=<button onClick={(event)=>{
+          event.preventDefault();
+          handleClose();
+          setPopup({open: false});
+          if(callback){
+          }
+          router.push(`/party/${party_id}/schedule/${schedule_id}/manage`);
+        }}>
+          용병모집현황
+        </button>
+      }
+      else{
+        managercontent=<button onClick={(event)=>{
+          event.preventDefault();
+          handleClose();
+          setPopup({open: false});
+          if(callback){
+          }
+          router.push(`/recruit/form/${schedule_id}/write`);
+        }}>
+          용병모집
+          </button>
+      }
     }
 
     if(viewdata!=undefined)

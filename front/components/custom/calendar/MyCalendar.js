@@ -9,13 +9,13 @@ import {useState} from 'react'
 moment.locale("ko")
 const localizer = momentLocalizer(moment)
 export default function MyCalendar(props){
-  
+  let isalreadyR=true;//이거 밑에 겟으로 받아와야댐
   let isalreadyP=false;
   const [participation, setParticipation] = useState({open: false, callback: false});
   console.log(participation)
   return (
     <div style={{height:500}}>
-      <Participation open = {participation.open} setPopup = {setParticipation} schedule_id={participation.schedule_id} party_id = {props.party_id} viewdata={participation.viewdata} callback = {participation.callback} isalreadyP={participation.isalreadyP} ismanager={participation.ismanager}/>
+      <Participation open = {participation.open} setPopup = {setParticipation} schedule_id={participation.schedule_id} party_id = {props.party_id} viewdata={participation.viewdata} callback = {participation.callback} isalreadyP={participation.isalreadyP} isalreadyR={participation.isalreadyR}ismanager={participation.ismanager}/>
       <Calendar
         localizer={localizer}
         events={props.event}
@@ -37,6 +37,7 @@ export default function MyCalendar(props){
                   schedule_id: event.id,
                   ismanager: props.ismanager,
                   isalreadyP: isalreadyP,
+                  isalreadyR: isalreadyR,
                   party_id: props.party_id,
                   viewdata:response.data ,
                   callback: function(){

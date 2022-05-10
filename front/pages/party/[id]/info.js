@@ -9,8 +9,12 @@ import partyimg from "../../../assets/images/landingpage/20.jpg";
 import PartySelect from "../../../components/custom/partyselectform";
 import axios from "axios";
 import { useState,useEffect } from "react";
-
+import cookie from 'react-cookies';
+import cookies from "next-cookies";
 export default function Info() {
+    const coa = cookie.loadAll();
+    const allCookies = cookies(coa);
+    const refreshTokenByCookie = allCookies['refreshToken'];
     const router = useRouter();
     const { id } = router.query;
     const [party,setParty]=useState([]);
@@ -21,9 +25,8 @@ export default function Info() {
     let managecontent=null;
     let membercontent=null;
     let memberjoincontent=null;
-
-
-
+    let managecontent2=null;
+    if(refreshTokenByCookie!=undefined){
     if(ismember){
       membercontent=<PartySelect>
       </PartySelect>
@@ -35,6 +38,11 @@ export default function Info() {
                     파티관리
                   </a>
             </Link>
+          managecontent2=<Link href={`/party/${id}/info/modify`}>
+          <Button className="btn btn-danger m-t-30 btn-info-gradiant font-14">
+          파티 홈 수정하기
+          </Button> 
+           </Link>
         }
       else{
         memberjoincontent=
@@ -70,18 +78,34 @@ export default function Info() {
       </a>
       }
     }
+  }
+  else{
+    memberjoincontent= <a className="btn btn-danger m-r-10 btn-md m-t-20 "onClick={(e)=>{
+      e.preventDefault();
+      alert("로그인후 이용해주세요");
+    }}>
+      파티 가입하기
+    </a>
+  }
 
     useEffect(() => {
         axios.get(`http://localhost:8080/sportsmate/party/public/${id}/info`)
                             .then(function (response) {
                                     if(response.status == 200){
+                      
                                         setParty(response.data);
-                                        return  axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyManager`)
+                                        return axios.get('http://localhost:8080/sportsmate/file/public/image',{ params: { id: id,imageCategory:"PARTY" } })
                                     }
                             })
                             .then(function(response){
                               if(response.status == 200){
-                                console.log(response.data)
+
+                                setPartyimg(response.data);
+                                return  axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyManager`)
+                            }
+                            })
+                            .then(function(response){
+                              if(response.status == 200){
                                 setIsmanager(response.data)
                                 return  axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyMember`)
                             }
@@ -92,12 +116,8 @@ export default function Info() {
                                 return axios.get(`http://localhost:8080/sportsmate/party/${id}/alreadyApply`)
                               }
                             })
-                            .then(function(response){                   
-                                return axios.get('http://localhost:8080/sportsmate/file/public/image', { params: { id: id,imageCategory:"PARTY" } })
-                            })
                             .then(function(response){
-                              console.log(response.data);
-                                setPartyimg(response.data);
+                                setIsalreadyapply(response.data)
                             })
                             .catch(function (error) {
                                     console.log(error);
@@ -128,11 +148,7 @@ export default function Info() {
                     <div className="guide_margin">
                     <Row className="justify-content-center">
                         <Col md="7" className="text-center">
-                        <Link href={`/party/${id}/info/modify`}>
-                        <Button className="btn btn-danger m-t-30 btn-info-gradiant font-14">
-                        파티 홈 수정하기
-                        </Button> 
-                         </Link>
+                        {managecontent2}
                         </Col>
                     </Row>
                       <div className="n_guide">

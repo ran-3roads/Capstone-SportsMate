@@ -25,9 +25,11 @@ function Popup({open, setPopup,party_id, callback}) {
         axios.get(`http://localhost:8080/sportsmate/party/${party_id}/schedule/regist/getArenaList`)
                                 .then(function (response) {
                                     if(response.status == 200){
+                                        console.log("arena:",arena)
                                         setArena(response.data)
                                     }
                             }).catch(function (error) {
+                                console.log("arena:error")
                                     console.log(error);
                                 });
       }, [])
@@ -209,7 +211,7 @@ function Popup({open, setPopup,party_id, callback}) {
           <Modal.Body>
                 <Form className="col" id="signupForm" onSubmit={function (e) {
                     e.preventDefault();
-                    axios.post(`http://localhost:8080/sportsmate/party/${party_id}/schedule/regist/book`, {
+                    axios.post(`http://localhost:8080/sportsmate/party/${party_id}/schedule/regist/book`,{
                                 maxMember:e.target.maxMember.value,
                                 title:e.target.title.value,
                                 contents:e.target.contents.value,
