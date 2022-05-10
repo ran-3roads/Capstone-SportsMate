@@ -25,10 +25,30 @@ const RecruitSignupForm = () => {
   const { id } = router.query;
 
   const [recruits, setRecruits] = useState({});
-
+  const [ismember,setIsmember]=useState(false);
+  const [isalreadyapply,setIsalreadyapply]=useState(false);
   const container = useRef();
   const [kakaoMap, setKakaoMap] = useState(null);
-  const [, setMarkers] = useState([]);
+  const [Markers, setMarkers] = useState([]);
+
+  let requestbutton=null;
+
+  if(ismember){
+    requestbutton = null;
+  }
+  else{
+    if(!isalreadyapply){
+    requestbutton = 
+    <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">
+          신청
+    </Button>
+    }
+    else{
+      requestbutton = <a className="btn btn-warning m-r-10 btn-md m-t-20 ">
+      승인 대기중
+      </a>
+      }
+  }
 
   useEffect(() => {
     axios
@@ -57,6 +77,16 @@ const RecruitSignupForm = () => {
             setKakaoMap(map);
           });
         };
+        return axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyMemeber`)
+      })
+      .then(function(response){
+        if(response.status == 200){
+          setIsmember(response.data)
+          return axios.get(`http://localhost:8080/sportsmate/party/${id}/alreadyApply`)
+        }
+      })
+      .then(function(response){
+        setIsalreadyapply(response.data)
       })
       .catch(function (error) {
         console.log(error);
@@ -144,6 +174,14 @@ const RecruitSignupForm = () => {
                   })
                   .catch(function (error) {
                     //error
+                    if(error.response.status == 403){
+                      //돈이 부족하거나 파티원일경우 용병신청 불가
+                      alert(error.response.data.message)
+                    }
+                    else if(error.response.status == 405){
+                      //이미 신청한 용병
+                      alert(error.response.data.message)
+                    }
                     console.log(error);
                   });
               }}
@@ -191,12 +229,7 @@ const RecruitSignupForm = () => {
                 />
               </FormGroup>
               <FormGroup className="col-md-6">
-                <Button
-                  type="submit"
-                  className="btn btn-success waves-effect waves-light m-r-10"
-                >
-                  신청
-                </Button>
+                {requestbutton}
                 <Link href={`/recruit`}>
                   <Button
                     type="reset"
