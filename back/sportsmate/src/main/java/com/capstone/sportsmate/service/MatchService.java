@@ -149,4 +149,12 @@ public class MatchService {
         return  joinGameRepository.findByMember(memberRepository.findOne(SecurityUtil.getCurrentMemberId())).stream()
                 .map(JoinGame::toMyGameResponse).collect(Collectors.toList());
     }
+
+    public Boolean isMatchBoard(Long scheduleId) {
+        Schedule findSchedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(()-> new RuntimeException("해당 스케줄 없음"));
+        Regist findRegist = findSchedule.getRegist();
+
+        return matchBoardRepository.existsByRegist(findRegist);
+    }
 }
