@@ -123,7 +123,7 @@ const RecruitSignupForm = () => {
               id="signupForm"
               onSubmit={function (event) {
                 event.preventDefault();
-                console.log();
+                console.log(event.target.suggest.value,recruits.registId);
                 axios
                   .post("http://localhost:8080/sportsmate/match/apply", {
                     suggest: event.target.suggest.value,
