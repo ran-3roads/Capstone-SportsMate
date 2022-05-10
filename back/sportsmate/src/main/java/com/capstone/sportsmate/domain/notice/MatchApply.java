@@ -53,7 +53,7 @@ public class MatchApply {
     }
 
     public MatchApplyResponse toMatchApplyResponse(){
-       return new MatchApplyResponse(member.getNickName(),this.contents,this.id);
+        return new MatchApplyResponse(member.getNickName(),this.contents,this.id,this.state);
     }
 
     public void acceptMatchApply(){

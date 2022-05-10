@@ -185,7 +185,7 @@ const RecruitSignupForm = () => {
                   rows="10"
                   cols="60"
                   id="suggest"
-                  placeholder="ex)이름/나이/성별/포지션"
+                  placeholder="ex)이름/나이/성별/포지션/연락처(파티와의 연락을 위해 적어주세요)"
                   value={suggest}
                   onChange={onchangeSuggest}
                 />
