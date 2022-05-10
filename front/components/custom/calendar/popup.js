@@ -7,6 +7,13 @@ import axios from 'axios';
 
 function Popup({open, setPopup,party_id, callback}) {
     const handleClose = () => {
+        setDate('')
+        setLocation('')
+        setField('')
+        setTime('')
+        setTitle('')
+        setMaxMember(1)
+        setContents('')
       setPopup({open: false});
       if(callback){
         callback();
@@ -36,9 +43,12 @@ function Popup({open, setPopup,party_id, callback}) {
                             
     const onchangeTitle = (e) =>{
         setTitle(e.target.value)
+        setMaxMember(1)
+        setContents('')
     }
     const onchangeMaxmember = (e) =>{
         setMaxMember(e.target.value)
+        setContents('')
     }
     const onchangeContents = (e) =>{
         setContents(e.target.value)
@@ -48,9 +58,18 @@ function Popup({open, setPopup,party_id, callback}) {
 
     const onchangeDate = (e) =>{
         setDate(e.target.value)
+        setLocation('')
+        setField('')
+        setTime('')
+        setTitle('')
+        setMaxMember(1)
+        setContents('')
     }
     const onchangeTime = (e) =>{
         setTime(e.target.value)
+        setTitle('')
+        setMaxMember(1)
+        setContents('')
     }
     const onchangeField = (e) =>{
         axios.post(`http://localhost:8080/sportsmate/party/${party_id}/schedule/regist/getArenaList`, {
@@ -65,9 +84,18 @@ function Popup({open, setPopup,party_id, callback}) {
                                     console.log(error);
                                 });
         setField(e.target.value)
+        setTime('')
+        setTitle('')
+        setMaxMember(1)
+        setContents('')
     }
     const onchangeLocation = (e) =>{
         setLocation(e.target.value)
+        setField('')
+        setTime('')
+        setTitle('')
+        setMaxMember(1)
+        setContents('')
   }
     let bookcontent=null
     let locationcontent=null
