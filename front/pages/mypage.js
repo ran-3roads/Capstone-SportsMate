@@ -18,7 +18,7 @@ export default function Mypage() {
       .get(`http://localhost:8080/sportsmate/member/my`)
       .then(function (response) {
         setMy(response.data);
-        return axios.get("http://localhost:8080/sportsmate/file/image", {
+        return axios.get("http://localhost:8080/sportsmate/file/public/image", {
           params: { id: -1, imageCategory: "MEMBER" },
         });
       })
@@ -76,7 +76,7 @@ export default function Mypage() {
         </div>
         <Row className="justify-content-center">
           <Col lg="8" md="6" className="align-self-center text-center">
-            <Link href="/party">
+            <Link href="/myparty">
               <Button className="btn btn-danger m-t-30 btn-info-gradiant font-14">
                 My Party 목록
               </Button>
