@@ -32,7 +32,8 @@ public class MatchController {
     }
 
     //----------조회----------
-    @GetMapping("/my")
+
+    @GetMapping("/my")//나의 경기 리스트
     ResponseEntity<List<MyGameResponse>> getMyMatchBoardList(){
         return ResponseEntity.ok(matchService.getMyGameList());
     }
@@ -47,6 +48,10 @@ public class MatchController {
     @GetMapping("/board/{matchBoardId}")//매치 게시판 클릭시 단일조회
     ResponseEntity<MatchBoardResponse> getMatchBoard(@PathVariable("matchBoardId") Long matchBoardId){
         return ResponseEntity.ok(matchService.getMatchBoardResponse(matchBoardId));
+    }
+    @GetMapping("/board/create/{scheduleId}") //이미 존재하는지?
+    ResponseEntity<Boolean> isMatchBoard(@PathVariable("scheduleId") Long scheduleId){
+        return ResponseEntity.ok(matchService.isMatchBoard(scheduleId));
     }
 
     //----------수정----------

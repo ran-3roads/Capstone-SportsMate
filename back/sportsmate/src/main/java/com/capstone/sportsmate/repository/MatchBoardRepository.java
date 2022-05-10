@@ -11,5 +11,6 @@ import java.util.Optional;
 @Repository
 public interface MatchBoardRepository extends JpaRepository<MatchBoard,Long> {
     public Optional<MatchBoard> findByRegist(Regist regist);
+    public Boolean existsByRegist(Regist regist);
 
 }
