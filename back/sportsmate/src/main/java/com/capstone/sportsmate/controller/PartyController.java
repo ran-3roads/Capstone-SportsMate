@@ -325,24 +325,6 @@ public class PartyController {
         response.setTimestamp(System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
-    //금액 부족할때
-    @ExceptionHandler(RegistException.class)
-    public ResponseEntity<ErrorResponse> creditException(RegistException e){
-        ErrorResponse response = new ErrorResponse();
-        response.setStatusCode(HttpStatus.FORBIDDEN.value());
-        response.setMessage(e.getMessage());
-        response.setTimestamp(System.currentTimeMillis());
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
-    }
-    //이미 존재할때
-    @ExceptionHandler(AlreadyExistException.class)
-    public ResponseEntity<ErrorResponse> alreadyExistException(AlreadyExistException e){
-        ErrorResponse response = new ErrorResponse();
-        response.setStatusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
-        response.setMessage(e.getMessage());
-        response.setTimestamp(System.currentTimeMillis());
-        return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
-    }
 
 
 

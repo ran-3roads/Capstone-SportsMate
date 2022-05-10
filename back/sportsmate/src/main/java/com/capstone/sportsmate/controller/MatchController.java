@@ -1,7 +1,12 @@
 package com.capstone.sportsmate.controller;
 
 
+import com.capstone.sportsmate.domain.MatchBoard;
+import com.capstone.sportsmate.domain.Schedule;
 import com.capstone.sportsmate.service.MatchService;
+import com.capstone.sportsmate.service.MemberService;
+import com.capstone.sportsmate.service.PartyService;
+import com.capstone.sportsmate.service.RegistService;
 import com.capstone.sportsmate.web.MatchApplyForm;
 import com.capstone.sportsmate.web.MatchForm;
 import com.capstone.sportsmate.web.response.MatchBoardListResponse;
@@ -19,6 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MatchController {
     private final MatchService matchService;
+    private final PartyService partyService;
+    private final MemberService memberService;
 
     // --------------------매치 보드--------------------
 
@@ -54,6 +61,14 @@ public class MatchController {
     @GetMapping("/board/{matchBoardId}")//매치 게시판 클릭시 단일조회
     ResponseEntity<MatchBoardResponse> getMatchBoard(@PathVariable("matchBoardId") Long matchBoardId){
         return ResponseEntity.ok(matchService.getMatchBoardResponse(matchBoardId));
+    }
+    @GetMapping("/board/{matchBoardId}/isPartyMember")
+    public boolean isParty(@PathVariable("matchBoardId") Long matchBoardId){
+        MatchBoard matchBoard=matchService.findMathBoard(matchBoardId);
+        Schedule findSchedule=matchService.findScheduleByRegist(matchBoard.getRegist());
+        if(!partyService.isPartyMember(findSchedule.getParty().getId(),memberService.getMyInfo().getId()))
+            return false; // 멤버가 아니다
+        return true; //멤버다.
     }
 
     //----------수정----------
