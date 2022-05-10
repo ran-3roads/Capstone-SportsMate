@@ -25,29 +25,31 @@ const RecruitSignupForm = () => {
   const { id } = router.query;
 
   const [recruits, setRecruits] = useState({});
-  const [ismember,setIsmember]=useState(false);
-  const [isalreadyapply,setIsalreadyapply]=useState(false);
+  const [ismember, setIsmember] = useState(false);
+  const [isalreadyapply, setIsalreadyapply] = useState(false);
   const container = useRef();
   const [kakaoMap, setKakaoMap] = useState(null);
   const [Markers, setMarkers] = useState([]);
 
-  let requestbutton=null;
+  let requestbutton = null;
 
-  if(ismember){
+  if (ismember) {
     requestbutton = null;
-  }
-  else{
-    if(!isalreadyapply){
-    requestbutton = 
-    <Button type="submit" className="btn btn-success waves-effect waves-light m-r-10">
+  } else {
+    if (!isalreadyapply) {
+      requestbutton = (
+        <Button
+          type="submit"
+          className="btn btn-success waves-effect waves-light m-r-10"
+        >
           신청
-    </Button>
+        </Button>
+      );
+    } else {
+      requestbutton = (
+        <a className="btn btn-warning m-r-10 btn-md m-t-20 ">승인 대기중</a>
+      );
     }
-    else{
-      requestbutton = <a className="btn btn-warning m-r-10 btn-md m-t-20 ">
-      승인 대기중
-      </a>
-      }
   }
 
   useEffect(() => {
@@ -77,16 +79,20 @@ const RecruitSignupForm = () => {
             setKakaoMap(map);
           });
         };
-        return axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyMemeber`)
+        return axios.get(
+          `http://localhost:8080/sportsmate/match/board/${id}/isPartyMember/`
+        );
       })
-      .then(function(response){
-        if(response.status == 200){
-          setIsmember(response.data)
-          return axios.get(`http://localhost:8080/sportsmate/party/${id}/alreadyApply`)
+      .then(function (response) {
+        if (response.status == 200) {
+          setIsmember(response.data);
+          return axios.get(
+            `http://localhost:8080/sportsmate/match/board/${id}/ismatchapply`
+          );
         }
       })
-      .then(function(response){
-        setIsalreadyapply(response.data)
+      .then(function (response) {
+        setIsalreadyapply(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -153,7 +159,7 @@ const RecruitSignupForm = () => {
               id="signupForm"
               onSubmit={function (event) {
                 event.preventDefault();
-                console.log(event.target.suggest.value,recruits.registId);
+                console.log(event.target.suggest.value, recruits.registId);
                 axios
                   .post("http://localhost:8080/sportsmate/match/apply", {
                     suggest: event.target.suggest.value,
@@ -174,13 +180,12 @@ const RecruitSignupForm = () => {
                   })
                   .catch(function (error) {
                     //error
-                    if(error.response.status == 403){
+                    if (error.response.status == 403) {
                       //돈이 부족하거나 파티원일경우 용병신청 불가
-                      alert(error.response.data.message)
-                    }
-                    else if(error.response.status == 405){
+                      alert(error.response.data.message);
+                    } else if (error.response.status == 405) {
                       //이미 신청한 용병
-                      alert(error.response.data.message)
+                      alert(error.response.data.message);
                     }
                     console.log(error);
                   });

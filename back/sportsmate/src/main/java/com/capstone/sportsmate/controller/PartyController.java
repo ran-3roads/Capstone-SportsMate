@@ -308,14 +308,7 @@ public class PartyController {
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
     //변경할 파티보드가 없을때
-    @ExceptionHandler(NotFoundEntityException.class)
-    public ResponseEntity<ErrorResponse> notFoundEntityExceptionhandling(NotFoundEntityException e) {
-        ErrorResponse response = new ErrorResponse();
-        response.setStatusCode(HttpStatus.FORBIDDEN.value());
-        response.setMessage(e.getMessage());
-        response.setTimestamp(System.currentTimeMillis());
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
-    }
+
     //역할이 다를때
     @ExceptionHandler(MyRoleException.class)
     public ResponseEntity<ErrorResponse> myRoleExceptionhandling(MyRoleException e) {

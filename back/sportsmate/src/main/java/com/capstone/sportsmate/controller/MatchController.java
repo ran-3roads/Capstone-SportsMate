@@ -62,13 +62,17 @@ public class MatchController {
     ResponseEntity<MatchBoardResponse> getMatchBoard(@PathVariable("matchBoardId") Long matchBoardId){
         return ResponseEntity.ok(matchService.getMatchBoardResponse(matchBoardId));
     }
-    @GetMapping("/board/{matchBoardId}/isPartyMember")
+    @GetMapping("/board/{matchBoardId}/isPartyMember")//같은 파티인지
     public boolean isParty(@PathVariable("matchBoardId") Long matchBoardId){
         MatchBoard matchBoard=matchService.findMathBoard(matchBoardId);
         Schedule findSchedule=matchService.findScheduleByRegist(matchBoard.getRegist());
         if(!partyService.isPartyMember(findSchedule.getParty().getId(),memberService.getMyInfo().getId()))
             return false; // 멤버가 아니다
         return true; //멤버다.
+    }
+    @GetMapping("/board/{matchBoardId}/ismatchapply")//이미 예약했는지
+    public ResponseEntity<Boolean> ismatchapply(@PathVariable("matchBoardId") Long matchBoardId){
+        return ResponseEntity.ok(matchService.isMatchApply(matchBoardId));
     }
 
     //----------수정----------
@@ -79,7 +83,6 @@ public class MatchController {
     //용병신청서 생성
     @PostMapping("/apply")
     ResponseEntity<String> createMatchApply(@RequestBody MatchApplyForm matchApplyForm){
-        System.out.println("hihi");
         matchService.createMatchApply(matchApplyForm);
         return ResponseEntity.ok("apply");
     }

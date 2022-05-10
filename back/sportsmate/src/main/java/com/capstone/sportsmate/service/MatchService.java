@@ -79,7 +79,7 @@ public class MatchService {
         Schedule findSchedule = scheduleRepository.findByRegist(findRegist)
                 .orElseThrow(() -> new RuntimeException("해당 스케줄이 없음"));//크흠 수정이 필요할거같다.
 
-        if(!matchApplyRepository.existsByMemberAndSchedule(findMember,findSchedule))
+        if(matchApplyRepository.existsByMemberAndSchedule(findMember,findSchedule))
             throw new AlreadyExistException("이미 요청을 보냈습니다.");
 
         if(findMember.getCredit()<(int)findSchedule.toScheduleResponse().getNShotCredit())
@@ -174,11 +174,16 @@ public class MatchService {
         return matchBoardRepository.existsByRegist(findRegist);
     }
     //이미 존재하는지? 혹시나해서 만듬
-    public Boolean isMatchApply(Long scheduleId) {
-        Schedule findSchedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(()-> new RuntimeException("해당 스케줄 없음"));
-        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+    public Boolean isMatchApply(Long matchBoardId) {
+        MatchBoard matchBoard = matchBoardRepository.findById(matchBoardId)
+                .orElseThrow(()-> new RuntimeException("해당 매치보드 없음"));
 
+        Regist findRegist = matchBoard.getRegist();
+
+        Schedule findSchedule = scheduleRepository.findByRegist(findRegist)
+                .orElseThrow(()-> new RuntimeException("해당 스케줄 없음"));
+
+        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
 
         return matchApplyRepository.existsByMemberAndSchedule(findMember,findSchedule);
     }

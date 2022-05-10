@@ -1,6 +1,7 @@
 package com.capstone.sportsmate.controller;
 
 import com.capstone.sportsmate.exception.AlreadyExistException;
+import com.capstone.sportsmate.exception.NotFoundEntityException;
 import com.capstone.sportsmate.exception.RegistException;
 import com.capstone.sportsmate.exception.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         response.setMessage(e.getMessage());
         response.setTimestamp(System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+    @ExceptionHandler(NotFoundEntityException.class)
+    public ResponseEntity<ErrorResponse> notFoundEntityExceptionhandling(NotFoundEntityException e) {
+        ErrorResponse response = new ErrorResponse();
+        response.setStatusCode(HttpStatus.FORBIDDEN.value());
+        response.setMessage(e.getMessage());
+        response.setTimestamp(System.currentTimeMillis());
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
 }
