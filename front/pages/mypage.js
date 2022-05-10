@@ -31,7 +31,7 @@ export default function Mypage() {
   }, []);
 
   return (
-    <div className="static-slider-head">
+      <div>
       <Head>
         <title>My</title>
         <meta
@@ -67,7 +67,7 @@ export default function Mypage() {
                 </div>
                 <div className="logout_button">
                   <div className="my_font">
-                    <Link href="/my">로그아웃</Link>
+                    <Link href="/logout">로그아웃</Link>
                   </div>
                 </div>
               </div>
@@ -76,6 +76,7 @@ export default function Mypage() {
         </div>
         <Row className="justify-content-center">
           <Col lg="8" md="6" className="align-self-center text-center">
+            <Row>
             <Link href="/myparty">
               <Button className="btn btn-danger m-t-30 btn-info-gradiant font-14">
                 My Party 목록
@@ -86,12 +87,12 @@ export default function Mypage() {
                 My 경기 목록
               </Button>
             </Link>
-            <Link href="/mymatch">
+            </Row>
               <a
                 className="btn btn-warning m-r-10 btn-md m-t-20"
                 onClick={(event) => {
                   event.preventDefault();
-                  loadTossPayments(clientKey).then((tossPayments) => {
+                  loadTossPayments(clientKey).then((tossPayments) => { 
                     tossPayments.requestPayment("토스결제", {
                       amount: 5000,
                       orderId: `${uuid()}`,
@@ -104,11 +105,10 @@ export default function Mypage() {
                 }}
               >
                 포인트충전
-              </a>
-            </Link>
+              </a>  
           </Col>
         </Row>
       </div>
-    </div>
+      </div>
   );
 }

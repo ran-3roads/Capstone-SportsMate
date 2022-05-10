@@ -212,32 +212,6 @@ const Header = () => {
                     </a>
                   </Link>
                 </NavItem>
-                <NavItem>
-                  <Link href="/party/1/info">
-                    <a
-                      className={
-                        router.pathname == "/party/1/info"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
-                      test중
-                    </a>
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link href="/party/1/info/modify">
-                    <a
-                      className={
-                        router.pathname == "/party/1/info/modify"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
-                      test2중
-                    </a>
-                  </Link>
-                </NavItem>
                 {
                   NoticeNav
                 }

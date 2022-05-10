@@ -61,7 +61,7 @@ export default function Board_id() {
                     <div id="comment_count">
                       전체 댓글 {comments.length} 개 [등록순]
                     </div>
-                    <CommonTable headersName={['작성자', '댓글내용', '등록일']}>
+                    <CommonTable headersName={['작성자', '댓글내용', '등록일','삭제']}>
                         {
                           comments.map(c => {
                             return (
@@ -80,7 +80,8 @@ export default function Board_id() {
                                 <a>    
                                   { c.sinceDate } 
                                   </a>
-                                  
+                                </CommonTableColumn>
+                                <CommonTableColumn>
                                   <button id={c.id} value="삭제" onClick={(event)=>{
                                     event.preventDefault();
                                     axios.delete(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/comment/${event.target.id}`)

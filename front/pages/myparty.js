@@ -28,7 +28,7 @@ export default function Party () {
       파티생성하기
     </a>
   }
-  const [mode,setMode]=useState('PARTY');
+  const [mode,setMode]=useState('MYPARTY');
   let content = null;
   if(mode == 'MYPARTY'){
     content = <MPList></MPList>
