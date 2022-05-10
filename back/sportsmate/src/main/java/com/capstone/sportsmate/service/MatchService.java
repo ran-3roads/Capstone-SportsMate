@@ -8,6 +8,9 @@ import com.capstone.sportsmate.domain.notice.Reply;
 import com.capstone.sportsmate.domain.status.NoticeStatus;
 import com.capstone.sportsmate.domain.status.NoticeType;
 import com.capstone.sportsmate.domain.status.Request;
+import com.capstone.sportsmate.exception.AlreadyExistException;
+import com.capstone.sportsmate.exception.NotFoundEntityException;
+import com.capstone.sportsmate.exception.RegistException;
 import com.capstone.sportsmate.repository.*;
 import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.MatchApplyForm;
@@ -66,18 +69,26 @@ public class MatchService {
                 .orElseThrow(()-> new RuntimeException("해당스케쥴없음")).toScheduleResponse();
     }
 
+
     //용병신청서 만들기
     @Transactional
     public void createMatchApply(MatchApplyForm matchApplyForm) {
 
         Regist findRegist = registRepository.findRegistOne(matchApplyForm.getRegistId());
+        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
         Schedule findSchedule = scheduleRepository.findByRegist(findRegist)
                 .orElseThrow(() -> new RuntimeException("해당 스케줄이 없음"));//크흠 수정이 필요할거같다.
+
+        if(!matchApplyRepository.existsByMemberAndSchedule(findMember,findSchedule))
+            throw new AlreadyExistException("이미 요청을 보냈습니다.");
+
+        if(findMember.getCredit()<(int)findSchedule.toScheduleResponse().getNShotCredit())
+            throw new RegistException("금액이 부족합니다.");
+
         MatchBoard findMatchBoard =matchBoardRepository.findByRegist(findRegist)
                 .orElseThrow(()->new RuntimeException("그런 매치보드 없다"));
         Member host = findMatchBoard.getMember();
 
-        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
         MatchApply matchApply = MatchApply.createMatchApply(matchApplyForm, findMember, findSchedule);
 
         Notice notice=Notice.createNotice(host,NoticeType.MATCHAPPLY, NoticeStatus.UNCONFIRM,LocalDateTime.now());//notice 생성
@@ -104,6 +115,11 @@ public class MatchService {
         Member findMember = findMatchApply.getMember();
 
         Schedule findSchedule = findMatchApply.getSchedule();
+        //금액 체크
+        if(findMember.getCredit()<(int)findSchedule.toScheduleResponse().getNShotCredit()) {
+            rejectMatchApply(matchApplyId);
+            return;
+        }
         //최대인원 체크
         if(findSchedule.isMaxMember())
             throw new RuntimeException("정원이 다찼습니다.");
@@ -144,12 +160,12 @@ public class MatchService {
         noticeRepository.saveNotice(notice);
         noticeRepository.saveReply(reply);
     }
-
+    //자신이 참여하는 경기 리스트
     public List<MyGameResponse> getMyGameList() {
         return  joinGameRepository.findByMember(memberRepository.findOne(SecurityUtil.getCurrentMemberId())).stream()
                 .map(JoinGame::toMyGameResponse).collect(Collectors.toList());
     }
-
+    //이미 존재하는지?
     public Boolean isMatchBoard(Long scheduleId) {
         Schedule findSchedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(()-> new RuntimeException("해당 스케줄 없음"));
@@ -157,4 +173,20 @@ public class MatchService {
 
         return matchBoardRepository.existsByRegist(findRegist);
     }
+    //이미 존재하는지? 혹시나해서 만듬
+    public Boolean isMatchApply(Long scheduleId) {
+        Schedule findSchedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(()-> new RuntimeException("해당 스케줄 없음"));
+        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+
+
+        return matchApplyRepository.existsByMemberAndSchedule(findMember,findSchedule);
+    }
+    public MatchBoard findMathBoard(Long matchBoardId){
+        return matchBoardRepository.findById(matchBoardId).orElseThrow(()->new NotFoundEntityException("해당 스케줄 없음"));
+    }
+    public Schedule findScheduleByRegist(Regist regist){
+        return scheduleRepository.findByRegist(regist).orElseThrow(()->new NotFoundEntityException("해당 스케줄 없음"));
+    }
+
 }
