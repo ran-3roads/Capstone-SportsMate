@@ -13,7 +13,6 @@ export default function Manage() {
     const router = useRouter();
     const { id,schedule_id } = router.query;
     const [recruits, setRecruits] = useState({});
-    console.log(id,schedule_id);
     useEffect(() => {
       axios.get(`http://localhost:8080/sportsmate/party/${id}/schedule/${schedule_id}/applyList`)
                               .then(function (response) {
@@ -48,11 +47,11 @@ export default function Manage() {
                       <div className="party_box">
                       <div>
         <div id="comment_count">
-        승인대기중인 용병신청{permissions.length}개
+        승인대기중인 용병신청{permissions.filter(p=>p.state=="WAITING").length}개
       </div>
       <CommonTable headersName={['닉네임', '자기소개','승인']}>
           {
-            permissions.map(p => {
+            permissions.filter(p=>p.state=="WAITING").map(p => {
               return (
                   <CommonTableRow key={p.matchApplyId}>
                   <CommonTableColumn>
@@ -66,37 +65,37 @@ export default function Manage() {
                     </a>
                   </CommonTableColumn>
                   <CommonTableColumn>
-                    <button id={p.id} value="승인" onClick={(event)=>{
+                    <button id={p.matchApplyId} value="승인" onClick={(event)=>{
                       event.preventDefault();
-                      // axios.post(`http://localhost:8080/sportsmate/party/${id}/applyList/${event.target.id}/accept`)
-                      // .then(function (response) {
-                      // //받는거
-                      // if(response.status == 200){
-                      //     alert("가입요청을 승인했습니다.")
-                      //     location.reload();
-                      // }
-                      // }).catch(function (error) {
-                      //   if(error.response.staus==405){
-                      //     alert("중복된 승인 요청입니다.")
-                      //   }
-                      // console.log(error);
-                      // });
+                      axios.get(`http://localhost:8080/sportsmate/match/apply/${event.target.id}/accept`)
+                      .then(function (response) {
+                      //받는거
+                      if(response.status == 200){
+                          alert("용병신청을 승인했습니다.")
+                          location.reload();
+                      }
+                      }).catch(function (error) {
+                        if(error.response.staus==405){
+                          alert("중복된 승인 요청입니다.")
+                        }
+                      console.log(error);
+                      });
                   }}>승인</button>
-                  <button id={p.id} value="거절" onClick={(event)=>{
+                  <button id={p.matchApplyId} value="거절" onClick={(event)=>{
                       event.preventDefault();
-                      // axios.post(`http://localhost:8080/sportsmate/party/${id}/applyList/${event.target.id}/reject`)
-                      // .then(function (response) {
-                      // //받는거
-                      // if(response.status == 200){
-                      //     alert("가입요청을 거절했습니다.")
-                      //     location.reload();
-                      // }
-                      // }).catch(function (error) {
-                      //   if(error.response.staus==405){
-                      //     alert("중복된 거절 요청입니다.")
-                      //   }
-                      // console.log(error);
-                      // });
+                      axios.get(`http://localhost:8080/sportsmate/match/apply/${event.target.id}/reject`)
+                      .then(function (response) {
+                      //받는거
+                      if(response.status == 200){
+                          alert("용병신청을 거절했습니다.")
+                          location.reload();
+                      }
+                      }).catch(function (error) {
+                        if(error.response.staus==405){
+                          alert("중복된 거절 요청입니다.")
+                        }
+                      console.log(error);
+                      });
                   }}>거절</button>
                   </CommonTableColumn>
                   </CommonTableRow>

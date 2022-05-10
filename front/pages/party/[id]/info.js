@@ -92,7 +92,6 @@ export default function Info() {
         axios.get(`http://localhost:8080/sportsmate/party/public/${id}/info`)
                             .then(function (response) {
                                     if(response.status == 200){
-                      
                                         setParty(response.data);
                                         return axios.get('http://localhost:8080/sportsmate/file/public/image',{ params: { id: id,imageCategory:"PARTY" } })
                                     }

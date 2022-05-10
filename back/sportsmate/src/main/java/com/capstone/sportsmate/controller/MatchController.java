@@ -76,13 +76,13 @@ public class MatchController {
 //    }
     //----------수정----------
     //수락
-    @GetMapping("/apply/{applyId}/accept")
+    @GetMapping("/apply/{matchApplyId}/accept")
     ResponseEntity<String> acceptMatchApply(@PathVariable("matchApplyId") Long matchApplyId){
         matchService.accptMatchApply(matchApplyId);
         return ResponseEntity.ok("accept");
     }
     //거절
-    @GetMapping("/apply/{applyId}/reject")
+    @GetMapping("/apply/{matchApplyId}/reject")
     ResponseEntity<String> rejectMatchApply(@PathVariable("matchApplyId") Long matchApplyId){
         matchService.rejectMatchApply(matchApplyId);
         return ResponseEntity.ok("reject");
