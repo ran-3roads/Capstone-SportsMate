@@ -8,8 +8,29 @@ import basketballimg from "../../assets/images/landingpage/basketball.png";
 import tabletennisimg from "../../assets/images/landingpage/tabletennis.png";
 import volleyballimg from "../../assets/images/landingpage/volleyball.png";
 import wasteimg from "../../assets/images/landingpage/waste.png";
-
+import cookie from 'react-cookies';
+import cookies from "next-cookies";
 const Banner2 = () => {
+  const coa = cookie.loadAll();
+  const allCookies = cookies(coa);
+  const refreshTokenByCookie = allCookies['refreshToken'];
+  let mkpartycontent=null;
+  if(refreshTokenByCookie!=undefined){
+  mkpartycontent=<Link href="/party/mkparty">
+  <a className="btn btn-md m-t-30  btn-outline-light ">
+    파티생성하기
+  </a>
+</Link>
+  }
+  else{
+    mkpartycontent=<a className="btn btn-md m-t-30  btn-outline-light " onClick={(e)=>{
+                e.preventDefault();
+                alert("로그인후 이용해주세요");
+              }}>
+                파티생성하기
+              </a>
+  }
+
   return (
     <div className="static-slider-head banner2">
       <Container>
@@ -22,12 +43,8 @@ const Banner2 = () => {
               Sports Mate를 통해
               <br /> 깐부를 찾아보세요
             </h4>
-            <Link href="/party/mkparty">
-              <a className="btn btn-md m-t-30  btn-outline-light ">
-                파티생성하기
-              </a>
-            </Link>
-            <Link href="/#coming">
+            { mkpartycontent}
+            <Link href="/party">
               <a className="btn btn-md m-t-30  btn-outline-light ">
                 파티참가하기
               </a>
