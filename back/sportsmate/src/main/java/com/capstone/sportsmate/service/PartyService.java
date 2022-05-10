@@ -209,6 +209,8 @@ public class PartyService {
         Party party=partyRepository.findOne(partyId);
         PartyMember partyMember=partyMemberRepository.findOneById(partyMemberId).orElseThrow(() -> new AlreadyExistException("이미 없는 회원입니다."));;
         party.minusMember();
+        //추방 문자 보내기
+        sendReply(partyMember.getMember(),Request.BANISH,party);
         partyMemberRepository.deleteById(partyMemberId);
 
         Apply apply=noticeRepository.findByApply(party,partyMember.getMember());
@@ -216,7 +218,6 @@ public class PartyService {
 
         noticeRepository.deleteApply(apply);
         noticeRepository.deleteNotice(notice);
-
     }
 
     //파티 탈퇴
