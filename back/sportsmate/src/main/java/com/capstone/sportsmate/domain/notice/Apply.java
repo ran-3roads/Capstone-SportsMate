@@ -4,7 +4,7 @@ package com.capstone.sportsmate.domain.notice;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.domain.status.Request;
-import com.capstone.sportsmate.web.ApplyForm;
+import com.capstone.sportsmate.web.response.ApplyResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,8 +57,8 @@ public class Apply {
         return apply;
     }
 
-    public ApplyForm toApplyForm(){
-        ApplyForm applyForm =new ApplyForm(this.id,this.party.getTitle(),this.member.getName(),
+    public ApplyResponse toApplyForm(){
+        ApplyResponse applyForm =new ApplyResponse(this.id,this.party.getTitle(),this.member.getName(),
                 this.member.getEmail(),this.sinceDate,this.member.getSex(),this.state,this.contents);
         return applyForm;
     }

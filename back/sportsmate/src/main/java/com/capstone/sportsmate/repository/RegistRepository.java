@@ -118,16 +118,4 @@ public class RegistRepository {
     }
     public Schedule findSchedule(Long id){return em.find(Schedule.class, id);}
 
-    public Schedule findByRegist(Regist regist){
-        String jpql="select s from Schedule s";
-
-        //검색 조건으로 검색
-        jpql += " where s.regist = :regist";
-        TypedQuery<Schedule> query = em.createQuery(jpql, Schedule.class)
-                .setMaxResults(1000); //최대 1000건
-        if(regist != null) {
-            query = query.setParameter("regist", regist);
-        }
-        return query.getSingleResult();
-    }
 }

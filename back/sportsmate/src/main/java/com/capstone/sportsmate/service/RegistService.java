@@ -7,7 +7,6 @@ import com.capstone.sportsmate.repository.*;
 import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.BookForm;
 import com.capstone.sportsmate.web.RegistTimeForm;
-import com.capstone.sportsmate.web.response.ArenaResponse;
 import com.capstone.sportsmate.web.response.EventResponse;
 import com.capstone.sportsmate.web.response.ScheduleResponse;
 import lombok.RequiredArgsConstructor;
@@ -144,9 +143,6 @@ public class RegistService {
         return registRepository.findBySportsName(party.getSportsName());
     }
 
-    public Arena getArenaInfo(Long arenaId){
-        return registRepository.findArenaOne(arenaId);
-    }
 
     public ScheduleResponse getSchedule(Long scheduleId){
         Schedule schedule= registRepository.findSchedule(scheduleId);

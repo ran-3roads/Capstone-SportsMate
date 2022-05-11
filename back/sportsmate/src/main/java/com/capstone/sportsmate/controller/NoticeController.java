@@ -1,13 +1,12 @@
 package com.capstone.sportsmate.controller;
 
 
-import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.exception.MyRoleException;
 import com.capstone.sportsmate.exception.response.ErrorResponse;
 import com.capstone.sportsmate.service.MemberService;
 import com.capstone.sportsmate.service.NoticeService;
-import com.capstone.sportsmate.web.ApplyForm;
-import com.capstone.sportsmate.web.ReplyForm;
+import com.capstone.sportsmate.web.response.ApplyResponse;
+import com.capstone.sportsmate.web.response.ReplyResponse;
 import com.capstone.sportsmate.web.response.NoticeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,7 +29,7 @@ public class NoticeController {
     }
     //-------------파티 지원서 확인-----------
     @GetMapping("/{noticeId}/getApply") // 파티신청에 대한 지원서 확인.
-    public ApplyForm getApply(@PathVariable("noticeId") Long noticeId){
+    public ApplyResponse getApply(@PathVariable("noticeId") Long noticeId){
         if(!noticeService.isRoute(noticeId,memberService.getMyInfo().getId())){
             throw new MyRoleException("확인 권한이없습니다.");
         }
@@ -38,7 +37,7 @@ public class NoticeController {
     }
     //-------------파티 지원에 대한 결과-----------
     @GetMapping("/{noticeId}/getReply") // 파티신청에 대한 응답 확인.
-    public ReplyForm getReply(@PathVariable("noticeId") Long noticeId){
+    public ReplyResponse getReply(@PathVariable("noticeId") Long noticeId){
         if(!noticeService.isRoute(noticeId,memberService.getMyInfo().getId())){
             throw new MyRoleException("확인 권한이없습니다.");
         }

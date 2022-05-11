@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -86,18 +85,7 @@ public class AwsS3Service {
         amazonS3.deleteObject(new DeleteObjectRequest(bucket, imageCategory.value()+id+".png"));
     }
 
-//    private String createFileName(String fileName) { // 먼저 파일 업로드 시, 파일명을 난수화하기 위해 random으로 돌립니다. 아직은 사용안함
-//        return UUID.randomUUID().toString().concat(getFileExtension(fileName));
-//    }
 
-
-    private String getFileExtension(String fileName) { // file 형식이 잘못된 경우를 확인하기 위해 만들어진 로직이며, 파일 타입과 상관없이 업로드할 수 있게 하기 위해 .의 존재 유무만 판단하였습니다.
-        try {
-            return fileName.substring(fileName.lastIndexOf("."));
-        } catch (StringIndexOutOfBoundsException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일(" + fileName + ") 입니다.");
-        }
-    }
 
     public String getFile(Long id, ImageCategory imageCategory) {//파일 주소 넘김 주소로 이미지 접근가능함 물론 평소는 이렇게 하면 안됌
         if(imageCategory.equals(ImageCategory.MEMBER))
