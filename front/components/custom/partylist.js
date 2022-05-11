@@ -6,27 +6,49 @@ import { Button,Pagination, Form, FormGroup,PaginationItem, PaginationLink, Cont
 import footballimg from "../../assets/images/landingpage/football.png";
 import { useState,useEffect } from "react";
 import axios from "axios";
+
+console.log(footballimg);
 const PList = () => {
     const [partys,setPartys]=useState([]);
     useEffect(() => {
         axios.get("http://localhost:8080/sportsmate/party/public/all")
                                 .then(function (response) {
                                     if(response.status == 200){
-                                        setPartys(response.data)
-                                        console.log(partys)
+                                        let tmp1=new Array();
+                                        response.data.map(r=>{
+                                            axios.get('http://localhost:8080/sportsmate/file/public/image',{ params: { id: r.id,imageCategory:"PARTY" } })
+                                            .then(function(response){
+                                                tmp1=tmp1.concat({
+                                                    id:r.id,
+                                                    sportsName:r.sportsName,
+                                                    location:r.location,
+                                                    intro:r.intro,
+                                                    title:r.title,
+                                                    sinceDate:r.sinceDate,
+                                                    currentMember:r.currentMember,
+                                                    info:r.info,
+                                                    imgsrc:response.data
+                                                })
+                                                setPartys(tmp1);
+                                            })
+                                            .catch(function(error){
+                                                console.log(error);
+                                            });
+                                        })
                                     }
                             }).catch(function (error) {
                                     console.log(error);
                                 });
     }, [])
     let result = [...partys];
+    console.log(result);
     const[currentPage,setCurrentPage]=useState(0);
     const[location,setLocation]=useState("all");
     const[sportsName,setSportsName]=useState("all");
     const[party_title,setParty_title]=useState("");
     const[search,setSearch]=useState("");
     const handleClick=(e, index)=>{
-        e.preventDefault();   
+        e.preventDefault();
         setCurrentPage(index);
     }
     const onchangeLocation = (e) =>{
@@ -290,7 +312,9 @@ const PList = () => {
                                         <div class ="mcover">
                                             <div className='mImage'>
                                                 <span className='mInner'>
-                                                <Image src={footballimg} alt="모임소개사진"/>
+                                                <img src={p.imgsrc} onError={(e)=>{
+                                                    e.target.src='/_next/static/image/assets/images/landingpage/football.0497cc0339ca74f8b09300a469b090f8.png'
+                                                }}/>
                                                 </span>
                                             </div>
                                         </div>
