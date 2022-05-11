@@ -16,6 +16,7 @@ export default function Manage() {
     const today = new Date();
     console.log(id);
     useEffect(() => {
+      if(!router.isReady)return;
       axios.get(`http://localhost:8080/sportsmate/party/${id}/applyList`)
                               .then(function (response) {
                                   if(response.status == 200){
@@ -24,8 +25,9 @@ export default function Manage() {
                           }).catch(function (error) {
                                   console.log(error);
                               });
-    }, [])
+    }, [router.isReady])
     useEffect(() => {
+      if(!router.isReady)return;
       axios.get(`http://localhost:8080/sportsmate/party/${id}/memberList`)
                               .then(function (response) {
                                   if(response.status == 200){
@@ -34,7 +36,7 @@ export default function Manage() {
                           }).catch(function (error) {
                                   console.log(error);
                               });
-    }, [])
+    }, [router.isReady])
     let managecontent=null;
     if(mode=="PERMISSION"){
         managecontent=<div>

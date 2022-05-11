@@ -76,6 +76,7 @@ const PartyModifyForm = () => {
   }
 
   useEffect(() => {
+    if(!router.isReady)return;
     axios.get(`http://localhost:8080/sportsmate/party/${id}/modify`)
       .then(function (response) {
         if (response.status == 200) {
@@ -85,7 +86,7 @@ const PartyModifyForm = () => {
       .catch(function (error) {
         console.log(error);
       });
-  }, [])
+  }, [router.isReady])
   const [popup, setPopup] = useState({ open: false, title: "", message: "", callback: false });
 
   const [info, setInfo] = useState(partyinfo.info);
