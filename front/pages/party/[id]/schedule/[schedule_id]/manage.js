@@ -14,6 +14,7 @@ export default function Manage() {
     const { id,schedule_id } = router.query;
     const [recruits, setRecruits] = useState({});
     useEffect(() => {
+      if(!router.isReady)return;
       axios.get(`http://localhost:8080/sportsmate/party/${id}/schedule/${schedule_id}/applyList`)
                               .then(function (response) {
                                   if(response.status == 200){
@@ -28,7 +29,7 @@ export default function Manage() {
                           .catch(function (error) {
                                   console.log(error);
                               });
-    }, [])
+    }, [router.isReady])
     
   return (
     <div>

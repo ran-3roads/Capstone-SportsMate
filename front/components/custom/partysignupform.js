@@ -16,8 +16,10 @@ const request = {
 const PartySignupForm = () => {
 
     const[partyinfo,setPartyInfo]=useState({});
-
+    const router=useRouter();
+    const { id } = router.query;
     useEffect(() => {
+        if(!router.isReady)return;
         axios.get(`http://localhost:8080/sportsmate/party/public/${id}/info`)
       .then(function (response) {
         if(response.status == 200){
@@ -26,10 +28,8 @@ const PartySignupForm = () => {
         .catch(function (error) {
            console.log(error);
           });
-    }, [])
+    }, [router.isReady])
 
-    const router=useRouter();
-    const { id } = router.query;
 
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
 

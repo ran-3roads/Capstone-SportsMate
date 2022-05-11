@@ -30,13 +30,13 @@ public class MemberController {
     private final MemberService memberService;
 
     // 인증 코드들
-    @PostMapping("/public/signup")
+    @PostMapping("/public/signup") // 회원가입
     //성공시 200과 이메일 리턴
     ResponseEntity<MemberResponse> signup(@RequestBody MemberForm memberForm){
         return ResponseEntity.ok(memberService.join(memberForm));
     }
 
-    @PostMapping("/public/login")
+    @PostMapping("/public/login") // 로그인
     public ResponseEntity<String> login(@RequestBody LoginForm loginForm, HttpServletResponse response){
         TokenObject tokenObject = memberService.login(loginForm);
         //보낼 쿠키설정 refreshToken을 추가
@@ -86,12 +86,12 @@ public class MemberController {
     public ResponseEntity<Member> my(){
         return ResponseEntity.ok(memberService.getMyInfo());
     }
-    @PostMapping("/my")//정보변경
+    @PutMapping("/my")//정보변경
     public ResponseEntity<String> myModify (@RequestBody MemberMoidfyForm memberMoidfyForm) {
         return   ResponseEntity.ok(memberService.modifyInfo(memberMoidfyForm));
     }
 
-    @GetMapping("/public/reissue")//accesstoken재요청
+    @PostMapping("/public/reissue")//accesstoken재요청
     public ResponseEntity<String> reissue(@CookieValue(name="refreshToken") String refreshToken
             ) {
         String newAccessToken = memberService.reissue("",refreshToken);

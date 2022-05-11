@@ -33,6 +33,7 @@ const MymatchInfoForm = () => {
     const [, setMarkers] = useState([]);
 
     useEffect(() => {
+        if(!router.isReady)return;
         axios.get(`http://localhost:8080/sportsmate/match/myMatch/${id}`)
       .then(function (response) {
         if(response.status == 200){
@@ -60,7 +61,7 @@ const MymatchInfoForm = () => {
         .catch(function (error) {
            console.log(error);
           });
-    }, [])
+    }, [router.isReady])
       useEffect(() => {
         if (kakaoMap === null) {
           return;

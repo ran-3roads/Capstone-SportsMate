@@ -37,7 +37,7 @@ axios.interceptors.response.use(
         isTokenRefreshing = true;
         setTimeout(async () => {
           try {
-            const { headers } = await axios.get(
+            const { headers } = await axios.post(
               `http://localhost:8080/sportsmate/member/public/reissue`
             ); // token refresh api
             // 새로운 토큰 저장
@@ -51,8 +51,6 @@ axios.interceptors.response.use(
             }
           }
         }, 0);
-      } else {
-        return Promise.reject(error);
       }
       // token이 재발급 되는 동안의 요청은 refreshSubscribers에 저장
       const retryOriginalRequest = new Promise((resolve) => {

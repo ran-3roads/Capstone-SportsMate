@@ -6,8 +6,13 @@
  import footballimg from "../../assets/images/landingpage/football.png";
  import { useState, useEffect } from "react";
  import axios from "axios";
+ import cookie from 'react-cookies';
+ import cookies from "next-cookies";
  
  const RList = () => {
+    const coa = cookie.loadAll();
+    const allCookies = cookies(coa);
+    const refreshTokenByCookie = allCookies['refreshToken'];
      const [recruits,setRecruits] = useState([]);
      useEffect(() => { 
          axios.get("http://localhost:8080/sportsmate/match/public/board")
@@ -21,6 +26,7 @@
                                  });
      }, [])
      let result = [...recruits];
+     let logcontents = null;
      const[currentPage,setCurrentPage]=useState(0);
      const[location,setLocation]=useState("all");
      const[sports_name,setSports_name]=useState("all");
@@ -126,6 +132,63 @@
      content=<div style={{height:500,display:"flex",width:"100%"}}><div style={{margin:"auto"}}><h1>No such party</h1></div></div>
      const pageSize = 4;
      const pagesCount = Math.ceil(result.length / pageSize);
+     if(refreshTokenByCookie!=undefined){
+        logcontents=result.slice(
+            currentPage*pageSize,
+            (currentPage+1)*pageSize
+        ).map(p => {
+            return (
+                <li className='mItem'>
+                    <Link href={`/recruit/${p.matchBoardId}/info`}>
+                        <div className='mUri' >
+                            <div class ="mcover">
+                                <div className='mImage'>
+                                    <span className='mInner'>
+                                    <Image src={footballimg} alt="모임소개사진"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class ="mName">
+                                <strong class="name"><a>{p.title}</a></strong>
+                                <a>{'종목:'+p.sportsName+'  지역:'+p.location}</a>
+                                <p className="pSubTxt">{'경기시간: '+ p.time}</p>
+                            </div>
+                        </div>
+                    </Link>
+                </li>
+            )
+        })
+        }
+        else{
+            logcontents=result.slice(
+                currentPage*pageSize,
+                (currentPage+1)*pageSize
+            ).map(p => {
+                return (
+                    <li className='mItem'>
+                        <a onClick={(e)=>{
+                            e.preventDefault;
+                            alert("로그인 후 이용하세요")
+                        }}>
+                            <div className='mUri' >
+                                <div class ="mcover">
+                                    <div className='mImage'>
+                                        <span className='mInner'>
+                                        <Image src={footballimg} alt="모임소개사진"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class ="mName">
+                                    <strong class="name"><a>{p.title}</a></strong>
+                                    <a>{'종목:'+p.sportsName+'  지역:'+p.location}</a>
+                                    <p className="pSubTxt">{'경기시간: '+ p.time}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                )
+            })
+        }
      return (
          <div>
              <div className="spacer" id="pagination-component">
@@ -279,32 +342,7 @@
                  <ul className='mList'>
                  <div style={{height:500,width:"100%"}}>
                  {
-                     
-                     result.slice(
-                         currentPage*pageSize,
-                         (currentPage+1)*pageSize
-                     ).map(p => {
-                         return (
-                             <li className='mItem'>
-                                 <Link href={`/recruit/${p.matchBoardId}/info`}>
-                                     <div className='mUri' >
-                                         <div class ="mcover">
-                                             <div className='mImage'>
-                                                 <span className='mInner'>
-                                                 <Image src={footballimg} alt="모임소개사진"/>
-                                                 </span>
-                                             </div>
-                                         </div>
-                                         <div class ="mName">
-                                             <strong class="name"><a>{p.title}</a></strong>
-                                             <a>{'종목:'+p.sportsName+'  지역:'+p.location}</a>
-                                             <p className="pSubTxt">{'경기시간: '+ p.time}</p>
-                                         </div>
-                                     </div>
-                                 </Link>
-                             </li>
-                         )
-                     })
+                     logcontents
                  }
                  {content}
                  </div>
