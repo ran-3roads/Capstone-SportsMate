@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { Pagination, PaginationItem, PaginationLink, Container, Row, Col } from 'reactstrap';
-import footballimg from "../../assets/images/landingpage/football.png";
+import noimg from "../../assets/images/landingpage/noimg.png";
 import { useState,useEffect } from "react";
 import axios from "axios";
 
@@ -65,7 +65,15 @@ const MPList = () => {
                                         <div class ="mcover">
                                             <div className='mImage'>
                                                 <span className='mInner'>
-                                                <Image src={footballimg} alt="모임소개사진"/>
+                                                <Image 
+                                                src={`https://capstonesportsmate.s3.ap-northeast-2.amazonaws.com/party/${p.id}.png`}
+                                                unoptimized={true}
+                                                onError={(e)=>{
+                                                    e.target.src=noimg.src
+                                                }}
+                                                width={80}
+                                                height={80}
+                                                />
                                                 </span>
                                             </div>
                                         </div>
