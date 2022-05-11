@@ -147,7 +147,7 @@ const ModifyForms = () => {
                 event.preventDefault();
                 console.log();
                 axios
-                  .post(`http://localhost:8080/sportsmate/member/my`, {
+                  .put(`http://localhost:8080/sportsmate/member/my`, {
                     nickName: event.target.nickName.value,
                     password: event.target.password.value,
                     phoneNumber: event.target.phoneNumber.value,

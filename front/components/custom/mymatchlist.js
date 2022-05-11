@@ -11,7 +11,7 @@ const MatchList = () => {
     const [matchs,setMatchs]=useState([]);
     const [islogerror,setIslogerror]=useState(false);
     useEffect(() => {
-        axios.get("http://localhost:8080/sportsmate/match/my")
+        axios.get("http://localhost:8080/sportsmate/match/myMatch")
                                 .then(function (response) {
                                     if(response.status == 200){
                                         setMatchs(response.data)

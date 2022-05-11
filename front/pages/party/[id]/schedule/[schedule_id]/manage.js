@@ -67,7 +67,7 @@ export default function Manage() {
                   <CommonTableColumn>
                     <button id={p.matchApplyId} value="승인" onClick={(event)=>{
                       event.preventDefault();
-                      axios.get(`http://localhost:8080/sportsmate/match/apply/${event.target.id}/accept`)
+                      axios.post(`http://localhost:8080/sportsmate/match/apply/${event.target.id}/accept`)
                       .then(function (response) {
                       //받는거
                       if(response.status == 200){
@@ -83,7 +83,7 @@ export default function Manage() {
                   }}>승인</button>
                   <button id={p.matchApplyId} value="거절" onClick={(event)=>{
                       event.preventDefault();
-                      axios.get(`http://localhost:8080/sportsmate/match/apply/${event.target.id}/reject`)
+                      axios.post(`http://localhost:8080/sportsmate/match/apply/${event.target.id}/reject`)
                       .then(function (response) {
                       //받는거
                       if(response.status == 200){
