@@ -37,7 +37,7 @@ axios.interceptors.response.use(
         isTokenRefreshing = true;
         setTimeout(async () => {
           try {
-            const { headers } = await axios.get(
+            const { headers } = await axios.post(
               `http://localhost:8080/sportsmate/member/public/reissue`
             ); // token refresh api
             // 새로운 토큰 저장
