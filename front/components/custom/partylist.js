@@ -3,38 +3,16 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button,Pagination, Form, FormGroup,PaginationItem, PaginationLink, Container, Row, Col,Input } from 'reactstrap';
-import footballimg from "../../assets/images/landingpage/football.png";
+import noimg from "../../assets/images/landingpage/noimg.png";
 import { useState,useEffect } from "react";
 import axios from "axios";
-
-console.log(footballimg);
 const PList = () => {
     const [partys,setPartys]=useState([]);
     useEffect(() => {
         axios.get("http://localhost:8080/sportsmate/party/public/all")
                                 .then(function (response) {
                                     if(response.status == 200){
-                                        let tmp1=new Array();
-                                        response.data.map(r=>{
-                                            axios.get('http://localhost:8080/sportsmate/file/public/image',{ params: { id: r.id,imageCategory:"PARTY" } })
-                                            .then(function(response){
-                                                tmp1=tmp1.concat({
-                                                    id:r.id,
-                                                    sportsName:r.sportsName,
-                                                    location:r.location,
-                                                    intro:r.intro,
-                                                    title:r.title,
-                                                    sinceDate:r.sinceDate,
-                                                    currentMember:r.currentMember,
-                                                    info:r.info,
-                                                    imgsrc:response.data
-                                                })
-                                                setPartys(tmp1);
-                                            })
-                                            .catch(function(error){
-                                                console.log(error);
-                                            });
-                                        })
+                                                setPartys(response.data);
                                     }
                             }).catch(function (error) {
                                     console.log(error);
@@ -312,9 +290,15 @@ const PList = () => {
                                         <div class ="mcover">
                                             <div className='mImage'>
                                                 <span className='mInner'>
-                                                <img src={p.imgsrc} onError={(e)=>{
-                                                    e.target.src='/_next/static/image/assets/images/landingpage/football.0497cc0339ca74f8b09300a469b090f8.png'
-                                                }}/>
+                                                <Image 
+                                                src={`https://capstonesportsmate.s3.ap-northeast-2.amazonaws.com/party/${p.id}.png`}
+                                                unoptimized={true}
+                                                onError={(e)=>{
+                                                    e.target.src=noimg.src
+                                                }}
+                                                width={80}
+                                                height={80}
+                                                />
                                                 </span>
                                             </div>
                                         </div>
