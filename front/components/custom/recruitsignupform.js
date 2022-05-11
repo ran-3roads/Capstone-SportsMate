@@ -53,6 +53,7 @@ const RecruitSignupForm = () => {
   }
 
   useEffect(() => {
+    if(!router.isReady)return;
     axios
       .get(`http://localhost:8080/sportsmate/match/board/${id}`)
       .then(function (response) {
@@ -97,7 +98,7 @@ const RecruitSignupForm = () => {
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+  }, [router.isReady]);
   useEffect(() => {
     if (kakaoMap === null) {
       return;

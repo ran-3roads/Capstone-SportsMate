@@ -10,6 +10,7 @@ const PostView = ({ history }) => {
   const { id } = router.query;
   const { board_id } = router.query;
   useEffect(() => {
+    if(!router.isReady)return;
     axios.get(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}`)
   .then(function (response) {
     if(response.status == 200){
@@ -18,8 +19,9 @@ const PostView = ({ history }) => {
     .catch(function (error) {
        console.log(error);
       });
-}, [])
+}, [router.isReady])
 useEffect(() => {
+  if(!router.isReady)return;
   axios.get(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/isWriter`)
 .then(function (response) {
   if(response.status == 200){
@@ -28,7 +30,7 @@ useEffect(() => {
   .catch(function (error) {
      console.log(error);
     });
-}, [])
+}, [router.isReady])
     let category = undefined;
             if(exam.category=="NOTICE")
               category = "공지";

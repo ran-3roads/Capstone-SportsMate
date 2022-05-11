@@ -14,6 +14,7 @@ const ModifyForm = (props) => {
     const { id } = router.query;
     const { board_id } = router.query;
 useEffect(() => {
+    if(!router.isReady)return;
     console.log(id,board_id)
     axios.get(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}`)
   .then(function (response) {
@@ -23,7 +24,7 @@ useEffect(() => {
     .catch(function (error) {
        console.log(error);
       });
-}, [])
+}, [router.isReady])
 
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
     

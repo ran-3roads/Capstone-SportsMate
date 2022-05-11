@@ -25,6 +25,7 @@ export default function Board_id() {
   }, []);
 
     useEffect(() => {
+        if(!router.isReady)return;
         axios.get(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/comment`)
         .then(function (response) {
           if(response.status == 200){
@@ -35,7 +36,7 @@ export default function Board_id() {
                             }).catch(function (error) {
                                     console.log(error);
                                 });
-    }, []);
+    }, [router.isReady]);
   const[text,setText]=useState('');
   const onchangeText = (e) =>{
     setText(e.target.value)

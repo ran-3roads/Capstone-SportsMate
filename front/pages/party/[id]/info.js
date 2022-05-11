@@ -18,14 +18,15 @@ export default function Info() {
     const router = useRouter();
     const { id } = router.query;
     const [party,setParty]=useState([]);
-    const [ismember,setIsmember]=useState(false);
-    const [ismanager,setIsmanager]=useState(false);
-    const [isalreadyapply,setIsalreadyapply]=useState(false);
+    const [ismember,setIsmember]=useState(undefined);
+    const [ismanager,setIsmanager]=useState(undefined);
+    const [isalreadyapply,setIsalreadyapply]=useState(undefined);
     const [partyimg, setPartyimg] = useState({});
     let managecontent=null;
     let membercontent=null;
     let memberjoincontent=null;
     let managecontent2=null;
+    if(ismember!=undefined&&ismanager!=undefined&&isalreadyapply!=undefined){
     if(refreshTokenByCookie!=undefined){
     if(ismember){
       membercontent=<PartySelect>
@@ -87,41 +88,59 @@ export default function Info() {
       파티 가입하기
     </a>
   }
+}
 
     useEffect(() => {
+        if(!router.isReady)return;
         axios.get(`http://localhost:8080/sportsmate/party/public/${id}/info`)
                             .then(function (response) {
                                     if(response.status == 200){
+                                      console.log("1")
                                         setParty(response.data);
                                         return axios.get('http://localhost:8080/sportsmate/file/public/image',{ params: { id: id,imageCategory:"PARTY" } })
                                     }
                             })
                             .then(function(response){
                               if(response.status == 200){
-
+                                console.log("2")
                                 setPartyimg(response.data);
-                                return  axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyManager`)
                             }
-                            })
-                            .then(function(response){
-                              if(response.status == 200){
-                                setIsmanager(response.data)
-                                return  axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyMember`)
-                            }
-                            })
-                            .then(function(response){
-                              if(response.status == 200){
-                                setIsmember(response.data)
-                                return axios.get(`http://localhost:8080/sportsmate/party/${id}/alreadyApply`)
-                              }
-                            })
-                            .then(function(response){
-                                setIsalreadyapply(response.data)
                             })
                             .catch(function (error) {
                                     console.log(error);
                                 });
-    }, [])
+          axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyManager`)
+          .then(function(response){
+            if(response.status == 200){
+              console.log("3")
+              setIsmanager(response.data)
+          }
+          })
+          .catch(function (error) {
+                  console.log(error);
+              });
+          axios.get(`http://localhost:8080/sportsmate/party/${id}/isPartyMember`)
+              .then(function(response){
+                if(response.status == 200){
+                  console.log("4")
+                  setIsmember(response.data)
+              }
+              })
+              .catch(function (error) {
+                      console.log(error);
+                  });
+          axios.get(`http://localhost:8080/sportsmate/party/${id}/alreadyApply`)
+                  .then(function(response){
+                    if(response.status == 200){
+                      console.log("5")
+                      setIsalreadyapply(response.data)
+                  }
+                  })
+                  .catch(function (error) {
+                          console.log(error);
+                      });
+          
+    }, [router.isReady])
 
     const partyinfo = {
     manager: '맹구토씈갈리오',

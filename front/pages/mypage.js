@@ -12,7 +12,6 @@ export default function Mypage() {
   const [my, setMy] = useState({});
   const [myimg, setMyimg] = useState({});
   console.log(axios.defaults.headers.common["Authorization"]);
-
   useEffect(() => {
     axios
       .get(`http://localhost:8080/sportsmate/member/my`)

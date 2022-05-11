@@ -29,6 +29,7 @@ export default function Schedule() {
   console.log(events);
   let managercontent=null;
   useEffect(() => {
+    if(!router.isReady)return;
     axios.get(`http://localhost:8080/sportsmate/party/${id}/schedule`)
                             .then(function (response) {
                                 if(response.status == 200){
@@ -60,7 +61,7 @@ export default function Schedule() {
                         }).catch(function (error) {
                                 console.log(error);
                             });
-    }, [])
+    }, [router.isReady])
   if(ismanager){
     managercontent=<Button className="btn btn-success waves-effect waves-light m-r-10" onClick={(event)=>{
       event.preventDefault();
