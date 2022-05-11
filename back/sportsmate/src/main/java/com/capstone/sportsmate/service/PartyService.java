@@ -9,7 +9,6 @@ import com.capstone.sportsmate.domain.status.NoticeType;
 import com.capstone.sportsmate.domain.status.Request;
 import com.capstone.sportsmate.domain.status.Role;
 import com.capstone.sportsmate.exception.AlreadyExistException;
-import com.capstone.sportsmate.exception.NotFoundEntityException;
 import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.NoticeRepository;
 import com.capstone.sportsmate.repository.PartyMemberRepository;
@@ -149,12 +148,7 @@ public class PartyService {
 
         noticeRepository.saveNotice(notice);
     }
-    @Transactional
-    public Party addCurrentMember(Long partyId){
-        Party party = partyRepository.findOne(partyId);
-        party.addMember();
-        return party;
-    }
+
 
     public boolean isPartyMember(Long partyId, Long memberId){
         Party party = partyRepository.findOne(partyId);
@@ -167,10 +161,6 @@ public class PartyService {
 
     public List<Party> getPartyList(){
        return partyRepository.findAll();
-    }
-    private void JoinPartytoMember(Party party, Member member){
-        PartyMember partyMember= PartyMember.createPartyMember(member,party, Role.MEMBER,LocalDate.now());
-        partyRepository.mkPartyMember(partyMember);
     }
 
     private void JoinPartytoHost(Party party, Member member){

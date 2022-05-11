@@ -120,12 +120,6 @@ public class PartyBoardService {
             throw  new InconsistencyException("다른 멤버입니다..");
         }
     }
-    @Transactional
-    public void updateComment(Long commentId, CommentForm commentForm) {//댓글 수정 변경감지 사용
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new NotFoundEntityException("지워진 댓글입니다."));
-        comment.updateComment(commentForm.getContents(),LocalDateTime.now());
-    }
 
     //----------삭제----------
     @Transactional

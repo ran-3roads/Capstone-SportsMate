@@ -1,7 +1,6 @@
 package com.capstone.sportsmate.service;
 
 import com.capstone.sportsmate.domain.*;
-import com.capstone.sportsmate.domain.notice.Apply;
 import com.capstone.sportsmate.domain.notice.MatchApply;
 import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.domain.notice.Reply;
@@ -15,7 +14,6 @@ import com.capstone.sportsmate.repository.*;
 import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.MatchApplyForm;
 import com.capstone.sportsmate.web.MatchForm;
-import com.capstone.sportsmate.web.MemberApplyForm;
 import com.capstone.sportsmate.web.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

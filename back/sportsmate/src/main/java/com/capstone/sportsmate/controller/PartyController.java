@@ -1,6 +1,5 @@
 package com.capstone.sportsmate.controller;
 import com.capstone.sportsmate.domain.*;
-import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.exception.*;
 import com.capstone.sportsmate.exception.response.ErrorResponse;
 import com.capstone.sportsmate.service.*;
@@ -74,11 +73,11 @@ public class PartyController {
         return partyService.viewParty(partyId);
     }
     @GetMapping("/{partyId}/applyList")  //*
-    public List<ApplyForm> viewPartyApply(@PathVariable("partyId") Long partyId){
+    public List<ApplyResponse> viewPartyApply(@PathVariable("partyId") Long partyId){
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){ //exception 리턴타입 수정해야함
             throw new MyRoleException("확인 권한이 없습니다.");
         }
-        List<ApplyForm> applyFormList= noticeService.PartyGetApplies(partyId);
+        List<ApplyResponse> applyFormList= noticeService.PartyGetApplies(partyId);
         return applyFormList;
     }
     @PostMapping("/{partyId}/applyList/{applyId}/accept")  //*
@@ -121,14 +120,6 @@ public class PartyController {
         return true; //방장이다
     }
 
-//    @GetMapping("/{partyId}/modify") //*
-//    public Party editParty(@PathVariable("partyId") Long partyId){
-//        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
-//            throw new MyRoleException("수정 권한이 없습니다."); //exception 리턴타입 수정해야함
-//        }
-//        Party party= partyService.findOne(partyId);
-//        return party;
-//    }
     @PutMapping("/{partyId}") // 방장 권한이 있는 유저만 검색가능
     public String updateItem(@RequestBody PartyForm form, @PathVariable("partyId") Long partyId){
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){ //exception 리턴타입 수정해야함

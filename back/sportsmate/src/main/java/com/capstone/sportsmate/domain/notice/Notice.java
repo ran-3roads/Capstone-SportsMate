@@ -16,7 +16,6 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Table(name = "notice")
 @Getter@Setter
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Notice { // 알림 Entity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

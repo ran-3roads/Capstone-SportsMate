@@ -1,4 +1,4 @@
-package com.capstone.sportsmate.web;
+package com.capstone.sportsmate.web.response;
 
 import com.capstone.sportsmate.domain.status.NoticeStatus;
 import com.capstone.sportsmate.domain.status.NoticeType;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class ApplyForm {
+public class ApplyResponse {
 
     private Long id; //지원서id
     private String partyTitle; //파티이름

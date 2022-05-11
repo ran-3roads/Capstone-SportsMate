@@ -142,11 +142,6 @@ public class MemberService {
         Member member = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
         member.deposit(credit);
     }
-    @Transactional
-    public void withdraw(int credit) {
-        Member member = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
-        member.withdraw(credit);
-    }
 
     @Transactional
     public String modifyInfo(MemberMoidfyForm memberMoidfyForm) {//정보 변경
