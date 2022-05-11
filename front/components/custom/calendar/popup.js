@@ -239,7 +239,7 @@ function Popup({open, setPopup,party_id, callback}) {
           <Modal.Body>
                 <Form className="col" id="signupForm" onSubmit={function (e) {
                     e.preventDefault();
-                    axios.post(`http://localhost:8080/sportsmate/party/${party_id}/schedule/regist/book`,{
+                    axios.post(`http://localhost:8080/sportsmate/party/${party_id}/schedule/regist`,{
                                 maxMember:e.target.maxMember.value,
                                 title:e.target.title.value,
                                 contents:e.target.contents.value,

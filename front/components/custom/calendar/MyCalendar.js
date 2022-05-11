@@ -26,7 +26,7 @@ export default function MyCalendar(props){
           .then(function (response) {
             if(response.status == 200){
                 isalreadyP=response.data
-                return axios.get(`http://localhost:8080/sportsmate/match/board/create/${event.id}`)
+                return axios.get(`http://localhost:8080/sportsmate/match/board/create/${event.id}/isSchedule`)
               }
             })
           .then(function (response) {

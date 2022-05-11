@@ -67,7 +67,7 @@ useEffect(() => {
                                 }
                             }
                             else{
-                                axios.post(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}/modify`, {
+                                axios.put(`http://localhost:8080/sportsmate/party/${id}/partyboard/${board_id}`, {
                                     title: event.target.title.value,
                                     contents: event.target.contents.value,
                                     category: event.target.category.value

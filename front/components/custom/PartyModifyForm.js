@@ -77,7 +77,7 @@ const PartyModifyForm = () => {
 
   useEffect(() => {
     if(!router.isReady)return;
-    axios.get(`http://localhost:8080/sportsmate/party/${id}/modify`)
+    axios.get(`http://localhost:8080/sportsmate/party/${id}/info`)
       .then(function (response) {
         if (response.status == 200) {
           setPartyinfo(response.data);
@@ -135,7 +135,7 @@ const PartyModifyForm = () => {
             <Form className="col" id="ModifyForm" onSubmit={function (event) {
               event.preventDefault();
               console.log()
-              axios.post(`http://localhost:8080/sportsmate/party/${id}/modify`, {
+              axios.put(`http://localhost:8080/sportsmate/party/${id}`, {
                 title: event.target.title.value,
                 sportsName: event.target.sportsName.value,
                 intro: event.target.intro.value,

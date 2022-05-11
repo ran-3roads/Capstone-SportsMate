@@ -69,7 +69,7 @@ public class PartyController {
         return "success";
     }
 
-    @GetMapping("/public/{partyId}/info")  //*
+    @GetMapping("/public/{partyId}/info")  //파티 수정할때 이걸로 정보 받아오게 프론트쪽한테 전달해야함.
     public PartyResponse viewParty(@PathVariable("partyId") Long partyId){
         return partyService.viewParty(partyId);
     }
@@ -121,15 +121,15 @@ public class PartyController {
         return true; //방장이다
     }
 
-    @GetMapping("/{partyId}/modify") //*
-    public Party editParty(@PathVariable("partyId") Long partyId){
-        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
-            throw new MyRoleException("수정 권한이 없습니다."); //exception 리턴타입 수정해야함
-        }
-        Party party= partyService.findOne(partyId);
-        return party;
-    }
-    @PostMapping("/{partyId}/modify") // 방장 권한이 있는 유저만 검색가능
+//    @GetMapping("/{partyId}/modify") //*
+//    public Party editParty(@PathVariable("partyId") Long partyId){
+//        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
+//            throw new MyRoleException("수정 권한이 없습니다."); //exception 리턴타입 수정해야함
+//        }
+//        Party party= partyService.findOne(partyId);
+//        return party;
+//    }
+    @PutMapping("/{partyId}") // 방장 권한이 있는 유저만 검색가능
     public String updateItem(@RequestBody PartyForm form, @PathVariable("partyId") Long partyId){
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){ //exception 리턴타입 수정해야함
             throw new MyRoleException("수정 권한이 없습니다.");
@@ -167,11 +167,7 @@ public class PartyController {
         return "mkparty";
     }
     //----------수정----------
-    @GetMapping("/{partyId}/partyboard/{partyBoardId}/modify") //멤버 조회후 수정할 정보 리턴 아마 인증만 해주고 그전 내용 반영은 프론트에 맡겨도 될듯
-    public PartyBoard getPartyBoardModify(@PathVariable("partyBoardId") Long partyBoardId){
-        return partyBoardService.verifiactionBoardMember(partyBoardId);//검증
-    }
-    @PostMapping("/{partyId}/partyboard/{partyBoardId}/modify") //멤버 조회후 수정할 내용 반환
+    @PutMapping("/{partyId}/partyboard/{partyBoardId}") //멤버 조회후 수정할 내용 반환
     public String updatePartyBoard(@RequestBody PartyBoardForm partyBoardForm ,@PathVariable("partyBoardId") Long partyBoardId){
         partyBoardService.verifiactionBoardMember(partyBoardId);//검증
         partyBoardService.updatePartyBoard(partyBoardId, partyBoardForm);//변경
@@ -200,17 +196,6 @@ public class PartyController {
         partyBoardService.createComment(partyBoardId, commentForm);
         return "mkcomment";
     }
-    //----------수정----------
-    @GetMapping("/{partyId}/partyboard/{partyBoardId}/comment/{commentId}/modify") //멤버 조회후 수정할 댓글 정보 리턴 아마 인증만 해주고 그전 내용 반영은 프론트에 맡겨도 될듯
-    public Comment getCommentModify(@PathVariable("commentId") Long commentId){
-        return partyBoardService.verifiactionCommentMember(commentId);
-    }
-    @PostMapping("/{partyId}/partyboard/{partyBoardId}/comment/{commentId}/modify") //멤버 조회후 수정할 댓글 내용 반환
-    public String updateComment(@PathVariable("commentId") Long commentId,@RequestBody CommentForm commentForm){
-        partyBoardService.verifiactionCommentMember(commentId);
-        partyBoardService.updateComment(commentId,commentForm);
-        return "update";
-    }
     //----------삭제----------
     @DeleteMapping("/{partyId}/partyboard/{partyBoardId}/comment/{commentId}") //멤버 조회후 댓글 삭제
     public String deleteComment(@PathVariable("commentId") Long commentId){
@@ -234,20 +219,16 @@ public class PartyController {
         registService.bookRegist(memberService.getMyInfo().getId(),partyId,scheduleId);
         return "예약했습니다.";
     }
+    @DeleteMapping("/{partyId}/schedule/{scheduleId}") //  한 스케쥴 예약 취소
+    public String cancelRegist(@PathVariable("scheduleId") Long scheduleId){
+        registService.cancelRegist(scheduleId,memberService.getMyInfo().getId());
+        return "예약 취소했습니다.";
+    }
     @GetMapping("/{partyId}/schedule/{scheduleId}/isAlreadyRegist") // 예약했는지 확인해주라.
     public boolean isAlreadyRegist(@PathVariable("scheduleId") Long scheduleId){
         if(registService.isAlreadyRegist(scheduleId)) return true; //이미 예약했다.
         return false; // 예약안했다,
     }
-    @PostMapping("/{partyId}/schedule/{scheduleId}/cancel") // 예약했는지 확인해주라.
-    public String cancelRegist(@PathVariable("scheduleId") Long scheduleId){
-        registService.cancelRegist(scheduleId,memberService.getMyInfo().getId());
-        return "예약 취소했습니다.";
-    }
-
-
-
-
     // ------방장시점------
     @GetMapping("/{partyId}/schedule/{scheduleId}/applyList") // 스케줄로 용병신청 조회하기
     public ResponseEntity<List<MatchApplyResponse>> getMatchApply(@PathVariable("partyId") Long partyId, @PathVariable("scheduleId") Long scheduleId){
@@ -263,7 +244,6 @@ public class PartyController {
         }
         return registService.getArenaList(partyId);
     }
-    //---new 방장시점----
     @PostMapping("/{partyId}/schedule/regist/getArenaList") // 경기장 넘겨서 예약 시간알아봄
     public List<ArenaTime> getPossibletime(@RequestBody RegistTimeForm form, @PathVariable("partyId") Long partyId){
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
@@ -271,17 +251,7 @@ public class PartyController {
         }
         return registService.getPossibleTime(form,partyId);
     }
-/*
-    @GetMapping("/{partyId}/schedule/regist/{arenaId}/book") // 경기장을 확인한다.
-    public Arena getArenaInfo(@PathVariable("partyId") Long partyId, @PathVariable("arenaId") Long arenaId){
-        if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
-            throw new MyRoleException("예약 권한이 없습니다.");
-        }
-        return registService.getArenaInfo(arenaId);
-    }
-    */
-    //---new 방장시점----
-    @PostMapping("/{partyId}/schedule/regist/book") // 경기장을 예약한다.
+    @PostMapping("/{partyId}/schedule/regist") // 경기장을 예약한다.
     String bookArena(@RequestBody BookForm form,@PathVariable("partyId") Long partyId){
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){
             throw new MyRoleException("예약 권한이 없습니다.");
