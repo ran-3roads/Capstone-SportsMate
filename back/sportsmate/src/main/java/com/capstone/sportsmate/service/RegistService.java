@@ -2,6 +2,11 @@ package com.capstone.sportsmate.service;
 
 
 import com.capstone.sportsmate.domain.*;
+import com.capstone.sportsmate.domain.notice.Notice;
+import com.capstone.sportsmate.domain.notice.Reply;
+import com.capstone.sportsmate.domain.status.NoticeStatus;
+import com.capstone.sportsmate.domain.status.NoticeType;
+import com.capstone.sportsmate.domain.status.Request;
 import com.capstone.sportsmate.exception.RegistException;
 import com.capstone.sportsmate.repository.*;
 import com.capstone.sportsmate.util.SecurityUtil;
@@ -14,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +34,7 @@ public class RegistService {
     private final MemberRepository memberRepository;
     private final JoinGameRepository joinGameRepository;
     private final MatchBoardRepository matchBoardRepository;
+    private final NoticeRepository noticeRepository;
 
     @Transactional
     public void bookArena(BookForm bookForm,Long partyId){
@@ -57,11 +64,25 @@ public class RegistService {
             throw  new RegistException("금액이 부족합니다.");
         }
         member.withdraw((int)scheduleResponse.getNShotCredit());
+        //정원 초과면 지원을 못함.
+        if(schedule.isMaxMember()) {
+            throw  new RegistException("정원 초과입니다.");
+        }
         schedule.addCurrentMemeber();
         JoinGame joinGame= JoinGame.createJoinGame(member,regist);
         registRepository.joinGameSave(joinGame);
+
+        // 모임이 성사되면 멤버 전원에게 보낸다.
+        if(schedule.isMaxMember()){
+            List<JoinGame>joinGames=joinGameRepository.findByRegist(schedule.getRegist());
+            for(JoinGame j: joinGames) {
+                sendCompleteReply(j.getMember(),schedule.getParty());
+            }
+        }
+
         MatchBoard matchBoard = matchBoardRepository.findByRegist(regist)
                 .orElseGet(null);
+
         if(matchBoard==null)
             return;
         else
@@ -84,6 +105,17 @@ public class RegistService {
             return;
         else
             matchBoard.minusCurrentMember();
+    }
+    //모임 성사 됐음을 알리는 메시지
+    public void sendCompleteReply(Member toMember,Party party){
+
+        Reply reply= Reply.createReply(Request.ACCEPT,party);
+        noticeRepository.saveReply(reply);
+        Notice notice = Notice.createNotice(toMember, NoticeType.COMPLETEREPLY, NoticeStatus.UNCONFIRM, LocalDateTime.now());
+        notice.setReply(reply);
+        notice.setApply(null);
+
+        noticeRepository.saveNotice(notice);
     }
 
     public boolean isAlreadyRegist(Long scheduleId){

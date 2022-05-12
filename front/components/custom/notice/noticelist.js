@@ -123,7 +123,7 @@ const NoticeList = () => {
                             </li>
                             </a>
                         )
-                        else if(n.state=="COMPLETEREPLY")
+                        else if(n.noticeType=="COMPLETEREPLY")
                         return (
                             <a onClick={()=>{
                                 axios.post(`http://localhost:8080/sportsmate/notice/${n.noticeId}`)
@@ -138,7 +138,7 @@ const NoticeList = () => {
                             <li className='mItem' key={n.noticeId}>
                                     <div className='mUri' >
                                         <div className="mName">
-                                            <strong className="name"><a>모임이 성사되었습니다.</a></strong>
+                                            <strong className="name"><a>{n.sender} 파티의 모임이 성사되었습니다.</a></strong>
                                             <a>시간:{n.sinceDate}</a>
                                         </div>
                                     </div>
@@ -282,16 +282,15 @@ const NoticeList = () => {
                                     </div>
                             </li>
                         )
-                        else if(n.state=="COMPLETEREPLY")
+                        else if(n.noticeType=="COMPLETEREPLY")
                         return (
                             <a onClick={()=>{
-
-                               router.push(`/mymatch/${n.matchId}/info`) 
+                               router.push(`/mymatch`) 
                             }}>
                             <li className='mItem' key={n.noticeId}>
                                     <div className='mUri' >
                                         <div className="mName">
-                                            <strong className="name"><a>모임이 성사되었습니다.</a></strong>
+                                            <strong className="name"><a>{n.sender} 파티의 모임이 성사되었습니다.</a></strong>
                                             <a>시간:{n.sinceDate}</a>
                                         </div>
                                     </div>

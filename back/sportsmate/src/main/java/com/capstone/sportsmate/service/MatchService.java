@@ -36,6 +36,7 @@ public class MatchService {
     private final JoinGameRepository joinGameRepository;
 
     private final PartyService partyService;
+    private final RegistService registService;
 
     //게시판 생성
     @Transactional
@@ -134,6 +135,14 @@ public class MatchService {
 
         findSchedule.addCurrentMemeber();
         findMatchBoard.addCurrentMember();
+
+        // 모임이 성사되면 멤버 전원에게 보낸다.
+        if(findSchedule.isMaxMember()){
+            List<JoinGame>joinGames=joinGameRepository.findByRegist(findSchedule.getRegist());
+            for(JoinGame j: joinGames) {
+                registService.sendCompleteReply(j.getMember(),findSchedule.getParty());
+            }
+        }
 
         findMember.withdraw((int)findSchedule.toScheduleResponse().getNShotCredit());
 

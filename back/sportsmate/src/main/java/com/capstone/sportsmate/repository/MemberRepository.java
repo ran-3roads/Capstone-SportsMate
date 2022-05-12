@@ -4,12 +4,15 @@ package com.capstone.sportsmate.repository;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Party;
 import com.capstone.sportsmate.domain.PartyMember;
+import com.capstone.sportsmate.domain.Regist;
+import com.capstone.sportsmate.domain.notice.Apply;
 import com.capstone.sportsmate.domain.status.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
