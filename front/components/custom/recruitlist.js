@@ -151,7 +151,7 @@
                             <div class ="mName">
                                 <strong class="name"><a>{p.title}</a></strong>
                                 <a>{'종목:'+p.sportsName+'  지역:'+p.location}</a>
-                                <p className="pSubTxt">{'경기시간: '+ p.time}</p>
+                                <p className="pSubTxt">{'경기 날짜/시간: '+p.day+'/'+p.time}</p>
                             </div>
                         </div>
                     </Link>
@@ -181,7 +181,7 @@
                                 <div class ="mName">
                                     <strong class="name"><a>{p.title}</a></strong>
                                     <a>{'종목:'+p.sportsName+'  지역:'+p.location}</a>
-                                    <p className="pSubTxt">{'경기시간: '+ p.time}</p>
+                                    <p className="pSubTxt">{'경기 날짜/시간: '+p.day+'/'+p.time}</p>
                                 </div>
                             </div>
                         </a>
