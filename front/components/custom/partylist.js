@@ -142,22 +142,22 @@ const PList = () => {
                                     <span className="partyfilter">
                                     <Input type="select" name="sportsName" value={sportsName} onChange={onchangeSportsName}>
                                     <option value="all" selected>종목선택(전체)</option>
-										  	 			<option value="축구">
+										  	 			<option value="SOCCER">
                                                             축구
                                                         </option>
-										  	 			<option value="풋살">
+										  	 			<option value="FOOTBALL">
                                                             풋살
                                                         </option>
-										  	 			<option value="배구">
+										  	 			<option value="VALLEYBALL">
                                                             배구
                                                         </option>
-										  	 			<option value="배드민턴">
+										  	 			<option value="BADMINTON">
                                                             배드민턴
                                                         </option>
-										  	 			<option value="농구">
+										  	 			<option value="BASKETBALL">
                                                             농구
                                                         </option>
-										  	 			<option value="탁구">
+										  	 			<option value="PINGPONG">
                                                             탁구
                                                         </option>
 										  	
