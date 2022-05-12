@@ -1,5 +1,6 @@
 package com.capstone.sportsmate.domain;
 
+import com.capstone.sportsmate.domain.notice.Reply;
 import com.capstone.sportsmate.web.response.MyGameResponse;
 import lombok.Getter;
 
