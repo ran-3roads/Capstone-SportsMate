@@ -123,6 +123,28 @@ const NoticeList = () => {
                             </li>
                             </a>
                         )
+                        else if(n.state=="COMPLETEREPLY")
+                        return (
+                            <a onClick={()=>{
+                                axios.post(`http://localhost:8080/sportsmate/notice/${n.noticeId}`)
+                                .then(function (response) {
+                                  if(response.status == 200){
+                                    console.log(response.data);
+                                    }
+                                }).catch(function (error) {
+                                    console.log(error);
+                                });
+                            }}>
+                            <li className='mItem' key={n.noticeId}>
+                                    <div className='mUri' >
+                                        <div className="mName">
+                                            <strong className="name"><a>모임이 성사되었습니다.</a></strong>
+                                            <a>시간:{n.sinceDate}</a>
+                                        </div>
+                                    </div>
+                            </li>
+                            </a>
+                        )
                         else if(n.state=="BANISH")
                         return (
                             <a onClick={()=>{
@@ -259,6 +281,22 @@ const NoticeList = () => {
                                         </div>
                                     </div>
                             </li>
+                        )
+                        else if(n.state=="COMPLETEREPLY")
+                        return (
+                            <a onClick={()=>{
+
+                               router.push(`/mymatch/${n.matchId}/info`) 
+                            }}>
+                            <li className='mItem' key={n.noticeId}>
+                                    <div className='mUri' >
+                                        <div className="mName">
+                                            <strong className="name"><a>모임이 성사되었습니다.</a></strong>
+                                            <a>시간:{n.sinceDate}</a>
+                                        </div>
+                                    </div>
+                            </li>
+                            </a>
                         )
                         else
                         return (
