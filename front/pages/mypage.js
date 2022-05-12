@@ -4,6 +4,7 @@ import { Container, Row, Col, Button } from "reactstrap";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { loadTossPayments } from "@tosspayments/payment-sdk";
+import Footer from "../layout/footer/Footer";
 var uuid = require("uuid").v4;
 
 const clientKey = "test_ck_XjExPeJWYVQbodkMjRpr49R5gvNL";
@@ -40,7 +41,6 @@ export default function Mypage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="font_title">My Information</div>
-      <div className="my">
         <div className="my_box">
           <div className="my_boxc">
             <div className="left_section">
@@ -75,7 +75,6 @@ export default function Mypage() {
         </div>
         <Row className="justify-content-center">
           <Col lg="8" md="6" className="align-self-center text-center">
-            <Row>
             <Link href="/myparty">
               <Button className="btn btn-danger m-t-30 btn-info-gradiant font-14">
                 My Party 목록
@@ -86,7 +85,7 @@ export default function Mypage() {
                 My 경기 목록
               </Button>
             </Link>
-            </Row>
+            <br/>
               <a
                 className="btn btn-warning m-r-10 btn-md m-t-20"
                 onClick={(event) => {
@@ -107,7 +106,6 @@ export default function Mypage() {
               </a>  
           </Col>
         </Row>
-      </div>
       </div>
   );
 }

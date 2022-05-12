@@ -39,7 +39,6 @@ export default function Success() {
     }, [router.isReady]);
     return (
       <div className="static-slider-head">
-
       <Head>
         <title>My</title>
         <meta
@@ -50,13 +49,14 @@ export default function Success() {
 
       </Head>
       <div className="font_title">My Information</div>
-      <div className="my">
         <div className="my_box">
           <div className="my_boxc">
             <div className="left_section">
               <div className="p_image">
               </div>
-              <div className="inf_name"><div className="my_font">님</div></div>
+              <div className="inf_name">
+                <div className="my_font">님</div>
+                </div>
               <div className="since_date"><div className="my_font">가입일</div></div>
               <div className="inf_name"><div className="my_font">포인트</div></div>
               <div className="left_buttons">
@@ -84,10 +84,10 @@ export default function Success() {
               <Button className="btn btn-danger m-t-30 btn-info-gradiant font-14">
                 My 경기 목록
               </Button> 
+              <br/>
             <a className="btn btn-warning m-r-10 btn-md m-t-20">포인트충전</a>
           </Col>
         </Row>
       </div>
-    </div>
     );
   };
