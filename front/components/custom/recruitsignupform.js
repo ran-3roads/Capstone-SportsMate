@@ -131,6 +131,20 @@ const RecruitSignupForm = () => {
     setSuggest(e.target.value);
   };
 
+  let sportsname = undefined;
+    if(recruits.sportsName=="FOOTBALL")
+    sportsname = "풋볼";
+    else if(recruits.sportsName =="VALLEYBALL")
+    sportsname = "배구";
+    else if(recruits.sportsName =="BASKETBALL")
+    sportsname = "농구";
+    else if(recruits.sportsName =="PINGPONG")
+    sportsname = "탁구";
+    else if(recruits.sportsName =="SOCCER")
+    sportsname = "축구";
+    else if(recruits.sportsName =="BADMINTON")
+    sportsname = "배드민턴";
+
   return (
     <div>
       <Popup
@@ -196,7 +210,7 @@ const RecruitSignupForm = () => {
                 <Label htmlFor="title">파티명: {recruits.title}</Label>
               </FormGroup>
               <FormGroup className="col-md-6">
-                <Label htmlFor="manager">스포츠: {recruits.sportsName}</Label>
+                <Label htmlFor="manager">스포츠: {sportsname}</Label>
               </FormGroup>
               <FormGroup className="col-md-6">
                 <Label htmlFor="members">모집수: {recruits.maxMember}명</Label>

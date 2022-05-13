@@ -58,6 +58,19 @@ const MPList = () => {
                         currentPage*pageSize,
                         (currentPage+1)*pageSize
                     ).map(p => {
+                        let sportsname = undefined;
+                        if(p.sportsName=="FOOTBALL")
+                        sportsname = "풋볼";
+                        else if(p.sportsName =="VALLEYBALL")
+                        sportsname = "배구";
+                        else if(p.sportsName =="BASKETBALL")
+                        sportsname = "농구";
+                        else if(p.sportsName =="PINGPONG")
+                        sportsname = "탁구";
+                        else if(p.sportsName =="SOCCER")
+                        sportsname = "축구";
+                        else if(p.sportsName =="BADMINTON")
+                        sportsname = "배드민턴";
                         return (
                             <li className='mItem'>
                                 <Link href={`/party/${p.id}/info`}>
@@ -79,7 +92,7 @@ const MPList = () => {
                                         </div>
                                         <div class ="mName">
                                             <strong class="name"><a>{p.title}</a></strong>
-                                            <a>{'종목:'+p.sportsName+'  지역:'+p.location}</a>
+                                            <a>{'종목:'+sportsname+'  지역:'+p.location}</a>
                                             <p className="pSubTxt">{p.intro}</p>
                                         </div>
                                     </div>

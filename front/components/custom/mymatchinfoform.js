@@ -82,8 +82,20 @@ const MymatchInfoForm = () => {
       
 
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
- 
 
+    let sportsname = undefined;
+    if(mymatchs.sportsName=="FOOTBALL")
+    sportsname = "풋볼";
+    else if(mymatchs.sportsName =="VALLEYBALL")
+    sportsname = "배구";
+    else if(mymatchs.sportsName =="BASKETBALL")
+    sportsname = "농구";
+    else if(mymatchs.sportsName =="PINGPONG")
+    sportsname = "탁구";
+    else if(mymatchs.sportsName =="SOCCER")
+    sportsname = "축구";
+    else if(mymatchs.sportsName =="BADMINTON")
+    sportsname = "배드민턴";
 
     return (
         <div>
@@ -106,7 +118,7 @@ const MymatchInfoForm = () => {
                                 <Label htmlFor="title">모임 이름: {mymatchs.title}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
-                                <Label htmlFor="sprotsName">종목: {mymatchs.sportsName}</Label>
+                                <Label htmlFor="sprotsName">종목: {sportsname}</Label>
                             </FormGroup>
                             <FormGroup className="col-md-6">
                             <Label htmlFor="members">인원: {mymatchs.maxMember}명</Label>
