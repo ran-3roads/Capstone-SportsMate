@@ -5,8 +5,8 @@ import Image from "next/image";
 import footballimg from "../../assets/images/landingpage/football.png";
 import badmintonimg from "../../assets/images/landingpage/badminton.png";
 import basketballimg from "../../assets/images/landingpage/basketball.png";
-import tabletennisimg from "../../assets/images/landingpage/tabletennis.png";
-import volleyballimg from "../../assets/images/landingpage/volleyball.png";
+import pingpongimg from "../../assets/images/landingpage/pingpong.png";
+import volleyballimg from "../../assets/images/landingpage/valleyball.png";
 import wasteimg from "../../assets/images/landingpage/waste.png";
 import cookie from 'react-cookies';
 import cookies from "next-cookies";
@@ -58,7 +58,7 @@ const Banner2 = () => {
             </Row>
             <Row>
                 <Image src={volleyballimg} alt="hero banner" />
-                <Image src={tabletennisimg} alt="hero banner" />
+                <Image src={pingpongimg} alt="hero banner" />
                 <Image src={wasteimg} alt="hero banner" />
             </Row>
           </Col>

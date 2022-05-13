@@ -4,11 +4,31 @@
  import Image from "next/image";
  import { Button,Pagination, Form, FormGroup,PaginationItem, PaginationLink, Container, Row, Col,Input } from 'reactstrap';
  import footballimg from "../../assets/images/landingpage/football.png";
+ import valleyballimg from "../../assets/images/landingpage/valleyball.png";
+ import basketballimg from "../../assets/images/landingpage/basketball.png";
+ import pingpongimg from "../../assets/images/landingpage/pingpong.png";
+ import badmintonimg from "../../assets/images/landingpage/badminton.png";
+     
  import { useState, useEffect } from "react";
  import axios from "axios";
  import cookie from 'react-cookies';
  import cookies from "next-cookies";
  
+ const myLoader = ({src}) => {
+     console.log(src)
+     console.log(footballimg)
+    if(src== 'BADMINTON')
+    return badmintonimg.src
+    else if(src== 'PINGPONG')
+    return pingpongimg.src
+    else if(src== 'VALLEYBALL')
+    return valleyballimg.src
+    else if(src== 'BASKETBALL')
+    return basketballimg.src
+    else
+    return footballimg.src
+  }
+
  const RList = () => {
     const coa = cookie.loadAll();
     const allCookies = cookies(coa);
@@ -137,6 +157,19 @@
             currentPage*pageSize,
             (currentPage+1)*pageSize
         ).map(p => {
+            let sportsname = undefined;
+            if(p.sportsName=="FOOTBALL")
+            sportsname = "풋볼";
+            else if(p.sportsName =="VALLEYBALL")
+            sportsname = "배구";
+            else if(p.sportsName =="BASKETBALL")
+            sportsname = "농구";
+            else if(p.sportsName =="PINGPONG")
+            sportsname = "탁구";
+            else if(p.sportsName =="SOCCER")
+            sportsname = "축구";
+            else if(p.sportsName =="BADMINTON")
+            sportsname = "배드민턴";
             return (
                 <li className='mItem'>
                     <Link href={`/recruit/${p.matchBoardId}/info`}>
@@ -144,13 +177,18 @@
                             <div class ="mcover">
                                 <div className='mImage'>
                                     <span className='mInner'>
-                                    <Image src={footballimg} alt="모임소개사진"/>
+                                    <Image 
+                                    loader={myLoader}
+                                    src={p.sportsName }
+                                    unoptimized={false}
+                                    width={80}
+                                    height={80} alt="모임소개사진"/>
                                     </span>
                                 </div>
                             </div>
                             <div class ="mName">
                                 <strong class="name"><a>{p.title}</a></strong>
-                                <a>{'종목:'+p.sportsName+'  지역:'+p.location}</a>
+                                <a>{'종목:'+sportsname+'  지역:'+p.location}</a>
                                 <p className="pSubTxt">{'경기 날짜/시간: '+p.day+'/'+p.time}</p>
                             </div>
                         </div>
@@ -164,6 +202,19 @@
                 currentPage*pageSize,
                 (currentPage+1)*pageSize
             ).map(p => {
+                let sportsname = undefined;
+                if(p.sportsName=="FOOTBALL")
+                sportsname = "풋볼";
+                else if(p.sportsName =="VALLEYBALL")
+                sportsname = "배구";
+                else if(p.sportsName =="BASKETBALL")
+                sportsname = "농구";
+                else if(p.sportsName =="PINGPONG")
+                sportsname = "탁구";
+                else if(p.sportsName =="SOCCER")
+                sportsname = "축구";
+                else if(p.sportsName =="BADMINTON")
+                sportsname = "배드민턴";
                 return (
                     <li className='mItem'>
                         <a onClick={(e)=>{
@@ -174,13 +225,18 @@
                                 <div class ="mcover">
                                     <div className='mImage'>
                                         <span className='mInner'>
-                                        <Image src={footballimg} alt="모임소개사진"/>
+                                        <Image 
+                                        loader={myLoader}
+                                        src={p.sportsName }
+                                        unoptimized={false}
+                                        width={80}
+                                        height={80} alt="모임소개사진"/>
                                         </span>
                                     </div>
                                 </div>
                                 <div class ="mName">
                                     <strong class="name"><a>{p.title}</a></strong>
-                                    <a>{'종목:'+p.sportsName+'  지역:'+p.location}</a>
+                                    <a>{'종목:'+sportsname+'  지역:'+p.location}</a>
                                     <p className="pSubTxt">{'경기 날짜/시간: '+p.day+'/'+p.time}</p>
                                 </div>
                             </div>
