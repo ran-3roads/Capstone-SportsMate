@@ -199,19 +199,6 @@ const Header = () => {
                   </Link>
                 </NavItem>
                 {myNav}
-                <NavItem>
-                  <Link href="/basic">
-                    <a
-                      className={
-                        router.pathname == "/basic"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
-                      basic(참고용)
-                    </a>
-                  </Link>
-                </NavItem>
                 {
                   NoticeNav
                 }

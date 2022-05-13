@@ -142,13 +142,19 @@ export default function Info() {
           
     }, [router.isReady])
 
-    const partyinfo = {
-    manager: '맹구토씈갈리오',
-    sinceDate:'2022-4-5',
-    members:'40',
-    comments:'성북구 풋살을 좋아하고 모임에 관심있는분들 같이파티해요',
-    infoimg: partyimg
-  }
+    let sportsname = undefined;
+    if(party.sportsName=="FOOTBALL")
+    sportsname = "풋볼";
+    else if(party.sportsName =="VALLEYBALL")
+    sportsname = "배구";
+    else if(party.sportsName =="BASKETBALL")
+    sportsname = "농구";
+    else if(party.sportsName =="PINGPONG")
+    sportsname = "탁구";
+    else if(party.sportsName =="SOCCER")
+    sportsname = "축구";
+    else if(party.sportsName =="BADMINTON")
+    sportsname = "배드민턴";
   return (
     <div>
       <Head>
@@ -160,8 +166,8 @@ export default function Info() {
       <Row className="justify-content-center">
           {membercontent}
                       <Col md="7" className="text-center">
-                          <h1 className="title font-bold">Party Title</h1>
-                          <h6 className="subtitle">Party 정보글</h6>
+                          <h1 className="title font-bold">{party.title}</h1>
+                          <h6 className="subtitle">Party 정보</h6>
                       </Col>
                     <div className="guide_margin">
                     <Row className="justify-content-center">
@@ -177,7 +183,7 @@ export default function Info() {
                                 <div className="inf_name"><div className="party_font">방장: {party.manager} 님</div></div>
                                 <div className="since_date"><div className="party_font">개설일: {party.sinceDate}</div></div>
                                 <div className="party_font">멤버수: {party.currentMember}명 </div>
-                                <div className="party_font">활동: {party.sportsName}</div>
+                                <div className="party_font">활동: {sportsname}</div>
                                   {memberjoincontent}
                                   {managecontent}
                               </div>
