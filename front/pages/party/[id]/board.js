@@ -27,8 +27,7 @@ export default function Board() {
           <PartySelect>
           </PartySelect>
                       <Col md="7" className="text-center">
-                          <h1 className="title font-bold">Party Title</h1>
-                          <h6 className="subtitle">Party 정보글</h6>
+                          <h1 className="title font-bold">게시글 목록</h1>
                       </Col>
                       <div className="guide_margin">
                       <div className="party_box">

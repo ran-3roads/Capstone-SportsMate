@@ -166,8 +166,8 @@ export default function Info() {
       <Row className="justify-content-center">
           {membercontent}
                       <Col md="7" className="text-center">
-                          <h1 className="title font-bold">Party Title</h1>
-                          <h6 className="subtitle">Party 정보글</h6>
+                          <h1 className="title font-bold">{party.title}</h1>
+                          <h6 className="subtitle">Party 정보</h6>
                       </Col>
                     <div className="guide_margin">
                     <Row className="justify-content-center">
