@@ -145,8 +145,27 @@ const ModifyForms = () => {
               id="ModifyForm"
               onSubmit={function (event) {
                 event.preventDefault();
-                console.log();
-                axios
+                if(event.target.password.value==event.target.confirmpassword.value){
+                  if(event.target.password.value==''||event.target.nickName.value==''||event.target.phoneNumber.value=='')
+                    {
+                      
+                      let tmp2=[true,true,true]
+                      let tmp=['비밀번호 ','별명 ','핸드폰번호 ']
+                      let tmp3='';
+                      if(event.target.password.value=='')
+                       tmp2[0]=false;
+                      if(event.target.nickName.value=='')
+                       tmp2[1]=false;
+                      if(event.target.phoneNumber.value=='')
+                       tmp2[2]=false;
+                      let i=0;
+                      tmp2.map(t=>{
+                        if(!t)
+                        tmp3=tmp3.concat(tmp[i]);
+                        i++;
+                      })
+                      if(confirm(tmp3+'\n'+'를 입력하지 않았습니다. 이대로 수정하시겠습니까?'))
+                      axios
                   .put(`http://localhost:8080/sportsmate/member/my`, {
                     nickName: event.target.nickName.value,
                     password: event.target.password.value,
@@ -169,7 +188,38 @@ const ModifyForms = () => {
                     //error
                     console.log(error);
                   });
-              }}
+                    }
+                  else{
+                    axios
+                  .put(`http://localhost:8080/sportsmate/member/my`, {
+                    nickName: event.target.nickName.value,
+                    password: event.target.password.value,
+                    phoneNumber: event.target.phoneNumber.value,
+                  })
+                  .then(function (response) {
+                    //받는거
+                    if (image.image_file != undefined) sendImageToServer(-1);
+                    else
+                      setPopup({
+                        open: true,
+                        title: "Confirm",
+                        message: "정보를 수정하였습니다!",
+                        callback: function () {
+                          document.location.href = "/mypage";
+                        },
+                      });
+                  })
+                  .catch(function (error) {
+                    //error
+                    console.log(error);
+                  });
+                  }
+                
+              }
+              else
+                alert("비밀번호 확인이 일치하지 않습니다.")
+              }
+            }
             >
               <FormGroup className="col-md-6">
                 <Label htmlFor="email">Email 아이디: {my.email}</Label>
@@ -200,7 +250,7 @@ const ModifyForms = () => {
                 <Label htmlFor="name">이름: {my.name}</Label>
               </FormGroup>
               <FormGroup className="col-md-6">
-                <Label htmlFor="nickNsame">별명</Label>
+                <Label htmlFor="nickName">별명</Label>
                 <Input
                   type="text"
                   className="form-control"
