@@ -58,6 +58,19 @@ const MatchList = () => {
                         currentPage*pageSize,
                         (currentPage+1)*pageSize
                     ).map(p => {
+                        let sportsname = undefined;
+                        if(p.sportsName=="FOOTBALL")
+                        sportsname = "풋볼";
+                        else if(p.sportsName =="VALLEYBALL")
+                        sportsname = "배구";
+                        else if(p.sportsName =="BASKETBALL")
+                        sportsname = "농구";
+                        else if(p.sportsName =="PINGPONG")
+                        sportsname = "탁구";
+                        else if(p.sportsName =="SOCCER")
+                        sportsname = "축구";
+                        else if(p.sportsName =="BADMINTON")
+                        sportsname = "배드민턴";
                         return (
                             <li className='mItem'>
                                 <Link href={`/mymatch/${p.regist_id}/info`}>
@@ -70,7 +83,7 @@ const MatchList = () => {
                                             </div>
                                         </div>
                                         <div class ="mName">
-                                            <strong class="name"><a>{'종목:'+p.sportsName}</a></strong>
+                                            <strong class="name"><a>{'종목:'+sportsname}</a></strong>
                                             <strong class="name"><a>{'지역:'+p.location}</a></strong>
                                             <strong class="name"><a>{'날짜:'+p.day}</a></strong>
                                             <p className="pSubTxt">{'경기시간: '+ p.time}</p>
