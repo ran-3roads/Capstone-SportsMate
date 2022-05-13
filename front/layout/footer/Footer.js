@@ -22,15 +22,23 @@ const Footer = () => {
           <Col lg="3" md="6" className="m-b-30">
             <h5 className="m-b-20">Email</h5>
             <p>
-              Office :
-              <Link href="#">
-                <a className="link">ran-3roads@github.com</a>
+              Site :
+              <Link href="https://github.com/ran-3roads">
+                <a className="link">https://github.com/ran-3roads</a>
               </Link>
               <br />
-              Site :
-              <Link href="https://www.wrappixel.com">
-                <a className="link">https://github.com/ran-3roads/Capstone-SportsMate</a>
+              <Link href="https://github.com/superdevsong">
+                <a className="link">https://github.com/superdevsong</a>
               </Link>
+              <br />
+              <Link href="https://github.com/kth3819">
+                <a className="link">https://github.com/kth3819</a>
+              </Link>
+              <br />
+              <Link href="https://github.com/qaz5216">
+                <a className="link">https://github.com/qaz5216</a>
+              </Link>
+              
             </p>
           </Col>
           <Col lg="3" md="6">
@@ -70,7 +78,7 @@ const Footer = () => {
               <div className="d-flex font-14">
                 <div className="m-t-10 m-b-10 copyright">
                   All Rights Reserved by{" "}
-                  <Link href="https://www.wrappixel.com">
+                  <Link href="https://github.com/ran-3roads/Capstone-SportsMate">
                     <a className="link">https://github.com/ran-3roads/Capstone-SportsMate</a>
                   </Link>
                 </div>
