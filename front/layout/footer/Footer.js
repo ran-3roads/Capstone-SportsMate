@@ -22,7 +22,7 @@ const Footer = () => {
           <Col lg="3" md="6" className="m-b-30">
             <h5 className="m-b-20">Email</h5>
             <p>
-              Site :
+              Site :<br/>
               <Link href="https://github.com/ran-3roads">
                 <a className="link">https://github.com/ran-3roads</a>
               </Link>

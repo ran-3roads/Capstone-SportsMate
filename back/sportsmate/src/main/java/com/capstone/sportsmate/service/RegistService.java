@@ -81,12 +81,12 @@ public class RegistService {
         }
 
         MatchBoard matchBoard = matchBoardRepository.findByRegist(regist)
-                .orElseGet(null);
+                .orElse(null);
 
         if(matchBoard==null)
             return;
         else
-            matchBoard.minusCurrentMember();
+            matchBoard.addCurrentMember();
     }
     @Transactional
     public void cancelRegist(Long scheduleId, Long memberId){
@@ -100,7 +100,7 @@ public class RegistService {
         joinGameRepository.deleteById(joinGame.getId());
         member.deposit((int)scheduleResponse.getNShotCredit());
         MatchBoard matchBoard = matchBoardRepository.findByRegist(regist)
-                .orElseGet(null);
+                .orElse(null);
         if(matchBoard==null)
             return;
         else
