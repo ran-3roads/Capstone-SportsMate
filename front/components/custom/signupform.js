@@ -80,10 +80,7 @@ const SignupForm = () => {
       formData.append("email", email);
       formData.append("imageCategory", "MEMBER");
       try {
-        await axios.post(
-          "http://localhost:8080/sportsmate/file/public/signupimage",
-          formData
-        );
+        await axios.post("/file/public/signupimage", formData);
       } catch (error) {
         console.log(error);
         return;
@@ -212,18 +209,15 @@ const SignupForm = () => {
                 if (checkjoin(event)) {
                   console.log();
                   axios
-                    .post(
-                      "http://localhost:8080/sportsmate/member/public/signup",
-                      {
-                        email: event.target.email.value,
-                        password: event.target.password.value,
-                        name: event.target.name.value,
-                        nickName: event.target.nickName.value,
-                        birthDate: event.target.birthDate.value,
-                        sex: event.target.sex.value,
-                        phoneNumber: event.target.phoneNumber.value,
-                      }
-                    )
+                    .post("/member/public/signup", {
+                      email: event.target.email.value,
+                      password: event.target.password.value,
+                      name: event.target.name.value,
+                      nickName: event.target.nickName.value,
+                      birthDate: event.target.birthDate.value,
+                      sex: event.target.sex.value,
+                      phoneNumber: event.target.phoneNumber.value,
+                    })
                     .then(function (response) {
                       if (image.image_file != undefined)
                         sendImageToServer(response.data.email);
@@ -378,7 +372,12 @@ const SignupForm = () => {
                   회원가입
                 </Button>
                 <Link href={`/`}>
-                    <Button type="reset" className="btn btn-inverse waves-effect waves-light">취소</Button>
+                  <Button
+                    type="reset"
+                    className="btn btn-inverse waves-effect waves-light"
+                  >
+                    취소
+                  </Button>
                 </Link>
               </FormGroup>
             </Form>

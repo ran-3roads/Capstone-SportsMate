@@ -60,10 +60,7 @@ const PartyModifyForm = () => {
       formData.append("imageCategory", "PARTY");
 
       try {
-        await axios.post(
-          "http://localhost:8080/sportsmate/file/image",
-          formData
-        );
+        await axios.post("/file/image", formData);
       } catch (error) {
         console.log(error);
         return;
@@ -84,7 +81,7 @@ const PartyModifyForm = () => {
   useEffect(() => {
     if (!router.isReady) return;
     axios
-      .get(`http://localhost:8080/sportsmate/party/public/${id}/info`)
+      .get(`/party/public/${id}/info`)
       .then(function (response) {
         if (response.status == 200) {
           setPartyinfo(response.data);
@@ -157,7 +154,7 @@ const PartyModifyForm = () => {
                 event.preventDefault();
                 console.log();
                 axios
-                  .put(`http://localhost:8080/sportsmate/party/${id}`, {
+                  .put(`/party/${id}`, {
                     title: event.target.title.value,
                     sportsName: event.target.sportsName.value,
                     intro: event.target.intro.value,

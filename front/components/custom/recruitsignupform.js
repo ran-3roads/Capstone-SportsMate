@@ -53,9 +53,9 @@ const RecruitSignupForm = () => {
   }
 
   useEffect(() => {
-    if(!router.isReady)return;
+    if (!router.isReady) return;
     axios
-      .get(`http://localhost:8080/sportsmate/match/board/${id}`)
+      .get(`/match/board/${id}`)
       .then(function (response) {
         if (response.status == 200) {
           console.log(response.data);
@@ -80,16 +80,12 @@ const RecruitSignupForm = () => {
             setKakaoMap(map);
           });
         };
-        return axios.get(
-          `http://localhost:8080/sportsmate/match/board/${id}/isPartyMember/`
-        );
+        return axios.get(`/match/board/${id}/isPartyMember/`);
       })
       .then(function (response) {
         if (response.status == 200) {
           setIsmember(response.data);
-          return axios.get(
-            `http://localhost:8080/sportsmate/match/board/${id}/ismatchapply`
-          );
+          return axios.get(`/match/board/${id}/ismatchapply`);
         }
       })
       .then(function (response) {
@@ -132,18 +128,12 @@ const RecruitSignupForm = () => {
   };
 
   let sportsname = undefined;
-    if(recruits.sportsName=="FOOTBALL")
-    sportsname = "풋볼";
-    else if(recruits.sportsName =="VALLEYBALL")
-    sportsname = "배구";
-    else if(recruits.sportsName =="BASKETBALL")
-    sportsname = "농구";
-    else if(recruits.sportsName =="PINGPONG")
-    sportsname = "탁구";
-    else if(recruits.sportsName =="SOCCER")
-    sportsname = "축구";
-    else if(recruits.sportsName =="BADMINTON")
-    sportsname = "배드민턴";
+  if (recruits.sportsName == "FOOTBALL") sportsname = "풋볼";
+  else if (recruits.sportsName == "VALLEYBALL") sportsname = "배구";
+  else if (recruits.sportsName == "BASKETBALL") sportsname = "농구";
+  else if (recruits.sportsName == "PINGPONG") sportsname = "탁구";
+  else if (recruits.sportsName == "SOCCER") sportsname = "축구";
+  else if (recruits.sportsName == "BADMINTON") sportsname = "배드민턴";
 
   return (
     <div>
@@ -176,7 +166,7 @@ const RecruitSignupForm = () => {
                 event.preventDefault();
                 console.log(event.target.suggest.value, recruits.registId);
                 axios
-                  .post("http://localhost:8080/sportsmate/match/apply", {
+                  .post("/match/apply", {
                     suggest: event.target.suggest.value,
                     registId: recruits.registId,
                   })

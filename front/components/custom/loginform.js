@@ -48,13 +48,10 @@ const LoginForm = () => {
                 if (event.target.email.value != "") {
                   if (event.target.password.value != "") {
                     axios
-                      .post(
-                        "http://localhost:8080/sportsmate/member/public/login",
-                        {
-                          email: event.target.email.value,
-                          password: event.target.password.value,
-                        }
-                      )
+                      .post("/member/public/login", {
+                        email: event.target.email.value,
+                        password: event.target.password.value,
+                      })
                       .then(function (response) {
                         if (response.status == 202) {
                           axios.defaults.headers.common["Authorization"] =
