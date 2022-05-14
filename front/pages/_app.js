@@ -8,6 +8,7 @@ const coa = cookie.loadAll();
 const allCookies = cookies(coa);
 const refreshTokenByCookie = allCookies["refreshToken"];
 axios.defaults.withCredentials = true;
+axios.defaults.baseURL = "http://15.164.164.248:8080/sportsmate";
 
 let isTokenRefreshing = false;
 let refreshSubscribers = [];
@@ -37,9 +38,7 @@ axios.interceptors.response.use(
         isTokenRefreshing = true;
         setTimeout(async () => {
           try {
-            const { headers } = await axios.post(
-              `http://localhost:8080/sportsmate/member/public/reissue`
-            ); // token refresh api
+            const { headers } = await axios.post(`/member/public/reissue`); // token refresh api
             // 새로운 토큰 저장
             const accessToken = headers.authorization;
             axios.defaults.headers.common["Authorization"] = accessToken;
@@ -65,7 +64,7 @@ axios.interceptors.response.use(
 );
 
 // if(refreshTokenByCookie!=undefined){
-// axios.get("http://localhost:8080/sportsmate/member/public/reissue")
+// axios.get("/member/public/reissue")
 // .then(function (response) {
 //   axios.defaults.headers.common['Authorization'] = response.headers.authorization;
 
