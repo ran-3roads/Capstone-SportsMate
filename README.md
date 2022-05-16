@@ -80,9 +80,13 @@ devops : Git, Github, AWS EC2, AWS RDS, AWS S3
 * AWS EC2에 back front 서버 배포 
 * AWS RDS mysql로 db 구현 
 
-###  :rage1: 박성찬 <a href="https://github.com/ran-3roads"> github<br></a>
+###  :dog: 박성찬 <a href="https://github.com/ran-3roads"> github<br></a>
 
-* 자신이 한 일들 하나부터 열까지 정리해주기 
+* Spring Data JPA를 활용하여 파티 생성 및 관리, 스케쥴, 예약, 알림 서비스 기능 구현
+* 위 기능들을 REST API 설계 및 연동
+* DB Table 설계 및 Entity 개발
+* KAKAO Map API를 활용하여 지도 서비스 구현
+* Git hub Collaborative Workflow 도입 및 가이드
 
 ###  :pig: 김태현 <a href="https://github.com/kth3819"> github<br></a>
 
