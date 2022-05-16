@@ -113,7 +113,7 @@ function Popup({ open, setPopup, party_id, callback }) {
   let timecontent = null;
   if (Date != "") {
     locationcontent = (
-      <FormGroup className="col-md-6">
+      <FormGroup className="col-md-10">
         <Label htmlFor="field">지역</Label>
         <Input
           type="select"
@@ -155,7 +155,7 @@ function Popup({ open, setPopup, party_id, callback }) {
   }
   if (location != "") {
     fieldcontent = (
-      <FormGroup className="col-md-6">
+      <FormGroup className="col-md-10">
         <Label htmlFor="field">경기장</Label>
         <Input
           type="select"
@@ -181,7 +181,7 @@ function Popup({ open, setPopup, party_id, callback }) {
   }
   if (field != "") {
     timecontent = (
-      <FormGroup className="col-md-6">
+      <FormGroup className="col-md-10">
         <Label htmlFor="time">시간</Label>
         <Input type="select" name="time" value={time} onChange={onchangeTime}>
           <option value="" selected disabled>
@@ -200,9 +200,9 @@ function Popup({ open, setPopup, party_id, callback }) {
   }
   if (time != "") {
     bookcontent = (
-      <Col>
-        <FormGroup className="col-md-6">
-          <Label htmlFor="title">모임제목을 입력해주세요</Label>
+      <Col className="registcol">
+        <FormGroup className="col-md-10">
+          <Label htmlFor="title">모임명을 입력해주세요</Label>
           <Input
             type="text"
             className="form-control"
@@ -212,7 +212,7 @@ function Popup({ open, setPopup, party_id, callback }) {
             onChange={onchangeTitle}
           />
         </FormGroup>
-        <FormGroup className="col-md-6">
+        <FormGroup className="col-md-10">
           <Label htmlFor="maxMember">모임인원</Label>
           <Input
             type="number"
@@ -222,11 +222,11 @@ function Popup({ open, setPopup, party_id, callback }) {
             onChange={onchangeMaxmember}
           />
         </FormGroup>
-        <FormGroup className="col-md-6">
+        <FormGroup className="col-md-10">
           <Label htmlFor="contents">내용을 입력해주세요</Label>
-          <textarea
-            rows="10"
-            cols="30"
+          <Input
+            type="textarea"
+            rows="5"
             id="contents"
             placeholder="내용"
             value={contents}
@@ -238,7 +238,7 @@ function Popup({ open, setPopup, party_id, callback }) {
   }
   return (
     <>
-      <Modal show={open} onHide={handleClose}>
+      <Modal show={open} size="lg"  onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>모임 예약</Modal.Title>
         </Modal.Header>
@@ -270,7 +270,9 @@ function Popup({ open, setPopup, party_id, callback }) {
                 });
             }}
           >
-            <FormGroup className="col-md-6">
+            <Row className="registrow">
+            <Col className="registcol">
+            <FormGroup className="col-md-10">
               <Label htmlFor="Date">경기날짜</Label>
               <Input
                 type="date"
@@ -283,15 +285,17 @@ function Popup({ open, setPopup, party_id, callback }) {
             {locationcontent}
             {fieldcontent}
             {timecontent}
+            </Col>
             {bookcontent}
-            <FormGroup className="col-md-6">
+            </Row>
+            <div className="button-center">
               <Button
                 type="submit"
                 className="btn btn-success waves-effect waves-light m-r-10"
               >
                 예약하기
               </Button>
-            </FormGroup>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>
