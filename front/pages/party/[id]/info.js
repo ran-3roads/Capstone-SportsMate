@@ -207,6 +207,7 @@ export default function Info() {
                         멤버수: {party.currentMember}명{" "}
                       </div>
                       <div className="party_font">활동: {sportsname}</div>
+                      <div className="party_font">지역: {party.location}</div>
                       {memberjoincontent}
                       {managecontent}
                     </div>
