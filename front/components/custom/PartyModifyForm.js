@@ -68,9 +68,9 @@ const PartyModifyForm = () => {
       setPopup({
         open: true,
         title: "Confirm",
-        message: "파티를 만들었습니다!",
+        message: "파티를 수정하였습니다!",
         callback: function () {
-          document.location.href = "/";
+          document.location.href = `/party/${id}/info`;
         },
       });
     } else {
@@ -125,6 +125,15 @@ const PartyModifyForm = () => {
     setInfo(e.target.value);
   };
 
+  let sportsname = undefined;
+  if (partyinfo.sportsName == "FOOTBALL") sportsname = "풋볼";
+  else if (partyinfo.sportsName == "VALLEYBALL") sportsname = "배구";
+  else if (partyinfo.sportsName == "BASKETBALL") sportsname = "농구";
+  else if (partyinfo.sportsName == "PINGPONG") sportsname = "탁구";
+  else if (partyinfo.sportsName == "SOCCER") sportsname = "축구";
+  else if (partyinfo.sportsName == "BADMINTON") sportsname = "배드민턴";
+
+
   return (
     <div>
       <Popup
@@ -164,14 +173,7 @@ const PartyModifyForm = () => {
                   .then(function (response) {
                     if (image.image_file != undefined) sendImageToServer(id);
                     else
-                      setPopup({
-                        open: true,
-                        title: "Confirm",
-                        message: "파티를 수정하였습니다!",
-                        callback: function () {
-                          document.location.href = `/party/${id}/info`;
-                        },
-                      });
+                      alert("사진을 넣어주세요");
                   })
                   .catch(function (error) {
                     //error
@@ -197,8 +199,8 @@ const PartyModifyForm = () => {
                   value={sportsName}
                   onChange={onchangeSportsName}
                 >
-                  <option value={partyinfo.sportsName} selected disabled>
-                    종목
+                  <option  value={partyinfo.sportsName} selected disabled>
+                  {sportsname}
                   </option>
                   <option value="SOCCER">축구</option>
                   <option value="FOOTBALL">풋살</option>
@@ -217,7 +219,7 @@ const PartyModifyForm = () => {
                   onChange={onchangeLocation}
                 >
                   <option value={partyinfo.location} selected disabled>
-                    지역선택
+                  {partyinfo.location} 
                   </option>
                   <option value="강남구">강남구</option>
                   <option value="강동구">강동구</option>
