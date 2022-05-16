@@ -44,24 +44,28 @@ public class MatchBoard {
     public static MatchBoard createMatchBoard(Schedule schedule,Member member ,MatchForm matchForm) {// 용병 게시판 생성
         MatchBoard matchBoard = new MatchBoard();
         matchBoard.currentMember = schedule.getCurrentMember();
-        matchBoard.title     = schedule.getTitle();
+        matchBoard.title     = matchForm.getTitle();
         matchBoard.maxMember = schedule.getMaxMember();
         matchBoard.credit    = schedule.getCredit();
-        matchBoard.contents  = schedule.getContents();
+        matchBoard.contents  = matchForm.getContents();
         matchBoard.regist    = schedule.getRegist();
         matchBoard.member    = member;
         return matchBoard;
     }
     public MatchBoardListResponse toMatchBoardListResponse(){
-       return new MatchBoardListResponse(member.getName(),id, title,
-               regist.getStartTime(), regist.getEndTime());
+       return new MatchBoardListResponse(member.getName(),id, title,regist.getArena().getSportsName(),
+               regist.getArena().getName(), regist.getDay(), regist.getArenaTime().getTime());
     }
     public MatchBoardResponse toMatchBoardResponse(){
         return new MatchBoardResponse(member.getName(),maxMember,credit,contents,title,
-                currentMember,regist.getStartTime(),regist.getEndTime(), regist.getId());
+                currentMember,regist.getDay(), regist.getArenaTime().getTime(), regist.getId(),regist.getArena().getSportsName(),
+                regist.getArena().getName(),regist.getArena().getMapX(),regist.getArena().getMapY());
     }
 
     public void addCurrentMember() {
         this.currentMember++;
+    }
+    public void minusCurrentMember() {
+        this.currentMember--;
     }
 }

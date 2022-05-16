@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -66,6 +67,23 @@ public class RegistRepository {
         }
         return query.getResultList();
     }
+    public List<ArenaTime> findArenaTimeByArena(Arena arena){
+        String jpql="select a from ArenaTime a";
+
+        //검색 조건으로 검색
+        jpql += " where a.arena = :arena";
+        TypedQuery<ArenaTime> query = em.createQuery(jpql, ArenaTime.class)
+                .setMaxResults(1000); //최대 1000건
+        if(arena != null) {
+            query = query.setParameter("arena", arena);
+        }
+        return query.getResultList();
+    }
+    public ArenaTime findArenaTime(Long arenaTimeId){
+        return em.find(ArenaTime.class, arenaTimeId);
+    }
+
+
     public Arena findArenaOne(Long id) {
         return em.find(Arena.class, id);
     }
@@ -86,18 +104,18 @@ public class RegistRepository {
         return query.getResultList();
     }
 
-    public Schedule findSchedule(Long id){return em.find(Schedule.class, id);}
-
-    public Schedule findByRegist(Regist regist){
-        String jpql="select s from Schedule s";
+    public List<Regist> findArenaRegistByArena(Arena arena){
+        String jpql="select r from Regist r";
 
         //검색 조건으로 검색
-        jpql += " where s.regist = :regist";
-        TypedQuery<Schedule> query = em.createQuery(jpql, Schedule.class)
+        jpql += " where r.arena = :arena";
+        TypedQuery<Regist> query = em.createQuery(jpql, Regist.class)
                 .setMaxResults(1000); //최대 1000건
-        if(regist != null) {
-            query = query.setParameter("regist", regist);
+        if(arena != null) {
+            query = query.setParameter("arena", arena);
         }
-        return query.getSingleResult();
+        return query.getResultList();
     }
+    public Schedule findSchedule(Long id){return em.find(Schedule.class, id);}
+
 }

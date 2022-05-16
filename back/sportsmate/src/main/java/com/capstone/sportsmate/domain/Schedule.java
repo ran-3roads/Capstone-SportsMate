@@ -61,13 +61,16 @@ public class Schedule {
     public void addCurrentMemeber(){
         this.currentMember++;
     }
+    public void minusCurrentMember(){
+        this.currentMember--;
+    }
     public EventResponse toEventResponse(){
-        EventResponse eventResponse = new EventResponse(this.regist.getStartTime(),this.regist.getEndTime(),this.title,this.id);
+        EventResponse eventResponse = new EventResponse(this.regist.getDay(),this.regist.getArenaTime().getTime(),this.title,this.id,this.regist.getArena().getLocation());
         return eventResponse;
     }
     public ScheduleResponse toScheduleResponse(){
         double nShot=(double)this.credit/this.maxMember;
-        ScheduleResponse scheduleResponse =new  ScheduleResponse(this.title,this.regist.getArena().getName(),this.credit,this.currentMember,this.maxMember,nShot,this.regist.getStartTime(),this.regist.getEndTime());
+        ScheduleResponse scheduleResponse =new  ScheduleResponse(this.title,this.regist.getArena().getName(),this.credit,this.currentMember,this.maxMember,nShot,this.regist.getDay(),this.regist.getArenaTime().getTime(),this.regist.getArena().getMapX(),this.regist.getArena().getMapY(),this.regist.getArena().getSportsName(),this.regist.getArena().getLocation());
         return scheduleResponse;
     }
 

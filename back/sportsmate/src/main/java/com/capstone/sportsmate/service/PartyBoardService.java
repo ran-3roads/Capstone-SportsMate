@@ -120,12 +120,6 @@ public class PartyBoardService {
             throw  new InconsistencyException("다른 멤버입니다..");
         }
     }
-    @Transactional
-    public void updateComment(Long commentId, CommentForm commentForm) {//댓글 수정 변경감지 사용
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new NotFoundEntityException("지워진 댓글입니다."));
-        comment.updateComment(commentForm.getContents(),LocalDateTime.now());
-    }
 
     //----------삭제----------
     @Transactional
@@ -133,5 +127,16 @@ public class PartyBoardService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new NotFoundEntityException("지워진 댓글입니다."));
         commentRepository.delete(comment);
+    }
+    //---------검증----------
+    public boolean isWriter(Long partyBoardId) {//파티보드 작성자 확인
+        PartyBoard  partyBoard = partyBoardRepository.findById(partyBoardId)
+                .orElseThrow(() -> new NotFoundEntityException("지워진 게시판입니다."));
+        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        if(partyBoard.getMember().equals(findMember)){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

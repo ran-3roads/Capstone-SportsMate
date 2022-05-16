@@ -1,24 +1,175 @@
 /**
 made by 따봉
 **/
+//partyinfoimage
+.partyuploader-wrapper {
+  display: flex;
+  flex-direction: column;
+  .partyimg-wrapper {
+    margin: 20px 0 20px 0;
+    img {
+      width: 500px;
+      height: auto;
+    }
+  }
+}
+//guide
+details { 
+  margin:5px 0 10px; 
+}
+details > summary { 
+  background:#fff; 
+  width: 600px;
+  height: auto; 
+  color:#3e4555; 
+  padding:10px; 
+  outline:0; 
+  border-radius:5px; 
+  cursor:pointer; 
+  text-align:left; 
+  box-shadow: 1px 1px 2px gray;
+}
+details > summary::-webkit-details-marker { 
+  background:#fff; 
+  color:#3e4555; 
+  background-size:contain; 
+  transform:rotate3d(0, 0, 1, 90deg); 
+  transition:transform 0.25s;}
+details[open] > summary::-webkit-details-marker { 
+  transform:rotate3d(0, 0, 1, 180deg);
+}
+details[open] > summary { 
+  background:white;
+}
+details[open] > summary ~ * { 
+  animation:reveal 0.5s;
+}
+.tpt { 
+  background:#F1F3F7;
+  color:#3e4555; 
+  margin:5px 0 10px; 
+  padding:5px 10px; 
+  line-height:25px; 
+  border-radius:5px;
+  box-shadow: 1px 1px 2px gray;
+}
+
+@keyframes reveal {
+    from { opacity:0; transform:translate3d(0, -30px, 0); }
+    to { opacity:1; transform:translate3d(0, 0, 0); }
+}
+//guide image
+.guideimage-wrapper {
+  display: flex;
+  flex-direction: column;
+  .myimg-wrapper {
+    margin: 5px 0 5px 0;
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+}
+
+//myimage
+.myuploader-wrapper {
+  display: flex;
+  flex-direction: column;
+  .myimg-wrapper {
+    margin: 20px 0 20px 0;
+    img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}
+//party_select
+.n_party {
+  float: left;
+  margin-left: 4%;
+  width: 28%;
+  height: 60px;
+}
+.partyheader6 {
+  .partynavbar-toggler {
+    justify-content: center;
+    color: white;
+    width: 30px;
+  }
+  background-color: gray;
+}
+
+.partyh6-nav-bar {
+  padding: 15px;
+  margin-right: 300px;
+  align-items: center;
+  .partynavbar-nav {
+    .partynav-link {
+      padding: 35px 15px;
+      color: rgba(255, 255, 255, 0.5);
+      transition-duration: 0.2s;
+    }
+
+    .partynav-item:hover .nav-link,
+    .partynav-item.active .nav-link {
+      color: rgba(255, 255, 255, 1);
+    }
+  }
+
+  .partyact-buttons {
+    .btn {
+      margin: 10px 0 10px 10px;
+    }
+  }
+}
+
+//partymenu
+.partymenu {
+  background-color: #ffffff;
+  height: 3.5rem;
+}
+
+.partymenu-item {
+  display: inline-block;
+  color: rgb(59, 59, 59);
+  font-size: 1.2rem;
+  font-style: bold;
+  line-height: 3.5rem;
+  width: 33.3333%;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-decoration: none;
+}
+
+.partymenu-item:hover {
+  background-color: #cdfff3;
+}
+
+.partymenu-item:active,
+.partymenu-item.active {
+  background-color: #9cd7ee;
+}
 //recruit
 
 //party_info_box
 .party_infobox {
+  border-radius: 40px;
   height: 500px;
   width: 300px;
-  background: #ffd9d9;
-  border-top: #FFFFFF 2px solid;
+  background: rgb(235, 233, 135);
+  border-top: #ffffff 2px solid;
   margin: 0;
   padding: 0;
   text-align: justify;
 }
-.party_infobox2{
-  height: 500px;
-  width: 730px;
+.party_infobox2 {
+  width: 530px;
+  overflow: hidden;
+  height: auto;
   border-radius: 50px;
-  background: #ffd9d9;
-  border-top: #FFFFFF 2px solid;
+  background: white;
+  border-top: #ffffff 2px solid;
   margin: 0;
   padding: 0;
   text-align: justify;
@@ -42,17 +193,17 @@ made by 따봉
   font-size: 0;
   line-height: 0;
 }
-.party_write_container{
+.party_write_container {
   margin-top: 5%;
   display: flex;
   justify-content: center;
 }
 .party_infoboxc {
-  border-radius : 40px;
+  border-radius: 40px;
   display: flex;
   background-color: skyblue;
 }
-.party_font{
+.party_font {
   color: black;
   font-weight: bold;
   font-style: normal;
@@ -76,10 +227,9 @@ made by 따봉
   padding: 10px 5px;
   font-weight: bold;
 }
-.common-table-row{
+.common-table-row {
   border-bottom: 1px solid #e8e8e8;
 }
-
 
 .common-table-row:hover {
   background-color: #eceaea;
@@ -128,13 +278,13 @@ made by 따봉
   width: 1130px;
   padding: 20px 30px;
   margin: 0 auto;
-  letter-spacing: -.2px;
+  letter-spacing: -0.2px;
 }
 //myform
 .my {
-  width: 390px; 
+  width: 390px;
   height: 457px;
-  margin-left: auto; 
+  margin-left: auto;
   margin-right: auto;
 }
 
@@ -148,10 +298,11 @@ made by 따봉
 
 .my_boxc {
   display: flex;
-  background-color: brown;
+  background-color: royalblue;
+  border-radius: 40px;
 }
 
-.left_section{
+.left_section {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -179,7 +330,7 @@ made by 따봉
   background-position: 50%;
 }
 
-.inf_name{
+.inf_name {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -220,38 +371,34 @@ made by 따봉
   margin: 0 auto;
 }
 
-
 .menus {
-    border-top: 0;
+  border-top: 0;
 }
 
 .menu {
   padding-top: 10px;
   padding-bottom: 10px;
-  border-top: 1px solid rgba(0,0,0,.15);
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-
-
 
 //guideform
 #guide {
   width: 100%;
 }
 
-
 .guide_first {
   float: left;
   width: 12.3207em;
 }
 
-.n_guide{
+.n_guide {
   float: left;
   margin-left: 3.2%;
   width: 30%;
 }
-.n_guide2{
+.n_guide2 {
   float: left;
   margin-left: 3.2%;
   width: 60%;
@@ -261,7 +408,7 @@ made by 따봉
   height: 500px;
   width: 300px;
   background: bisque;
-  border-top: #FFFFFF 2px solid;
+  border-top: #ffffff 2px solid;
   margin: 0;
   padding: 0;
 }
@@ -270,7 +417,7 @@ made by 따봉
   height: 500px;
   width: 300px;
   background: greenyellow;
-  border-top: #FFFFFF 2px solid;
+  border-top: #ffffff 2px solid;
   margin: 0;
   padding: 0;
 }
@@ -279,16 +426,15 @@ made by 따봉
   height: 500px;
   width: 300px;
   background: aquamarine;
-  border-top: #FFFFFF 2px solid;
+  border-top: #ffffff 2px solid;
   margin: 0;
   padding: 0;
 }
 
-
-.guide_margin{
-    text-align: center;
-    width: 100%;
-    margin: auto;
+.guide_margin {
+  text-align: center;
+  width: 100%;
+  margin: auto;
 }
 
 //font
@@ -301,7 +447,7 @@ made by 따봉
   text-align: center;
 }
 
-.my_font{
+.my_font {
   color: white;
   font-weight: 200;
   font-size: 13px;
@@ -309,24 +455,24 @@ made by 따봉
   text-align: center;
 }
 
-.uploader-wrapper{
+.uploader-wrapper {
   display: flex;
   flex-direction: column;
-  .img-wrapper{
-      margin: 50px 0 20px 0;
-      img{
-          width: 200px;
-          height: 200px;
-      }
-      .img-spinner{
-          width: 200px;
-          height: 200px;
-      }
+  .img-wrapper {
+    margin: 50px 0 20px 0;
+    img {
+      width: 200px;
+      height: 200px;
+    }
+    .img-spinner {
+      width: 200px;
+      height: 200px;
+    }
   }
-  .upload-button{
-      button{
-          margin: 0 5px;
-      }
+  .upload-button {
+    button {
+      margin: 0 5px;
+    }
   }
 }
 
@@ -338,27 +484,22 @@ made by 따봉
   max-width: 1000px;
   margin: 0 auto;
 }
-.party_header6 {
-  .navbar-toggler {
-    color: $white;
-  }
-  background-color: gray;
-}
 .party_boxc {
   margin: 0 auto;
   display: flex;
   background-color: white;
 }
 
-.party_header{
-  display:flex;
+.party_header {
+  height: 3.5rem;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 /******************* 
 made in 경민
 *******************/
-.partyfilter{
+.partyfilter {
   display: block;
   position: relative;
   width: 100%;
@@ -370,19 +511,20 @@ made in 경민
   vertical-align: top;
 }
 select option[value=""][disabled] {
-	display: none;
+  display: none;
 }
 
 .pagination-wrapper {
-  overflow-x:auto;
+  overflow-x: auto;
 }
 
 .pagination {
   justify-content: center;
-  margin:30px;
+  margin: 30px;
 }
 
-.ps_box, .ps_box_disable {
+.ps_box,
+.ps_box_disable {
   display: block;
   position: relative;
   width: 100%;
@@ -393,7 +535,9 @@ select option[value=""][disabled] {
   box-sizing: border-box;
   vertical-align: top;
 }
-.bir_dd, .bir_mm, .bir_yy {
+.bir_dd,
+.bir_mm,
+.bir_yy {
   display: table-cell;
   table-layout: fixed;
   width: 147px;
@@ -401,7 +545,8 @@ select option[value=""][disabled] {
   *display: block;
   *float: left;
 }
-.bir_mm+.bir_dd, .bir_yy+.bir_mm {
+.bir_mm + .bir_dd,
+.bir_yy + .bir_mm {
   padding-left: 10px;
 }
 
@@ -421,22 +566,23 @@ select#mm {
   *height: auto;
 }
 
-input#yy.form-control,input#dd.form-control {
+input#yy.form-control,
+input#dd.form-control {
   height: 29px;
   border: 0px;
 }
 
 .mList {
-  display:-webkit-box;
+  display: -webkit-box;
   -webkit-box-pack: justify;
   justify-content: space-between;
-  display:flex; 
-  align-content:flex-start; 
-  flex-direction:column; 
-  flex-wrap:wrap; 
-  overflow:auto;
+  display: flex;
+  align-content: flex-start;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow: auto;
   list-style: none;
-  padding:5px;
+  padding: 5px;
   margin-left: -15px;
 }
 
@@ -509,7 +655,7 @@ input#yy.form-control,input#dd.form-control {
   color: #666;
 }
 
-.mImage[class*=-w] .mInner img {
+.mImage[class*="-w"] .mInner img {
   width: 100%;
   height: 100%;
 }
@@ -520,26 +666,25 @@ input#yy.form-control,input#dd.form-control {
   position: relative;
   border-radius: 2px;
 }
-.cmt_box{
-    border-style: solid;
-    border-bottom-width: 0px;
-    border-right-width: 0px;
-    border-left-width: 0px;
-    border-top-width: 1px;
-    margin-top: 10px;
-    padding-top: 10px;
+.cmt_box {
+  border-style: solid;
+  border-bottom-width: 0px;
+  border-right-width: 0px;
+  border-left-width: 0px;
+  border-top-width: 1px;
+  margin-top: 10px;
+  padding-top: 10px;
 }
-#commentForm{
+#commentForm {
   border: 1px solid black;
-  
 }
-#comment_write{
+#comment_write {
   padding-left: 0px;
   padding-right: 0px;
   max-width: 100%;
 }
 
-#cmt_write_box{
+#cmt_write_box {
   border-top: 1px solid #e8e8e8;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -549,21 +694,32 @@ input#yy.form-control,input#dd.form-control {
   text-align: center;
 }
 
-#cmt_write_nickname{
+#cmt_write_nickname {
   margin-top: 10px;
   margin-left: 15px;
   text-align: center;
 }
-#cmt_write_bottonbox{
+#cmt_write_bottonbox {
   margin-left: 0px;
   margin-right: 0px;
   margin-bottom: 10px;
 }
 
+.noticerow {
+  text-align: center;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.noticecol {
+  text-align: center;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
 /******************* 
 
 *******************/
-
 
 /******************* 
 Topbar
@@ -1221,7 +1377,7 @@ position
   border: 2px solid $border;
 }
 
-.form-control-ssn{
+.form-control-ssn {
   padding: 0.75rem;
   border: 2px solid $border;
 }

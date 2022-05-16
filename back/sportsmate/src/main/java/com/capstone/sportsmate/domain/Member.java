@@ -3,8 +3,10 @@ package com.capstone.sportsmate.domain;
 
 import com.capstone.sportsmate.domain.status.Authority;
 import com.capstone.sportsmate.domain.status.Sex;
+import com.capstone.sportsmate.web.MemberMoidfyForm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -31,6 +33,7 @@ public class Member {
     @Column(name="nick_name")
     private String nickName;
 
+    @JsonIgnore//비밀번호 노출은 위험하다.
     private String password;
 
     @Column(name="since_date")
@@ -42,6 +45,7 @@ public class Member {
     @Column(name="phone_number")
     private String phoneNumber;
 
+    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
@@ -84,5 +88,12 @@ public class Member {
     //포인트 감소
     public void withdraw(int credit) {
         this.credit = this.credit - credit;
+    }
+
+    public void updateFindMember(MemberMoidfyForm memberMoidfyForm, PasswordEncoder passwordEncoder) {
+        //s내정보 변경
+        this.password = passwordEncoder.encode(memberMoidfyForm.getPassword()) ;
+        this.nickName = memberMoidfyForm.getNickName();
+        this.phoneNumber = memberMoidfyForm.getPhoneNumber();
     }
 }

@@ -1,9 +1,9 @@
 package com.capstone.sportsmate.repository;
 
-import com.capstone.sportsmate.domain.Apply;
+import com.capstone.sportsmate.domain.notice.Apply;
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Party;
-import com.capstone.sportsmate.domain.Reply;
+import com.capstone.sportsmate.domain.notice.Reply;
 import com.capstone.sportsmate.domain.notice.Notice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -27,6 +27,18 @@ public class NoticeRepository {
                 .setMaxResults(1000); //최대 1000건
         if(member != null) {
             query = query.setParameter("member", member);
+        }
+        return query.getResultList();
+    }
+    public List<Apply> findApplies(Party party){
+        String jpql="select a from Apply a";
+
+        //검색 조건으로 검색
+        jpql += " where a.party = :party";
+        TypedQuery<Apply> query = em.createQuery(jpql, Apply.class)
+                .setMaxResults(1000); //최대 1000건
+        if(party != null) {
+            query = query.setParameter("party", party);
         }
         return query.getResultList();
     }
@@ -59,6 +71,33 @@ public class NoticeRepository {
         }
         return apply;
     }
+    public Apply findApplyOne(Long id){
+        return em.find(Apply.class, id);
+    }
+    public Reply findReply(Party party,Member member){
+        Reply reply;
+        try {
+            reply = em.createQuery("select a from Apply a where a.member=:member and a.party=:party", Reply.class)
+                    .setParameter("member", member)
+                    .setParameter("party", party)
+                    .getSingleResult();
+        } catch(NoResultException e){
+            return null;
+        }
+        return reply;
+    }
+
+    public Notice findNoticeByApply(Apply apply){
+        Notice notice;
+        try {
+            notice = em.createQuery("select n from Notice n where n.apply=:apply", Notice.class)
+                    .setParameter("apply", apply)
+                    .getSingleResult();
+        } catch(NoResultException e){
+            return null;
+        }
+        return notice;
+    }
     public Long saveApply(Apply apply){
         em.persist(apply);
         return apply.getId();
@@ -69,6 +108,14 @@ public class NoticeRepository {
     }
     public Long saveNotice(Notice notice){
         em.persist(notice);
+        return notice.getId();
+    }
+    public Long deleteApply(Apply apply){
+        em.remove(apply);
+        return apply.getId();
+    }
+    public Long deleteNotice(Notice notice){
+        em.remove(notice);
         return notice.getId();
     }
 }

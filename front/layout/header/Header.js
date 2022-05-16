@@ -16,52 +16,126 @@ import {
 } from "reactstrap";
 import logo from "../../assets/images/logos/white-text.png";
 import axios from "axios";
-import cookie from 'react-cookies';
+import cookie from "react-cookies";
 import cookies from "next-cookies";
-
+import { useEffect } from "react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState('false');
+  const [isLogin, setIsLogin] = useState("false");
+  const [notice, setNotice] = useState([]);
   const router = useRouter();
   const toggle = () => setIsOpen(!isOpen);
   const coa = cookie.loadAll();
   const allCookies = cookies(coa);
-  const refreshTokenByCookie = allCookies['refreshToken'];
+  const refreshTokenByCookie = allCookies["refreshToken"];
   let LoginNav = null;
-  if(refreshTokenByCookie!=undefined){
-    console.log("로그인중임")
-    LoginNav = <NavItem>
-    <Link href="/logout">
-      <a
-        className={
-          router.pathname == "/logout"
-            ? "text-white nav-link"
-            : "nav-link"
-        }
-      >
-        로그아웃                   </a>
-    </Link>
-  </NavItem>
+  let NoticeNav = null;
+  let myNav = null;
+  let SignupNav = null;
+  if (refreshTokenByCookie != undefined) {
+    useEffect(() => {
+      axios
+        .get(`/notice`)
+        .then(function (response) {
+          if (response.status == 200) {
+            setNotice(response.data);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }, []);
+    LoginNav = (
+      <NavItem>
+        <Link href="/logout">
+          <a
+            className={
+              router.pathname == "/logout" ? "text-white nav-link" : "nav-link"
+            }
+          >
+            로그아웃{" "}
+          </a>
+        </Link>
+      </NavItem>
+    );
+    if (notice.filter((n) => n.noticeStatus == "UNCONFIRM").length == 0)
+      NoticeNav = (
+        <NavItem>
+          <Link href="/notice">
+            <a
+              className={
+                router.pathname == "/notice"
+                  ? "text-white nav-link"
+                  : "nav-link"
+              }
+            >
+              알림{" "}
+            </a>
+          </Link>
+        </NavItem>
+      );
+    else {
+      NoticeNav = (
+        <NavItem>
+          <Link href="/notice">
+            <a
+              className={
+                router.pathname == "/notice"
+                  ? "text-white nav-link"
+                  : "nav-link"
+              }
+            >
+              알림({notice.filter((n) => n.noticeStatus == "UNCONFIRM").length}){" "}
+            </a>
+          </Link>
+        </NavItem>
+      );
+    }
+    myNav = (
+      <NavItem>
+        <Link href="/mypage">
+          <a
+            className={
+              router.pathname == "/mypage" ? "text-white nav-link" : "nav-link"
+            }
+          >
+            MY
+          </a>
+        </Link>
+      </NavItem>
+    );
+  } else {
+    console.log("로그인중아님");
+    LoginNav = (
+      <NavItem>
+        <Link href="/login">
+          <a
+            className={
+              router.pathname == "/login" ? "text-white nav-link" : "nav-link"
+            }
+          >
+            로그인{" "}
+          </a>
+        </Link>
+      </NavItem>
+    );
+    SignupNav = (
+      <NavItem>
+        <Link href="/signup">
+          <a
+            className={
+              router.pathname == "/signup" ? "text-white nav-link" : "nav-link"
+            }
+          >
+            회원가입{" "}
+          </a>
+        </Link>
+      </NavItem>
+    );
   }
-  else{
-    console.log("로그인중아님")
-    LoginNav = <NavItem>
-    <Link href="/login">
-      <a
-        className={
-          router.pathname == "/login"
-            ? "text-white nav-link"
-            : "nav-link"
-        }
-      >
-        로그인                    </a>
-    </Link>
-    </NavItem>
-  }
-   return (
-    <div className="topbar" id="top"  >
-
+  return (
+    <div className="topbar" id="top">
       <div className="header6">
         <Container className="po-relative">
           <Navbar className="navbar-expand-lg h6-nav-bar">
@@ -79,18 +153,7 @@ const Header = () => {
             >
               <Nav navbar className="ml-test">
                 {LoginNav}
-                <NavItem>
-                  <Link href="/signup">
-                    <a
-                      className={
-                        router.pathname == "/signup"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
-                      회원가입                    </a>
-                  </Link>
-                </NavItem>
+                {SignupNav}
               </Nav>
               <Nav navbar className="ml-auto">
                 <NavItem>
@@ -102,7 +165,8 @@ const Header = () => {
                           : "nav-link"
                       }
                     >
-                      Home                    </a>
+                      Home{" "}
+                    </a>
                   </Link>
                 </NavItem>
                 <NavItem>
@@ -115,19 +179,6 @@ const Header = () => {
                       }
                     >
                       Party
-                    </a>
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link href="/guide">
-                    <a
-                      className={
-                        router.pathname == "/guide"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
-                      guide
                     </a>
                   </Link>
                 </NavItem>
@@ -145,59 +196,21 @@ const Header = () => {
                   </Link>
                 </NavItem>
                 <NavItem>
-                  <Link href="/mypage">
+                  <Link href="/guide">
                     <a
                       className={
-                        router.pathname == "/mypage"
+                        router.pathname == "/guide"
                           ? "text-white nav-link"
                           : "nav-link"
                       }
                     >
-                      MY
+                      Guide
                     </a>
                   </Link>
                 </NavItem>
-                <NavItem>
-                  <Link href="/basic">
-                    <a
-                      className={
-                        router.pathname == "/basic"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
-                      basic(참고용)
-                    </a>
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link href="/party/1/info">
-                    <a
-                      className={
-                        router.pathname == "/party/1/info"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
-                      test중
-                    </a>
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link href="/party/1/info/modify">
-                    <a
-                      className={
-                        router.pathname == "/party/1/info/modify"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
-                      test2중
-                    </a>
-                  </Link>
-                </NavItem>
+                {myNav}
+                {NoticeNav}
               </Nav>
-              
             </Collapse>
           </Navbar>
         </Container>

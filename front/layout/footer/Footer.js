@@ -10,27 +10,35 @@ const Footer = () => {
         <Row>
           <Col lg="3" md="6" className="m-b-30">
             <h5 className="m-b-20">Address</h5>
-            <p>71 Amsteroum Avenue Cronish Night, NY 35098</p>
+            <p>서울특별시 성북구 삼선교로 16길 116</p>
           </Col>
           <Col lg="3" md="6" className="m-b-30">
             <h5 className="m-b-20">Phone</h5>
             <p>
-              Reception : +205 123 4567 <br />
-              Office : +207 235 7890
+              Reception : +82 010 5693 5371 <br />
+              Office : +82 010 7732 4471
             </p>
           </Col>
           <Col lg="3" md="6" className="m-b-30">
             <h5 className="m-b-20">Email</h5>
             <p>
-              Office :
-              <Link href="#">
-                <a className="link">info@wrappixel.com</a>
+              Site :<br/>
+              <Link href="https://github.com/ran-3roads">
+                <a className="link">https://github.com/ran-3roads</a>
               </Link>
               <br />
-              Site :
-              <Link href="https://www.wrappixel.com">
-                <a className="link">wrappixel.com</a>
+              <Link href="https://github.com/superdevsong">
+                <a className="link">https://github.com/superdevsong</a>
               </Link>
+              <br />
+              <Link href="https://github.com/kth3819">
+                <a className="link">https://github.com/kth3819</a>
+              </Link>
+              <br />
+              <Link href="https://github.com/qaz5216">
+                <a className="link">https://github.com/qaz5216</a>
+              </Link>
+              
             </p>
           </Col>
           <Col lg="3" md="6">
@@ -70,8 +78,8 @@ const Footer = () => {
               <div className="d-flex font-14">
                 <div className="m-t-10 m-b-10 copyright">
                   All Rights Reserved by{" "}
-                  <Link href="https://www.wrappixel.com">
-                    <a className="link">wrappixel.com</a>
+                  <Link href="https://github.com/ran-3roads/Capstone-SportsMate">
+                    <a className="link">https://github.com/ran-3roads/Capstone-SportsMate</a>
                   </Link>
                 </div>
                 <div className="links ml-auto m-t-10 m-b-10">

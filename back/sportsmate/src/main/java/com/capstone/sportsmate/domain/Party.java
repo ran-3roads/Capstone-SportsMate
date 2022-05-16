@@ -1,6 +1,8 @@
 package com.capstone.sportsmate.domain;
 
 import com.capstone.sportsmate.domain.status.SportsName;
+import com.capstone.sportsmate.web.response.PartyResponse;
+import com.capstone.sportsmate.web.response.ScheduleResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +17,8 @@ public class Party {
 
     //entity 컬럼
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="party_id")
     private Long id; //primary key
 
@@ -53,6 +56,13 @@ public class Party {
 
     public void addMember(){
         this.currentMember = this.currentMember + 1;
+    }
+    public void minusMember(){
+        this.currentMember = this.currentMember - 1;
+    }
+    public PartyResponse toPartyResponse(String manager){
+        PartyResponse partyResponse =new  PartyResponse(this.id,this.sportsName,this.location,this.intro,this.title,manager,this.sinceDate,this.currentMember,this.info);
+        return partyResponse;
     }
 
 

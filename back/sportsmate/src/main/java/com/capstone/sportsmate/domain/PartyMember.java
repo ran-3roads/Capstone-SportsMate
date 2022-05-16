@@ -1,6 +1,7 @@
 package com.capstone.sportsmate.domain;
 
 import com.capstone.sportsmate.domain.status.Role;
+import com.capstone.sportsmate.web.response.PartyMemberResponse;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -43,6 +44,10 @@ public class PartyMember {
         partyMember.role = role;
         partyMember.sinceDate = sinceDate;
         return partyMember;
+    }
+    public PartyMemberResponse toPartyMemberResponse(){
+        return new PartyMemberResponse(id, member.getNickName(), member.getBirthDate(),
+                member.getSex(), role,member.getSinceDate());
     }
 
 }

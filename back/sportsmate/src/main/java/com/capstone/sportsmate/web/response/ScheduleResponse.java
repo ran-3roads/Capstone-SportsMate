@@ -1,10 +1,12 @@
 package com.capstone.sportsmate.web.response;
 
+import com.capstone.sportsmate.domain.status.SportsName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -23,10 +25,15 @@ public class ScheduleResponse {
 
     private double nShotCredit; // 비용에서  목표인원을 나눈값
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime startTime; // 경기 시작
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate day; // 경기 날짜
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime endTime; // 경기끝
+    private String time; // 경기 타임
+
+    private float mapX;
+    private float mapY;
+
+    private SportsName sportsName;
+    private String location;
 
 }
