@@ -167,9 +167,9 @@ const PartyModifyForm = () => {
                       setPopup({
                         open: true,
                         title: "Confirm",
-                        message: "파티를 만들었습니다!",
+                        message: "파티를 수정하였습니다!",
                         callback: function () {
-                          document.location.href = "/";
+                          document.location.href = `/party/${id}/info`;
                         },
                       });
                   })
