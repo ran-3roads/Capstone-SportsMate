@@ -183,19 +183,6 @@ const Header = () => {
                   </Link>
                 </NavItem>
                 <NavItem>
-                  <Link href="/guide">
-                    <a
-                      className={
-                        router.pathname == "/guide"
-                          ? "text-white nav-link"
-                          : "nav-link"
-                      }
-                    >
-                      guide
-                    </a>
-                  </Link>
-                </NavItem>
-                <NavItem>
                   <Link href="/recruit">
                     <a
                       className={
@@ -205,6 +192,19 @@ const Header = () => {
                       }
                     >
                       용병
+                    </a>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link href="/guide">
+                    <a
+                      className={
+                        router.pathname == "/guide"
+                          ? "text-white nav-link"
+                          : "nav-link"
+                      }
+                    >
+                      Guide
                     </a>
                   </Link>
                 </NavItem>
