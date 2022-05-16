@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 import axios from "axios";
 import Popup from "./popup";
+import Link from "next/link";
 const LoginForm = () => {
   const REST_API_KEY = "efb19b8fa4a62908e8d97d87c2f34573";
   const REDIRECT_URI = "http://localhost:3000/auth";
@@ -113,12 +114,14 @@ const LoginForm = () => {
                 >
                   로그인
                 </Button>
-                <Button
-                  type="reset"
-                  className="btn btn-inverse waves-effect waves-light"
-                >
-                  취소
-                </Button>
+                <Link href={`/`}>
+                  <Button
+                    type="reset"
+                    className="btn btn-inverse waves-effect waves-light"
+                  >
+                    취소
+                  </Button>
+                </Link>
               </FormGroup>
             </Form>
           </Col>
