@@ -101,7 +101,7 @@ export default function Schedule() {
         <PartySelect></PartySelect>
         <Row className="justify-content-center">
           <Col md="7" className="text-center">
-            <h1 className="title font-bold">{party.title} 일정</h1>
+            <h1 className="title font-bold">모임 일정</h1>
             <h6 className="subtitle">Party Schedule</h6>
           </Col>
           <div className="guide_margin">
