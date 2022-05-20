@@ -37,7 +37,7 @@ export default function Info() {
         if (ismanager) {
           managecontent = (
             <Link href={`/party/${id}/manage`}>
-              <a className="btn btn-md m-t-30  btn-outline-light bg-warning ">
+              <a className="btn btn-md m-b-15 m-t-15 bg-warning ">
                 파티관리
               </a>
             </Link>
@@ -52,7 +52,7 @@ export default function Info() {
         } else {
           memberjoincontent = (
             <a
-              className="btn btn-danger m-r-10 btn-md m-t-20 "
+              className="btn btn-danger btn-md m-t-15 m-b-15 "
               onClick={(event) => {
                 event.preventDefault();
                 axios
@@ -76,14 +76,14 @@ export default function Info() {
         if (!isalreadyapply) {
           memberjoincontent = (
             <Link href={`/party/${id}/partysignup`}>
-              <a className="btn btn-danger m-r-10 btn-md m-t-20 ">
+              <a className="btn btn-danger btn-md m-t-15 m-b-15 ">
                 파티 가입하기
               </a>
             </Link>
           );
         } else {
           memberjoincontent = (
-            <a className="btn btn-warning m-r-10 btn-md m-t-20 ">
+            <a className="btn btn-warning m-r-10 btn-md m-t-15 m-b-15 ">
               가입승인 대기중
             </a>
           );
@@ -182,12 +182,7 @@ export default function Info() {
             <h1 className="title font-bold">{party.title}</h1>
             <h6 className="subtitle">Party 정보</h6>
           </Col>
-          <div className="guide_margin">
-            <Row className="justify-content-center">
-              <Col md="7" className="text-center">
-                {managecontent2}
-              </Col>
-            </Row>
+          <div className="party_margin">
             <div className="n_guide">
               <div className="party_infobox">
                 <div className="my_box">
@@ -213,6 +208,11 @@ export default function Info() {
                     </div>
                   </div>
                 </div>
+                <Row className="justify-content-center">
+                <Col md="7" className="text-center">
+                  {managecontent2}
+                </Col>
+                </Row>
               </div>
             </div>
             <Col className="n_guide2">
