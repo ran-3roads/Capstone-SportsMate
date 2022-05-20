@@ -153,12 +153,16 @@ details[open] > summary ~ * {
 //recruit
 
 //party_info_box
+.party_margin {
+    background-color: gainsboro;
+    text-align: center;
+    width: 100%;
+    margin: auto;
+}
 .party_infobox {
-  border-radius: 40px;
   height: 500px;
   width: 300px;
-  background: rgb(235, 233, 135);
-  border-top: #ffffff 2px solid;
+  background:gainsboro;
   margin: 0;
   padding: 0;
   text-align: justify;
@@ -167,10 +171,8 @@ details[open] > summary ~ * {
   width: 530px;
   overflow: hidden;
   height: auto;
-  border-radius: 50px;
-  background: white;
-  border-top: #ffffff 2px solid;
-  margin: 0;
+  background: gainsboro;
+  margin: auto;
   padding: 0;
   text-align: justify;
 }
@@ -729,6 +731,15 @@ input#dd.form-control {
   margin: auto;
 }
 .button-center{
+  text-align: center;
+}
+
+.select_font {
+  margin-top: 15px;
+  color: white;
+  font-weight: 200;
+  font-size: 20px;
+  line-height: 30px;
   text-align: center;
 }
 

@@ -27,17 +27,17 @@ const PartySelect = () => {
            <Collapse isOpen={isOpen} navbar className="hover-dropdown ml-auto">
            <div className="n_party">
                   <Link href={`/party/${id}/info`}>
-                  <div className="my_font"><a>정보</a></div>
+                  <div className="select_font"><a>정보</a></div>
                   </Link>  
                 </div>
                 <div className="n_party">
                   <Link href={`/party/${id}/board`}>
-                    <div className="my_font"><a>게시판</a></div>
+                    <div className="select_font"><a>게시판</a></div>
                   </Link>     
                 </div>
                 <div className="n_party">
                   <Link href={`/party/${id}/schedule`}>
-                  <div className="my_font"><a>일정</a></div>
+                  <div className="select_font"><a>일정</a></div>
                   </Link>
                 </div>
                 </Collapse>
