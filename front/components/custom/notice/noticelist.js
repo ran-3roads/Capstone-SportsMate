@@ -26,22 +26,6 @@ const NoticeList = () => {
         console.log(error);
       });
   }, []);
-  /*
-    useEffect(() => {
-        axios.get("/party/myparty")
-                                .then(function (response) {
-                                    if(response.status == 200){
-                                        setPartys(response.data)
-                                        console.log(partys)
-                                    }
-                            }).catch(function (error) {
-                                    if(error.response.status==401)
-                                    setIslogerror(true)
-                                    else
-                                    console.log(error);
-                                });
-    }, [])
-    */
   const [currentPage1, setCurrentPage1] = useState(0); //안읽음
   const handleClick1 = (e, index) => {
     e.preventDefault();
@@ -143,8 +127,6 @@ const NoticeList = () => {
                                 .post(`/notice/${n.noticeId}`)
                                 .then(function (response) {
                                   if (response.status == 200) {
-                                    // router.push(`/party/${n.partyId}/manage`)
-                                    console.log(response.data);
                                   }
                                 })
                                 .catch(function (error) {
@@ -174,7 +156,6 @@ const NoticeList = () => {
                                 .post(`/notice/${n.noticeId}`)
                                 .then(function (response) {
                                   if (response.status == 200) {
-                                    console.log(response.data);
                                   }
                                 })
                                 .catch(function (error) {
@@ -204,7 +185,6 @@ const NoticeList = () => {
                                 .post(`/notice/${n.noticeId}`)
                                 .then(function (response) {
                                   if (response.status == 200) {
-                                    console.log(response.data);
                                   }
                                 })
                                 .catch(function (error) {
@@ -235,8 +215,7 @@ const NoticeList = () => {
                                 .post(`/notice/${n.noticeId}`)
                                 .then(function (response) {
                                   if (response.status == 200) {
-                                    // router.push(`/party/${n.partyId}/manage`)
-                                    console.log(response.data);
+                              
                                   }
                                 })
                                 .catch(function (error) {

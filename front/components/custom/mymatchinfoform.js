@@ -46,7 +46,6 @@ const MymatchInfoForm = () => {
       .get(`/match/myMatch/${id}`)
       .then(function (response) {
         if (response.status == 200) {
-          console.log(response.data);
           setMymatchs(response.data);
           return response.data;
         }

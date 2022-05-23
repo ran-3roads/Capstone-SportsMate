@@ -99,19 +99,15 @@ const ModifyForms = () => {
   const [phoneNumber, setPhoneNumber] = useState(my.phoneNumber);
 
   const onchangePassword = (e) => {
-    console.log(e.target.value);
     setPassword(e.target.value);
   };
   const onchangePasswordconfirm = (e) => {
-    console.log(e.target.value);
     setPasswordconfirm(e.target.value);
   };
   const onchangeNickName = (e) => {
-    console.log(e.target.value);
     setNickName(e.target.value);
   };
   const onchangePhoneNumber = (e) => {
-    console.log(e.target.value);
     setPhoneNumber(e.target.value);
   };
 
@@ -168,31 +164,36 @@ const ModifyForms = () => {
                           "\n" +
                           "를 입력하지 않았습니다. 이대로 수정하시겠습니까?"
                       )
-                    )
-                      axios
-                        .put(`/member/my`, {
-                          nickName: event.target.nickName.value,
-                          password: event.target.password.value,
-                          phoneNumber: event.target.phoneNumber.value,
-                        })
-                        .then(function (response) {
-                          //받는거
-                          if (image.image_file != undefined)
-                            sendImageToServer(-1);
-                          else
-                            setPopup({
-                              open: true,
-                              title: "Confirm",
-                              message: "정보를 수정하였습니다!",
-                              callback: function () {
-                                document.location.href = "/mypage";
-                              },
-                            });
-                        })
-                        .catch(function (error) {
-                          //error
-                          console.log(error);
-                        });
+                    ){
+                        let nickvalue=event.target.nickName.value
+                        let phonevalue=event.target.phoneNumber.value
+                        if(!tmp2[1])nickvalue=my.nickName
+                        if(!tmp2[2])phonevalue=my.phoneNumber
+                        axios
+                          .put(`/member/my`, {
+                            nickName: nickvalue,
+                            password: event.target.password.value,
+                            phoneNumber: phonevalue,
+                          })
+                          .then(function (response) {
+                            //받는거
+                            if (image.image_file != undefined)
+                              sendImageToServer(-1);
+                            else
+                              setPopup({
+                                open: true,
+                                title: "Confirm",
+                                message: "정보를 수정하였습니다!",
+                                callback: function () {
+                                  document.location.href = "/mypage";
+                                },
+                              });
+                          })
+                          .catch(function (error) {
+                            //error
+                            console.log(error);
+                          });
+                      }
                   } else {
                     axios
                       .put(`/member/my`, {

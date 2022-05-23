@@ -23,7 +23,6 @@ const MatchList = () => {
       .then(function (response) {
         if (response.status == 200) {
           setMatchs(response.data);
-          console.log(matchs);
         }
       })
       .catch(function (error) {

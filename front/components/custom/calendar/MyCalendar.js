@@ -15,7 +15,6 @@ export default function MyCalendar(props) {
     open: false,
     callback: false,
   });
-  console.log(participation);
   return (
     <div style={{ height: 500 }}>
       <Participation

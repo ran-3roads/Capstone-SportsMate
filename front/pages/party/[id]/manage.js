@@ -140,7 +140,6 @@ export default function Manage() {
                   <CommonTableColumn>
                     <a>
                       {m.birthDate}세/{m.sex}
-                      {console.log(m.birthDate.type)}
                     </a>
                   </CommonTableColumn>
                   <CommonTableColumn>
@@ -164,7 +163,6 @@ export default function Manage() {
                   <CommonTableColumn>
                     <a>
                       {m.birthDate}세/{m.sex}
-                      {console.log(m.birthDate.type)}
                     </a>
                   </CommonTableColumn>
                   <CommonTableColumn>
@@ -183,7 +181,6 @@ export default function Manage() {
                           .then(function (response) {
                             //받는거
                             if (response.status == 200) {
-                              console.log(response.data);
                               alert("멤버를 추방하였습니다.");
                               location.reload();
                             }

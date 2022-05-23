@@ -40,22 +40,17 @@ const MkpartyForm = (props) => {
   const [loaded, setLoaded] = useState(false);
 
   const onchangeSportsName = (e) => {
-    console.log(e.target.value);
     setSportsName(e.target.value);
   };
   const onchangeLocation = (e) => {
-    console.log(e.target.value);
     setLocation(e.target.value);
   };
   const onchangeIntro = (e) => {
-    console.log(e.target.value);
     setIntro(e.target.value);
   };
   const onchangeTitle = (e) => {
-    console.log(e.target.value);
     setTitle(e.target.value);
   };
-  console.log(props);
   let inputRef;
   const saveImage = (e) => {
     e.preventDefault();
@@ -173,14 +168,6 @@ const MkpartyForm = (props) => {
                             document.location.href = "/";
                           },
                         });
-                      // setPopup({
-                      //     open: true,
-                      //     title: "Confirm",
-                      //     message: "파티를 만들었습니다!",
-                      //     callback: function(){
-                      //         document.location.href='/';
-                      //     }
-                      // });
                     })
                     .catch(function (error) {
                       if (error.response.status == 405) {

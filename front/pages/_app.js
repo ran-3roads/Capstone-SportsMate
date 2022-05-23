@@ -8,8 +8,9 @@ const coa = cookie.loadAll();
 const allCookies = cookies(coa);
 const refreshTokenByCookie = allCookies["refreshToken"];
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "http://15.164.164.248:8080/sportsmate";
-
+// axios.defaults.baseURL = "http://15.164.164.248:8080/sportsmate";
+//axios.defaults.baseURL = "http://localhost:8080/sportsmate";
+axios.defaults.baseURL = "http://sportsmate.tk:8080/sportsmate";
 let isTokenRefreshing = false;
 let refreshSubscribers = [];
 
@@ -62,17 +63,6 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-// if(refreshTokenByCookie!=undefined){
-// axios.get("/member/public/reissue")
-// .then(function (response) {
-//   axios.defaults.headers.common['Authorization'] = response.headers.authorization;
-
-// }).catch(function (error) {
-//     //error
-//     console.log(error);
-// });
-// }
 
 let MyApp = ({ Component, pageProps }) => (
   <Layout>

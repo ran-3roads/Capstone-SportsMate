@@ -26,8 +26,6 @@ import cookie from "react-cookies";
 import cookies from "next-cookies";
 
 const myLoader = ({ src }) => {
-  console.log(src);
-  console.log(footballimg);
   if (src == "BADMINTON") return badmintonimg.src;
   else if (src == "PINGPONG") return pingpongimg.src;
   else if (src == "VALLEYBALL") return valleyballimg.src;
@@ -46,7 +44,6 @@ const RList = () => {
       .then(function (response) {
         if (response.status == 200) {
           setRecruits(response.data);
-          console.log(recruits);
         }
       })
       .catch(function (error) {
@@ -275,12 +272,12 @@ const RList = () => {
                   <option value="all" selected>
                     종목선택(전체)
                   </option>
-                  <option value="축구">축구</option>
-                  <option value="풋살">풋살</option>
-                  <option value="배구">배구</option>
-                  <option value="배드민턴">배드민턴</option>
-                  <option value="농구">농구</option>
-                  <option value="탁구">탁구</option>
+                  <option value="SOCCER">축구</option>
+                  <option value="FOOTBALL">풋살</option>
+                  <option value="VALLEYBALL">배구</option>
+                  <option value="BADMINTON">배드민턴</option>
+                  <option value="BASKETBALL">농구</option>
+                  <option value="PINGPONG">탁구</option>
                 </Input>
               </span>
             </div>

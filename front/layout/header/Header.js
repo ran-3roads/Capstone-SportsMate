@@ -106,7 +106,6 @@ const Header = () => {
       </NavItem>
     );
   } else {
-    console.log("로그인중아님");
     LoginNav = (
       <NavItem>
         <Link href="/login">

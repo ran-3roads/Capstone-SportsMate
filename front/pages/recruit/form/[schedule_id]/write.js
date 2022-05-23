@@ -33,11 +33,9 @@ const Write = () => {
   const [contents, setContents] = useState(write.contents);
 
   const onchangeTitle = (e) => {
-    console.log(e.target.value);
     setTitle(e.target.value);
   };
   const onchangeContents = (e) => {
-    console.log(e.target.value);
     setContents(e.target.value);
   };
 

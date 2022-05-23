@@ -12,9 +12,6 @@ export default function Success() {
   const { orderId, paymentKey, amount } = router.query;
   useEffect(() => {
     if (!router.isReady) return;
-    console.log(
-      `orderId = ${orderId} ,paymentkey = ${paymentKey},amount = ${amount}입니다.`
-    );
     axios
       .post(
         `https://api.tosspayments.com/v1/payments/${paymentKey}`,
