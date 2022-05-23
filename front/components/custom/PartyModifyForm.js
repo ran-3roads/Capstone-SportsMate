@@ -105,23 +105,18 @@ const PartyModifyForm = () => {
   const [title, setTitle] = useState(partyinfo.title);
 
   const onchangeSportsName = (e) => {
-    console.log(e.target.value);
     setSportsName(e.target.value);
   };
   const onchangeLocation = (e) => {
-    console.log(e.target.value);
     setLocation(e.target.value);
   };
   const onchangeIntro = (e) => {
-    console.log(e.target.value);
     setIntro(e.target.value);
   };
   const onchangeTitle = (e) => {
-    console.log(e.target.value);
     setTitle(e.target.value);
   };
   const onchangeInfo = (e) => {
-    console.log(e.target.value);
     setInfo(e.target.value);
   };
 
@@ -161,7 +156,6 @@ const PartyModifyForm = () => {
               id="ModifyForm"
               onSubmit={function (event) {
                 event.preventDefault();
-                console.log();
                 axios
                   .put(`/party/${id}`, {
                     title: event.target.title.value,

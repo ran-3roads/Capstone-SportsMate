@@ -41,7 +41,6 @@ function Popup({ open, setPopup, party_id, callback }) {
       .get(`/party/${party_id}/schedule/regist/getArenaList`)
       .then(function (response) {
         if (response.status == 200) {
-          console.log("arena:", arena);
           setArena(response.data);
         }
       })

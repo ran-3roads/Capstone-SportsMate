@@ -12,7 +12,6 @@ const clientKey = "test_ck_XjExPeJWYVQbodkMjRpr49R5gvNL";
 export default function Mypage() {
   const [my, setMy] = useState({});
   const [myimg, setMyimg] = useState({});
-  console.log(axios.defaults.headers.common["Authorization"]);
   useEffect(() => {
     axios
       .get(`/member/my`)
@@ -26,7 +25,7 @@ export default function Mypage() {
         setMyimg(response.data);
       })
       .catch(function (error) {
-        console.log("에러입니뎅");
+        console.log("에러입니다");
       });
   }, []);
 

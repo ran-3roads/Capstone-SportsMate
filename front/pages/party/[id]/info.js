@@ -110,7 +110,6 @@ export default function Info() {
       .get(`/party/public/${id}/info`)
       .then(function (response) {
         if (response.status == 200) {
-          console.log("1");
           setParty(response.data);
           return axios.get("/file/public/image", {
             params: { id: id, imageCategory: "PARTY" },
@@ -119,7 +118,6 @@ export default function Info() {
       })
       .then(function (response) {
         if (response.status == 200) {
-          console.log("2");
           setPartyimg(response.data);
         }
       })
@@ -130,7 +128,6 @@ export default function Info() {
       .get(`/party/${id}/isPartyManager`)
       .then(function (response) {
         if (response.status == 200) {
-          console.log("3");
           setIsmanager(response.data);
         }
       })
@@ -141,7 +138,6 @@ export default function Info() {
       .get(`/party/${id}/isPartyMember`)
       .then(function (response) {
         if (response.status == 200) {
-          console.log("4");
           setIsmember(response.data);
         }
       })
@@ -152,7 +148,6 @@ export default function Info() {
       .get(`/party/${id}/alreadyApply`)
       .then(function (response) {
         if (response.status == 200) {
-          console.log("5");
           setIsalreadyapply(response.data);
         }
       })

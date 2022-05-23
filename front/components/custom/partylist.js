@@ -32,7 +32,6 @@ const PList = () => {
       });
   }, []);
   let result = [...partys];
-  console.log(result);
   const [currentPage, setCurrentPage] = useState(0);
   const [location, setLocation] = useState("all");
   const [sportsName, setSportsName] = useState("all");

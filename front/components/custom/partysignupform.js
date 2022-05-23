@@ -47,7 +47,6 @@ const PartySignupForm = () => {
   const [contents, setContents] = useState(request.contents);
 
   const onchangeContent = (e) => {
-    console.log(e.target.value);
     setContents(e.target.value);
   };
 
@@ -80,8 +79,6 @@ const PartySignupForm = () => {
               id="signupForm"
               onSubmit={function (event) {
                 event.preventDefault();
-                console.log(id);
-                console.log(event.target.contents.value);
                 axios
                   .post(`/party/${id}/join`, {
                     contents: event.target.contents.value,

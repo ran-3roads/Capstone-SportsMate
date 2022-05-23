@@ -64,17 +64,6 @@ axios.interceptors.response.use(
   }
 );
 
-// if(refreshTokenByCookie!=undefined){
-// axios.get("/member/public/reissue")
-// .then(function (response) {
-//   axios.defaults.headers.common['Authorization'] = response.headers.authorization;
-
-// }).catch(function (error) {
-//     //error
-//     console.log(error);
-// });
-// }
-
 let MyApp = ({ Component, pageProps }) => (
   <Layout>
     <Component {...pageProps} />

@@ -23,7 +23,6 @@ const MPList = () => {
       .then(function (response) {
         if (response.status == 200) {
           setPartys(response.data);
-          console.log(partys);
         }
       })
       .catch(function (error) {

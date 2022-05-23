@@ -36,15 +36,12 @@ const WriteForm = () => {
   const [category, setCategory] = useState(write.category);
 
   const onchangeTitle = (e) => {
-    console.log(e.target.value);
     setTitle(e.target.value);
   };
   const onchangeCategory = (e) => {
-    console.log(e.target.value);
     setCategory(e.target.value);
   };
   const onchangeContents = (e) => {
-    console.log(e.target.value);
     setContents(e.target.value);
   };
 

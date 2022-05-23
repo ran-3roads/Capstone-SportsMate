@@ -28,7 +28,6 @@ export default function Schedule() {
     title: "성풋모1",
     infoimg: footballimg,
   };
-  console.log(events);
   let managercontent = null;
   useEffect(() => {
     if (!router.isReady) return;
@@ -36,7 +35,6 @@ export default function Schedule() {
       .get(`/party/${id}/schedule`)
       .then(function (response) {
         if (response.status == 200) {
-          console.log(response.data);
           let tmp = [];
           let i = 0;
           response.data.map((d) => {
@@ -57,7 +55,6 @@ export default function Schedule() {
       })
       .then(function (response) {
         if (response.status == 200) {
-          console.log(response.data);
           setIsmanager(response.data);
         }
       })

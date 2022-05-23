@@ -26,8 +26,6 @@ import cookie from "react-cookies";
 import cookies from "next-cookies";
 
 const myLoader = ({ src }) => {
-  console.log(src);
-  console.log(footballimg);
   if (src == "BADMINTON") return badmintonimg.src;
   else if (src == "PINGPONG") return pingpongimg.src;
   else if (src == "VALLEYBALL") return valleyballimg.src;
@@ -46,7 +44,6 @@ const RList = () => {
       .then(function (response) {
         if (response.status == 200) {
           setRecruits(response.data);
-          console.log(recruits);
         }
       })
       .catch(function (error) {

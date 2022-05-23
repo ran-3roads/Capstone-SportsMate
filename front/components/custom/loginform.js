@@ -28,11 +28,9 @@ const LoginForm = () => {
     callback: false,
   });
   const onchangeEmail = (e) => {
-    console.log(e.target.value);
     setEmail(e.target.value);
   };
   const onchangePassword = (e) => {
-    console.log(e.target.value);
     setPassword(e.target.value);
   };
   let content = null;

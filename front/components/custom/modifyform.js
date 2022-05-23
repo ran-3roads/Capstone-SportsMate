@@ -99,19 +99,15 @@ const ModifyForms = () => {
   const [phoneNumber, setPhoneNumber] = useState(my.phoneNumber);
 
   const onchangePassword = (e) => {
-    console.log(e.target.value);
     setPassword(e.target.value);
   };
   const onchangePasswordconfirm = (e) => {
-    console.log(e.target.value);
     setPasswordconfirm(e.target.value);
   };
   const onchangeNickName = (e) => {
-    console.log(e.target.value);
     setNickName(e.target.value);
   };
   const onchangePhoneNumber = (e) => {
-    console.log(e.target.value);
     setPhoneNumber(e.target.value);
   };
 

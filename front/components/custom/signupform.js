@@ -99,35 +99,27 @@ const SignupForm = () => {
   };
 
   const onchangeEmail = (e) => {
-    console.log(e.target.value);
     setEmail(e.target.value);
   };
   const onchangePassword = (e) => {
-    console.log(e.target.value);
     setPassword(e.target.value);
   };
   const onchangePasswordconfirm = (e) => {
-    console.log(e.target.value);
     setPasswordconfirm(e.target.value);
   };
   const onchangeName = (e) => {
-    console.log(e.target.value);
     setName(e.target.value);
   };
   const onchangeNickName = (e) => {
-    console.log(e.target.value);
     setNickname(e.target.value);
   };
   const onchangeBirthDate = (e) => {
-    console.log(e.target.value);
     setBirthDate(e.target.value);
   };
   const onchangeSex = (e) => {
-    console.log(e.target.value);
     setSex(e.target.value);
   };
   const onchangePhoneNumber = (e) => {
-    console.log(e.target.value);
     setPhoneNumber(e.target.value);
   };
   function checkjoin(e) {

@@ -58,7 +58,6 @@ const RecruitSignupForm = () => {
       .get(`/match/board/${id}`)
       .then(function (response) {
         if (response.status == 200) {
-          console.log(response.data);
           setRecruits(response.data);
           return response.data;
         }
@@ -123,7 +122,6 @@ const RecruitSignupForm = () => {
   const [suggest, setSuggest] = useState(request.suggest);
 
   const onchangeSuggest = (e) => {
-    console.log(e.target.value);
     setSuggest(e.target.value);
   };
 
@@ -164,7 +162,6 @@ const RecruitSignupForm = () => {
               id="signupForm"
               onSubmit={function (event) {
                 event.preventDefault();
-                console.log(event.target.suggest.value, recruits.registId);
                 axios
                   .post("/match/apply", {
                     suggest: event.target.suggest.value,
