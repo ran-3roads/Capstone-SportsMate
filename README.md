@@ -79,7 +79,7 @@ devops : Git, Github, AWS EC2, AWS RDS, AWS S3
 * AWS S3 연동하여 파일 업로드 구현
 * AWS EC2에 back front 서버 배포 
 * AWS RDS mysql로 db 구현 
-* AWS Route 53을 활용하여 
+* AWS Route 53을 활용하여 도메인 적용 
 
 ###  :dog: 박성찬 <a href="https://github.com/ran-3roads"> github<br></a>
 
