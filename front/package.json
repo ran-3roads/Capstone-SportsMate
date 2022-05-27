@@ -37,5 +37,5 @@
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2"
   },
-  "proxy": "http://15.164.164.248:8080"
+  "proxy": "https://sportsmate.tk/sportsmate"
 }

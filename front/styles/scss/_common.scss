@@ -8,7 +8,7 @@ made by 따봉
   .partyimg-wrapper {
     margin: 20px 0 20px 0;
     img {
-      width: 500px;
+      max-width: -webkit-fill-available;
       height: auto;
     }
   }
@@ -160,15 +160,18 @@ details[open] > summary ~ * {
     margin: auto;
 }
 .party_infobox {
-  height: 500px;
-  width: 300px;
+  height: auto;
+  width: auto;
+  max-height: 500px;
+  max-width: 300px;
   background:gainsboro;
   margin: 0;
   padding: 0;
   text-align: justify;
 }
 .party_infobox2 {
-  width: 530px;
+  width: auto;
+  max-width: 100%;
   overflow: hidden;
   height: auto;
   background: gainsboro;
@@ -501,6 +504,12 @@ details[open] > summary ~ * {
 /******************* 
 made in 경민
 *******************/
+.partyinfoimg {
+  width: auto;
+  height: auto;
+  max-width: -webkit-fill-available;
+}
+
 .partyfilter {
   display: block;
   position: relative;

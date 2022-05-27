@@ -23,8 +23,6 @@ const PartySelect = () => {
       <div className="partyheader6">
         <Container className="po-relative">
         <Navbar className="navbar-expand-lg h6-nav-bar">
-          <NavbarToggler onClick={toggle} />
-           <Collapse isOpen={isOpen} navbar className="hover-dropdown ml-auto">
            <div className="n_party">
                   <Link href={`/party/${id}/info`}>
                   <div className="select_font"><a>정보</a></div>
@@ -40,7 +38,6 @@ const PartySelect = () => {
                   <div className="select_font"><a>일정</a></div>
                   </Link>
                 </div>
-                </Collapse>
                 </Navbar>
               </Container>
             </div>
