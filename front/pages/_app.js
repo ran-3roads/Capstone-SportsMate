@@ -10,7 +10,7 @@ const refreshTokenByCookie = allCookies["refreshToken"];
 axios.defaults.withCredentials = true;
 // axios.defaults.baseURL = "http://15.164.164.248:8080/sportsmate";
 //axios.defaults.baseURL = "http://localhost:8080/sportsmate";
-axios.defaults.baseURL = "http://sportsmate.tk:8080/sportsmate";
+axios.defaults.baseURL = "https://sportsmate.tk/sportsmate";
 let isTokenRefreshing = false;
 let refreshSubscribers = [];
 
