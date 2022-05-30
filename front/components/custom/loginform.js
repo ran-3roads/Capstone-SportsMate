@@ -126,20 +126,6 @@ const LoginForm = () => {
         </Row>
       </Container>
     );
-  } else if (mode == "KAKAO") {
-    content = (
-      <Container>
-        <Row className="justify-content-center">
-          <a href={KAKAO_AUTH_URL}>
-            <img
-              src="//k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
-              width="222"
-              alt="카카오 로그인 버튼"
-            />
-          </a>
-        </Row>
-      </Container>
-    );
   }
   return (
     <div>
@@ -158,28 +144,6 @@ const LoginForm = () => {
               <h6 className="subtitle">
                 로그인하여 Sports Mate를 이용해보세요
               </h6>
-              <Row className="justify-content-center">
-                <div className="btn-blocks">
-                  <Button
-                    color="primary"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      setMode("LOGIN");
-                    }}
-                  >
-                    sportsmateID
-                  </Button>
-                  <Button
-                    color="warning"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      setMode("KAKAO");
-                    }}
-                  >
-                    카카오ID
-                  </Button>
-                </div>
-              </Row>
             </Col>
           </Row>
         </Container>
