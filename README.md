@@ -92,7 +92,11 @@ devops : Git, Github, AWS EC2, AWS RDS, AWS S3
 
 ###  :pig: 김태현 <a href="https://github.com/kth3819"> github<br></a>
 
-* 자신이 한 일들 하나부터 열까지 정리해주기 
+* react, next/js 활용 파티 게시판, 용병 카테고리, My Page, 가이드 폼 구현
+* 이미지 처리 함수 구현 및 다양한 페이지에서 활용 
+* 회원가입, My Page, 용병, 파티(일정 제외) 페이지 axios를 활용하여 서버와 통신
+* 서버에서 받은 에러코드 클라이언트 화면 처리 ex)경고문
+* 각 페이지별 필요한 css 정리 
 
 ###  :sleepy: 박경민 <a href="https://github.com/qaz5216"> github<br></a>
 
