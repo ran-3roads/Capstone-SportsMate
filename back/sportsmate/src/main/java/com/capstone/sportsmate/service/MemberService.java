@@ -33,6 +33,7 @@ public class MemberService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
 
+
     @Transactional
     public MemberResponse join (MemberForm memberForm){
         Member member = memberForm.toMember(passwordEncoder);
@@ -43,24 +44,29 @@ public class MemberService {
 
 
     private Member findByEmail(String email){
-        Member member =  memberRepository.findByEmail(email);
+        Member member =  memberRepository.findByEmail(email)
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         return member;
     }
     // 현재 SecurityContext 에 있는 유저 정보 가져오기
     @Transactional(readOnly = true)
     public Member getMyInfo() {
-        return memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        return memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
 
     }
 
     private void validateDuplicateMember(Member member) {
-        Member findMember = memberRepository.findByEmail(member.getEmail());
+        Member findMember = memberRepository.findByEmail(member.getEmail())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         if(findMember!=null){
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
     public Member findOne(Long memberId){
-        return memberRepository.findOne(memberId);
+
+        return memberRepository.findById(memberId)
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
     }
 
     //login service
@@ -139,14 +145,18 @@ public class MemberService {
     }
     @Transactional
     public void deposit(int credit) {
-        Member member = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         member.deposit(credit);
     }
 
     @Transactional
     public String modifyInfo(MemberMoidfyForm memberMoidfyForm) {//정보 변경
-        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        Member findMember = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         findMember.updateFindMember(memberMoidfyForm,passwordEncoder);
         return "modify";
     }
+
+
 }

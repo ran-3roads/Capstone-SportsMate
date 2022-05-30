@@ -50,7 +50,8 @@ public class PartyBoardService {
     @Transactional
     public void createPartyBoard(Long partyId, PartyBoardForm partyBoardForm){//파티보드 생성
         Party party = partyRepository.findOne(partyId);
-        Member member = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         if(partyBoardForm.getCategory().equals(Category.NOTICE)){
             PartyMember partyMember = partyRepository.isRole(party,member);
             if(partyMember.getRole().equals(Role.MEMBER))
@@ -67,7 +68,9 @@ public class PartyBoardService {
     public PartyBoard verifiactionBoardMember(Long partyBoardId) {//파티보드 작성자 확인
         PartyBoard  partyBoard = partyBoardRepository.findById(partyBoardId)
                 .orElseThrow(() -> new NotFoundEntityException("지워진 게시판입니다."));
-        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        Member findMember = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
+
         if(partyBoard.getMember().equals(findMember)){
             return partyBoard;
         } else {
@@ -103,7 +106,9 @@ public class PartyBoardService {
     public void createComment(Long partyBoardId, CommentForm commentForm){//댓글 작성
         PartyBoard  partyBoard = partyBoardRepository.findById(partyBoardId)
                 .orElseThrow(() -> new NotFoundEntityException("지워진 게시판입니다."));
-        Member member = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
+
         Comment comment = Comment.createComment(commentForm.getContents(), LocalDateTime.now(), member, partyBoard);
         commentRepository.save(comment);
 
@@ -113,7 +118,9 @@ public class PartyBoardService {
     public Comment verifiactionCommentMember(Long commentId ) {//댓글 작성자 확인
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new NotFoundEntityException("지워진 댓글입니다."));
-        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        Member findMember = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
+
         if(comment.getMember().equals(findMember)){
             return comment;
         } else {
@@ -132,7 +139,9 @@ public class PartyBoardService {
     public boolean isWriter(Long partyBoardId) {//파티보드 작성자 확인
         PartyBoard  partyBoard = partyBoardRepository.findById(partyBoardId)
                 .orElseThrow(() -> new NotFoundEntityException("지워진 게시판입니다."));
-        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        Member findMember = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
+
         if(partyBoard.getMember().equals(findMember)){
             return true;
         } else {

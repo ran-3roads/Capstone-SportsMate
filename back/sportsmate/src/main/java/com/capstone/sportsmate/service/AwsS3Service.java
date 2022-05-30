@@ -36,7 +36,7 @@ public class AwsS3Service {
         List<String> fileNameList = new ArrayList<>();
         if(imageCategory.equals(ImageCategory.MEMBER))
             id = SecurityUtil.getCurrentMemberId();
-        // forEach 구문을 통해 multipartFile로 넘어온 파일들 하나씩 fileNameList에 추가
+        // forEach 구문을 통해 multipartFile로 넘어온 파일들하나씩 fileNameList에 추가
         Long finalId = id;
         multipartFile.forEach(file -> {
             String fileName = imageCategory.value()+ finalId +".png";
@@ -60,7 +60,8 @@ public class AwsS3Service {
     public List<String> uploadSignupFile(List<MultipartFile> multipartFile, String email, ImageCategory imageCategory) {
         List<String> fileNameList = new ArrayList<>();
         // forEach 구문을 통해 multipartFile로 넘어온 파일들 하나씩 fileNameList에 추가
-        Long finalId = memberRepository.findByEmail(email).getId();
+        Long finalId = memberRepository.findByEmail(email)
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다.")).getId();
         multipartFile.forEach(file -> {
             System.out.println("file name is"+file.getOriginalFilename());
             String fileName = imageCategory.value()+ finalId +".png";

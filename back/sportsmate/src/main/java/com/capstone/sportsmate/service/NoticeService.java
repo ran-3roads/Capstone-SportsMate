@@ -30,7 +30,8 @@ public class NoticeService {
 
     @Transactional
     public List<NoticeResponse> findMyNotices(Long memberId){ // Notice 관련 소스코드
-        Member member=memberRepository.findOne(memberId);
+        Member member=memberRepository.findById(memberId)
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
 
         return  noticeRepository.findNotices(member).stream().map(Notice::toNoticeResponse).collect(Collectors.toList());
     }
@@ -38,7 +39,8 @@ public class NoticeService {
     @Transactional
     public Boolean isRoute(Long noticeId,Long memberId){
         Notice notice = noticeRepository.findOne(noticeId);
-        Member member = memberRepository.findOne(memberId);
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
 
         Notice authNotice= noticeRepository.isRoute(notice,member);
         if(authNotice==null){

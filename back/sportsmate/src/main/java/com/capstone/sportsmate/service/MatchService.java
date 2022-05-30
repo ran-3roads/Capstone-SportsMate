@@ -43,7 +43,9 @@ public class MatchService {
     public void createMatchBoard(MatchForm matchForm, Long scheduleId) {
         Schedule findSchedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(()-> new RuntimeException("해당 스케줄 없음"));
-        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        Member findMember = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
+
         //방장 권한체크
         if(!partyService.isCheckRole(findSchedule.getParty().getId(),findMember.getId())){
             throw new RuntimeException("해당파티의 방장이 아니므로 권한이 없습니다.");
@@ -74,7 +76,9 @@ public class MatchService {
     public void createMatchApply(MatchApplyForm matchApplyForm) {
 
         Regist findRegist = registRepository.findRegistOne(matchApplyForm.getRegistId());
-        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        Member findMember = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
+
         Schedule findSchedule = scheduleRepository.findByRegist(findRegist)
                 .orElseThrow(() -> new RuntimeException("해당 스케줄이 없음"));//크흠 수정이 필요할거같다.
 
@@ -131,7 +135,7 @@ public class MatchService {
                 .orElseThrow(() -> new RuntimeException("해당 matchboard가 없습니다."));
 
         //joingame 생성
-        registRepository.joinGameSave(JoinGame.createJoinGame(findMember,findRegist));
+       joinGameRepository.save(JoinGame.createJoinGame(findMember,findRegist));
 
         findSchedule.addCurrentMemeber();
         findMatchBoard.addCurrentMember();
@@ -169,7 +173,8 @@ public class MatchService {
     }
     //자신이 참여하는 경기 리스트
     public List<MyGameResponse> getMyGameList() {
-        return  joinGameRepository.findByMember(memberRepository.findOne(SecurityUtil.getCurrentMemberId())).stream()
+        return  joinGameRepository.findByMember(memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."))).stream()
                 .map(JoinGame::toMyGameResponse).collect(Collectors.toList());
     }
     //이미 존재하는지?
@@ -190,7 +195,8 @@ public class MatchService {
         Schedule findSchedule = scheduleRepository.findByRegist(findRegist)
                 .orElseThrow(()-> new RuntimeException("해당 스케줄 없음"));
 
-        Member findMember = memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        Member findMember = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
 
         return matchApplyRepository.existsByMemberAndSchedule(findMember,findSchedule);
     }
