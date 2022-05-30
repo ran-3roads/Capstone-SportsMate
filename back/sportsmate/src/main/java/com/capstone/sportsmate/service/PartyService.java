@@ -40,7 +40,7 @@ public class PartyService {
     @Transactional
     public Long mkParty (PartyForm form, Long id){
         validateDuplicateParty(form.getTitle());//중복 파티이름 검증
-        Member member= memberRepository.findOne(id);
+        Member member= memberRepository.findById(id).orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         Party party = Party.createParty(form.getSportsName(), form.getTitle(), form.getLocation(), form.getIntro(), LocalDate.now(),1,form.getInfo());
         partyRepository.save(party); // 파티 저장
         JoinPartytoHost(party,member); //파티멤버 추가
@@ -48,11 +48,15 @@ public class PartyService {
     }
     @Transactional
     public Long joinParty (MemberApplyForm form,Long partyId, Long memberId){
-        Member member= memberRepository.findOne(memberId);
+        Member member= memberRepository.findById(memberId)
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
+
         Party party= partyRepository.findOne(partyId);
         validateDuplicateApply(party,member);
 
-        Member hostMember=memberRepository.findPartyHost(party);//해당 파티의 host 찾기
+        Member hostMember=partyMemberRepository.findByPartyAndRole(party,Role.HOST)
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."))
+                .getMember();//해당 파티의 host 찾기
         Apply apply=Apply.createApply(Request.WAITING, LocalDateTime.now(),member,party,form.getContents());//apply 생성
         Notice notice=Notice.createNotice(hostMember,NoticeType.APPLY, NoticeStatus.UNCONFIRM,LocalDateTime.now());//notice 생성
         notice.setApply(apply);
@@ -95,7 +99,7 @@ public class PartyService {
     //----- 지원했는데 방장이 확인못해서 waiting 인 상황-----
     public boolean applyWaitForHost(Long partyId, Long memberId) {
         Party party=partyRepository.findOne(partyId);
-        Member member=memberRepository.findOne(memberId);
+        Member member=memberRepository.findById(memberId).orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         Apply apply=noticeRepository.findByApply(party,member);
         if(apply==null) return false; // 지원조차안했으면 false
         if(apply.getState().equals(Request.WAITING)){ //대기 처리면 true
@@ -124,13 +128,15 @@ public class PartyService {
     }
     public PartyResponse viewParty(Long partyId){
         Party party=partyRepository.findOne(partyId);
-        Member hostMember= memberRepository.findPartyHost(party);
+        Member hostMember= partyMemberRepository.findByPartyAndRole(party,Role.HOST)
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."))
+                .getMember();//호스트 찾기
         return party.toPartyResponse(hostMember.getNickName());
     }
 
     public boolean isCheckRole(Long partyId, Long memberId){
         Party party = partyRepository.findOne(partyId);
-        Member member = memberRepository.findOne(memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         PartyMember partyMember= partyRepository.isRole(party,member);
         if(partyMember==null) return false;
         if(!partyMember.getRole().equals(Role.HOST))return false;
@@ -152,7 +158,7 @@ public class PartyService {
 
     public boolean isPartyMember(Long partyId, Long memberId){
         Party party = partyRepository.findOne(partyId);
-        Member member = memberRepository.findOne(memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         PartyMember partyMember= partyRepository.isRole(party,member);
 
         if(partyMember==null) return false;
@@ -182,7 +188,7 @@ public class PartyService {
 
     public List<Party> findMyParties(Long id) { //멤버가 가입한 파티리스트 출력
         PartySearch partySearch= new PartySearch();
-        Member member=memberRepository.findOne(id);
+        Member member=memberRepository.findById(id).orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         return partyRepository.findAllString(partySearch,member);
     }
     public List<Party> findSearchParties(PartySearch partySearch) { //멤버가 가입한 파티리스트 출력
@@ -214,7 +220,9 @@ public class PartyService {
     @Transactional
     public void leavePartyMember(Long partyId) {
         Party party=partyRepository.findOne(partyId);
-        Member member=memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        Member member=memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
+
         party.minusMember();
         partyMemberRepository.deleteByPartyAndMember(
                 party,member);

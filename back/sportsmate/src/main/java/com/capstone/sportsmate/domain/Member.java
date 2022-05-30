@@ -25,6 +25,7 @@ public class Member {
     private Long id;
     private String name;
 
+
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
@@ -50,20 +51,6 @@ public class Member {
     private Authority authority;
 
     private int credit;
-
-//    @OneToMany(mappedBy = "member")
-//    private List<Party> parties= new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "member")
-//    private List<PartyMember> partyMembers= new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "member")
-//    private List<Log> logs= new ArrayList<>();
-
-
-
-    //apply 부분 몰겟다
-
 
 
     // entity 생성

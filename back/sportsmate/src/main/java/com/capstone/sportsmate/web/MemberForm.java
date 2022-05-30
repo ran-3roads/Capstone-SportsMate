@@ -30,9 +30,10 @@ public class MemberForm {
 
     private String phoneNumber;
 
+    private Long kakaoId;
+
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.createMember(name,sex, email, nickName, passwordEncoder.encode(password),
-                LocalDate.now(), birthDate, phoneNumber, Authority.ROLE_USER);
-
+                LocalDate.now(), birthDate, phoneNumber,Authority.ROLE_USER);
     }
 }

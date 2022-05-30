@@ -214,7 +214,7 @@ export default function Info() {
               <div className="party_infobox2">
                 <div className="partyuploader-wrapper">
                   <div className="partyimg-wrapper">
-                    <img src={partyimg}></img>
+                    <img src={partyimg} className="partyimg"></img>
                   </div>
                 </div>
               </div>
