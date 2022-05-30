@@ -35,6 +35,7 @@ public class RegistService {
     private final JoinGameRepository joinGameRepository;
     private final MatchBoardRepository matchBoardRepository;
     private final NoticeRepository noticeRepository;
+    private final ScheduleRepository scheduleRepository;
 
     @Transactional
     public void bookArena(BookForm bookForm,Long partyId){
@@ -43,20 +44,22 @@ public class RegistService {
 
         //예약 등록
         Regist regist=Regist.createRegist(bookForm.getDay(),bookArenaTime,bookArenaTime.getArena());
-        registRepository.registSave(regist);
+        registRepository.save(regist);
 
         //스케쥴 생성
         Schedule schedule=Schedule.createSchedule(bookArenaTime.getCredit(),0,
                 bookForm.getMaxMember(), bookForm.getTitle(),bookForm.getContents(),regist,party);
-        registRepository.scheduleSave(schedule);
+        scheduleRepository.save(schedule);
     }
     @Transactional
     public void bookRegist(Long memberId, Long partyId, Long scheduleId){
-        Schedule schedule=registRepository.findSchedule(scheduleId);
+        Schedule schedule=scheduleRepository.findById(scheduleId)
+                .orElseThrow(()->new RuntimeException("찾는 스케줄이 없습니다."));
         ScheduleResponse scheduleResponse=schedule.toScheduleResponse();
 
         Regist regist=schedule.getRegist();
-        Member member=memberRepository.findOne(memberId);
+        Member member=memberRepository.findById(memberId)
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         if(!validateBookRegist(member,regist)){
             throw  new RegistException("중복 예약입니다.");
         }
@@ -70,7 +73,7 @@ public class RegistService {
         }
         schedule.addCurrentMemeber();
         JoinGame joinGame= JoinGame.createJoinGame(member,regist);
-        registRepository.joinGameSave(joinGame);
+        joinGameRepository.save(joinGame);
 
         // 모임이 성사되면 멤버 전원에게 보낸다.
         if(schedule.isMaxMember()){
@@ -91,9 +94,11 @@ public class RegistService {
     @Transactional
     public void cancelRegist(Long scheduleId, Long memberId){
 //        if(!isAlreadyRegist(scheduleId)) throw new RegistException("예약하지도 않은 스케쥴입니다.");
-        Schedule schedule= registRepository.findSchedule(scheduleId);
+        Schedule schedule= scheduleRepository.findById(scheduleId)
+                .orElseThrow(()->new RuntimeException("찾는 스케줄이 없습니다."));
         ScheduleResponse scheduleResponse=schedule.toScheduleResponse();
-        Member member=memberRepository.findOne(memberId);
+        Member member=memberRepository.findById(memberId)
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));;
         Regist regist=schedule.getRegist();
         schedule.minusCurrentMember();
         JoinGame joinGame=registRepository.findByMemberRegistToJoinGame(member,schedule.getRegist());
@@ -119,8 +124,11 @@ public class RegistService {
     }
 
     public boolean isAlreadyRegist(Long scheduleId){
-        Schedule schedule = registRepository.findSchedule(scheduleId);
-        Member member= memberRepository.findOne(SecurityUtil.getCurrentMemberId());
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(()->new RuntimeException("찾는 스케줄이 없습니다."));
+
+        Member member= memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         if(!validateBookRegist(member,schedule.getRegist())){
             return true; //이미예약했어
         }
@@ -177,7 +185,9 @@ public class RegistService {
 
 
     public ScheduleResponse getSchedule(Long scheduleId){
-        Schedule schedule= registRepository.findSchedule(scheduleId);
+        Schedule schedule= scheduleRepository.findById(scheduleId)
+                .orElseThrow(()->new RuntimeException("찾는 스케줄이 없습니다."));
+
         return schedule.toScheduleResponse();
     }
 

@@ -1,16 +1,13 @@
 package com.capstone.sportsmate.repository;
 
 import com.capstone.sportsmate.domain.*;
-import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.domain.status.SportsName;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -18,17 +15,9 @@ import java.util.List;
 public class RegistRepository {
     private final EntityManager em;
 
-    public Long registSave(Regist regist) {
+    public Long save(Regist regist) {
         em.persist(regist);
         return regist.getId();
-    }
-    public Long scheduleSave(Schedule schedule) {
-        em.persist(schedule);
-        return schedule.getId();
-    }
-    public Long joinGameSave(JoinGame joinGame){
-        em.persist(joinGame);
-        return joinGame.getId();
     }
 
     public List<Schedule> findByParty(Party party){
@@ -116,6 +105,5 @@ public class RegistRepository {
         }
         return query.getResultList();
     }
-    public Schedule findSchedule(Long id){return em.find(Schedule.class, id);}
 
 }

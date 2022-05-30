@@ -41,7 +41,6 @@ public class MemberController {
         TokenObject tokenObject = memberService.login(loginForm);
         //보낼 쿠키설정 refreshToken을 추가
         Cookie cookie = new Cookie("refreshToken",tokenObject.getRefreshToken());
-        cookie.setDomain("sportsmate.tk");
         cookie.setPath("/");//쿠키가 사용가능한 영역을 지정해줌
         response.addCookie(cookie);
         //헤더의 설정을 추가
@@ -51,9 +50,9 @@ public class MemberController {
 
         return new ResponseEntity<String>("login",headers, HttpStatus.ACCEPTED);
     }
-//    @PostMapping("/public/kakaoLogin") 카카오 로그인
-//    public ResponseEntity<String> kakaoLogin(@RequestBody LoginForm loginForm, HttpServletResponse response){
-//        TokenObject tokenObject = memberService.login(loginForm);
+//    @PostMapping("/public/kakaoLogin") //카카오 로그인
+//    public ResponseEntity<String> kakaoLogin(@RequestParam String code, HttpServletResponse response){
+//        TokenObject tokenObject = memberService.kakaoLogin(code);
 //        //보낼 쿠키설정 refreshToken을 추가
 //        Cookie cookie = new Cookie("refreshToken",tokenObject.getRefreshToken());
 //        cookie.setPath("/");//쿠키가 사용가능한 영역을 지정해줌
