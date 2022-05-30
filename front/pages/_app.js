@@ -3,14 +3,15 @@ import Layout from "../layout/Layout";
 import axios from "axios";
 import cookie from "react-cookies";
 import cookies from "next-cookies";
+import { useEffect } from "react";
 
 const coa = cookie.loadAll();
 const allCookies = cookies(coa);
 const refreshTokenByCookie = allCookies["refreshToken"];
 axios.defaults.withCredentials = true;
 // axios.defaults.baseURL = "http://15.164.164.248:8080/sportsmate";
-//axios.defaults.baseURL = "http://localhost:8080/sportsmate";
-axios.defaults.baseURL = "http://sportsmate.tk:8080/sportsmate";
+axios.defaults.baseURL = "http://localhost:8080/sportsmate";
+// axios.defaults.baseURL = "http://sportsmate.tk:8080/sportsmate";
 let isTokenRefreshing = false;
 let refreshSubscribers = [];
 
@@ -21,6 +22,20 @@ const onTokenRefreshed = (accessToken) => {
 const addRefreshSubscriber = (callback) => {
   refreshSubscribers.push(callback);
 };
+// useEffect(()=>{
+//   if("serviceWorker" in navigator){
+//     window.addEventListener("load",function(){
+//       navigator.serviceWorker.register("/sw.js").then(
+//         function(registration){
+//           console.log("success sw");
+//         },
+//         function(err){
+//           console.log("sw error");
+//         },
+//         );
+//     });
+//   }
+// },[]);
 
 axios.interceptors.response.use(
   (response) => {
