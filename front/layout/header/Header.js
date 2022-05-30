@@ -34,6 +34,20 @@ const Header = () => {
   let myNav = null;
   let SignupNav = null;
   if (refreshTokenByCookie != undefined) {
+//     useEffect(()=>{
+//   if("serviceWorker" in navigator){
+//     window.addEventListener("load",function(){
+//       navigator.serviceWorker.register("/sw.js").then(
+//         function(registration){
+//           console.log("success sw");
+//         },
+//         function(err){
+//           console.log("sw error");
+//         },
+//         );
+//     });
+//   }
+// },[]);
     useEffect(() => {
       axios
         .get(`/notice`)
