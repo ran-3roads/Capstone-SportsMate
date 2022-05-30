@@ -88,6 +88,7 @@ devops : Git, Github, AWS EC2, AWS RDS, AWS S3
 * DB Table 설계 및 Entity 개발
 * KAKAO Map API를 활용하여 지도 서비스 구현
 * Git hub Collaborative Workflow 도입 및 가이드
+* 프로젝트에 PWA 환경 구축
 
 ###  :pig: 김태현 <a href="https://github.com/kth3819"> github<br></a>
 
