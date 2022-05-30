@@ -12,6 +12,7 @@ export default function Home() {
         <link rel="manifest" href="/manifest.json" />
           <link rel="apple-touch-icon" href="/icon.png"></link>
           <link rel="apple-touch-icon" sizes="180x180" href="icon-180x180.png"></link>
+          <link rel="icon" href="/favicon.ico" />
           <meta name="theme-color" content="#fff" />
           <meta name="apple-mobile-web-app-capable" content="yes"/>
       </Head>
