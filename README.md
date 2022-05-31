@@ -39,7 +39,7 @@ db & orm : Spring Data JPA, Hibernate, mysql
 
 api : tosspayments, kakao map api
 
-devops : Git, Github, AWS EC2, AWS RDS, AWS S3 
+devops : Git, Github, AWS EC2, AWS RDS, AWS S3, PWA
 
 ![skill](report/images/image.png)
 
