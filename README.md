@@ -113,7 +113,8 @@ devops : Git, Github, AWS EC2, AWS RDS, AWS S3, PWA
 
 ###  :pig: 김태현 <a href="https://github.com/kth3819"> github<br></a>
 
-* react, next/js 활용 파티 게시판, 용병 카테고리, My Page, 가이드 폼 구현
+* react라이브러리를 활용하여 파티 게시판, 용병 카테고리, My Page, 가이드 폼 구현
+* next.js를 활용하여 페이지 라우팅
 * 이미지 처리 함수 구현 및 다양한 페이지에서 활용 
 * 회원가입, My Page, 용병, 파티(일정 제외) 페이지 axios를 활용하여 서버와 통신
 * 서버에서 받은 에러코드 클라이언트 화면 처리 ex)경고문
