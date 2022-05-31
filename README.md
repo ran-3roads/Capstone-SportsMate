@@ -69,17 +69,17 @@ devops : Git, Github, AWS EC2, AWS RDS, AWS S3
 #### 용병 화면
 ![recruit](report/images/recruit.png)
 
-### 내 정보 화면
+#### 내 정보 화면
 ![my](report/images/my.png)
 ![my2](report/images/my2.png)
 
-### 포인트 충전 화면
+#### 포인트 충전 화면
 ![toss](report/images/toss.png)
 
-### 알림 화면
+#### 알림 화면
 ![notice](report/images/notice.png)
 
-### 모바일 화면
+#### 모바일 화면
 ![mobile](report/images/pwa.png)
 
 ## 기대 효과
