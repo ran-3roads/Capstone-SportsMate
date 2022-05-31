@@ -122,9 +122,15 @@ devops : Git, Github, AWS EC2, AWS RDS, AWS S3, PWA
 
 ###  :sleepy: 박경민 <a href="https://github.com/qaz5216"> github<br></a>
 
-* 자신이 한 일들 하나부터 열까지 정리해주기 
-
-
+* react라이브러리를 활용하여 홈화면,로그인,회원가입,파티 카테고리, 알림 카테고리, 파티관리, 용병모집 폼 구현
+* next.js를 활용하여 페이지 라우팅
+* next.js/image 라이브러리의 Image 태그 활용하여 img 태그 대체
+* reactBigCalender 라이브러리를 이용하여 파티일정 구현
+* React Modal을 이용한 일정추가 기능 구현.
+* 로그인, 파티일정,파티보드 댓글,용병 모집폼, 파티 페이지,알림 axios를 활용하여 서버와 통신 및 예외처리
+* fillter 를 이용한 파티검색 기능 구현
+* PWA를 고려한 UI 개선
+* 각 페이지별 필요한 css 정리 
 
 
 
