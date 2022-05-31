@@ -46,20 +46,41 @@ devops : Git, Github, AWS EC2, AWS RDS, AWS S3
 ## 프로젝트 사용
 
 #### 홈 화면
-![home](report/images/image2.png)
+![home](report/images/home.png)
+ 
+
+#### 로그인 화면
+![login](report/images/login.png)
  
 
 #### 파티 화면
-![party](report/images/image3.png)
- 
+![party1](report/images/party.png)
 
-#### 스케줄 화면
-![schedule](report/images/image4.png)
+![party2](report/images/party2.png)
  
+#### 게시판 화면
+![board](report/images/board.png)
+
+#### 스케쥴 화면
+![schedule](report/images/schedule.png)
+
+![book](report/images/book.png)
 
 #### 용병 화면
-![hire](report/images/image5.png)
+![recruit](report/images/recruit.png)
 
+### 내 정보 화면
+![my](report/images/my.png)
+![my2](report/images/my2.png)
+
+### 포인트 충전 화면
+![toss](report/images/toss.png)
+
+### 알림 화면
+![notice](report/images/notice.png)
+
+### 모바일 화면
+![mobile](report/images/pwa.png)
 
 ## 기대 효과
 
