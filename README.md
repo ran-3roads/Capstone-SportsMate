@@ -105,11 +105,12 @@ devops : Git, Github, AWS EC2, AWS RDS, AWS S3, PWA
 ###  :dog: 박성찬 <a href="https://github.com/ran-3roads"> github<br></a>
 
 * Spring Data JPA를 활용하여 파티 생성 및 관리, 스케쥴, 예약, 알림 서비스 기능 구현
-* 위 기능들을 REST API 설계 및 연동
+* PostMan을 활용하여 API 테스트및 단위 테스트
+* MVC 패턴을 이용하여 REST API 개발
 * DB Table 설계 및 Entity 개발
 * KAKAO Map API를 활용하여 지도 서비스 구현
 * Git hub Collaborative Workflow 도입 및 가이드
-* 프로젝트에 PWA 환경 구축
+* 프로젝트에 PWA 환경 구축 및 도입
 
 ###  :pig: 김태현 <a href="https://github.com/kth3819"> github<br></a>
 
