@@ -91,7 +91,7 @@ export default function Mypage() {
               event.preventDefault();
               loadTossPayments(clientKey).then((tossPayments) => {
                 tossPayments.requestPayment("토스결제", {
-                  amount: 5000,
+                  amount: 10000,
                   orderId: `${uuid()}`,
                   orderName: "스포츠 포인트 충전 ",
                   customerName: my.nickName,

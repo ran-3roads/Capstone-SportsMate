@@ -125,7 +125,7 @@ public class PartyController {
         if(!partyService.isCheckRole(partyId,memberService.getMyInfo().getId())){ //exception 리턴타입 수정해야함
             throw new MyRoleException("수정 권한이 없습니다.");
         }
-        partyService.updateParty( partyId,form.getTitle(), form.getIntro(), form.getInfo(),form.getLocation());
+        partyService.updateParty( partyId,form.getTitle(),form.getSportsName(), form.getIntro(), form.getInfo(),form.getLocation());
         return  "redirect";
     }
 
