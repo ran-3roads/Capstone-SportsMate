@@ -33,7 +33,7 @@ function Popup({ open, setPopup, party_id, callback }) {
   const [timeList, setTimeList] = useState([]);
   const [arena, setArena] = useState([]);
   const [Date, setDate] = useState("");
-  const [location, setLocation] = useState("");
+  const [Location, setLocation] = useState("");
   const [field, setField] = useState("");
   const [time, setTime] = useState("");
   useEffect(() => {
@@ -107,17 +107,17 @@ function Popup({ open, setPopup, party_id, callback }) {
     setContents("");
   };
   let bookcontent = null;
-  let locationcontent = null;
+  let Locationcontent = null;
   let fieldcontent = null;
   let timecontent = null;
   if (Date != "") {
-    locationcontent = (
+    Locationcontent = (
       <FormGroup className="col-md-10">
         <Label htmlFor="field">지역</Label>
         <Input
           type="select"
-          name="location"
-          value={location}
+          name="Location"
+          value={Location}
           onChange={onchangeLocation}
         >
           <option value="" selected>
@@ -152,7 +152,7 @@ function Popup({ open, setPopup, party_id, callback }) {
       </FormGroup>
     );
   }
-  if (location != "") {
+  if (Location != "") {
     fieldcontent = (
       <FormGroup className="col-md-10">
         <Label htmlFor="field">경기장</Label>
@@ -166,7 +166,7 @@ function Popup({ open, setPopup, party_id, callback }) {
             경기장선택
           </option>
           {arena
-            .filter((a) => a.location == location)
+            .filter((a) => a.location == Location)
             .map((a) => {
               return (
                 <option value={a.id} key={a.id}>
@@ -260,6 +260,7 @@ function Popup({ open, setPopup, party_id, callback }) {
                     alert(`${e.target.Date.value}에 예약완료.`);
                     handleClose();
                     setPopup({ open: false });
+                    location.reload();
                     if (callback) {
                     }
                   }
@@ -281,7 +282,7 @@ function Popup({ open, setPopup, party_id, callback }) {
                 onChange={onchangeDate}
               />
             </FormGroup>
-            {locationcontent}
+            {Locationcontent}
             {fieldcontent}
             {timecontent}
             </Col>
