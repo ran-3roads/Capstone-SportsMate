@@ -58,7 +58,7 @@ public class MemberService {
 
     private void validateDuplicateMember(Member member) {
         Member findMember = memberRepository.findByEmail(member.getEmail())
-                .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
+                .orElseGet(()->null);
         if(findMember!=null){
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }

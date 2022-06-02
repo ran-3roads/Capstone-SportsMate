@@ -19,7 +19,7 @@ details {
 }
 details > summary { 
   background:#fff; 
-  width: 40vw;
+  width: 50vw;
   height: auto; 
   color:#3e4555; 
   padding:10px; 
@@ -45,7 +45,7 @@ details[open] > summary ~ * {
   animation:reveal 0.5s;
 }
 .tpt {
-  width: 40vw; 
+  width: 50vw; 
   background:#F1F3F7;
   color:#3e4555; 
   margin:5px 0 10px; 
@@ -55,7 +55,7 @@ details[open] > summary ~ * {
   box-shadow: 1px 1px 2px gray;
 }
 .guide-font{
-  font-size: 1vw;
+  font-size: 1.3vw;
 }
 
 @keyframes reveal {
@@ -755,6 +755,10 @@ input#dd.form-control {
   line-height: 30px;
   text-align: center;
 }
+.divinputamount{
+  max-width: 18%;
+  margin: auto;
+}
 
 /******************* 
 
@@ -771,6 +775,7 @@ Topbar
   position: relative;
   z-index: 20;
 }
+
 
 /*******************
 Header 6

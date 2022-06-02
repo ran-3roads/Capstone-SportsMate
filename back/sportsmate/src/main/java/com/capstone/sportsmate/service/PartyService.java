@@ -4,10 +4,7 @@ import com.capstone.sportsmate.domain.*;
 import com.capstone.sportsmate.domain.notice.Apply;
 import com.capstone.sportsmate.domain.notice.Notice;
 import com.capstone.sportsmate.domain.notice.Reply;
-import com.capstone.sportsmate.domain.status.NoticeStatus;
-import com.capstone.sportsmate.domain.status.NoticeType;
-import com.capstone.sportsmate.domain.status.Request;
-import com.capstone.sportsmate.domain.status.Role;
+import com.capstone.sportsmate.domain.status.*;
 import com.capstone.sportsmate.exception.AlreadyExistException;
 import com.capstone.sportsmate.repository.MemberRepository;
 import com.capstone.sportsmate.repository.NoticeRepository;
@@ -109,13 +106,14 @@ public class PartyService {
     }
 
     @Transactional
-    public void updateParty(Long partyId,String title,String intro,String info,String location) {
+    public void updateParty(Long partyId, String title, SportsName sportsName, String intro, String info, String location) {
         Party findParty = partyRepository.findOne(partyId);
         if (title != null && intro != null && info != null && location != null) {
             if (!title.equals(findParty.getTitle())) { //그전 타이틀과 같은지 확인
                 validateDuplicateParty(title);//중복 파티이름 검증
             }
             findParty.setTitle(title);
+            findParty.setSportsName(sportsName);
             findParty.setIntro(intro);
             findParty.setInfo(info);
             findParty.setLocation(location);
