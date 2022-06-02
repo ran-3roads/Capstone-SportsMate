@@ -3,6 +3,7 @@ package com.capstone.sportsmate.domain;
 
 import com.capstone.sportsmate.domain.status.Authority;
 import com.capstone.sportsmate.domain.status.Sex;
+import com.capstone.sportsmate.domain.status.SportsName;
 import com.capstone.sportsmate.web.MemberMoidfyForm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -79,6 +80,7 @@ public class Member {
 
     public void updateFindMember(MemberMoidfyForm memberMoidfyForm, PasswordEncoder passwordEncoder) {
         //s내정보 변경
+        if(!memberMoidfyForm.getPassword().equals(""))
         this.password = passwordEncoder.encode(memberMoidfyForm.getPassword()) ;
         this.nickName = memberMoidfyForm.getNickName();
         this.phoneNumber = memberMoidfyForm.getPhoneNumber();
