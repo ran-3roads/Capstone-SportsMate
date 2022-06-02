@@ -35,7 +35,7 @@ export default function Success() {
         });
       })
       .then(function (response) {
-        alert(`5000원 충전완료`); // 나중에 금액 바꿀때 바꾸는걸로
+        alert(`포인트 충전완료`); // 나중에 금액 바꿀때 바꾸는걸로
         location.href = "/mypage";
       })
       .catch((error) => {

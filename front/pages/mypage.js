@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col, Button,Label,Input } from "reactstrap";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { loadTossPayments } from "@tosspayments/payment-sdk";
@@ -12,6 +12,7 @@ const clientKey = "test_ck_XjExPeJWYVQbodkMjRpr49R5gvNL";
 export default function Mypage() {
   const [my, setMy] = useState({});
   const [myimg, setMyimg] = useState({});
+  const [amount,setAmount]=useState(10000);
   useEffect(() => {
     axios
       .get(`/member/my`)
@@ -28,7 +29,9 @@ export default function Mypage() {
         console.log("에러입니다");
       });
   }, []);
-
+  const onchangeAmount = (e) => {
+    setAmount(e.target.value);
+  };
   return (
     <div>
       <Head>
@@ -84,14 +87,26 @@ export default function Mypage() {
               My 경기 목록
             </Button>
           </Link>
-          <br />
+          <br /><div className="justify-content-center">
+          충전금액(최소충전금액10000원)
+          <div className="divinputamount">
+          <Input
+            type="number"
+            name="amount"
+            value={amount}
+            min={10000}
+            width={30}
+            onChange={onchangeAmount}
+          />
+          </div>
+          </div>
           <a
             className="btn btn-warning m-r-10 btn-md m-t-20"
             onClick={(event) => {
               event.preventDefault();
               loadTossPayments(clientKey).then((tossPayments) => {
                 tossPayments.requestPayment("토스결제", {
-                  amount: 10000,
+                  amount: amount,
                   orderId: `${uuid()}`,
                   orderName: "스포츠 포인트 충전 ",
                   customerName: my.nickName,
