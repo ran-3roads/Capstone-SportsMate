@@ -19,10 +19,10 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     env:
       working-directory: ./back/sportsmate/
+      APPLICATION: ${{secrets.APPLICATION}}
 
     steps:
     - uses: actions/checkout@v3
@@ -31,10 +31,13 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+    - name: make application.yml
+      run:
+        mkdir ${{ env.working-directory }}src/main/resources || 
+        echo "${{APPLICATION}}" > touch ${{ env.working-directory }}src/main/resources/application.ymㅇ
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
       working-directory: ${{ env.working-directory }}
     - name: Build with Gradle
       run: ./gradlew build
       working-directory: ${{ env.working-directory }}
-      
