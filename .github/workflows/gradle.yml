@@ -34,7 +34,7 @@ jobs:
     - name: make application.yml
       run: |
         mkdir -p ${{ env.working-directory }}src/main/resources  
-        echo "${{env.APPLICATION}}" > touch ${{ env.working-directory }}src/main/resources/application.yml
+        echo "${{env.APPLICATION}}" > ${{ env.working-directory }}src/main/resources/application.yml
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
       working-directory: ${{ env.working-directory }}
