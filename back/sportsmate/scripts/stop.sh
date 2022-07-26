@@ -1,4 +1,4 @@
-PROJECT_ROOT="/home/ubuntu/app/back"
+PROJECT_ROOT="/home/ec2-user/app/back"
 JAR_FILE="$PROJECT_ROOT/spring-app.jar"
 
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
