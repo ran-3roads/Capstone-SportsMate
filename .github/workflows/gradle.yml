@@ -1,15 +1,18 @@
+# workflow 이름
 name: Java CI with Gradle
 
+# 이벤트 지정
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main", "develop" ]
     
-
+# 권한설정 
 permissions:
   contents: read
 
+# jobs설
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,7 +33,7 @@ jobs:
         distribution: 'temurin'
     - name: make application.yml
       run: |
-        mkdir ${{ env.working-directory }}src/main/resources  
+        mkdir -p ${{ env.working-directory }}src/main/resources  
         echo "${{env.APPLICATION}}" > touch ${{ env.working-directory }}src/main/resources/application.yml
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
