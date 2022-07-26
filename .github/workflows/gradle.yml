@@ -1,10 +1,3 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
-
 name: Java CI with Gradle
 
 on:
@@ -23,6 +16,10 @@ jobs:
     env:
       working-directory: ./back/sportsmate/
       APPLICATION: ${{secrets.APPLICATION}}
+      AWS_REGION: ap-northeast-2
+      S3_BUCKET_NAME: my-ci-cd-bucket
+      CODE_DEPLOY_APPLICATION_NAME: stone-codeDeploy-app
+      CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: stone-codedeploy-group
 
     steps:
     - uses: actions/checkout@v3
@@ -32,8 +29,8 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - name: make application.yml
-      run:
-        mkdir ${{ env.working-directory }}src/main/resources || 
+      run: |
+        mkdir ${{ env.working-directory }}src/main/resources  
         echo "${{env.APPLICATION}}" > touch ${{ env.working-directory }}src/main/resources/application.yml
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -41,3 +38,30 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew bootjar
       working-directory: ${{ env.working-directory }}
+
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.SECRET_KEY}}
+        aws-region: ${{ env.AWS_REGION }}
+
+
+    - name: Upload to AWS S3
+      run: |
+        aws deploy push \
+          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+          --ignore-hidden-files \
+          --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
+          --source ${{env.working-directory}}.
+
+
+    - name: Deploy to AWS EC2 from S3
+      run: |
+        aws deploy create-deployment \
+          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
+          --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
+
