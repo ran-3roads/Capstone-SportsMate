@@ -15,5 +15,6 @@ public interface PartyMemberRepository extends JpaRepository<PartyMember,Long> {
     List<PartyMember> findByParty(Party party);
     Optional<PartyMember> findOneById(Long id);
     Optional<PartyMember> findByPartyAndRole(Party party, Role role);
+    Optional<PartyMember> findByPartyAndMember(Party party, Member member);
     void deleteByPartyAndMember(Party party, Member member);
 }

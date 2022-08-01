@@ -6,10 +6,7 @@ import com.capstone.sportsmate.domain.status.Role;
 import com.capstone.sportsmate.exception.InconsistencyException;
 import com.capstone.sportsmate.exception.MyRoleException;
 import com.capstone.sportsmate.exception.NotFoundEntityException;
-import com.capstone.sportsmate.repository.CommentRepository;
-import com.capstone.sportsmate.repository.MemberRepository;
-import com.capstone.sportsmate.repository.PartyBoardRepository;
-import com.capstone.sportsmate.repository.PartyRepository;
+import com.capstone.sportsmate.repository.*;
 import com.capstone.sportsmate.util.SecurityUtil;
 import com.capstone.sportsmate.web.CommentForm;
 import com.capstone.sportsmate.web.PartyBoardForm;
@@ -33,12 +30,13 @@ public class PartyBoardService {
     private final PartyRepository partyRepository;
     private final PartyBoardRepository partyBoardRepository;
     private final CommentRepository commentRepository;
+    private final PartyMemberRepository partyMemberRepository;
 
     // --------------------파티 보드--------------------
 
     //----------조회----------
     public List<PartyBoardResponse> getPartyBoardList(Long partyId){//partyboard 리스트 리턴
-        Party party = partyRepository.findOne(partyId);
+        Party party = partyRepository.findById(partyId);
         return partyBoardRepository.findByParty(party).stream().map(PartyBoard::toPartyBoardResponse).collect(Collectors.toList());
     }
 
@@ -49,11 +47,12 @@ public class PartyBoardService {
     //----------생성----------
     @Transactional
     public void createPartyBoard(Long partyId, PartyBoardForm partyBoardForm){//파티보드 생성
-        Party party = partyRepository.findOne(partyId);
+        Party party = partyRepository.findById(partyId);
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         if(partyBoardForm.getCategory().equals(Category.NOTICE)){
-            PartyMember partyMember = partyRepository.isRole(party,member);
+            PartyMember partyMember= partyMemberRepository.findByPartyAndMember(party,member)
+                    .orElseThrow(()->new RuntimeException("파티멤버를 찾을수 없습니다."));
             if(partyMember.getRole().equals(Role.MEMBER))
                 throw new MyRoleException("방장이 아니면 생성이 불가합니다.");
             else if(partyMember.getRole().equals(null))//

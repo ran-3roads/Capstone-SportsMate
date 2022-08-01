@@ -39,7 +39,7 @@ public class RegistService {
 
     @Transactional
     public void bookArena(BookForm bookForm,Long partyId){
-        Party party= partyRepository.findOne(partyId);
+        Party party= partyRepository.findById(partyId);
         ArenaTime bookArenaTime=registRepository.findArenaTime(bookForm.getArenaTimeId());
 
         //예약 등록
@@ -136,7 +136,7 @@ public class RegistService {
     }
 
     public List<ArenaTime> getPossibleTime(RegistTimeForm form, Long partyId){
-        Party party= partyRepository.findOne(partyId);
+        Party party= partyRepository.findById(partyId);
         Arena findArena = registRepository.findArenaOne(form.getArenaId());
 
         //해당 경기장 예약들을 불러와라
@@ -174,12 +174,12 @@ public class RegistService {
     }
 
     public List<EventResponse> getEventList(Long partyId){
-        Party party= partyRepository.findOne(partyId);
+        Party party= partyRepository.findById(partyId);
         return registRepository.findByParty(party).stream().map(Schedule::toEventResponse).collect(Collectors.toList());
     }
 
     public List<Arena> getArenaList(Long partyId){
-        Party party= partyRepository.findOne(partyId);
+        Party party= partyRepository.findById(partyId);
         return registRepository.findBySportsName(party.getSportsName());
     }
 
