@@ -3,7 +3,6 @@ package com.capstone.sportsmate.repository;
 
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Party;
-import com.capstone.sportsmate.domain.PartyMember;
 import com.capstone.sportsmate.web.PartySearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -38,27 +37,13 @@ public class PartyRepository {
         }
         return party;
     }
-    public PartyMember isRole(Party party, Member member){
-        PartyMember partyMember;
-        try {
-            partyMember = em.createQuery("select p from PartyMember p where p.member=:member and p.party=:party", PartyMember.class)
-                    .setParameter("member", member)
-                    .setParameter("party", party)
-                    .getSingleResult();
-        } catch(NoResultException e){
-            return null;
-        }
-        return partyMember;
-    }
 
-    public Long mkPartyMember(PartyMember partyMember){
-        em.persist(partyMember);
-        return partyMember.getId();
-    }
-    public Party findOne(Long id) {
+
+    public Party findById(Long id) {
         return em.find(Party.class, id);
     }
-    public List<Party> findAllString(PartySearch partySearch, Member member){
+
+    public List<Party> findByMember(Member member){
         String jpql="select p from Party p";
 
         //멤버의 이름으로 등록된 파티 찾기

@@ -62,7 +62,7 @@ public class NoticeService {
     //------파티)apply entity를 직접 참조하지않고 form 담아서 데이터보냄---
     @Transactional
     public List<ApplyResponse> PartyGetApplies(Long partyId){
-        Party party = partyRepository.findOne(partyId);
+        Party party = partyRepository.findById(partyId);
 
         return noticeRepository.findApplies(party).stream().map(Apply::toApplyForm).collect(Collectors.toList());
 
