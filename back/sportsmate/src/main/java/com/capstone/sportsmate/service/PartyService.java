@@ -36,7 +36,8 @@ public class PartyService {
 
     @Transactional
     public Long mkParty (PartyForm form, Long id){
-        validateDuplicateParty(form.getTitle());//중복 파티이름 검증
+        if(validateDuplicateParty(form.getTitle()))
+            throw new AlreadyExistException("이미 존재하는 파티입니다.");//중복 파티이름 검증
         Member member= memberRepository.findById(id).orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         Party party = Party.createParty(form.getSportsName(), form.getTitle(), form.getLocation(), form.getIntro(), LocalDate.now(),1,form.getInfo());
         partyRepository.save(party); // 파티 저장
@@ -48,7 +49,8 @@ public class PartyService {
         Member member= memberRepository.findById(memberId)
                 .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
 
-        Party party= partyRepository.findById(partyId);
+        Party party= partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         validateDuplicateApply(party,member);
 
         Member hostMember=partyMemberRepository.findByPartyAndRole(party,Role.HOST)
@@ -70,7 +72,8 @@ public class PartyService {
         if(!validateDuplicateCheck(apply)){throw new AlreadyExistException("이미 처리한 지원서입니다.");}
         apply.setState(Request.ACCEPT);
 
-        Party party= partyRepository.findById(partyId);
+        Party party= partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         party.addMember();
         PartyMember partyMember= PartyMember.createPartyMember(apply.getMember(),party, Role.MEMBER, LocalDate.now());
         partyMemberRepository.save(partyMember);
@@ -95,7 +98,8 @@ public class PartyService {
     }
     //----- 지원했는데 방장이 확인못해서 waiting 인 상황-----
     public boolean applyWaitForHost(Long partyId, Long memberId) {
-        Party party=partyRepository.findById(partyId);
+        Party party=partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         Member member=memberRepository.findById(memberId).orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         Apply apply=noticeRepository.findByApply(party,member);
         if(apply==null) return false; // 지원조차안했으면 false
@@ -107,10 +111,12 @@ public class PartyService {
 
     @Transactional
     public void updateParty(Long partyId, String title, SportsName sportsName, String intro, String info, String location) {
-        Party findParty = partyRepository.findById(partyId);
+        Party findParty = partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         if (title != null && intro != null && info != null && location != null) {
             if (!title.equals(findParty.getTitle())) { //그전 타이틀과 같은지 확인
-                validateDuplicateParty(title);//중복 파티이름 검증
+                if(validateDuplicateParty(findParty.getTitle()))
+                    throw new AlreadyExistException("이미 존재하는 파티입니다.");//중복 파티이름 검증
             }
             findParty.setTitle(title);
             findParty.setSportsName(sportsName);
@@ -122,10 +128,12 @@ public class PartyService {
             throw new NullPointerException();
     }
     public Party findOne(Long partyId){
-        return partyRepository.findById(partyId);
+        return partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
     }
     public PartyResponse viewParty(Long partyId){
-        Party party=partyRepository.findById(partyId);
+        Party party=partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         Member hostMember= partyMemberRepository.findByPartyAndRole(party,Role.HOST)
                 .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."))
                 .getMember();//호스트 찾기
@@ -133,7 +141,8 @@ public class PartyService {
     }
 
     public boolean isCheckRole(Long partyId, Long memberId){
-        Party party = partyRepository.findById(partyId);
+        Party party = partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         Member member = memberRepository.findById(memberId).orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         PartyMember partyMember= partyMemberRepository.findByPartyAndMember(party,member)
                 .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
@@ -156,7 +165,8 @@ public class PartyService {
 
 
     public boolean isPartyMember(Long partyId, Long memberId){
-        Party party = partyRepository.findById(partyId);
+        Party party = partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         Member member = memberRepository.findById(memberId).orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         PartyMember partyMember= partyMemberRepository.findByPartyAndMember(party,member)
                 .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
@@ -173,11 +183,10 @@ public class PartyService {
         PartyMember partyMember= PartyMember.createPartyMember(member,party, Role.HOST,LocalDate.now());
         partyMemberRepository.save(partyMember);
     }
-    private void validateDuplicateParty(String title) {
-        Party findParty = partyRepository.findByTitle(title);
-        if(findParty!=null){
-            throw new AlreadyExistException("이미 존재하는 파티입니다.");
-        }
+    private boolean validateDuplicateParty(String title) {
+        return  partyRepository.findByTitle(title)
+                .isPresent();
+
     }
     private void validateDuplicateApply(Party party,Member member) {
         Apply apply = noticeRepository.findByApply(party,member);
@@ -191,17 +200,19 @@ public class PartyService {
         return partyRepository.findByMember(member);
     }
     public List<Party> findSearchParties(PartySearch partySearch) { //멤버가 가입한 파티리스트 출력
-        return partyRepository.SearchParties(partySearch);
+        return partyRepository.SearchParties(partySearch.getLocation(),partySearch.getSportsName());
     }
 
     public List<PartyMemberResponse> partyMemberList(Long partyId) {
-        return partyMemberRepository.findByParty(partyRepository.findById(partyId))
+        return partyMemberRepository.findByParty(partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다.")))
                 .stream().map(PartyMember::toPartyMemberResponse).collect(Collectors.toList());
     }
 
     @Transactional
     public void deletePartyMember(Long partyId,Long partyMemberId) {
-        Party party=partyRepository.findById(partyId);
+        Party party=partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         PartyMember partyMember=partyMemberRepository.findOneById(partyMemberId).orElseThrow(() -> new AlreadyExistException("이미 없는 회원입니다."));;
         party.minusMember();
         //추방 문자 보내기
@@ -218,7 +229,8 @@ public class PartyService {
     //파티 탈퇴
     @Transactional
     public void leavePartyMember(Long partyId) {
-        Party party=partyRepository.findById(partyId);
+        Party party=partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         Member member=memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
 

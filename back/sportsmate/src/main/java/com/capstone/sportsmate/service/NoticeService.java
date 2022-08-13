@@ -62,7 +62,8 @@ public class NoticeService {
     //------파티)apply entity를 직접 참조하지않고 form 담아서 데이터보냄---
     @Transactional
     public List<ApplyResponse> PartyGetApplies(Long partyId){
-        Party party = partyRepository.findById(partyId);
+        Party party = partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
 
         return noticeRepository.findApplies(party).stream().map(Apply::toApplyForm).collect(Collectors.toList());
 

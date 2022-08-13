@@ -3,8 +3,12 @@ package com.capstone.sportsmate.repository;
 
 import com.capstone.sportsmate.domain.Member;
 import com.capstone.sportsmate.domain.Party;
+import com.capstone.sportsmate.domain.status.SportsName;
 import com.capstone.sportsmate.web.PartySearch;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -12,69 +16,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-@RequiredArgsConstructor
-public class PartyRepository {
-    private final EntityManager em;
+public interface PartyRepository extends JpaRepository<Party, Long> {
+    @Query("select p from Party p where p.title=:title")
+    Optional<Party> findByTitle(@Param("title") String title);
 
-    public Long save(Party party) {
-        em.persist(party);
-        return party.getId();
-    }
-    public List<Party> findAll(){
-        return em.createQuery("select p from Party p", Party.class)
-                .getResultList();
-    }
+    @Query("select p from Party p"
+    +" left join PartyMember s on p = s.party where s.member = :member")
+    List<Party> findByMember(@Param("member") Member member);
 
-    public Party findByTitle(String title){
-        Party party;
-        try {
-            party = em.createQuery("select p from Party p where p.title=:title", Party.class)
-                    .setParameter("title", title).getSingleResult();
-        } catch(NoResultException e){
-            return null;
-        }
-        return party;
-    }
-
-
-    public Party findById(Long id) {
-        return em.find(Party.class, id);
-    }
-
-    public List<Party> findByMember(Member member){
-        String jpql="select p from Party p";
-
-        //멤버의 이름으로 등록된 파티 찾기
-        if(member!=null){
-            jpql += " left join PartyMember s on p = s.party where s.member = :member";
-        }
-
-        TypedQuery<Party> query = em.createQuery(jpql, Party.class)
-                .setMaxResults(1000); //최대 1000건
-        if (member != null) {
-            query = query.setParameter("member", member);
-        }
-        return query.getResultList();
-    }
-
-    public List<Party> SearchParties(PartySearch partySearch){
-        String jpql="select p from Party p";
-
-        //검색 조건으로 검색
-        if(StringUtils.hasText(partySearch.getLocation())){
-            jpql += " where p.location = :location";
-            jpql += " and p.sportsName = :sportsName";
-        }
-        TypedQuery<Party> query = em.createQuery(jpql, Party.class)
-                .setMaxResults(1000); //최대 1000건
-        if (StringUtils.hasText(partySearch.getLocation())) {
-            query = query.setParameter("location", partySearch.getLocation())
-                    .setParameter("sportsName",partySearch.getSportsName());
-        }
-        return query.getResultList();
-    }
+    @Query("select p from Party p"+
+            " where p.location = :location"+
+            " and p.sportsName = :sportsName"
+    )
+    List<Party> SearchParties(@Param("location") String location,@Param("sportsName") SportsName sportsName);
 
 }
 

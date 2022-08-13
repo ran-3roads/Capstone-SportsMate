@@ -36,7 +36,8 @@ public class PartyBoardService {
 
     //----------조회----------
     public List<PartyBoardResponse> getPartyBoardList(Long partyId){//partyboard 리스트 리턴
-        Party party = partyRepository.findById(partyId);
+        Party party = partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         return partyBoardRepository.findByParty(party).stream().map(PartyBoard::toPartyBoardResponse).collect(Collectors.toList());
     }
 
@@ -47,7 +48,8 @@ public class PartyBoardService {
     //----------생성----------
     @Transactional
     public void createPartyBoard(Long partyId, PartyBoardForm partyBoardForm){//파티보드 생성
-        Party party = partyRepository.findById(partyId);
+        Party party = partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
         if(partyBoardForm.getCategory().equals(Category.NOTICE)){
