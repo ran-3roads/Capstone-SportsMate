@@ -39,7 +39,8 @@ public class RegistService {
 
     @Transactional
     public void bookArena(BookForm bookForm,Long partyId){
-        Party party= partyRepository.findById(partyId);
+        Party party= partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         ArenaTime bookArenaTime=registRepository.findArenaTime(bookForm.getArenaTimeId());
 
         //예약 등록
@@ -136,7 +137,8 @@ public class RegistService {
     }
 
     public List<ArenaTime> getPossibleTime(RegistTimeForm form, Long partyId){
-        Party party= partyRepository.findById(partyId);
+        Party party= partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         Arena findArena = registRepository.findArenaOne(form.getArenaId());
 
         //해당 경기장 예약들을 불러와라
@@ -174,12 +176,14 @@ public class RegistService {
     }
 
     public List<EventResponse> getEventList(Long partyId){
-        Party party= partyRepository.findById(partyId);
+        Party party= partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         return registRepository.findByParty(party).stream().map(Schedule::toEventResponse).collect(Collectors.toList());
     }
 
     public List<Arena> getArenaList(Long partyId){
-        Party party= partyRepository.findById(partyId);
+        Party party= partyRepository.findById(partyId)
+                .orElseThrow(()->new RuntimeException("파티를 찾을수 없습니다."));
         return registRepository.findBySportsName(party.getSportsName());
     }
 
