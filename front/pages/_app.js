@@ -3,18 +3,17 @@ import Layout from "../layout/Layout";
 import axios from "axios";
 import cookie from "react-cookies";
 import cookies from "next-cookies";
-import { useEffect } from "react";
-
+import "../src/util/fcm"
 const coa = cookie.loadAll();
 const allCookies = cookies(coa);
 const refreshTokenByCookie = allCookies["refreshToken"];
 axios.defaults.withCredentials = true;
 // axios.defaults.baseURL = "http://15.164.164.248:8080/sportsmate";
 
-//axios.defaults.baseURL = "http://localhost:8080/sportsmate";
+axios.defaults.baseURL = "http://localhost:8080/sportsmate";
 
 
-axios.defaults.baseURL = "https://sportsmate.tk/sportsmate";
+//axios.defaults.baseURL = "https://sportsmate.tk/sportsmate";
 let isTokenRefreshing = false;
 let refreshSubscribers = [];
 
@@ -67,6 +66,7 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 
 let MyApp = ({ Component, pageProps }) => (
   <Layout>
