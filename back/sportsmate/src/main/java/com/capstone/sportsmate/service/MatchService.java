@@ -65,7 +65,7 @@ public class MatchService {
     }
     //내 경기 확인
     public ScheduleResponse getMyMatch(Long registId){
-        Regist regist = registRepository.findRegistOne(registId);
+        Regist regist = registRepository.findById(registId);
         return scheduleRepository.findByRegist(regist)
                 .orElseThrow(()-> new RuntimeException("해당스케쥴없음")).toScheduleResponse();
     }
@@ -75,7 +75,7 @@ public class MatchService {
     @Transactional
     public void createMatchApply(MatchApplyForm matchApplyForm) {
 
-        Regist findRegist = registRepository.findRegistOne(matchApplyForm.getRegistId());
+        Regist findRegist = registRepository.findById(matchApplyForm.getRegistId());
         Member findMember = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(()->new RuntimeException("멤버를 찾을수 없습니다."));
 
